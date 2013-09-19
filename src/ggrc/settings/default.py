@@ -20,7 +20,7 @@ EXTENSIONS = []
 # Deployment-specific variables
 COMPANY = "Company, Inc."
 COMPANY_LOGO_TEXT = "Company GRC"
-VERSION = "s11"
+VERSION = "s11.1"
 
 # Initialize from environment if present
 import os
