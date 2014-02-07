@@ -26,9 +26,16 @@
       this.element.trigger("shown");
     }
 
-    , "{$content} a.btn[data-toggle=gapi] click" : function(el, ev) {
+    , "{$content} a.btn[data-toggle=gapi]:not(.disabled) click" : function(el, ev) {
+      el.addClass("disabled");
       GGRC.Controllers.GAPI.doGAuth_step2(null, true);
       window.oauth_dfd.always($.proxy(this.element, "modal_form", "hide"));
+    }
+
+    , " hide" : function() {
+      if(window.oauth_dfd.state() === "pending") {
+        window.oauth_dfd.reject("User canceled operation");
+      }
     }
 
   });
@@ -46,7 +53,8 @@
     }
 
     , doGAuth : function(scopes, use_popup) {
-      var that = this;
+      var that = this
+      , $modal;
       this.drive = this.drive || new $.Deferred();
       if(window.oauth_dfd.state() !== "pending") {
         window.oauth_dfd = new $.Deferred();
@@ -70,12 +78,15 @@
       });
 
       if(use_popup) {
-        if(!$(".ggrc_controllers_gapi_modal").length) {
+        $modal = $(".ggrc_controllers_gapi_modal");
+        if(!$modal.length) {
           $("<div class='modal hide'>").modal_form().appendTo(document.body).ggrc_controllers_gapi_modal({
             scopes : scopes
             , modal_title : "Please log in to Google API"
             , new_object_form : true
           });
+        } else {
+          $modal.modal_form("show");
         }
       } else {
         this.doGAuth_step2(scopes, use_popup);
@@ -194,9 +205,11 @@
           found = true;
         }
       });
-      if(!found || window.oauth_dfd.state() === "pending") {
-        return window.oauth_dfd;
-      } else {
+      
+      if(found
+         ? window.oauth_dfd.state() !== "pending"
+         : window.oauth_dfd.state() === "rejected"
+      ) {
         old_dfd = window.oauth_dfd;
         dfd = new $.Deferred();
         setTimeout(f = function() {
@@ -208,7 +221,10 @@
             });
           }
         }, 500);
+        this.doGAuthWithScopes();
         return dfd;
+      } else {
+        return window.oauth_dfd;
       }
     }
 
