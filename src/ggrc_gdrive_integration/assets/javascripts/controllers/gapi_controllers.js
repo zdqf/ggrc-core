@@ -159,7 +159,7 @@
           if(result && result.error && result.error.code === 401) {
             //that.doGAuth(scopes); //changes oauth_dfd to a new deferred
             params.callback = cb;
-            that.authorize(params.scopes).then($.proxy(gapi_request_with_auth, that, params))
+            that.authorize(params.scopes).then($.proxy(that.gapi_request_with_auth, that, params))
             .then(
               function() {
                 dfd.resolve.apply(dfd, arguments);
