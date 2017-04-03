@@ -137,15 +137,67 @@
       });
     },
     download: function (filename, text) {
-      var element = document.createElement('a');
-      element.setAttribute(
-        'href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-      element.setAttribute('download', filename);
-      element.style.display = 'none';
-      document.body.appendChild(element);
-      element.click();
-      document.body.removeChild(element);
+      var TMP_FILENAME = 'data.csv';
+
+      // a helper for opening the "Save File" dialog to save downloaded data
+      function promptSaveFile() {
+        var downloadURL = [
+          'filesystem:', window.location.origin, '/temporary/', TMP_FILENAME
+        ].join('');
+
+        var link = document.createElement('a');
+
+        link.setAttribute('href', downloadURL);
+        link.setAttribute('download', TMP_FILENAME);
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+
+      function errorHandler(error) {
+        console.error('LocalFileSys error:', error);
+      }
+
+      // a callback for when the browser's virtual file system is obtained
+      function fileSystemObtained(localstorage) {
+        localstorage.root.getFile(
+          TMP_FILENAME, {create: true}, fileEntryObtained, errorHandler);
+      }
+
+      // a helper that writes thee downloaded data to a tmeporary file
+      // and then opens the "Save File" dialog
+      function fileEntryObtained(fileEntry) {
+        fileEntry.createWriter(function (fileWriter) {
+          var truncated = false;
+
+          // the onwriteevent fires twice - once after truncating the file,
+          // and then after writing the downloaded text content to it
+          fileWriter.onwriteend = function (ev) {
+            var blob;
+            if (!truncated) {
+              truncated = true;
+              blob = new Blob([text], {type: 'text/plain'});
+              fileWriter.write(blob);
+            } else {
+              promptSaveFile();
+            }
+          };
+
+          fileWriter.onerror = function (ev) {
+            console.error('Writing temp file failed: ' + ev.toString());
+          };
+
+          fileWriter.truncate(0);  // in case the file exists and is non-empty
+        }, errorHandler);
+      }
+
+      // start storing the downloaded data to a temporary file for the user to
+      // save it on his/her computers storage
+      window.webkitRequestFileSystem(
+        window.TEMPORARY, text.length, fileSystemObtained, errorHandler);
     },
+
     loadScript: function (url, callback) {
       var script = document.createElement('script');
       script.type = 'text/javascript';
