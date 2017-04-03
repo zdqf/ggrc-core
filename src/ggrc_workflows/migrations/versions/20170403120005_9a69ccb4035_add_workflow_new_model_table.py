@@ -24,8 +24,13 @@ def upgrade():
   op.create_table(
     table_name,
     sa.Column('slug', sa.String(length=250), nullable=False),
+    sa.Column('modified_by_id', sa.Integer()),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
+    sa.Column('updated_at', sa.DateTime(), nullable=False),
   )
   op.create_unique_constraint('uq_{}'.format(table_name), table_name, ["slug"])
+  op.create_index('ix_{}_updated_at'.format(table_name), table_name,
+                  ['updated_at'])
 
 
 def downgrade():
