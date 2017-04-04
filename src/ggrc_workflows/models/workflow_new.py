@@ -17,6 +17,7 @@ class WorkflowNew(Described, Stateful, Slugged, Titled, db.Model):
 
   repeat_every = deferred(db.Column(db.Integer), 'WorkflowNew')
   unit = deferred(db.Column(db.Enum(*VALID_UNITS)), 'WorkflowNew')
+  parent_id = deferred(db.Column(db.Integer), 'WorkflowNew')
 
   @validates('unit')
   def validate_unit(self, key, value):
