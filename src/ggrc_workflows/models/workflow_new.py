@@ -1,3 +1,7 @@
+# Copyright (C) 2017 Google Inc.
+# Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+
+"""Module contains new 'Workflow' model implementation."""
 from sqlalchemy.orm import validates
 
 from ggrc import db
@@ -9,6 +13,7 @@ from ggrc.models.mixins import Titled
 
 
 class WorkflowNew(Described, Stateful, Slugged, Titled, db.Model):
+  """New 'Workflow' model implementation."""
   __tablename__ = 'workflows_new'
   _title_uniqueness = False
 
@@ -20,13 +25,15 @@ class WorkflowNew(Described, Stateful, Slugged, Titled, db.Model):
   parent_id = deferred(db.Column(db.Integer), 'WorkflowNew')
 
   @validates('unit')
-  def validate_unit(self, key, value):
+  def validate_unit(self, _, value):
+    """Make sure that unit is listed in valid units."""
     if value not in self.VALID_UNITS:
       raise ValueError(u"Invalid unit: '{}'".format(value))
     return value
 
   @validates('parent_id')
-  def validate_parent_id(self, key, value):
+  def validate_parent_id(self, _, value):  # pylint: disable=no-self-use
+    """Make sure that parent object exists."""
     if value is not None and not db.session.query(
             WorkflowNew).filter(WorkflowNew.id == value).count():
       raise ValueError(u"Parent workflow with id '{}' is "
