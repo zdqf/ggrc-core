@@ -1,3 +1,5 @@
+from sqlalchemy.orm import validates
+
 from ggrc import db
 from ggrc.models.deferred import deferred
 from ggrc.models.mixins import Slugged
@@ -11,6 +13,13 @@ class WorkflowNew(Described, Stateful, Slugged, Titled, db.Model):
   _title_uniqueness = False
 
   VALID_STATES = (u"Not Started", u"In Progress", u"Completed")
+  VALID_UNITS = (u'day', u'month')
 
   repeat_every = deferred(db.Column(db.Integer), 'WorkflowNew')
-  unit = deferred(db.Column(db.Enum(u'day', u'month')), 'WorkflowNew')
+  unit = deferred(db.Column(db.Enum(*VALID_UNITS)), 'WorkflowNew')
+
+  @validates('unit')
+  def validate_unit(self, key, value):
+    if value not in self.VALID_UNITS:
+      raise ValueError(u"Invalid unit: '{}'".format(value))
+    return value
