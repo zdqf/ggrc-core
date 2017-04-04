@@ -13,3 +13,4 @@ class WorkflowNew(Described, Stateful, Slugged, Titled, db.Model):
   VALID_STATES = (u"Not Started", u"In Progress", u"Completed")
 
   repeat_every = deferred(db.Column(db.Integer), 'WorkflowNew')
+  unit = deferred(db.Column(db.Enum(u'day', u'month')), 'WorkflowNew')
