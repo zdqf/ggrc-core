@@ -27,10 +27,13 @@ def upgrade():
     sa.Column('modified_by_id', sa.Integer()),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('updated_at', sa.DateTime(), nullable=False),
+    sa.Column('context_id', sa.Integer(), sa.ForeignKey('contexts.id')),
   )
   op.create_unique_constraint('uq_{}'.format(table_name), table_name, ["slug"])
   op.create_index('ix_{}_updated_at'.format(table_name), table_name,
                   ['updated_at'])
+  op.create_index('fk_{}_contexts'.format(table_name), table_name,
+                  ['context_id'])
 
 
 def downgrade():
