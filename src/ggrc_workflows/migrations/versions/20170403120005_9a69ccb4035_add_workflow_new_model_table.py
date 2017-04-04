@@ -31,6 +31,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), primary_key=True),
     sa.Column('status', sa.String(length=250), nullable=False),
     sa.Column('description', sa.Text()),
+    sa.Column('title', sa.String(length=250), nullable=False)
   )
   op.create_unique_constraint('uq_{}'.format(table_name), table_name, ["slug"])
   op.create_index('ix_{}_updated_at'.format(table_name), table_name,
