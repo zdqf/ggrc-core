@@ -24,3 +24,11 @@ class WorkflowNew(Described, Stateful, Slugged, Titled, db.Model):
     if value not in self.VALID_UNITS:
       raise ValueError(u"Invalid unit: '{}'".format(value))
     return value
+
+  @validates('parent_id')
+  def validate_parent_id(self, key, value):
+    if value is not None and not db.session.query(
+            WorkflowNew).filter(WorkflowNew.id == value).count():
+      raise ValueError(u"Parent workflow with id '{}' is "
+                       u"not found".format(value))
+    return value
