@@ -34,6 +34,7 @@ def upgrade():
     sa.Column('title', sa.String(length=250), nullable=False),
     sa.Column('repeat_every', sa.Integer()),
     sa.Column('unit', sa.Enum(u'day', u'month')),
+    sa.Column('parent_id', sa.Integer())
   )
   op.create_unique_constraint('uq_{}'.format(table_name), table_name, ["slug"])
   op.create_index('ix_{}_updated_at'.format(table_name), table_name,
