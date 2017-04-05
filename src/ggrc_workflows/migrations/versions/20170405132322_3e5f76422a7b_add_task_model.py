@@ -18,11 +18,17 @@ from alembic import op
 revision = '3e5f76422a7b'
 down_revision = '9a69ccb4035'
 
+table_name = 'tasks'
+
 
 def upgrade():
   """Upgrade database schema and/or data, creating a new revision."""
+  op.create_table(
+      table_name,
+      sa.Column('description', sa.Text())
+  )
 
 
 def downgrade():
   """Downgrade database schema and/or data back to the previous revision."""
-
+  op.drop_table(table_name)
