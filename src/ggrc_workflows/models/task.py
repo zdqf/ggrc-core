@@ -3,8 +3,9 @@
 
 """Module contains 'Task' model implementation."""
 from ggrc import db
+from ggrc.models.mixins import Described
 
 
-class Task(db.Model):
+class Task(Described, db.Model):
   """Contains 'Task' model implementation."""
   __tablename__ = 'tasks'
