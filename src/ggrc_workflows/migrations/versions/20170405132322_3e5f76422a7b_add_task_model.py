@@ -27,7 +27,18 @@ def upgrade():
       table_name,
       sa.Column('description', sa.Text()),
       sa.Column('title', sa.String(length=250), nullable=False),
+      sa.Column('slug', sa.String(length=250), nullable=False),
+      sa.Column('modified_by_id', sa.Integer()),
+      sa.Column('created_at', sa.DateTime(), nullable=False),
+      sa.Column('updated_at', sa.DateTime(), nullable=False),
+      sa.Column('context_id', sa.Integer(), sa.ForeignKey('contexts.id')),
+      sa.Column('id', sa.Integer(), primary_key=True),
   )
+  op.create_unique_constraint('uq_{}'.format(table_name), table_name, ["slug"])
+  op.create_index('ix_{}_updated_at'.format(table_name), table_name,
+                  ['updated_at'])
+  op.create_index('fk_{}_contexts'.format(table_name), table_name,
+                  ['context_id'])
 
 
 def downgrade():
