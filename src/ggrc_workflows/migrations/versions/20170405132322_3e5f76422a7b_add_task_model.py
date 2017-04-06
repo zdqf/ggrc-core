@@ -23,6 +23,11 @@ table_name = 'tasks'
 
 def upgrade():
   """Upgrade database schema and/or data, creating a new revision."""
+  NOT_STARTED_STATUS = u'Not Started'
+  IN_PROGRESS_STATUS = u'In Progress'
+  FINISHED_STATUS = u'Finished'
+  VALID_STATUSES = (NOT_STARTED_STATUS, IN_PROGRESS_STATUS, FINISHED_STATUS)
+
   op.create_table(
       table_name,
       sa.Column('description', sa.Text()),
@@ -35,7 +40,7 @@ def upgrade():
       sa.Column('id', sa.Integer(), primary_key=True),
       sa.Column('contact_id', sa.Integer(), sa.ForeignKey('people.id'),
                 nullable=False),
-      sa.Column('status', sa.String(length=250), nullable=False),
+      sa.Column('status', sa.Enum(*VALID_STATUSES)),
       sa.Column('start_date', sa.Date(), nullable=False),
       sa.Column('end_date', sa.Date(), nullable=False),
       sa.Column('workflow_id', sa.Integer(),
