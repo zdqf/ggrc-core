@@ -27,7 +27,7 @@ class WorkflowNew(Described, Slugged, Titled, db.Model):
   @validates('unit')
   def validate_unit(self, _, value):
     """Make sure that unit is listed in valid units."""
-    if value not in self.VALID_UNITS:
+    if value is not None and value not in self.VALID_UNITS:
       raise ValueError(u"Invalid unit: '{}'".format(value))
     return value
 
