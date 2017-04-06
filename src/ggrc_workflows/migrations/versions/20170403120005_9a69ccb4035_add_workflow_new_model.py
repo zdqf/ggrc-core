@@ -30,7 +30,6 @@ def upgrade():
       sa.Column('updated_at', sa.DateTime(), nullable=False),
       sa.Column('context_id', sa.Integer(), sa.ForeignKey('contexts.id')),
       sa.Column('id', sa.Integer(), primary_key=True),
-      sa.Column('status', sa.String(length=250), nullable=False),
       sa.Column('description', sa.Text()),
       sa.Column('title', sa.String(length=250), nullable=False),
       sa.Column('repeat_every', sa.Integer()),
