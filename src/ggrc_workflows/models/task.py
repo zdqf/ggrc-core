@@ -15,8 +15,8 @@ class Task(Described, Slugged, Stateful, Titled, db.Model):
   __tablename__ = 'tasks'
   _title_uniqueness = False
 
-  contact_id = deferred(db.Column(db.Integer, db.ForeignKey('people.id')),
-                        'Task')
+  contact_id = deferred(db.Column(db.Integer, db.ForeignKey('people.id'),
+                                  nullable=False), 'Task')
   contact = db.relationship('Person', uselist=False,
                             foreign_keys='Task.contact_id')
   start_date = deferred(db.Column(db.Date, nullable=False), 'Task')
