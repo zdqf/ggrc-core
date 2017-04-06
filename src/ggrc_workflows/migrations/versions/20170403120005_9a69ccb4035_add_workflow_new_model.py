@@ -34,13 +34,16 @@ def upgrade():
       sa.Column('title', sa.String(length=250), nullable=False),
       sa.Column('repeat_every', sa.Integer()),
       sa.Column('unit', sa.Enum(u'day', u'month')),
-      sa.Column('parent_id', sa.Integer())
+      sa.Column('parent_id', sa.Integer(),
+                sa.ForeignKey('{}.id'.format(table_name)))
   )
   op.create_unique_constraint('uq_{}'.format(table_name), table_name, ["slug"])
   op.create_index('ix_{}_updated_at'.format(table_name), table_name,
                   ['updated_at'])
   op.create_index('fk_{}_contexts'.format(table_name), table_name,
                   ['context_id'])
+  op.create_index('fk_{}_parent_id'.format(table_name), table_name,
+                  ['parent_id'])
 
 
 def downgrade():
