@@ -7,11 +7,10 @@ from ggrc.models.deferred import deferred
 from ggrc.models.mixins import Described
 from ggrc.models.mixins import Slugged
 from ggrc.models.mixins import Stateful
-from ggrc.models.mixins import Timeboxed
 from ggrc.models.mixins import Titled
 
 
-class Task(Described, Slugged, Stateful, Timeboxed, Titled, db.Model):
+class Task(Described, Slugged, Stateful, Titled, db.Model):
   """Contains 'Task' model implementation."""
   __tablename__ = 'tasks'
   _title_uniqueness = False
@@ -20,3 +19,6 @@ class Task(Described, Slugged, Stateful, Timeboxed, Titled, db.Model):
                         'Task')
   contact = db.relationship('Person', uselist=False,
                             foreign_keys='Task.contact_id')
+
+  start_date = deferred(db.Column(db.Date, nullable=False), 'Task')
+  end_date = deferred(db.Column(db.Date, nullable=False), 'Task')
