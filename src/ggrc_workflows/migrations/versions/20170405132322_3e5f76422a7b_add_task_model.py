@@ -36,7 +36,9 @@ def upgrade():
       sa.Column('contact_id', sa.Integer(), sa.ForeignKey('people.id')),
       sa.Column('status', sa.String(length=250), nullable=False),
       sa.Column('start_date', sa.Date(), nullable=False),
-      sa.Column('end_date', sa.Date(), nullable=False)
+      sa.Column('end_date', sa.Date(), nullable=False),
+      sa.Column('workflow_id', sa.Integer(),
+                sa.ForeignKey('workflows_new.id')),
   )
   op.create_unique_constraint('uq_{}'.format(table_name), table_name, ["slug"])
   op.create_index('ix_{}_updated_at'.format(table_name), table_name,
