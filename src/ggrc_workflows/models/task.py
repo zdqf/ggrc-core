@@ -2,6 +2,8 @@
 # Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 
 """Module contains 'Task' model implementation."""
+from sqlalchemy.orm import validates
+
 from ggrc import db
 from ggrc.models.deferred import deferred
 from ggrc.models.mixins import Described
@@ -31,3 +33,10 @@ class Task(Described, Slugged, Titled, db.Model):
   workflow = db.relationship('WorkflowNew', uselist=False,
                              foreign_keys='Task.workflow_id')
   status = deferred(db.Column(db.Enum(*VALID_STATUSES)), 'Task')
+
+  @validates('status')
+  def validate_status(self, _, value):
+    """Make sure that status value is in valid list."""
+    if value is not None and value not in self.VALID_STATUSES:
+      raise ValueError(u"Task invalid status: '{}'".format(value))
+    return value
