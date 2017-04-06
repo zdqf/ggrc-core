@@ -22,7 +22,12 @@ class WorkflowNew(Described, Slugged, Titled, db.Model):
 
   repeat_every = deferred(db.Column(db.Integer), 'WorkflowNew')
   unit = deferred(db.Column(db.Enum(*VALID_UNITS)), 'WorkflowNew')
-  parent_id = deferred(db.Column(db.Integer), 'WorkflowNew')
+  parent_id = deferred(
+      db.Column(db.Integer, db.ForeignKey('{}.id'.format(__tablename__))),
+      'WorkflowNew'
+  )
+  children = db.relationship('WorkflowNew')
+  parent = db.relationship('WorkflowNew', remote_side='WorkflowNew.id')
 
   @validates('unit')
   def validate_unit(self, _, value):
