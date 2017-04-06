@@ -16,7 +16,9 @@ class WorkflowNew(Described, Slugged, Titled, db.Model):
   __tablename__ = 'workflows_new'
   _title_uniqueness = False
 
-  VALID_UNITS = (u'day', u'month')
+  DAY_UNIT = u'day'
+  MONTH_UNIT = u'month'
+  VALID_UNITS = (DAY_UNIT, MONTH_UNIT)
 
   repeat_every = deferred(db.Column(db.Integer), 'WorkflowNew')
   unit = deferred(db.Column(db.Enum(*VALID_UNITS)), 'WorkflowNew')
