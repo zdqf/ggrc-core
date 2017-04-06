@@ -22,6 +22,7 @@ class Task(Described, Slugged, Stateful, Titled, db.Model):
   start_date = deferred(db.Column(db.Date, nullable=False), 'Task')
   end_date = deferred(db.Column(db.Date, nullable=False), 'Task')
   workflow_id = deferred(db.Column(db.Integer,
-                                   db.ForeignKey('workflows_new.id')), 'Task')
+                                   db.ForeignKey('workflows_new.id'),
+                                   nullable=False), 'Task')
   workflow = db.relationship('WorkflowNew', uselist=False,
                              foreign_keys='Task.workflow_id')
