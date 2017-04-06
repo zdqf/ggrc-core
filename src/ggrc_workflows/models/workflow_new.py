@@ -3,6 +3,7 @@
 
 """Module contains new 'Workflow' model implementation."""
 from sqlalchemy.orm import validates
+from sqlalchemy.sql import exists
 
 from ggrc import db
 from ggrc.models.deferred import deferred
@@ -40,7 +41,7 @@ class WorkflowNew(Described, Slugged, Titled, db.Model):
   def validate_parent_id(self, _, value):  # pylint: disable=no-self-use
     """Make sure that parent object exists."""
     if value is not None and not db.session.query(
-            WorkflowNew).filter(WorkflowNew.id == value).count():
+            exists().where(WorkflowNew.id == value)).scalar():
       raise ValueError(u"Parent workflow with id '{}' is "
                        u"not found".format(value))
     return value
