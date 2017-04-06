@@ -33,7 +33,8 @@ def upgrade():
       sa.Column('updated_at', sa.DateTime(), nullable=False),
       sa.Column('context_id', sa.Integer(), sa.ForeignKey('contexts.id')),
       sa.Column('id', sa.Integer(), primary_key=True),
-      sa.Column('contact_id', sa.Integer(), sa.ForeignKey('people.id'))
+      sa.Column('contact_id', sa.Integer(), sa.ForeignKey('people.id')),
+      sa.Column('status', sa.String(length=250), nullable=False)
   )
   op.create_unique_constraint('uq_{}'.format(table_name), table_name, ["slug"])
   op.create_index('ix_{}_updated_at'.format(table_name), table_name,
