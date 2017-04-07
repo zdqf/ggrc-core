@@ -2,8 +2,8 @@
 # Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 
 """Module contains unittests for WorkflowNew model."""
-from mock import patch, MagicMock
 import unittest
+from mock import patch, MagicMock
 
 from ggrc_workflows.models.workflow_new import WorkflowNew
 
