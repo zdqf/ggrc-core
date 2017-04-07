@@ -29,6 +29,7 @@ class WorkflowNew(Described, Slugged, Titled, db.Model):
   )
   children = db.relationship('WorkflowNew')
   parent = db.relationship('WorkflowNew', remote_side='WorkflowNew.id')
+  tasks = db.relationship('Task', back_populates='workflow')
 
   @validates('unit')
   def validate_unit(self, _, value):

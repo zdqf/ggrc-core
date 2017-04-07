@@ -29,7 +29,7 @@ class Task(Described, Slugged, Titled, db.Model):
   workflow_id = deferred(db.Column(db.Integer,
                                    db.ForeignKey('workflows_new.id'),
                                    nullable=False), 'Task')
-  workflow = db.relationship('WorkflowNew', uselist=False)
+  workflow = db.relationship('WorkflowNew', back_populates='tasks')
   status = deferred(db.Column(db.Enum(*VALID_STATUSES)), 'Task')
 
   @validates('status')
