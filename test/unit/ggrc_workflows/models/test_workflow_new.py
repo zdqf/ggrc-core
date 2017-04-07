@@ -2,6 +2,7 @@
 # Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 
 """Module contains unittests for WorkflowNew model."""
+from mock import patch, MagicMock
 import unittest
 
 from ggrc_workflows.models.workflow_new import WorkflowNew
@@ -40,3 +41,36 @@ class TestWorkflowNew(unittest.TestCase):
     self.assertIsNone(workflow_bad.unit)
     self.assertEqual(err.exception.message,
                      u"Invalid unit: '{}'".format(self.bad_unit))
+
+  @patch('ggrc_workflows.models.workflow_new.exists')
+  @patch('ggrc_workflows.models.workflow_new.db.session.query')
+  def test_validate_parent_id_ok(self, query, _):
+    """Tests positive cases for WorkflowNew().validate_parent_id() method."""
+    # Note that when WorkflowNew().parent_id attribute value is assigned,
+    # WorkflowNew().validate_parent_id() method runs automatically.
+    query.return_value.scalar = MagicMock(return_value=True)
+
+    workflow_none = WorkflowNew()
+    workflow_none.parent_id = None
+    self.assertIsNone(workflow_none.parent_id)
+
+    workflow_256 = WorkflowNew()
+    workflow_256.parent_id = 256
+    self.assertEqual(workflow_256.parent_id, 256)
+
+  @patch('ggrc_workflows.models.workflow_new.exists')
+  @patch('ggrc_workflows.models.workflow_new.db.session.query')
+  def test_validate_parent_id_raises(self, query, _):
+    """Tests negative case for WorkflowNew().validate_parent_id() method."""
+    # Note that when WorkflowNew().parent_id attribute value is assigned,
+    # WorkflowNew().validate_parent_id() method runs automatically.
+    query.return_value.scalar = MagicMock(return_value=False)
+
+    bad_id = 256
+    workflow_bad = WorkflowNew()
+    with self.assertRaises(ValueError) as err:
+      workflow_bad.parent_id = bad_id
+    self.assertIsNone(workflow_bad.parent_id)
+    self.assertEqual(err.exception.message,
+                     u"Parent workflow with id '{}' is not "
+                     u"found".format(bad_id))
