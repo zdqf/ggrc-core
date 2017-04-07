@@ -113,6 +113,11 @@
       var isExpanded = this.attr('notDirectlyExpanded');
       this.attr('notDirectlyExpanded', !isExpanded);
     },
+    /**
+     *
+     * @param {Array} [models] -
+     * @return {*}
+     */
     loadItems: function (models) {
       var parentType = this.attr('parentModel');
       var parentId = this.attr('parentId');

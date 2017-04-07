@@ -188,7 +188,8 @@
         return can.Deferred().resolve();
       }
 
-      widgets = getWidgetModels(pageInstance.constructor.shortName, location);
+      widgets = GGRC.Utils.CurrentPage
+        .getWidgetModels(pageInstance.constructor.shortName, location);
 
       return initCounts(widgets, pageInstance.type, pageInstance.id);
     }

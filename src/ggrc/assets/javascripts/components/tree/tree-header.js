@@ -41,6 +41,11 @@
     availableColumns: [],
     mandatory: [],
     sortingInfo: null,
+    /**
+     * Dispatches the event with names of selected columns.
+     *
+     * @fires updateColumns
+     */
     setColumns: function () {
       var selectedNames = [];
 
