@@ -53,6 +53,8 @@ def upgrade():
                   ['context_id'])
   op.create_index('fk_{}_contact'.format(table_name), table_name,
                   ['contact_id'])
+  op.create_index('fk_{}_workflow'.format(table_name), table_name,
+                  ['workflow_id'])
 
 
 def downgrade():
