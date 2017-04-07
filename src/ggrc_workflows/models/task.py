@@ -23,15 +23,13 @@ class Task(Described, Slugged, Titled, db.Model):
 
   contact_id = deferred(db.Column(db.Integer, db.ForeignKey('people.id'),
                                   nullable=False), 'Task')
-  contact = db.relationship('Person', uselist=False,
-                            foreign_keys='Task.contact_id')
+  contact = db.relationship('Person', uselist=False)
   start_date = deferred(db.Column(db.Date, nullable=False), 'Task')
   end_date = deferred(db.Column(db.Date, nullable=False), 'Task')
   workflow_id = deferred(db.Column(db.Integer,
                                    db.ForeignKey('workflows_new.id'),
                                    nullable=False), 'Task')
-  workflow = db.relationship('WorkflowNew', uselist=False,
-                             foreign_keys='Task.workflow_id')
+  workflow = db.relationship('WorkflowNew', uselist=False)
   status = deferred(db.Column(db.Enum(*VALID_STATUSES)), 'Task')
 
   @validates('status')
