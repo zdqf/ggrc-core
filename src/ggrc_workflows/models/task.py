@@ -23,7 +23,7 @@ class Task(Described, Slugged, Titled, db.Model):
 
   contact_id = deferred(db.Column(db.Integer, db.ForeignKey('people.id'),
                                   nullable=False), 'Task')
-  contact = db.relationship('Person', uselist=False)
+  contact = db.relationship('Person')
   start_date = deferred(db.Column(db.Date, nullable=False), 'Task')
   end_date = deferred(db.Column(db.Date, nullable=False), 'Task')
   workflow_id = deferred(db.Column(db.Integer,
