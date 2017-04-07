@@ -19,17 +19,11 @@ class TestWorkflowNew(unittest.TestCase):
     """Tests positive cases for WorkflowNew().validate_unit() method."""
     # Note that when WorkflowNew().unit attribute value is assigned,
     # WorkflowNew().validate_unit() method runs automatically.
-    workflow_none = WorkflowNew()
-    workflow_none.unit = None
-    self.assertIsNone(workflow_none.unit)
-
-    workflow_day = WorkflowNew()
-    workflow_day.unit = self.day_unit
-    self.assertEqual(workflow_day.unit, self.day_unit)
-
-    workflow_month = WorkflowNew()
-    workflow_month.unit = self.month_unit
-    self.assertEqual(workflow_month.unit, self.month_unit)
+    valid_units = (None, self.day_unit, self.month_unit)
+    for unit in valid_units:
+      workflow = WorkflowNew()
+      workflow.unit = unit
+      self.assertEqual(workflow.unit, unit)
 
   def test_validate_unit_raises(self):
     """Tests negative case for WorkflowNew().validate_unit() method."""
@@ -49,14 +43,11 @@ class TestWorkflowNew(unittest.TestCase):
     # Note that when WorkflowNew().parent_id attribute value is assigned,
     # WorkflowNew().validate_parent_id() method runs automatically.
     query.return_value.scalar = MagicMock(return_value=True)
-
-    workflow_none = WorkflowNew()
-    workflow_none.parent_id = None
-    self.assertIsNone(workflow_none.parent_id)
-
-    workflow_256 = WorkflowNew()
-    workflow_256.parent_id = 256
-    self.assertEqual(workflow_256.parent_id, 256)
+    valid_parent_ids = (None, 256)
+    for parent_id in valid_parent_ids:
+      workflow = WorkflowNew()
+      workflow.parent_id = parent_id
+      self.assertEqual(workflow.parent_id, parent_id)
 
   @patch('ggrc_workflows.models.workflow_new.exists')
   @patch('ggrc_workflows.models.workflow_new.db.session.query')
@@ -65,7 +56,6 @@ class TestWorkflowNew(unittest.TestCase):
     # Note that when WorkflowNew().parent_id attribute value is assigned,
     # WorkflowNew().validate_parent_id() method runs automatically.
     query.return_value.scalar = MagicMock(return_value=False)
-
     bad_id = 256
     workflow_bad = WorkflowNew()
     with self.assertRaises(ValueError) as err:
