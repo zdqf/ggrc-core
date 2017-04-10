@@ -4,7 +4,7 @@
 """Module contains unittests for WorkflowNew model."""
 import unittest
 from ddt import data, ddt
-from mock import patch, MagicMock
+from mock import patch, MagicMock, PropertyMock
 
 from ggrc_workflows.models.workflow_new import WorkflowNew
 
@@ -64,3 +64,11 @@ class TestWorkflowNew(unittest.TestCase):
       self.assertEqual(err.exception.message,
                        u"Parent workflow with id '{}' is not "
                        u"found".format(bad_id))
+
+  @patch.object(WorkflowNew, 'parent_id', new_callable=PropertyMock,
+                side_effect=(None, 256))
+  def test_is_template(self, _):
+    """Tests Task().is_template attribute."""
+    workflow = WorkflowNew()
+    self.assertEqual(workflow.is_template, True)
+    self.assertEqual(workflow.is_template, False)
