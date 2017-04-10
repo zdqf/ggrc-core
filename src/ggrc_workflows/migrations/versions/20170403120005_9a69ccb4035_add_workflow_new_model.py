@@ -20,6 +20,10 @@ down_revision = '1142135ce819'
 table_name = 'workflows_new'
 
 
+DAY_UNIT = u'Day'
+MONTH_UNIT = u'Month'
+
+
 def upgrade():
   """Upgrade database schema and/or data, creating a new revision."""
   op.create_table(
@@ -33,7 +37,7 @@ def upgrade():
       sa.Column('description', sa.Text()),
       sa.Column('title', sa.String(length=250), nullable=False),
       sa.Column('repeat_every', sa.Integer()),
-      sa.Column('unit', sa.Enum(u'day', u'month')),
+      sa.Column('unit', sa.Enum(DAY_UNIT, MONTH_UNIT)),
       sa.Column('parent_id', sa.Integer(),
                 sa.ForeignKey('{}.id'.format(table_name)))
   )

@@ -19,14 +19,14 @@ class WorkflowNew(Described, Slugged, Titled, db.Model):
   __tablename__ = 'workflows_new'
   _title_uniqueness = False
 
-  DAY_UNIT = u'day'
-  MONTH_UNIT = u'month'
+  DAY_UNIT = u'Day'
+  MONTH_UNIT = u'Month'
   VALID_UNITS = (DAY_UNIT, MONTH_UNIT)
 
   NOT_STARTED_STATUS = u'Not Started'
   IN_PROGRESS_STATUS = u'In Progress'
   COMPLETED_STATUS = u'Completed'
-  NON_TEMPLATE_STATUS = u'Non template'
+  NOT_TEMPLATE_STATUS = u'Not Template'
 
   repeat_every = deferred(db.Column(db.Integer), 'WorkflowNew')
   unit = deferred(db.Column(db.Enum(*VALID_UNITS)), 'WorkflowNew')
@@ -57,7 +57,7 @@ class WorkflowNew(Described, Slugged, Titled, db.Model):
   def status(self):
     """Calculates status of the workflow."""
     if not self.is_template:
-      return self.NON_TEMPLATE_STATUS
+      return self.NOT_TEMPLATE_STATUS
     if not self.tasks:
       return self.NOT_STARTED_STATUS
     not_finished_cycle_tasks = db.session.query(Task).filter(
