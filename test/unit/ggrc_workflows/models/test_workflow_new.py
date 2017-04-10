@@ -72,3 +72,11 @@ class TestWorkflowNew(unittest.TestCase):
     workflow = WorkflowNew()
     self.assertEqual(workflow.is_template, True)
     self.assertEqual(workflow.is_template, False)
+
+  @patch.object(WorkflowNew, 'repeat_every', new_callable=PropertyMock,
+                side_effect=(256, None))
+  def test_is_template(self, _):
+    """Tests Task().is_template attribute."""
+    workflow = WorkflowNew()
+    self.assertEqual(workflow.is_recurrent, True)
+    self.assertEqual(workflow.is_recurrent, False)
