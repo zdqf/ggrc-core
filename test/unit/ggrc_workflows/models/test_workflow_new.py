@@ -45,6 +45,7 @@ class TestWorkflowNew(unittest.TestCase):
   @patch('ggrc_workflows.models.workflow_new.exists')
   @patch('ggrc_workflows.models.workflow_new.db.session.query')
   @data(None, 256)
+  # pylint: disable=invalid-name
   def test_validate_parent_id_positive(self, parent_id, query, _):
     """Tests positive cases for WorkflowNew().validate_parent_id() method."""
     # Note that when WorkflowNew().parent_id attribute value is assigned,
@@ -80,7 +81,7 @@ class TestWorkflowNew(unittest.TestCase):
 
   @patch.object(WorkflowNew, 'repeat_every', new_callable=PropertyMock,
                 side_effect=(256, None))
-  def test_is_template(self, _):
+  def test_is_recurrent(self, _):
     """Tests WorkflowNew().is_recurrent attribute."""
     workflow = WorkflowNew()
     self.assertEqual(workflow.is_recurrent, True)
@@ -92,12 +93,13 @@ class TestWorkflowNew(unittest.TestCase):
   @patch.object(WorkflowNew, 'is_template', new_callable=PropertyMock)
   @unpack
   @data(
-    (False, None, None, None, NOT_TEMPLATE_STATUS),
-    (True, [], None, None, NOT_STARTED_STATUS),
-    (True, [MagicMock()], True, None, IN_PROGRESS_STATUS),
-    (True, [MagicMock()], False, True, IN_PROGRESS_STATUS),
-    (True, [MagicMock()], False, False, COMPLETED_STATUS)
+      (False, None, None, None, NOT_TEMPLATE_STATUS),
+      (True, [], None, None, NOT_STARTED_STATUS),
+      (True, [MagicMock()], True, None, IN_PROGRESS_STATUS),
+      (True, [MagicMock()], False, True, IN_PROGRESS_STATUS),
+      (True, [MagicMock()], False, False, COMPLETED_STATUS)
   )
+  # pylint: disable=too-many-arguments
   def test_status(self, is_template_ret, tasks_ret, is_recurrent_ret,
                   not_finished_ct_ret, test_result,
                   is_template_attr, tasks_attr, is_recurrent_attr, query):

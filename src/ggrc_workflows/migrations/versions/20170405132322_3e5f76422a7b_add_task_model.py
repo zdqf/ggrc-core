@@ -6,8 +6,7 @@ Add task model.
 
 Create Date: 2017-04-05 13:23:22.022321
 """
-# disable Invalid constant name pylint warning for mandatory Alembic variables.
-# pylint: disable=invalid-name
+# pylint: skip-file
 
 import sqlalchemy as sa
 

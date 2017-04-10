@@ -70,9 +70,9 @@ class TestTask(unittest.TestCase):
       self.assertEqual(err.exception.message, err_msg)
 
   @patch('ggrc_workflows.models.task.Task.workflow')
-  def test_is_template(self, wf):
+  def test_is_template(self, workflow):
     """Tests Task().is_template attribute."""
-    type(wf).is_template = PropertyMock(side_effect=(True, False))
+    type(workflow).is_template = PropertyMock(side_effect=(True, False))
     test_task = task.Task()
     self.assertEqual(test_task.is_template, True)
     self.assertEqual(test_task.is_template, False)
