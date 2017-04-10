@@ -47,6 +47,8 @@ def upgrade():
                 sa.ForeignKey('workflows_new.id'), nullable=False),
   )
   op.create_unique_constraint('uq_{}'.format(table_name), table_name, ["slug"])
+  op.create_index('ix_{}_created_at'.format(table_name), table_name,
+                  ['created_at'])
   op.create_index('ix_{}_updated_at'.format(table_name), table_name,
                   ['updated_at'])
   op.create_index('fk_{}_contexts'.format(table_name), table_name,
