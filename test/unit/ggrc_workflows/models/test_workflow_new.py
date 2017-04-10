@@ -3,7 +3,7 @@
 
 """Module contains unittests for WorkflowNew model."""
 import unittest
-from ddt import data, ddt
+from ddt import data, ddt, unpack
 from mock import patch, MagicMock, PropertyMock
 
 from ggrc_workflows.models.workflow_new import WorkflowNew
@@ -12,6 +12,11 @@ from ggrc_workflows.models.workflow_new import WorkflowNew
 DAY_UNIT = u'Day'
 MONTH_UNIT = u'Month'
 BAD_UNIT = u'Bad Unit'
+
+NOT_STARTED_STATUS = u'Not Started'
+IN_PROGRESS_STATUS = u'In Progress'
+COMPLETED_STATUS = u'Completed'
+NOT_TEMPLATE_STATUS = u'Not Template'
 
 
 @ddt
@@ -80,3 +85,26 @@ class TestWorkflowNew(unittest.TestCase):
     workflow = WorkflowNew()
     self.assertEqual(workflow.is_recurrent, True)
     self.assertEqual(workflow.is_recurrent, False)
+
+  @patch('ggrc_workflows.models.workflow_new.db.session.query')
+  @patch.object(WorkflowNew, 'is_recurrent', new_callable=PropertyMock)
+  @patch.object(WorkflowNew, 'tasks', new_callable=PropertyMock)
+  @patch.object(WorkflowNew, 'is_template', new_callable=PropertyMock)
+  @unpack
+  @data(
+    (False, None, None, None, NOT_TEMPLATE_STATUS),
+    (True, [], None, None, NOT_STARTED_STATUS),
+    (True, [MagicMock()], True, None, IN_PROGRESS_STATUS),
+    (True, [MagicMock()], False, True, IN_PROGRESS_STATUS),
+    (True, [MagicMock()], False, False, COMPLETED_STATUS)
+  )
+  def test_status(self, is_template_ret, tasks_ret, is_recurrent_ret,
+                  not_finished_ct_ret, test_result,
+                  is_template_attr, tasks_attr, is_recurrent_attr, query):
+    """Tests WorkflowNew().status attribute."""
+    is_template_attr.return_value = is_template_ret
+    tasks_attr.return_value = tasks_ret
+    is_recurrent_attr.return_value = is_recurrent_ret
+    query.return_value.scalar = MagicMock(return_value=not_finished_ct_ret)
+    workflow = WorkflowNew()
+    self.assertEqual(workflow.status, test_result)
