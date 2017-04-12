@@ -2,16 +2,16 @@
 # Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 
 """Module contains new 'Workflow' model implementation."""
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import validates
 from sqlalchemy.sql import exists
-from sqlalchemy.ext.hybrid import hybrid_property
 
 from ggrc import db
 from ggrc.models.deferred import deferred
-from ggrc.models.mixins import Slugged
 from ggrc.models.mixins import Described
+from ggrc.models.mixins import Slugged
 from ggrc.models.mixins import Titled
-from ggrc_workflows.models.task import Task
+from ggrc_workflows_new.models.task import Task
 
 
 class WorkflowNew(Described, Slugged, Titled, db.Model):

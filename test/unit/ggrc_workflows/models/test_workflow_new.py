@@ -3,11 +3,11 @@
 
 """Module contains unittests for WorkflowNew model."""
 import unittest
+
 from ddt import data, ddt, unpack
 from mock import patch, MagicMock, PropertyMock
 
-from ggrc_workflows.models.workflow_new import WorkflowNew
-
+from ggrc_workflows_new.models.workflow_new import WorkflowNew
 
 DAY_UNIT = u'Day'
 MONTH_UNIT = u'Month'

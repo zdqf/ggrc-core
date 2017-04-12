@@ -3,11 +3,11 @@
 
 """Module contains unittests for Task model."""
 import unittest
+
 from ddt import data, ddt, unpack
 from mock import patch, MagicMock, PropertyMock
 
-from ggrc_workflows.models import task
-
+from ggrc_workflows_new.models import task
 
 NOT_STARTED_STATUS = u'Not Started'
 IN_PROGRESS_STATUS = u'In Progress'
