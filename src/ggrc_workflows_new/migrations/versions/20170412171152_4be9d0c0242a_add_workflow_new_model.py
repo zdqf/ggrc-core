@@ -7,7 +7,7 @@ Add table for WorkflowNew model.
 Create Date: 2017-04-03 12:00:05.686115
 """
 # disable Invalid constant name pylint warning for mandatory Alembic variables.
-# pylint: disable=invalid-name, duplicate-code
+# pylint: disable=invalid-name
 
 from alembic import op
 import sqlalchemy as sa

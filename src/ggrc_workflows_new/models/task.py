@@ -2,8 +2,9 @@
 # Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 
 """Module contains 'Task' model implementation."""
-from sqlalchemy.orm import validates
+
 from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.orm import validates
 
 from ggrc import db
 from ggrc.models.deferred import deferred

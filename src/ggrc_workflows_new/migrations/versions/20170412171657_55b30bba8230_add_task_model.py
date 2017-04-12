@@ -2,11 +2,12 @@
 # Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 
 """
-Add task model.
+Add table for Task model.
 
 Create Date: 2017-04-05 13:23:22.022321
 """
-# disable Invalid constant name pylint warning for mandatory Alembic variables.
+# Skip all pylint checks because this migration has duplicate lines with
+# another one.
 # pylint: skip-file
 
 import sqlalchemy as sa
