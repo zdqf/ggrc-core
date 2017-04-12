@@ -33,7 +33,7 @@ def task_factory(status, ret_is_templ):
   """
   # Note that when Task().status attribute value is assigned,
   # Task().validate_status() method runs automatically.
-  with patch('ggrc_workflows.models.task.Task.is_template',
+  with patch('ggrc_workflows_new.models.task.Task.is_template',
              new_callable=PropertyMock) as is_template:
     is_template.return_value = ret_is_templ
     test_task = task.Task()
@@ -69,7 +69,7 @@ class TestTask(unittest.TestCase):
       self.assertIsNone(task_factory(status, ret_is_templ).status)
       self.assertEqual(err.exception.message, err_msg)
 
-  @patch('ggrc_workflows.models.task.Task.workflow')
+  @patch('ggrc_workflows_new.models.task.Task.workflow')
   def test_is_template(self, workflow):
     """Tests Task().is_template attribute."""
     type(workflow).is_template = PropertyMock(side_effect=(True, False))

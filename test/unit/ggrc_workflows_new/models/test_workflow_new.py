@@ -42,8 +42,8 @@ class TestWorkflowNew(unittest.TestCase):
       self.assertEqual(err.exception.message,
                        u"Invalid unit: '{}'".format(BAD_UNIT))
 
-  @patch('ggrc_workflows.models.workflow_new.exists')
-  @patch('ggrc_workflows.models.workflow_new.db.session.query')
+  @patch('ggrc_workflows_new.models.workflow_new.exists')
+  @patch('ggrc_workflows_new.models.workflow_new.db.session.query')
   @data(None, 256)
   # pylint: disable=invalid-name
   def test_validate_parent_id_positive(self, parent_id, query, _):
@@ -55,8 +55,8 @@ class TestWorkflowNew(unittest.TestCase):
     workflow.parent_id = parent_id
     self.assertEqual(workflow.parent_id, parent_id)
 
-  @patch('ggrc_workflows.models.workflow_new.exists')
-  @patch('ggrc_workflows.models.workflow_new.db.session.query')
+  @patch('ggrc_workflows_new.models.workflow_new.exists')
+  @patch('ggrc_workflows_new.models.workflow_new.db.session.query')
   def test_validate_parent_id_raises(self, query, _):
     """Tests negative case for WorkflowNew().validate_parent_id() method."""
     # Note that when WorkflowNew().parent_id attribute value is assigned,
@@ -87,7 +87,7 @@ class TestWorkflowNew(unittest.TestCase):
     self.assertEqual(workflow.is_recurrent, True)
     self.assertEqual(workflow.is_recurrent, False)
 
-  @patch('ggrc_workflows.models.workflow_new.db.session.query')
+  @patch('ggrc_workflows_new.models.workflow_new.db.session.query')
   @patch.object(WorkflowNew, 'is_recurrent', new_callable=PropertyMock)
   @patch.object(WorkflowNew, 'tasks', new_callable=PropertyMock)
   @patch.object(WorkflowNew, 'is_template', new_callable=PropertyMock)
