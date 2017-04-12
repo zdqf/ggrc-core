@@ -18,7 +18,8 @@ export GGRC_SETTINGS_MODULE="development \
   ggrc_risk_assessments.settings.development \
   ggrc_risks.settings.development \
   ggrc_workflows.settings.development \
-  ggrc_gdrive_integration.settings.development"
+  ggrc_gdrive_integration.settings.development \
+  ggrc_workflows_new.settings.development"
 
 export GGRC_BOOTSTRAP_ADMIN_USERS="user@example.com"
 
