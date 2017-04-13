@@ -23,6 +23,7 @@
         get: function () {
           return this.attr('drawStatuses') ||
             this.attr('isDirective') ||
+            this.attr('isCycleTaskGroupObjectTask') ||
             this.attr('isSection');
         }
       },
@@ -36,6 +37,13 @@
         type: Boolean,
         get: function () {
           return this.attr('instance') instanceof CMS.Models.Section;
+        }
+      },
+      isCycleTaskGroupObjectTask: {
+        type: Boolean,
+        get: function () {
+          return this.attr('instance') instanceof
+            CMS.Models.CycleTaskGroupObjectTask;
         }
       },
       drawStatuses: {
@@ -53,6 +61,10 @@
             classes.push(statusClasses[instance.workflow_state]);
           }
 
+          if (this.attr('isCycleTaskGroupObjectTask') && this.isOverdue()) {
+            classes.push(statusClasses.Overdue);
+          }
+
           if (this.attr('spin')) {
             classes.push('fa-spinner');
             classes.push('fa-spin');
@@ -68,6 +80,17 @@
     },
     onLeave: function () {
       this.attr('spin', false);
+    },
+    isOverdue: function () {
+      var task = this.attr('instance');
+      var endDate = new Date(task.end_date || null);
+      var status = task.status;
+      var today = new Date();
+
+      if (status === "Finished" || status === "Verified")
+        return false;
+      else if (endDate.getTime() < today.getTime())
+        return true;
     },
     classes: [],
     instance: null

@@ -769,17 +769,17 @@ p {
 }
 .state-value-dot {
   position: relative;
-  padding-left: 10px;
+  padding-left: 12px;
 
   &:before {
     content: '';
     position: absolute;
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
     display: inline-block;
     left: 0;
     top: 50%;
-    margin-top: -3px;
+    margin-top: -5px;
     border-radius: 50%;
   }
 

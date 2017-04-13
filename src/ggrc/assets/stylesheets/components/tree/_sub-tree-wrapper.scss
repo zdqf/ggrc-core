@@ -34,6 +34,10 @@ sub-tree-item {
     text-overflow: ellipsis;
     white-space: nowrap;
     line-height: 30px;
+
+    i.fa {
+      font-size: 13px;
+    }
   }
 
   >.sub-item-content {
@@ -79,7 +83,7 @@ sub-tree-item {
   .sub-item-content {
     display: flex;
     align-items: center;
-    height: 30px;
+    height: 40px;
     border-bottom: 1px solid $itemBorder;
 
     &.snapshot {

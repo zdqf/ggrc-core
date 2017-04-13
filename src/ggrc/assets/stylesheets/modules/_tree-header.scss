@@ -419,11 +419,9 @@ ul.new-tree {
 }
 
 .widget-col-title {
-  display: inline-block;
   cursor: pointer;
   i {
     margin-top: 1px;
-    display: none;
   }
   &.asc,
   &.desc {

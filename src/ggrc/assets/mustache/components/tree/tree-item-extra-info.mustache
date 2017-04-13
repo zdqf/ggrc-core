@@ -5,10 +5,7 @@
 
 {{#if isActive}}
   <div class="person-holder">
-    <i class="fa {{cssClasses}} person-tooltip-trigger"
-       ($mouseenter)="onEnter"
-       ($mouseleave)="onLeave"
-       data-placement="left"></i>
+    <i class="fa {{cssClasses}} person-tooltip-trigger" data-placement="left"></i>
 
     <div class="custom-popover-content">
       <div class="preview-container tree-extra-info-preview">
@@ -70,8 +67,39 @@
               {{/if}}
             </div>
           {{/with_mapping_count}}
-        {{/if}}
         </section>
+        {{/if}}
+        {{#if isCycleTaskGroupObjectTask}}
+          <section>
+            <h3 class="task-list-title">Number of mapped objects</h3>
+            {{#with_mapping_count instance 'related_objects'}}
+              <div class="mapping-info">
+                <i class="fa fa-list-alt"></i> Total:
+                {{#if count}}
+                  <span class="counter">{{count}}</span>
+                {{else}}
+                  <strong class="counter">0</strong>
+                {{/if}}
+              </div>
+            {{/with_mapping_count}}
+            {{#with_mapping_count instance 'cycle_task_entries'}}
+            <div class="mapping-info"> <!-- number of comment count -->
+              <i class="fa fa-comment-o"></i> Comments:
+              {{#if count}}
+                <span class="counter">{{count}}</span>
+              {{else}}
+                <strong class="counter">0</strong>
+              {{/if}}
+            </div>
+            {{/with_mapping_count}}
+            <div class="date">
+              <i class="fa fa-clock-o {{#is_overdue instance.end_date instance.status}}red{{else}}color{{/is_overdue}}"></i> Due On:
+              <span {{#is_overdue instance.end_date instance.status}}class="error"{{/is_overdue}}>
+                {{localize_date_today instance.end_date}}
+              </span>
+            </div>
+          </section>
+        {{/if}}
         {{#if drawStatuses}}
           <h3 class="task-list-title">Current Tasks</h3>
           {{#with_mapping 'object_tasks' instance}}

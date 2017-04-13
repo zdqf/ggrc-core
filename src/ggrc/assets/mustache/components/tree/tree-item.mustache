@@ -13,8 +13,8 @@
                        {deep-limit}="limitDepthTree"
     ></tree-item-actions>
     <div class="flex-box width-100" ($click)="select($element)">
-      <div class="title-area flex-size-1">
-        {{instance.title}}
+      <div class="title-area flex-box flex-size-1">
+        <span>{{instance.title}}</span>
       </div>
 
       <div class="flex-box selectable-attrs flex-size-{{selectableSize}}">
@@ -61,6 +61,9 @@
                     {{#case 'Workflow'}}
                       {{> '/static/mustache/workflows/tree-item-attr.mustache'}}
                     {{/case}}
+                    {{#case 'CycleTaskGroupObjectTask'}}
+                      {{> '/static/mustache/cycle_task_group_object_tasks/tree-item-attr.mustache'}}
+                    {{/case}}
                     {{#default}}
                       {{> '/static/mustache/base_objects/tree-item-attr.mustache'}}
                     {{/default}}
@@ -72,6 +75,45 @@
         {{/selectableColumns}}
       </div>
     </div>
+    {{#if_instance_of instance 'CycleTaskGroupObjectTask'}}
+      <div class="flex-box item-actions">
+        {{#with_review_task}}
+          {{#using cycle=instance.cycle}}
+            {{#if_equals cycle.is_current true}}
+              {{#is_allowed 'update' instance}}
+                <div class="request-control" {{ (el) -> $(el).bind('inserted', function() { el.ggrc_controllers_quick_form({ instance : el.closest('tree-item').viewModel().attr('instance')}); }); }}>
+                  {{#if_equals instance.status 'Assigned'}}
+                    <button class="btn btn-mini btn-info change-task-status {{instance._disabled}}" data-openclose="open" data-name="status" data-value="InProgress">Start</button>
+                  {{/if_equals}}
+                  {{#if_equals instance.status 'InProgress'}}
+                    <button class="btn btn-mini btn-draft change-task-status {{instance._disabled}}" data-name="status" data-value="Finished">Finish</button>
+                  {{/if_equals}}
+                  {{#if_equals instance.status 'Declined'}}
+                    {{#if review_task.object_review}}
+                      <button class="btn btn-mini btn-draft change-task-status {{instance._disabled}}" data-name="status" data-value="Verified">Finish</button>
+                    {{else}}
+                      <button class="btn btn-mini btn-draft change-task-status {{instance._disabled}}" data-name="status" data-value="Finished">Finish</button>
+                    {{/if}}
+                  {{/if_equals}}
+                  {{#if_equals instance.status 'Finished'}}
+                    <button class="btn btn-mini btn-danger change-task-status {{instance._disabled}}" data-name="status" data-value="Declined">Decline</button>
+                    <button class="btn btn-mini btn-success change-task-status {{instance._disabled}}" data-openclose="close" data-name="status" data-value="Verified">Verify</button>
+                  {{/if_equals}}
+                  {{#if_equals instance.status 'Verified'}}
+                    <span class="task-done">
+                          <em>Verified</em>
+                        </span>
+                  {{/if_equals}}
+                  {{#instance._undo.0}}
+                    <a href="javascript://" data-name="status" data-value="{{instance._undo.0}}" data-undo="true" class="undo {{instance._disabled}}">Undo</a>
+                  {{/instance._undo.0}}
+                </div>
+              {{/is_allowed}}
+            {{/if_equals}}
+          {{/using}}
+        {{/with_review_task}}
+      </div>
+    {{/if_instance_of}}
     <tree-item-extra-info {instance}="instance"></tree-item-extra-info>
   </div>
 

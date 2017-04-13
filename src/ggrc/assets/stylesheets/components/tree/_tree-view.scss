@@ -3,6 +3,8 @@
  * Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
  */
 
+$itemActionsWidth: 200px;
+
 tree-widget-container {
   .tree-filter {
     background-color: $white;
@@ -125,20 +127,40 @@ tree-item {
     &:hover {
       background-color: $light-grey-background;
       color: rgba(0, 0, 0, 1);
+
+      tree-item-extra-info {
+        i {
+          visibility: visible;
+        }
+      }
+
+      tree-item-actions, .item-actions {
+        visibility: visible;
+      }
     }
 
     .title-area {
-      overflow: hidden;
-      text-overflow: ellipsis;
       height: 60px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
+      align-items: center;
+      span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
     }
 
     .selectable-attrs {
       padding: 0 10px;
     }
+  }
+
+  .item-actions {
+    width: $itemActionsWidth;
+    justify-content: flex-end;
+    padding: 0 5px;
+    visibility: hidden;
   }
 
   tree-item-actions {
@@ -147,28 +169,8 @@ tree-item {
     background-color: $white;
   }
 
-  tree-item-extra-info {
-    margin-left: auto;
-    margin-right: 10px;
-    width: 16px;
-  }
-
   .sub-tier {
     padding-left: 32px;
-  }
-
-  .tree-item-content {
-    &:hover {
-      tree-item-extra-info {
-        i {
-          visibility: visible;
-        }
-      }
-
-      tree-item-actions {
-        visibility: visible;
-      }
-    }
   }
 }
 
@@ -241,15 +243,25 @@ tree-header {
         position: inherit !important;
       }
     }
+
+    .item-actions {
+      width: $itemActionsWidth;
+    }
   }
   .tree-action {
     margin-left: auto;
   }
 
   .widget-col-title {
+    span {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-width: 250px;
+    }
     i {
       font-size: 12px;
-      display: inline-block;
+      margin-left: 10px;
     }
   }
 }

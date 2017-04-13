@@ -3,10 +3,16 @@
  * Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
  */
 tree-item-extra-info {
-  margin: auto;
+  margin-left: auto;
+  margin-right: 10px;
+  width: 16px;
+  line-height: 19px;
   i {
     visibility: hidden;
     color: $gray;
+    &.person-tooltip-trigger {
+      font-size: 19px;
+    }
     &.state-verified {
       color: $green;
     }
@@ -22,7 +28,7 @@ tree-item-extra-info {
 
 tree-item-actions {
   display: flex;
-  border: 1px solid $lightGray;
+  border: 1px solid $warmGray;
   border-radius: 5px;
   margin: auto 0;
   visibility: hidden;
@@ -97,9 +103,10 @@ tree-item-actions {
         padding: 5px 15px;
         text-decoration: none;
 
-        i {
+        i.fa {
           margin-right: 3px;
           width: 16px;
+          font-size: 13px;
         }
       }
 
