@@ -1,23 +1,17 @@
 # Copyright (C) 2017 Google Inc.
 # Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
-
 """Module contains 'Task' model implementation."""
-
-from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.orm import validates
-
+from sqlalchemy import orm
+from sqlalchemy.ext import hybrid
 from ggrc import db
-from ggrc.models.deferred import deferred
-from ggrc.models.mixins import Described
-from ggrc.models.mixins import Slugged
-from ggrc.models.mixins import Titled
+from ggrc.models import deferred
+from ggrc.models import mixins
 
 
-class Task(Described, Slugged, Titled, db.Model):
+class Task(mixins.Described, mixins.Slugged, mixins.Titled, db.Model):
   """Contains 'Task' model implementation."""
   __tablename__ = 'tasks'
   _title_uniqueness = False
-
   NOT_STARTED_STATUS = u'Not Started'
   IN_PROGRESS_STATUS = u'In Progress'
   FINISHED_STATUS = u'Finished'
@@ -25,20 +19,18 @@ class Task(Described, Slugged, Titled, db.Model):
                            FINISHED_STATUS)
   TEMPLATE_STATUS = u'Template'
   VALID_STATUSES = NON_TEMPLATE_STATUSES + (TEMPLATE_STATUS, )
-
-  contact_id = deferred(db.Column(db.Integer, db.ForeignKey('people.id'),
-                                  nullable=False), 'Task')
+  contact_id = deferred.deferred(db.Column(
+      db.Integer, db.ForeignKey('people.id'), nullable=False), 'Task')
   contact = db.relationship('Person')
-  start_date = deferred(db.Column(db.Date, nullable=False), 'Task')
-  end_date = deferred(db.Column(db.Date, nullable=False), 'Task')
-  workflow_id = deferred(db.Column(db.Integer,
-                                   db.ForeignKey('workflows_new.id'),
-                                   nullable=False), 'Task')
+  start_date = deferred.deferred(db.Column(db.Date, nullable=False), 'Task')
+  end_date = deferred.deferred(db.Column(db.Date, nullable=False), 'Task')
+  workflow_id = deferred.deferred(db.Column(
+      db.Integer, db.ForeignKey('workflows_new.id'), nullable=False), 'Task')
   workflow = db.relationship('WorkflowNew', back_populates='tasks')
-  status = deferred(db.Column(db.Enum(*VALID_STATUSES), nullable=False),
-                    'Task')
+  status = deferred.deferred(db.Column(
+      db.Enum(*VALID_STATUSES), nullable=False), 'Task')
 
-  @hybrid_property
+  @hybrid.hybrid_property
   def is_template(self):
     """Calculates property which shows is task template or not.
 
@@ -48,7 +40,7 @@ class Task(Described, Slugged, Titled, db.Model):
     """
     return self.workflow.is_template
 
-  @validates('status')
+  @orm.validates('status')
   def validate_status(self, _, value):
     """Make sure that status value is valid."""
     if value not in self.VALID_STATUSES:
