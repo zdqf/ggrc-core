@@ -5,12 +5,14 @@ from sqlalchemy import orm
 from sqlalchemy import sql
 from sqlalchemy.ext import hybrid
 from ggrc import db
+from ggrc.models import context
 from ggrc.models import deferred
 from ggrc.models import mixins
 from ggrc_workflows_new.models import task
 
 
-class WorkflowNew(mixins.Described, mixins.Slugged, mixins.Titled, db.Model):
+class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
+                  mixins.Titled, db.Model):
   """New 'Workflow' model implementation."""
   __tablename__ = 'workflows_new'
   _title_uniqueness = False
