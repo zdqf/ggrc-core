@@ -7,7 +7,8 @@ import flask
 from ggrc import db
 from ggrc import login
 from ggrc.services import common
-from ggrc.services import registry
+from ggrc.services import registry as registry_service
+from ggrc.views import registry as registry_view
 from ggrc_basic_permissions import contributed_roles
 from ggrc_basic_permissions import models as permission_models
 from ggrc_workflows_new.models import workflow_new
@@ -21,8 +22,16 @@ blueprint = flask.Blueprint('ggrc_workflows_new', __name__)  # noqa # pylint: di
 
 
 def contributed_services():
+  """Return contributed object services."""
   return (
-      registry.service('workflows_new', workflow_new.WorkflowNew),
+      registry_service.service('workflows_new', workflow_new.WorkflowNew),
+  )
+
+
+def contributed_object_views():
+  """Return contributed object views."""
+  return (
+      registry_view.object_view(workflow_new.WorkflowNew),
   )
 
 
