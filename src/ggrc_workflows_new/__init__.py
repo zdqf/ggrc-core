@@ -11,7 +11,7 @@ from ggrc.services import registry as registry_service
 from ggrc.views import registry as registry_view
 from ggrc_basic_permissions import contributed_roles
 from ggrc_basic_permissions import models as permission_models
-from ggrc_workflows_new.models import task as task_model
+from ggrc_workflows_new.models import task as task_module
 from ggrc_workflows_new.models import workflow_new
 from ggrc_workflows_new.roles import BasicWorkflowReaderNew
 from ggrc_workflows_new.roles import WorkflowBasicReaderNew
@@ -26,7 +26,7 @@ def contributed_services():
   """Return contributed object services."""
   return (
       registry_service.service('workflows_new', workflow_new.WorkflowNew),
-      registry_service.service('tasks', task_model.Task),
+      registry_service.service('tasks', task_module.Task),
   )
 
 
@@ -121,7 +121,7 @@ def validate_task_status(task):
                      u"'{}'".format(', '.join(task.NON_TEMPLATE_STATUSES)))
 
 
-@common.Resource.model_posted.connect_via(task_model.Task)
+@common.Resource.model_posted.connect_via(task_module.Task)
 def handle_task_post(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle Task model POST."""
   validate_task_status(obj)
