@@ -11,6 +11,7 @@ class Task(mixins.Described, mixins.Slugged, mixins.Titled, db.Model):
   """Contains 'Task' model implementation."""
   __tablename__ = 'tasks'
   _title_uniqueness = False
+  _publish_attrs = ('contact', 'start_date', 'end_date', 'workflow', 'status')
   NOT_STARTED_STATUS = u'Not Started'
   IN_PROGRESS_STATUS = u'In Progress'
   FINISHED_STATUS = u'Finished'
