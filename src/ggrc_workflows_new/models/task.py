@@ -1,7 +1,6 @@
 # Copyright (C) 2017 Google Inc.
 # Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 """Module contains 'Task' model implementation."""
-from sqlalchemy import orm
 from sqlalchemy.ext import hybrid
 from ggrc import db
 from ggrc.models import deferred
@@ -39,16 +38,3 @@ class Task(mixins.Described, mixins.Slugged, mixins.Titled, db.Model):
     application level generated cycle-tasks.
     """
     return self.workflow.is_template
-
-  @orm.validates('status')
-  def validate_status(self, _, value):
-    """Make sure that status value is valid."""
-    if value not in self.VALID_STATUSES:
-      raise ValueError(u"Task invalid status: '{}'".format(value))
-    if self.is_template and value != self.TEMPLATE_STATUS:
-      raise ValueError(u"Task template must have '{}' "
-                       u"status".format(self.TEMPLATE_STATUS))
-    if not self.is_template and value not in self.NON_TEMPLATE_STATUSES:
-      raise ValueError(u"Non-template task must have one of the statuses: "
-                       u"'{}'".format(', '.join(self.NON_TEMPLATE_STATUSES)))
-    return value

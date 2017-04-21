@@ -11,7 +11,7 @@ from ggrc.services import registry as registry_service
 from ggrc.views import registry as registry_view
 from ggrc_basic_permissions import contributed_roles
 from ggrc_basic_permissions import models as permission_models
-from ggrc_workflows_new.models import task
+from ggrc_workflows_new.models import task as task_model
 from ggrc_workflows_new.models import workflow_new
 from ggrc_workflows_new.roles import BasicWorkflowReaderNew
 from ggrc_workflows_new.roles import WorkflowBasicReaderNew
@@ -26,7 +26,7 @@ def contributed_services():
   """Return contributed object services."""
   return (
       registry_service.service('workflows_new', workflow_new.WorkflowNew),
-      registry_service.service('tasks', task.Task),
+      registry_service.service('tasks', task_model.Task),
   )
 
 
@@ -96,6 +96,35 @@ def handle_workflow_new_post(sender, obj=None, src=None, service=None):  # noqa 
       context_scope='WorkflowNew',
       modified_by=user,
   ))
+
+
+def validate_task_status(task):
+  """Make sure that Task's status value is valid.
+
+  It was moved from SQLAlchemy validator because this attribute depends from
+  'workflow' attribute. When task object is posted 'status' validator needs
+  that 'workflow' attribute has been already set.
+
+  Args:
+      task: Task model instance.
+
+  Raises:
+      ValueError: An error occurred when invalid status set to 'task.status'.
+  """
+  if task.status not in task.VALID_STATUSES:
+    raise ValueError(u"Task invalid status: '{}'".format(task.status))
+  if task.is_template and task.status != task.TEMPLATE_STATUS:
+    raise ValueError(u"Task template must have '{}' "
+                     u"status".format(task.TEMPLATE_STATUS))
+  if not task.is_template and task.status not in task.NON_TEMPLATE_STATUSES:
+    raise ValueError(u"Non-template task must have one of the statuses: "
+                     u"'{}'".format(', '.join(task.NON_TEMPLATE_STATUSES)))
+
+
+@common.Resource.model_posted.connect_via(task_model.Task)
+def handle_task_post(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
+  """Handle Task model POST."""
+  validate_task_status(obj)
 
 
 class WorkflowRoleContributionsNew(contributed_roles.RoleContributions):
