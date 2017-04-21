@@ -16,6 +16,7 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
   """New 'Workflow' model implementation."""
   __tablename__ = 'workflows_new'
   _title_uniqueness = False
+  _publish_attrs = ('parent_id', 'parent', 'unit')
   DAY_UNIT = u'Day'
   MONTH_UNIT = u'Month'
   VALID_UNITS = (DAY_UNIT, MONTH_UNIT)
@@ -74,7 +75,10 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
 
   @orm.validates('parent_id')
   def validate_parent_id(self, _, value):  # pylint: disable=no-self-use
-    """Make sure that parent object exists."""
+    """Make sure that parent object exists.
+
+    POST request's json should contain 'parent_id' field to run this check.
+    """
     if value is not None and not db.session.query(
             sql.exists().where(WorkflowNew.id == value)).scalar():
       raise ValueError(u"Parent workflow with id '{}' is "
