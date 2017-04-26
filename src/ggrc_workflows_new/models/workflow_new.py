@@ -33,6 +33,8 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
   children = db.relationship('WorkflowNew')
   parent = db.relationship('WorkflowNew', remote_side='WorkflowNew.id')
   tasks = db.relationship('Task', back_populates='workflow')
+  workflow_people = db.relationship('WorkflowPersonNew',
+                                    back_populates='workflow')
 
   @hybrid.hybrid_property
   def is_template(self):
