@@ -4,7 +4,9 @@
 from ggrc.models import all_models
 from ggrc_workflows_new.models import task
 from ggrc_workflows_new.models import workflow_new
+from ggrc_workflows_new.models import workflow_person_new
 
 
 all_models.register_model(task.Task)
 all_models.register_model(workflow_new.WorkflowNew)
+all_models.register_model(workflow_person_new.WorkflowPersonNew)

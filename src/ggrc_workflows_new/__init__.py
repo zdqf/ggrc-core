@@ -13,6 +13,7 @@ from ggrc_basic_permissions import contributed_roles
 from ggrc_basic_permissions import models as permission_models
 from ggrc_workflows_new.models import task as task_module
 from ggrc_workflows_new.models import workflow_new
+from ggrc_workflows_new.models import workflow_person_new
 from ggrc_workflows_new.roles import BasicWorkflowReaderNew
 from ggrc_workflows_new.roles import WorkflowBasicReaderNew
 from ggrc_workflows_new.roles import WorkflowMemberNew
@@ -27,6 +28,8 @@ def contributed_services():
   return (
       registry_service.service('workflows_new', workflow_new.WorkflowNew),
       registry_service.service('tasks', task_module.Task),
+      registry_service.service('workflow_people_new',
+                               workflow_person_new.WorkflowPersonNew),
   )
 
 
