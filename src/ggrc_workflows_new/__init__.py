@@ -82,6 +82,13 @@ def handle_workflow_new_post(sender, obj=None, src=None, service=None):  # noqa 
       modified_by=user,
   )
   db.session.add(user_role)
+  workflow_owner = workflow_person_new.WorkflowPersonNew(
+      person=user,
+      workflow=obj,
+      context=context,
+      modified_by=user,
+  )
+  db.session.add(workflow_owner)
   db.session.flush()
 
   db.session.add(permission_models.ContextImplication(
