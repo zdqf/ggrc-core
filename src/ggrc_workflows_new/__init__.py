@@ -131,10 +131,35 @@ def validate_task_status(task):
                      u"'{}'".format(', '.join(task.NON_TEMPLATE_STATUSES)))
 
 
+def _ensure_assignee_is_workflow_member(workflow, assignee):  # noqa pylint: disable=invalid-name
+  """Ensure that assignee has role WorkflowMember.
+
+  Args:
+    workflow: Parent WorkflowNew object for task model.
+    assignee: Person object setup for task model.
+  """
+  if not any(assignee == wp.person for wp in workflow.workflow_people):
+    workflow_member = workflow_person_new.WorkflowPersonNew(
+        person=assignee,
+        workflow=workflow,
+        context=workflow.context
+    )
+    db.session.add(workflow_member)
+    user_role = permission_models.UserRole(
+        person=assignee,
+        role=_find_role('WorkflowMember'),
+        context=workflow.context,
+        modified_by=login.get_current_user(),
+    )
+    db.session.add(user_role)
+    db.session.flush()
+
+
 @common.Resource.model_posted.connect_via(task_module.Task)
 def handle_task_post(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle Task model POST."""
   validate_task_status(obj)
+  _ensure_assignee_is_workflow_member(obj.workflow, obj.contact)
 
 
 class WorkflowRoleContributionsNew(contributed_roles.RoleContributions):
