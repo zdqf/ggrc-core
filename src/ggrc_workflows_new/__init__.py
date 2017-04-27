@@ -148,7 +148,7 @@ def _ensure_assignee_is_workflow_member(workflow, assignee):  # noqa pylint: dis
     db.session.add(workflow_member)
     user_role = permission_models.UserRole(
         person=assignee,
-        role=_find_role('WorkflowMember'),
+        role=_find_role('WorkflowMemberNew'),
         context=workflow.context,
         modified_by=login.get_current_user(),
     )
@@ -169,7 +169,7 @@ def handle_workflow_person_post(sender, obj=None, src=None, service=None):  # no
   """Handle WorkflowPersonNew model POST."""
   user_role = permission_models.UserRole(
       person=obj.person,
-      role=_find_role('WorkflowMember'),
+      role=_find_role('WorkflowMemberNew'),
       context=obj.context,
       modified_by=login.get_current_user(),
   )
