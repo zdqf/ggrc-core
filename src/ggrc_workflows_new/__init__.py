@@ -4,6 +4,7 @@
 # pylint: disable=too-few-public-methods
 from datetime import datetime
 import flask
+import sqlalchemy as sa
 from ggrc import db
 from ggrc import login
 from ggrc.services import common
@@ -174,6 +175,13 @@ def handle_workflow_person_post(sender, obj=None, src=None, service=None):  # no
   )
   db.session.add(user_role)
   db.session.flush()
+
+
+@common.Resource.model_put.connect_via(task_module.Task)
+def handle_task_group_task_put(sender, obj=None, src=None, service=None):  # noqa pylint: disable=unused-argument
+  """Handle Task model PUT."""
+  if sa.inspect(obj).attrs.contact.history.has_changes():
+    _ensure_assignee_is_workflow_member(obj.workflow, obj.contact)
 
 
 class WorkflowRoleContributionsNew(contributed_roles.RoleContributions):
