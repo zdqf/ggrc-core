@@ -162,6 +162,20 @@ def handle_task_post(sender, obj, src=None, service=None):  # noqa pylint: disab
   _ensure_assignee_is_workflow_member(obj.workflow, obj.contact)
 
 
+@common.Resource.model_posted.connect_via(
+    workflow_person_new.WorkflowPersonNew)
+def handle_workflow_person_post(sender, obj=None, src=None, service=None):  # noqa pylint: disable=unused-argument
+  """Handle WorkflowPersonNew model POST."""
+  user_role = permission_models.UserRole(
+      person=obj.person,
+      role=_find_role('WorkflowMember'),
+      context=obj.context,
+      modified_by=login.get_current_user(),
+  )
+  db.session.add(user_role)
+  db.session.flush()
+
+
 class WorkflowRoleContributionsNew(contributed_roles.RoleContributions):
   contributions = {
       'ProgramCreator': {
