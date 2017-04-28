@@ -24,8 +24,10 @@ class Task(mixins.Described, mixins.Slugged, mixins.Titled, db.Model):
   contact = db.relationship('Person')
   start_date = deferred.deferred(db.Column(db.Date, nullable=False), 'Task')
   end_date = deferred.deferred(db.Column(db.Date, nullable=False), 'Task')
-  workflow_id = deferred.deferred(db.Column(
-      db.Integer, db.ForeignKey('workflows_new.id'), nullable=False), 'Task')
+  workflow_id = deferred.deferred(
+      db.Column(db.Integer,
+                db.ForeignKey('workflows_new.id', ondelete='CASCADE'),
+                nullable=False), 'Task')
   workflow = db.relationship('WorkflowNew', back_populates='tasks')
   status = deferred.deferred(db.Column(
       db.Enum(*VALID_STATUSES), nullable=False), 'Task')

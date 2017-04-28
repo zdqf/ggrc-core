@@ -27,14 +27,16 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
   repeat_every = deferred.deferred(db.Column(db.Integer), 'WorkflowNew')
   unit = deferred.deferred(db.Column(db.Enum(*VALID_UNITS)), 'WorkflowNew')
   parent_id = deferred.deferred(
-      db.Column(db.Integer, db.ForeignKey('{}.id'.format(__tablename__))),
-      'WorkflowNew'
-  )
-  children = db.relationship('WorkflowNew')
+      db.Column(db.Integer,
+                db.ForeignKey('{}.id'.format(__tablename__),
+                              ondelete='CASCADE')), 'WorkflowNew')
+  children = db.relationship('WorkflowNew', cascade='all, delete-orphan')
   parent = db.relationship('WorkflowNew', remote_side='WorkflowNew.id')
-  tasks = db.relationship('Task', back_populates='workflow')
+  tasks = db.relationship('Task', back_populates='workflow',
+                          cascade='all, delete-orphan')
   workflow_people = db.relationship('WorkflowPersonNew',
-                                    back_populates='workflow')
+                                    back_populates='workflow',
+                                    cascade='all, delete-orphan')
 
   @hybrid.hybrid_property
   def is_template(self):

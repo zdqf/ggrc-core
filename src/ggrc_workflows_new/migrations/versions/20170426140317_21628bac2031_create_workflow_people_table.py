@@ -6,7 +6,7 @@ Create WorkflowNew's people table.
 Create Date: 2017-04-26 14:03:17.264561
 """
 # disable Invalid constant name pylint warning for mandatory Alembic variables.
-# pylint: disable=invalid-name
+# pylint: skip-file
 from alembic import op
 import sqlalchemy as sa
 
@@ -24,12 +24,17 @@ def upgrade():
       sa.Column('modified_by_id', sa.Integer()),
       sa.Column('created_at', sa.DateTime(), nullable=False),
       sa.Column('updated_at', sa.DateTime(), nullable=False),
-      sa.Column('context_id', sa.Integer(), sa.ForeignKey('contexts.id')),
+      sa.Column('context_id', sa.Integer()),
       sa.Column('id', sa.Integer(), primary_key=True),
-      sa.Column('workflow_id', sa.Integer(),
-                sa.ForeignKey('workflows_new.id'), nullable=False),
-      sa.Column('person_id', sa.Integer(), sa.ForeignKey('people.id'),
-                nullable=False)
+      sa.Column('workflow_id', sa.Integer(), nullable=False),
+      sa.Column('person_id', sa.Integer(), nullable=False),
+      sa.ForeignKeyConstraint(['context_id'], ['contexts.id'],
+                              'fk_workflow_people_new_context_id'),
+      sa.ForeignKeyConstraint(['workflow_id'], ['workflows_new.id'],
+                              'fk_workflow_people_new_workflow_new_id',
+                              ondelete='CASCADE'),
+      sa.ForeignKeyConstraint(['person_id'], ['people.id'],
+                              'fk_workflow_people_new_people_id'),
   )
   op.create_index('ix_{}_updated_at'.format(TABLE_NAME), TABLE_NAME,
                   ['updated_at'])

@@ -27,14 +27,17 @@ def upgrade():
       sa.Column('modified_by_id', sa.Integer()),
       sa.Column('created_at', sa.DateTime(), nullable=False),
       sa.Column('updated_at', sa.DateTime(), nullable=False),
-      sa.Column('context_id', sa.Integer(), sa.ForeignKey('contexts.id')),
+      sa.Column('context_id', sa.Integer()),
       sa.Column('id', sa.Integer(), primary_key=True),
       sa.Column('description', sa.Text()),
       sa.Column('title', sa.String(length=250), nullable=False),
       sa.Column('repeat_every', sa.Integer()),
       sa.Column('unit', sa.Enum(DAY_UNIT, MONTH_UNIT)),
-      sa.Column('parent_id', sa.Integer(),
-                sa.ForeignKey('{}.id'.format(TABLE_NAME)))
+      sa.Column('parent_id', sa.Integer()),
+      sa.ForeignKeyConstraint(['context_id'], ['contexts.id'],
+                              'fk_workflow_new_context_id'),
+      sa.ForeignKeyConstraint(['parent_id'], ['{}.id'.format(TABLE_NAME)],
+                              'fk_workflow_new_workflow_new_id'),
   )
   op.create_unique_constraint('uq_{}'.format(TABLE_NAME), TABLE_NAME, ["slug"])
   op.create_index('ix_{}_updated_at'.format(TABLE_NAME), TABLE_NAME,
