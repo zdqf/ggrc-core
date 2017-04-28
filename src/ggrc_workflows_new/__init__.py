@@ -75,22 +75,23 @@ def handle_workflow_new_post(sender, obj=None, src=None, service=None):  # noqa 
   obj.contexts.append(context)
   obj.context = context
 
-  workflow_owner_role = _find_role('WorkflowOwnerNew')
-  user_role = permission_models.UserRole(
-      person=user,
-      role=workflow_owner_role,
-      context=context,
-      modified_by=user,
-  )
-  db.session.add(user_role)
-  workflow_owner = workflow_person_new.WorkflowPersonNew(
-      person=user,
-      workflow=obj,
-      context=context,
-      modified_by=user,
-  )
-  db.session.add(workflow_owner)
-  db.session.flush()
+  if obj.parent_id is None:
+    workflow_owner_role = _find_role('WorkflowOwnerNew')
+    user_role = permission_models.UserRole(
+        person=user,
+        role=workflow_owner_role,
+        context=context,
+        modified_by=user,
+    )
+    db.session.add(user_role)
+    workflow_owner = workflow_person_new.WorkflowPersonNew(
+        person=user,
+        workflow=obj,
+        context=context,
+        modified_by=user,
+    )
+    db.session.add(workflow_owner)
+    db.session.flush()
 
   db.session.add(permission_models.ContextImplication(
       source_context=context,
@@ -160,7 +161,8 @@ def _ensure_assignee_is_workflow_member(workflow, assignee):  # noqa pylint: dis
 def handle_task_post(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle Task model POST."""
   validate_task_status(obj)
-  _ensure_assignee_is_workflow_member(obj.workflow, obj.contact)
+  if obj.workflow.parent_id is None:
+    _ensure_assignee_is_workflow_member(obj.workflow, obj.contact)
 
 
 @common.Resource.model_posted.connect_via(
