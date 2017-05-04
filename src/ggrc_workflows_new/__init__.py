@@ -181,7 +181,7 @@ def handle_workflow_person_post(sender, obj=None, src=None, service=None):  # no
 
 
 @common.Resource.model_put.connect_via(task_module.Task)
-def handle_task_group_task_put(sender, obj=None, src=None, service=None):  # noqa pylint: disable=unused-argument
+def handle_task_put(sender, obj=None, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle Task model PUT."""
   if sa.inspect(obj).attrs.contact.history.has_changes():
     _ensure_assignee_is_workflow_member(obj.workflow, obj.contact)
