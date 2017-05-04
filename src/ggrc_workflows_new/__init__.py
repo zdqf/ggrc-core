@@ -12,6 +12,7 @@ from ggrc.services import registry as registry_service
 from ggrc.views import registry as registry_view
 from ggrc_basic_permissions import contributed_roles
 from ggrc_basic_permissions import models as permission_models
+from ggrc_workflows_new.models import label as label_module
 from ggrc_workflows_new.models import task as task_module
 from ggrc_workflows_new.models import workflow_new
 from ggrc_workflows_new.models import workflow_person_new
