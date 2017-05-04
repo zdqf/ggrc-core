@@ -15,3 +15,4 @@ class Label(mixins.Base, mixins.Titled, db.Model):
                 db.ForeignKey('workflows_new.id', ondelete='CASCADE'),
                 nullable=False), 'Label')
   workflow = db.relationship('WorkflowNew', back_populates='labels')
+  tasks = db.relationship('Task', back_populates='label')

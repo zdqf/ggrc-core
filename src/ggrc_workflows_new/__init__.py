@@ -126,13 +126,46 @@ def handle_task_post(sender, obj, src=None, service=None):  # noqa pylint: disab
   _validate_task_status(obj)
   if obj.workflow.is_template:
     _ensure_assignee_is_workflow_member(obj.workflow, obj.contact)
+  _setup_cycle_task_label(obj, src['label_title'])
 
 
 @common.Resource.model_put.connect_via(task_module.Task)
-def handle_task_put(sender, obj=None, src=None, service=None):  # noqa pylint: disable=unused-argument
+def handle_task_put(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle Task model PUT."""
   if sa.inspect(obj).attrs.contact.history.has_changes():
     _ensure_assignee_is_workflow_member(obj.workflow, obj.contact)
+  if obj.label.title != src['label_title']:
+    old_label = obj.label
+    _setup_cycle_task_label(obj, src['label_title'])
+    _delete_orphan_label(old_label)
+
+
+@common.Resource.model_deleted.connect_via(task_module.Task)
+def handle_task_delete(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
+  """Handle Task model DELETE."""
+  _delete_orphan_label(obj.label, exclude_task=obj)
+
+
+def _setup_cycle_task_label(cycle_task, label_title):
+  for label in cycle_task.workflow.parent.labels:
+    if label.title == label_title:
+      break
+  else:
+    label = label_module.Label(
+        title=label_title,
+        workflow=cycle_task.workflow.parent
+    )
+    db.session.add(label)
+  cycle_task.label = label
+  db.session.add(cycle_task)
+  db.session.flush()
+
+
+def _delete_orphan_label(label, exclude_task=None):
+  if not label.tasks or (exclude_task and len(label.tasks) == 1 and
+                         exclude_task in label.tasks):
+    db.session.delete(label)
+    db.session.flush()
 
 
 def _validate_task_status(task):
