@@ -31,6 +31,9 @@ class Task(mixins.Described, mixins.Slugged, mixins.Titled, db.Model):
   workflow = db.relationship('WorkflowNew', back_populates='tasks')
   status = deferred.deferred(db.Column(
       db.Enum(*VALID_STATUSES), nullable=False), 'Task')
+  label_id = deferred.deferred(
+      db.Column(db.Integer, db.ForeignKey('labels.id')), 'Task')
+  label = db.relationship('Label')
 
   @hybrid.hybrid_property
   def is_template(self):

@@ -35,6 +35,11 @@ def upgrade():
   op.create_index('fk_{}_contexts'.format(TABLE_NAME), TABLE_NAME,
                   ['context_id'])
 
+  # Create foreign key/index constraints between task and label table
+  op.add_column('tasks', sa.Column('label_id', sa.Integer()))
+  op.create_foreign_key("fk_task_label_id", "tasks", "labels", ["label_id"],
+                        ["id"])
+  op.create_index('fk_{}_label'.format('tasks'), 'tasks', ['label_id'])
 
 def downgrade():
   """Downgrade database schema and/or data back to the previous revision."""
