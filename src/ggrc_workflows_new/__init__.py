@@ -162,7 +162,7 @@ def _ensure_assignee_is_workflow_member(workflow, assignee):  # noqa pylint: dis
 def handle_task_post(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle Task model POST."""
   validate_task_status(obj)
-  if obj.workflow.parent_id is None:
+  if obj.workflow.is_template:
     _ensure_assignee_is_workflow_member(obj.workflow, obj.contact)
 
 
