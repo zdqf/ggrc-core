@@ -37,7 +37,8 @@ def upgrade():
       sa.ForeignKeyConstraint(['context_id'], ['contexts.id'],
                               'fk_workflow_new_context_id'),
       sa.ForeignKeyConstraint(['parent_id'], ['{}.id'.format(TABLE_NAME)],
-                              'fk_workflow_new_workflow_new_id'),
+                              'fk_workflow_new_workflow_new_id',
+                              ondelete='CASCADE'),
   )
   op.create_unique_constraint('uq_{}'.format(TABLE_NAME), TABLE_NAME, ["slug"])
   op.create_index('ix_{}_updated_at'.format(TABLE_NAME), TABLE_NAME,
