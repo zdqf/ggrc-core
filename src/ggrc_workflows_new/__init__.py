@@ -42,11 +42,6 @@ def contributed_object_views():
   )
 
 
-def _find_role(role_name):
-  return db.session.query(permission_models.Role).filter(
-      permission_models.Role.name == role_name).first()
-
-
 @common.Resource.model_posted.connect_via(workflow_new.WorkflowNew)
 def handle_workflow_new_post(sender, obj=None, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle WorkflowNew model POST."""
@@ -111,7 +106,36 @@ def handle_workflow_new_post(sender, obj=None, src=None, service=None):  # noqa 
   ))
 
 
-def validate_task_status(task):
+@common.Resource.model_posted.connect_via(
+    workflow_person_new.WorkflowPersonNew)
+def handle_workflow_person_post(sender, obj=None, src=None, service=None):  # noqa pylint: disable=unused-argument
+  """Handle WorkflowPersonNew model POST."""
+  user_role = permission_models.UserRole(
+      person=obj.person,
+      role=_find_role('WorkflowMemberNew'),
+      context=obj.context,
+      modified_by=login.get_current_user(),
+  )
+  db.session.add(user_role)
+  db.session.flush()
+
+
+@common.Resource.model_posted.connect_via(task_module.Task)
+def handle_task_post(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
+  """Handle Task model POST."""
+  _validate_task_status(obj)
+  if obj.workflow.is_template:
+    _ensure_assignee_is_workflow_member(obj.workflow, obj.contact)
+
+
+@common.Resource.model_put.connect_via(task_module.Task)
+def handle_task_put(sender, obj=None, src=None, service=None):  # noqa pylint: disable=unused-argument
+  """Handle Task model PUT."""
+  if sa.inspect(obj).attrs.contact.history.has_changes():
+    _ensure_assignee_is_workflow_member(obj.workflow, obj.contact)
+
+
+def _validate_task_status(task):
   """Make sure that Task's status value is valid.
 
   It was moved from SQLAlchemy validator because this attribute depends from
@@ -158,33 +182,9 @@ def _ensure_assignee_is_workflow_member(workflow, assignee):  # noqa pylint: dis
     db.session.flush()
 
 
-@common.Resource.model_posted.connect_via(task_module.Task)
-def handle_task_post(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
-  """Handle Task model POST."""
-  validate_task_status(obj)
-  if obj.workflow.is_template:
-    _ensure_assignee_is_workflow_member(obj.workflow, obj.contact)
-
-
-@common.Resource.model_posted.connect_via(
-    workflow_person_new.WorkflowPersonNew)
-def handle_workflow_person_post(sender, obj=None, src=None, service=None):  # noqa pylint: disable=unused-argument
-  """Handle WorkflowPersonNew model POST."""
-  user_role = permission_models.UserRole(
-      person=obj.person,
-      role=_find_role('WorkflowMemberNew'),
-      context=obj.context,
-      modified_by=login.get_current_user(),
-  )
-  db.session.add(user_role)
-  db.session.flush()
-
-
-@common.Resource.model_put.connect_via(task_module.Task)
-def handle_task_put(sender, obj=None, src=None, service=None):  # noqa pylint: disable=unused-argument
-  """Handle Task model PUT."""
-  if sa.inspect(obj).attrs.contact.history.has_changes():
-    _ensure_assignee_is_workflow_member(obj.workflow, obj.contact)
+def _find_role(role_name):
+  return db.session.query(permission_models.Role).filter(
+      permission_models.Role.name == role_name).first()
 
 
 class WorkflowRoleContributionsNew(contributed_roles.RoleContributions):
