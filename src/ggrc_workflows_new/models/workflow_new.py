@@ -16,7 +16,7 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
   """New 'Workflow' model implementation."""
   __tablename__ = 'workflows_new'
   _title_uniqueness = False
-  _publish_attrs = ('parent_id', 'parent', 'unit')
+  _publish_attrs = ('parent_id', 'parent', 'unit', 'labels')
   DAY_UNIT = u'Day'
   MONTH_UNIT = u'Month'
   VALID_UNITS = (DAY_UNIT, MONTH_UNIT)
@@ -37,6 +37,8 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
   workflow_people = db.relationship('WorkflowPersonNew',
                                     back_populates='workflow',
                                     cascade='all, delete-orphan')
+  labels = db.relationship('Label', back_populates='workflow',
+                           cascade='all, delete-orphan')
 
   @hybrid.hybrid_property
   def is_template(self):
