@@ -34,6 +34,12 @@ class Task(mixins.Described, mixins.Slugged, mixins.Titled, db.Model):
   label_id = deferred.deferred(
       db.Column(db.Integer, db.ForeignKey('labels.id')), 'Task')
   label = db.relationship('Label', back_populates='tasks')
+  parent_id = deferred.deferred(
+    db.Column(db.Integer,
+              db.ForeignKey('{}.id'.format(__tablename__),
+                            ondelete='CASCADE')), 'Task')
+  children = db.relationship('Task', cascade='all, delete-orphan')
+  parent = db.relationship('Task', remote_side='Task.id')
 
   @hybrid.hybrid_property
   def is_template(self):

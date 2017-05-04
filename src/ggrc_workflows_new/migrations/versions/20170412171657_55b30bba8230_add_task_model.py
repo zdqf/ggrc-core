@@ -41,12 +41,15 @@ def upgrade():
       sa.Column('start_date', sa.Date(), nullable=False),
       sa.Column('end_date', sa.Date(), nullable=False),
       sa.Column('workflow_id', sa.Integer(), nullable=False),
+      sa.Column('parent_id', sa.Integer()),
       sa.ForeignKeyConstraint(['context_id'], ['contexts.id'],
                               'fk_task_context_id'),
       sa.ForeignKeyConstraint(['contact_id'], ['people.id'],
                               'fk_task_people_id'),
       sa.ForeignKeyConstraint(['workflow_id'], ['workflows_new.id'],
-                              'fk_task_workflow_new_id', ondelete='CASCADE')
+                              'fk_task_workflow_new_id', ondelete='CASCADE'),
+      sa.ForeignKeyConstraint(['parent_id'], ['{}.id'.format(TABLE_NAME)],
+                              'fk_task_task_id', ondelete='CASCADE'),
   )
   op.create_unique_constraint('uq_{}'.format(TABLE_NAME), TABLE_NAME, ["slug"])
   op.create_index('ix_{}_created_at'.format(TABLE_NAME), TABLE_NAME,
@@ -59,6 +62,8 @@ def upgrade():
                   ['contact_id'])
   op.create_index('fk_{}_workflow'.format(TABLE_NAME), TABLE_NAME,
                   ['workflow_id'])
+  op.create_index('fk_{}_parent_id'.format(TABLE_NAME), TABLE_NAME,
+                  ['parent_id'])
 
 
 def downgrade():
