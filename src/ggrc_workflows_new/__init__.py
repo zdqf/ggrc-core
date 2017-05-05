@@ -71,7 +71,7 @@ def handle_workflow_new_post(sender, obj=None, src=None, service=None):  # noqa 
   obj.contexts.append(context)
   obj.context = context
 
-  if obj.parent_id is None:
+  if obj.is_template:
     workflow_owner_role = _find_role('WorkflowOwnerNew')
     user_role = permission_models.UserRole(
         person=user,
@@ -123,20 +123,29 @@ def handle_workflow_person_post(sender, obj=None, src=None, service=None):  # no
 @common.Resource.model_posted.connect_via(task_module.Task)
 def handle_task_post(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle Task model POST."""
-  _validate_task_status(obj)
-  if obj.workflow.is_template:
-    _ensure_assignee_is_workflow_member(obj.workflow, obj.contact)
+  _validate_is_cycle_task(obj)
+  _validate_cycle_task_status(obj)
+  _ensure_assignee_is_workflow_member(obj)
   _setup_cycle_task_label(obj, src['label_title'])
+  if src['is_update_template']:
+    _create_cycle_task_template(obj)
 
 
 @common.Resource.model_put.connect_via(task_module.Task)
 def handle_task_put(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle Task model PUT."""
+  _validate_is_cycle_task(obj)
   if sa.inspect(obj).attrs.contact.history.has_changes():
-    _ensure_assignee_is_workflow_member(obj.workflow, obj.contact)
-  if obj.label.title != src['label_title']:
-    old_label = obj.label
+    _ensure_assignee_is_workflow_member(obj)
+  old_label = obj.label
+  if old_label.title != src['label_title']:
     _setup_cycle_task_label(obj, src['label_title'])
+  if src['is_update_template']:
+    if obj.parent:
+      _update_cycle_task_template(obj)
+    else:
+      _create_cycle_task_template(obj)
+  if old_label.title != src['label_title']:
     _delete_orphan_label(old_label)
 
 
@@ -144,6 +153,35 @@ def handle_task_put(sender, obj, src=None, service=None):  # noqa pylint: disabl
 def handle_task_delete(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle Task model DELETE."""
   _delete_orphan_label(obj.label, exclude_task=obj)
+
+
+def _update_cycle_task_template(cycle_task):
+  is_template_changed = False
+  for attr_name in cycle_task.UPDATE_TEMPLATE_ATTRS:
+    if getattr(cycle_task.parent, attr_name) != getattr(cycle_task, attr_name):
+      setattr(cycle_task.parent, attr_name, getattr(cycle_task, attr_name))
+      is_template_changed = True
+  if is_template_changed:
+    db.session.add(cycle_task.parent)
+    db.session.flush()
+
+
+def _create_cycle_task_template(cycle_task):
+  template_task = task_module.Task(
+      title=cycle_task.title,
+      description=cycle_task.description,
+      contact=cycle_task.contact,
+      start_date=cycle_task.start_date,
+      end_date=cycle_task.end_date,
+      workflow=cycle_task.workflow.parent,
+      status=cycle_task.TEMPLATE_STATUS,
+      label=cycle_task.label,
+      parent=None,
+      context=cycle_task.context
+  )
+  db.session.add(template_task)
+  cycle_task.parent=template_task
+  db.session.flush()
 
 
 def _setup_cycle_task_label(cycle_task, label_title):
@@ -168,7 +206,12 @@ def _delete_orphan_label(label, exclude_task=None):
     db.session.flush()
 
 
-def _validate_task_status(task):
+def _validate_is_cycle_task(task):
+  if task.is_template:
+    raise ValueError(u"Can't send POST/PUT requests for template task")
+
+
+def _validate_cycle_task_status(cycle_task):
   """Make sure that Task's status value is valid.
 
   It was moved from SQLAlchemy validator because this attribute depends from
@@ -176,39 +219,42 @@ def _validate_task_status(task):
   that 'workflow' attribute has been already set.
 
   Args:
-      task: Task model instance.
+      cycle_task: Task model instance.
 
   Raises:
       ValueError: An error occurred when invalid status set to 'task.status'.
   """
-  if task.status not in task.VALID_STATUSES:
-    raise ValueError(u"Task invalid status: '{}'".format(task.status))
-  if task.is_template and task.status != task.TEMPLATE_STATUS:
-    raise ValueError(u"Task template must have '{}' "
-                     u"status".format(task.TEMPLATE_STATUS))
-  if not task.is_template and task.status not in task.NON_TEMPLATE_STATUSES:
-    raise ValueError(u"Non-template task must have one of the statuses: "
-                     u"'{}'".format(', '.join(task.NON_TEMPLATE_STATUSES)))
+  if cycle_task.status not in cycle_task.VALID_STATUSES:
+    raise ValueError(u"Task invalid status: '{}'".format(cycle_task.status))
+  if cycle_task.status not in cycle_task.NON_TEMPLATE_STATUSES:
+    raise ValueError(
+        u"Non-template task must have one of the statuses: "
+        u"'{}'".format(', '.join(cycle_task.NON_TEMPLATE_STATUSES)))
 
 
-def _ensure_assignee_is_workflow_member(workflow, assignee):  # noqa pylint: disable=invalid-name
+def _ensure_assignee_is_workflow_member(cycle_task):  # noqa pylint: disable=invalid-name
   """Ensure that assignee has role WorkflowMember.
 
   Args:
     workflow: Parent WorkflowNew object for task model.
     assignee: Person object setup for task model.
   """
-  if not any(assignee == wp.person for wp in workflow.workflow_people):
+  is_assignee_in_template = False
+  for wp in cycle_task.workflow.parent.workflow_people:
+    if cycle_task.contact == wp.person:
+      is_assignee_in_template = True
+      break
+  if not is_assignee_in_template:
     workflow_member = workflow_person_new.WorkflowPersonNew(
-        person=assignee,
-        workflow=workflow,
-        context=workflow.context
+        person=cycle_task.contact,
+        workflow=cycle_task.workflow.parent,
+        context=cycle_task.workflow.parent.context
     )
     db.session.add(workflow_member)
     user_role = permission_models.UserRole(
-        person=assignee,
+        person=cycle_task.contact,
         role=_find_role('WorkflowMemberNew'),
-        context=workflow.context,
+        context=cycle_task.workflow.parent.context,
         modified_by=login.get_current_user(),
     )
     db.session.add(user_role)
