@@ -8,6 +8,7 @@ from ggrc import db
 from ggrc.models import context
 from ggrc.models import deferred
 from ggrc.models import mixins
+from ggrc.models import reflection
 from ggrc_workflows_new.models import task
 
 
@@ -16,7 +17,10 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
   """New 'Workflow' model implementation."""
   __tablename__ = 'workflows_new'
   _title_uniqueness = False
-  _publish_attrs = ('parent_id', 'parent', 'unit', 'labels')
+  _publish_attrs = ('parent_id', 'unit', 'labels',
+                    reflection.PublishOnly('parent'),
+                    reflection.PublishOnly('cycle_number'),
+                    reflection.PublishOnly('latest_cycle_number'))
   DAY_UNIT = u'Day'
   MONTH_UNIT = u'Month'
   VALID_UNITS = (DAY_UNIT, MONTH_UNIT)
@@ -71,6 +75,21 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
             db.session.query(not_finished_cycle_tasks.exists()).scalar()):
       return self.IN_PROGRESS_STATUS
     return self.COMPLETED_STATUS
+
+  @hybrid.hybrid_property
+  def cycle_number(self):
+    if self.is_template or not isinstance(self, WorkflowNew):
+      return None
+    return db.session.query(self.__class__).filter(
+        self.__class__.parent_id == self.parent_id,
+        self.__class__.id <= self.id).count()
+
+  @hybrid.hybrid_property
+  def latest_cycle_number(self):
+    if self.is_template or not isinstance(self, WorkflowNew):
+      return None
+    return db.session.query(self.__class__).filter(
+        self.__class__.parent_id == self.parent_id).count()
 
   @orm.validates('unit')
   def validate_unit(self, _, value):
