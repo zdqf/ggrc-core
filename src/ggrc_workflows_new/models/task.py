@@ -42,6 +42,7 @@ class Task(mixins.Described, mixins.Slugged, mixins.Titled, db.Model):
                             ondelete='CASCADE')), 'Task')
   children = db.relationship('Task', cascade='all, delete-orphan')
   parent = db.relationship('Task', remote_side='Task.id')
+  comments = db.relationship('TaskComment', back_populates='task')
 
   @hybrid.hybrid_property
   def is_template(self):
