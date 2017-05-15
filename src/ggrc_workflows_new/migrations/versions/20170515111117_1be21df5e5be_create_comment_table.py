@@ -21,7 +21,7 @@ def upgrade():
   """Upgrade database schema and/or data, creating a new revision."""
   op.create_table(
     TABLE_NAME,
-    sa.Column('description', sa.Text()),
+    sa.Column('body', sa.Text(), nullable=False),
     sa.Column('modified_by_id', sa.Integer()),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('updated_at', sa.DateTime(), nullable=False),
