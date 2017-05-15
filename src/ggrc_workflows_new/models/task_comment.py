@@ -9,6 +9,7 @@ from ggrc.models import mixins
 class TaskComment(mixins.Base, mixins.Described, db.Model):
   """Model for Comments on tasks."""
   __tablename__ = 'task_comments'
-  task_id = deferred.deferred(db.Column(db.Integer, db.ForeignKey('tasks.id')),
-                              'TaskComment')
+  task_id = deferred.deferred(
+      db.Column(db.Integer, db.ForeignKey('tasks.id', ondelete='CASCADE'),
+                nullable = False), 'TaskComment')
   task = db.relationship('Task', back_populates='comments')
