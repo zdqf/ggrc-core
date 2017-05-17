@@ -106,6 +106,7 @@ def handle_workflow_new_post(sender, obj=None, src=None, service=None):  # noqa 
       context_scope='WorkflowNew',
       modified_by=user,
   ))
+  _create_cycle(obj)
 
 
 @common.Resource.model_put.connect_via(workflow_new.WorkflowNew)
@@ -161,6 +162,17 @@ def handle_task_put(sender, obj, src=None, service=None):  # noqa pylint: disabl
 def handle_task_delete(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle Task model DELETE."""
   _delete_orphan_label(obj.label, exclude_task=obj)
+
+
+def _create_cycle(workflow_template):
+  cycle = workflow_new.WorkflowNew(
+    title=workflow_template.title,
+    description=workflow_template.description,
+    context=workflow_template.context,
+    parent=workflow_template
+  )
+  db.session.add(cycle)
+  db.session.flush()
 
 
 def _update_cycle_task_template(cycle_task):
