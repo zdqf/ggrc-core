@@ -47,6 +47,7 @@ def contributed_object_views():
 @common.Resource.model_posted.connect_via(workflow_new.WorkflowNew)
 def handle_workflow_new_post(sender, obj=None, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle WorkflowNew model POST."""
+  _validate_is_template_workflow(obj)
   user = login.get_current_user()
   personal_context = user.get_or_create_object_context(
       context=1,
@@ -73,23 +74,22 @@ def handle_workflow_new_post(sender, obj=None, src=None, service=None):  # noqa 
   obj.contexts.append(context)
   obj.context = context
 
-  if obj.is_template:
-    workflow_owner_role = _find_role('WorkflowOwnerNew')
-    user_role = permission_models.UserRole(
-        person=user,
-        role=workflow_owner_role,
-        context=context,
-        modified_by=user,
-    )
-    db.session.add(user_role)
-    workflow_owner = workflow_person_new.WorkflowPersonNew(
-        person=user,
-        workflow=obj,
-        context=context,
-        modified_by=user,
-    )
-    db.session.add(workflow_owner)
-    db.session.flush()
+  workflow_owner_role = _find_role('WorkflowOwnerNew')
+  user_role = permission_models.UserRole(
+      person=user,
+      role=workflow_owner_role,
+      context=context,
+      modified_by=user,
+  )
+  db.session.add(user_role)
+  workflow_owner = workflow_person_new.WorkflowPersonNew(
+      person=user,
+      workflow=obj,
+      context=context,
+      modified_by=user,
+  )
+  db.session.add(workflow_owner)
+  db.session.flush()
 
   db.session.add(permission_models.ContextImplication(
       source_context=context,
@@ -106,6 +106,12 @@ def handle_workflow_new_post(sender, obj=None, src=None, service=None):  # noqa 
       context_scope='WorkflowNew',
       modified_by=user,
   ))
+
+
+@common.Resource.model_put.connect_via(workflow_new.WorkflowNew)
+def handle_workflow_put(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
+  """Handle WorkflowNew model PUT."""
+  _validate_is_template_workflow(obj)
 
 
 @common.Resource.model_posted.connect_via(
@@ -206,6 +212,11 @@ def _delete_orphan_label(label, exclude_task=None):
                          exclude_task in label.tasks):
     db.session.delete(label)
     db.session.flush()
+
+
+def _validate_is_template_workflow(workflow):
+  if not workflow.is_template:
+    raise ValueError(u"Can't send POST/PUT requests for cycle")
 
 
 def _validate_is_cycle_task(task):
