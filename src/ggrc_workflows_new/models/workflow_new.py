@@ -1,6 +1,7 @@
 # Copyright (C) 2017 Google Inc.
 # Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 """Module contains new 'Workflow' model implementation."""
+from sqlalchemy import func
 from sqlalchemy import orm
 from sqlalchemy import sql
 from sqlalchemy.ext import hybrid
@@ -90,6 +91,16 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
       return None
     return db.session.query(self.__class__).filter(
         self.__class__.parent_id == self.parent_id).count()
+
+  @hybrid.hybrid_property
+  def latest_cycle(self):
+    if not isinstance(self, WorkflowNew):
+      return None
+    parent_id = self.id if self.is_template else self.parent_id
+    return db.session.query(
+        self.__class__,
+        func.max(self.__class__.id)
+    ).filter(self.__class__.parent_id == parent_id).scalar()
 
   @orm.validates('unit')
   def validate_unit(self, _, value):
