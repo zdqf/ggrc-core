@@ -1,6 +1,8 @@
 # Copyright (C) 2017 Google Inc.
 # Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 """Module contains new 'Workflow' model implementation."""
+import datetime
+from dateutil import relativedelta
 from sqlalchemy import func
 from sqlalchemy import orm
 from sqlalchemy import sql
@@ -10,7 +12,7 @@ from ggrc.models import context
 from ggrc.models import deferred
 from ggrc.models import mixins
 from ggrc.models import reflection
-from ggrc_workflows_new.models import task
+from ggrc_workflows_new.models import task as task_module
 
 
 class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
@@ -18,7 +20,7 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
   """New 'Workflow' model implementation."""
   __tablename__ = 'workflows_new'
   _title_uniqueness = False
-  _publish_attrs = ('parent_id', 'unit', 'labels',
+  _publish_attrs = ('parent_id', 'unit', 'labels', 'repeat_every',
                     reflection.PublishOnly('parent'),
                     reflection.PublishOnly('cycle_number'),
                     reflection.PublishOnly('latest_cycle_number'))
@@ -58,7 +60,7 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
   @hybrid.hybrid_property
   def is_recurrent(self):
     """Calculates property which shows is workflow recurrent or not."""
-    return self.repeat_every is not None
+    return self.repeat_every is not None and self.unit is not None
 
   @hybrid.hybrid_property
   def status(self):
@@ -67,10 +69,10 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
       return self.NOT_TEMPLATE_STATUS
     if not self.tasks:
       return self.NOT_STARTED_STATUS
-    not_finished_cycle_tasks = db.session.query(task.Task).filter(
-        task.Task.workflow_id == WorkflowNew.id,
+    not_finished_cycle_tasks = db.session.query(task_module.Task).filter(
+        task_module.Task.workflow_id == WorkflowNew.id,
         WorkflowNew.parent_id == self.id,
-        task.Task.status != task.Task.FINISHED_STATUS
+        task_module.Task.status != task_module.Task.FINISHED_STATUS
     )
     if (self.is_recurrent or
             db.session.query(not_finished_cycle_tasks.exists()).scalar()):
@@ -102,6 +104,19 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
         self.__class__,
         func.max(self.__class__.id)
     ).filter(self.__class__.parent_id == parent_id).scalar()
+
+  @hybrid.hybrid_property
+  def next_cycle_start_date(self):
+    if (not self.is_template or not isinstance(self, WorkflowNew) or
+            not self.is_recurrent):
+      return None
+    current_cycle_start_date = db.session.query(
+        func.min(task_module.Task.start_date)
+    ).filter(task_module.Task.workflow_id == self.id).scalar()
+    delta = relativedelta.relativedelta(months=self.repeat_every) if (
+        self.unit == self.MONTH_UNIT
+    ) else datetime.timedelta(self.repeat_every)
+    return current_cycle_start_date + delta
 
   @orm.validates('unit')
   def validate_unit(self, _, value):
