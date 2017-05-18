@@ -87,10 +87,11 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
 
   @hybrid.hybrid_property
   def latest_cycle_number(self):
-    if self.is_template or not isinstance(self, WorkflowNew):
+    if not isinstance(self, WorkflowNew):
       return None
+    parent_id = self.id if self.is_template else self.parent_id
     return db.session.query(self.__class__).filter(
-        self.__class__.parent_id == self.parent_id).count()
+        self.__class__.parent_id == parent_id).count()
 
   @hybrid.hybrid_property
   def latest_cycle(self):
