@@ -20,7 +20,7 @@ class Task(mixins.Described, mixins.Slugged, mixins.Titled, db.Model):
   TEMPLATE_STATUS = u'Template'
   VALID_STATUSES = NON_TEMPLATE_STATUSES + (TEMPLATE_STATUS, )
   UPDATE_TEMPLATE_ATTRS = ('title', 'description', 'contact', 'start_date',
-                           'end_date', 'label', 'context')
+                           'end_date', 'label')
   contact_id = deferred.deferred(db.Column(
       db.Integer, db.ForeignKey('people.id'), nullable=False), 'Task')
   contact = db.relationship('Person')

@@ -211,7 +211,8 @@ def _setup_cycle_task_label(cycle_task, label_title):
   else:
     label = label_module.Label(
         title=label_title,
-        workflow=cycle_task.workflow.parent
+        workflow=cycle_task.workflow.parent,
+        context=cycle_task.workflow.parent.context
     )
     db.session.add(label)
   cycle_task.label = label
