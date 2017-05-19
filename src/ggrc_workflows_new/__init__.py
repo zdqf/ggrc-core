@@ -106,7 +106,7 @@ def handle_workflow_new_post(sender, obj=None, src=None, service=None):  # noqa 
       context_scope='WorkflowNew',
       modified_by=user,
   ))
-  _create_cycle(obj)
+  _generate_cycle(obj)
 
 
 @common.Resource.model_put.connect_via(workflow_new.WorkflowNew)
@@ -137,7 +137,7 @@ def handle_task_post(sender, obj, src=None, service=None):  # noqa pylint: disab
   _ensure_assignee_is_workflow_member(obj)
   _setup_cycle_task_label(obj, src['label_title'])
   if src['is_update_template']:
-    _create_cycle_task_template(obj)
+    _generate_task(obj)
 
 
 @common.Resource.model_put.connect_via(task_module.Task)
@@ -153,7 +153,7 @@ def handle_task_put(sender, obj, src=None, service=None):  # noqa pylint: disabl
     if obj.parent:
       _update_cycle_task_template(obj)
     else:
-      _create_cycle_task_template(obj)
+      _generate_task(obj)
   if old_label.title != src['label_title']:
     _delete_orphan_label(old_label)
 
@@ -164,14 +164,46 @@ def handle_task_delete(sender, obj, src=None, service=None):  # noqa pylint: dis
   _delete_orphan_label(obj.label, exclude_task=obj)
 
 
-def _create_cycle(workflow_template):
+def _generate_task(task):
+  """Generate task.
+
+  task: if this argument is Task Template then we generate Cycle Task
+        if this argument is Cycle Task then we generate Template Task
+  """
+  new_task_status = (task.NOT_STARTED_STATUS
+                     if task.is_template else task.TEMPLATE_STATUS)
+  new_task_workflow = (task.workflow
+                       if task.is_template else task.worlflow.parent)
+  new_task = task_module.Task(
+      title=task.title,
+      description=task.description,
+      contact=task.contact,
+      start_date=task.start_date,
+      end_date=task.end_date,
+      workflow=new_task_workflow,
+      status=new_task_status,
+      label=task.label,
+      parent=None,
+      context=task.context
+  )
+  if task.is_template:
+    new_task.parent = task
+    db.session.add(new_task)
+  else:
+    db.session.add(new_task)
+    task.parent = new_task
+    db.session.add(task)
+  db.session.flush()
+
+
+def _generate_cycle(workflow_template):
   cycle = workflow_new.WorkflowNew(
-    title=workflow_template.title,
-    description=workflow_template.description,
-    context=workflow_template.context,
-    parent=workflow_template
+      context=workflow_template.context,
+      parent=workflow_template
   )
   db.session.add(cycle)
+  for task_template in workflow_template.tasks:
+    _generate_task(task_template)
   db.session.flush()
 
 
@@ -184,24 +216,6 @@ def _update_cycle_task_template(cycle_task):
   if is_template_changed:
     db.session.add(cycle_task.parent)
     db.session.flush()
-
-
-def _create_cycle_task_template(cycle_task):
-  template_task = task_module.Task(
-      title=cycle_task.title,
-      description=cycle_task.description,
-      contact=cycle_task.contact,
-      start_date=cycle_task.start_date,
-      end_date=cycle_task.end_date,
-      workflow=cycle_task.workflow.parent,
-      status=cycle_task.TEMPLATE_STATUS,
-      label=cycle_task.label,
-      parent=None,
-      context=cycle_task.context
-  )
-  db.session.add(template_task)
-  cycle_task.parent=template_task
-  db.session.flush()
 
 
 def _setup_cycle_task_label(cycle_task, label_title):

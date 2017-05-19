@@ -30,7 +30,7 @@ def upgrade():
       sa.Column('context_id', sa.Integer()),
       sa.Column('id', sa.Integer(), primary_key=True),
       sa.Column('description', sa.Text()),
-      sa.Column('title', sa.String(length=250), nullable=False),
+      sa.Column('title', sa.String(length=250)),
       sa.Column('repeat_every', sa.Integer()),
       sa.Column('unit', sa.Enum(DAY_UNIT, MONTH_UNIT)),
       sa.Column('parent_id', sa.Integer()),

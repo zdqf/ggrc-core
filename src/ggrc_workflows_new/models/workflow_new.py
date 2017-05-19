@@ -6,6 +6,7 @@ from dateutil import relativedelta
 from sqlalchemy import func
 from sqlalchemy import orm
 from sqlalchemy import sql
+from sqlalchemy.ext import declarative
 from sqlalchemy.ext import hybrid
 from ggrc import db
 from ggrc.models import context
@@ -20,7 +21,7 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
   """New 'Workflow' model implementation."""
   __tablename__ = 'workflows_new'
   _title_uniqueness = False
-  _publish_attrs = ('parent_id', 'unit', 'labels', 'repeat_every',
+  _publish_attrs = ('parent_id', 'unit', 'labels', 'repeat_every', 'title',
                     reflection.PublishOnly('parent'),
                     reflection.PublishOnly('cycle_number'),
                     reflection.PublishOnly('latest_cycle_number'))
@@ -46,6 +47,10 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
                                     cascade='all, delete-orphan')
   labels = db.relationship('Label', back_populates='workflow',
                            cascade='all, delete-orphan')
+
+  @declarative.declared_attr
+  def title(cls):
+    return deferred.deferred(db.Column(db.String), cls.__name__)
 
   @hybrid.hybrid_property
   def is_template(self):
@@ -135,4 +140,12 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
             sql.exists().where(WorkflowNew.id == value)).scalar():
       raise ValueError(u"Parent workflow with id '{}' is "
                        u"not found".format(value))
+    return value
+
+  @orm.validates('title')
+  def validate_title(self, _, value):
+    value = value if value is None else value.strip()
+    if self.is_template:
+      if value is None or len(value) == 0:
+        raise ValueError(u"Workflow template cannot have empty title")
     return value
