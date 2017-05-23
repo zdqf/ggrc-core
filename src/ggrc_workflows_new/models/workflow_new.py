@@ -3,6 +3,7 @@
 """Module contains new 'Workflow' model implementation."""
 import datetime
 from dateutil import relativedelta
+import sqlalchemy as sa
 from sqlalchemy import func
 from sqlalchemy import orm
 from sqlalchemy import sql
@@ -70,6 +71,10 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
   def is_recurrent(self):
     """Calculates property which shows is workflow recurrent or not."""
     return self.repeat_every is not None and self.unit is not None
+
+  @is_recurrent.expression
+  def is_recurrent(cls):
+    return sa.and_(cls.repeat_every.isnot(None), cls.unit.isnot(None))
 
   @hybrid.hybrid_property
   def status(self):
