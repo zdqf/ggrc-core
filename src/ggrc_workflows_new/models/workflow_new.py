@@ -62,6 +62,10 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
     """
     return self.parent_id is None
 
+  @is_template.expression
+  def is_template(cls):
+    return cls.parent_id.is_(None)
+
   @hybrid.hybrid_property
   def is_recurrent(self):
     """Calculates property which shows is workflow recurrent or not."""
