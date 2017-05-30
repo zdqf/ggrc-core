@@ -7,9 +7,9 @@ import flask
 import sqlalchemy as sa
 from ggrc import db
 from ggrc import login
-from ggrc.services import common
 from ggrc.services import registry as registry_service
 from ggrc.views import registry as registry_view
+from ggrc.services import signals
 from ggrc_basic_permissions import contributed_roles
 from ggrc_basic_permissions import models as permission_models
 from ggrc_workflows_new.models import label as label_module
@@ -44,7 +44,7 @@ def contributed_object_views():
   )
 
 
-@common.Resource.model_posted.connect_via(workflow_new.WorkflowNew)
+@signals.Restful.model_posted.connect_via(workflow_new.WorkflowNew)
 def handle_workflow_new_post(sender, obj=None, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle WorkflowNew model POST."""
   _validate_is_template_workflow(obj)
@@ -109,13 +109,13 @@ def handle_workflow_new_post(sender, obj=None, src=None, service=None):  # noqa 
   _generate_cycle(obj)
 
 
-@common.Resource.model_put.connect_via(workflow_new.WorkflowNew)
+@signals.Restful.model_put.connect_via(workflow_new.WorkflowNew)
 def handle_workflow_put(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle WorkflowNew model PUT."""
   _validate_is_template_workflow(obj)
 
 
-@common.Resource.model_posted.connect_via(
+@signals.Restful.model_posted.connect_via(
     workflow_person_new.WorkflowPersonNew)
 def handle_workflow_person_post(sender, obj=None, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle WorkflowPersonNew model POST."""
@@ -129,7 +129,7 @@ def handle_workflow_person_post(sender, obj=None, src=None, service=None):  # no
   db.session.flush()
 
 
-@common.Resource.model_posted.connect_via(task_module.Task)
+@signals.Restful.model_posted.connect_via(task_module.Task)
 def handle_task_post(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle Task model POST."""
   _validate_is_cycle_task(obj)
@@ -140,7 +140,7 @@ def handle_task_post(sender, obj, src=None, service=None):  # noqa pylint: disab
     _generate_task(obj)
 
 
-@common.Resource.model_put.connect_via(task_module.Task)
+@signals.Restful.model_put.connect_via(task_module.Task)
 def handle_task_put(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle Task model PUT."""
   _validate_is_cycle_task(obj)
@@ -158,7 +158,7 @@ def handle_task_put(sender, obj, src=None, service=None):  # noqa pylint: disabl
     _delete_orphan_label(old_label)
 
 
-@common.Resource.model_deleted.connect_via(task_module.Task)
+@signals.Restful.model_deleted.connect_via(task_module.Task)
 def handle_task_delete(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle Task model DELETE."""
   _delete_orphan_label(obj.label, exclude_task=obj)
