@@ -95,11 +95,23 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
 
   @hybrid.hybrid_property
   def cycle_number(self):
-    if self.is_template or not isinstance(self, WorkflowNew):
-      return None
     return db.session.query(self.__class__).filter(
+        self.is_template == sql.expression.false(),
         self.__class__.parent_id == self.parent_id,
         self.__class__.id <= self.id).count()
+
+  @cycle_number.expression
+  def cycle_number(cls):
+    cycle = sa.orm.aliased(WorkflowNew)
+    return sa.select(
+        [func.count(WorkflowNew.id)]
+    ).where(
+        sa.and_(
+            WorkflowNew.is_template == sa.sql.expression.false(),
+            WorkflowNew.parent_id == cycle.parent_id,
+            cycle.id <= WorkflowNew.id
+        )
+    ).group_by(WorkflowNew.id).label('cycle_number')
 
   @hybrid.hybrid_property
   def latest_cycle_number(self):
