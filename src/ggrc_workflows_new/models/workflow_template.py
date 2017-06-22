@@ -21,8 +21,7 @@ class WorkflowTemplate(mixins.Described, mixins.Slugged,
   """New 'Workflow' model implementation."""
   __tablename__ = 'workflow_templates'
   _title_uniqueness = False
-  _publish_attrs = ('parent_id', 'unit', 'labels', 'repeat_every', 'title',
-                    reflection.PublishOnly('parent'),
+  _publish_attrs = ('unit', 'labels', 'repeat_every', 'title',
                     reflection.PublishOnly('cycle_number'),
                     reflection.PublishOnly('latest_cycle_number'))
   DAY_UNIT = u'Day'
@@ -43,20 +42,6 @@ class WorkflowTemplate(mixins.Described, mixins.Slugged,
   @declarative.declared_attr
   def title(cls):
     return deferred.deferred(db.Column(db.String), cls.__name__)
-
-  @hybrid.hybrid_property
-  def is_template(self):
-    """Calculates property which shows is workflow template or not.
-
-    Template workflow must not have parent. It is set up by user.
-    Non-template workflow must have parent workflow. It is application level
-    generated cycle.
-    """
-    return self.parent_id is None
-
-  @is_template.expression
-  def is_template(cls):
-    return cls.parent_id.is_(None)
 
   @hybrid.hybrid_property
   def is_recurrent(self):
@@ -123,18 +108,6 @@ class WorkflowTemplate(mixins.Described, mixins.Slugged,
     """Make sure that unit is listed in valid units."""
     if value is not None and value not in self.VALID_UNITS:
       raise ValueError(u"Invalid unit: '{}'".format(value))
-    return value
-
-  @orm.validates('parent_id')
-  def validate_parent_id(self, _, value):  # pylint: disable=no-self-use
-    """Make sure that parent object exists.
-
-    POST request's json should contain 'parent_id' field to run this check.
-    """
-    if value is not None and not db.session.query(
-            sql.exists().where(WorkflowTemplate.id == value)).scalar():
-      raise ValueError(u"Parent workflow with id '{}' is "
-                       u"not found".format(value))
     return value
 
   @orm.validates('title')
