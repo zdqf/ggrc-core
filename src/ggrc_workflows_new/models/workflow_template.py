@@ -28,10 +28,6 @@ class WorkflowTemplate(mixins.Described, mixins.Slugged,
   DAY_UNIT = u'Day'
   MONTH_UNIT = u'Month'
   VALID_UNITS = (DAY_UNIT, MONTH_UNIT)
-  NOT_STARTED_STATUS = u'Not Started'
-  IN_PROGRESS_STATUS = u'In Progress'
-  COMPLETED_STATUS = u'Completed'
-  NOT_TEMPLATE_STATUS = u'Not Template'
   repeat_every = deferred.deferred(db.Column(db.Integer), 'WorkflowNew')
   unit = deferred.deferred(db.Column(db.Enum(*VALID_UNITS)), 'WorkflowNew')
 
@@ -70,23 +66,6 @@ class WorkflowTemplate(mixins.Described, mixins.Slugged,
   @is_recurrent.expression
   def is_recurrent(cls):
     return sa.and_(cls.repeat_every.isnot(None), cls.unit.isnot(None))
-
-  @hybrid.hybrid_property
-  def status(self):
-    """Calculates status of the workflow."""
-    if not self.is_template:
-      return self.NOT_TEMPLATE_STATUS
-    if not self.tasks:
-      return self.NOT_STARTED_STATUS
-    not_finished_cycle_tasks = db.session.query(task_module.Task).filter(
-      task_module.Task.workflow_id == WorkflowTemplate.id,
-      WorkflowTemplate.parent_id == self.id,
-      task_module.Task.status != task_module.Task.FINISHED_STATUS
-    )
-    if (self.is_recurrent or
-            db.session.query(not_finished_cycle_tasks.exists()).scalar()):
-      return self.IN_PROGRESS_STATUS
-    return self.COMPLETED_STATUS
 
   @hybrid.hybrid_property
   def cycle_number(self):
