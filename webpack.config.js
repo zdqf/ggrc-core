@@ -8,8 +8,7 @@ var _ = require('lodash');
 var path = require('path');
 var GGRC = {
   get_dashboard_modules: function () {
-    /*excluded ggrc_workflows_new package from assets building*/
-    return _.compact(_.map(process.env.GGRC_SETTINGS_MODULE.split(' ').filter(name => name !== 'ggrc_workflows_new.settings.development'), function (module) {
+    return _.compact(_.map(process.env.GGRC_SETTINGS_MODULE.split(' '), function (module) {
       var name;
       if (/^ggrc/.test(module)) {
         name = module.split('.')[0];
