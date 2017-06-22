@@ -4,7 +4,7 @@
 import unittest
 import ddt
 import mock
-from ggrc_workflows_new.models import workflow_new
+from ggrc_workflows_new.models import workflow_template
 
 
 DAY_UNIT = u'Day'
@@ -24,7 +24,7 @@ class TestWorkflowNew(unittest.TestCase):
     """Tests positive cases for WorkflowNew().validate_unit() method."""
     # Note that when WorkflowNew().unit attribute value is assigned,
     # WorkflowNew().validate_unit() method runs automatically.
-    workflow = workflow_new.WorkflowNew()
+    workflow = workflow_template.WorkflowTemplate()
     workflow.unit = unit
     self.assertEqual(workflow.unit, unit)
 
@@ -32,7 +32,7 @@ class TestWorkflowNew(unittest.TestCase):
     """Tests negative case for WorkflowNew().validate_unit() method."""
     # Note that when WorkflowNew().unit attribute value is assigned,
     # WorkflowNew().validate_unit() method runs automatically.
-    workflow = workflow_new.WorkflowNew()
+    workflow = workflow_template.WorkflowTemplate()
     with self.assertRaises(ValueError) as err:
       workflow.unit = BAD_UNIT
       self.assertIsNone(workflow.unit)
@@ -48,7 +48,7 @@ class TestWorkflowNew(unittest.TestCase):
     # Note that when WorkflowNew().parent_id attribute value is assigned,
     # WorkflowNew().validate_parent_id() method runs automatically.
     query.return_value.scalar = mock.MagicMock(return_value=True)
-    workflow = workflow_new.WorkflowNew()
+    workflow = workflow_template.WorkflowTemplate()
     workflow.parent_id = parent_id
     self.assertEqual(workflow.parent_id, parent_id)
 
@@ -60,7 +60,7 @@ class TestWorkflowNew(unittest.TestCase):
     # WorkflowNew().validate_parent_id() method runs automatically.
     query.return_value.scalar = mock.MagicMock(return_value=False)
     bad_id = 256
-    workflow = workflow_new.WorkflowNew()
+    workflow = workflow_template.WorkflowTemplate()
     with self.assertRaises(ValueError) as err:
       workflow.parent_id = bad_id
       self.assertIsNone(workflow.parent_id)
@@ -68,28 +68,28 @@ class TestWorkflowNew(unittest.TestCase):
                        u"Parent workflow with id '{}' is not "
                        u"found".format(bad_id))
 
-  @mock.patch.object(workflow_new.WorkflowNew, 'parent_id',
+  @mock.patch.object(workflow_template.WorkflowTemplate, 'parent_id',
                      new_callable=mock.PropertyMock, side_effect=(None, 256))
   def test_is_template(self, _):
     """Tests WorkflowNew().is_template attribute."""
-    workflow = workflow_new.WorkflowNew()
+    workflow = workflow_template.WorkflowTemplate()
     self.assertEqual(workflow.is_template, True)
     self.assertEqual(workflow.is_template, False)
 
-  @mock.patch.object(workflow_new.WorkflowNew, 'repeat_every',
+  @mock.patch.object(workflow_template.WorkflowTemplate, 'repeat_every',
                      new_callable=mock.PropertyMock, side_effect=(256, None))
   def test_is_recurrent(self, _):
     """Tests WorkflowNew().is_recurrent attribute."""
-    workflow = workflow_new.WorkflowNew()
+    workflow = workflow_template.WorkflowTemplate()
     self.assertEqual(workflow.is_recurrent, True)
     self.assertEqual(workflow.is_recurrent, False)
 
   @mock.patch('ggrc_workflows_new.models.workflow_new.db.session.query')
-  @mock.patch.object(workflow_new.WorkflowNew, 'is_recurrent',
+  @mock.patch.object(workflow_template.WorkflowTemplate, 'is_recurrent',
                      new_callable=mock.PropertyMock)
-  @mock.patch.object(workflow_new.WorkflowNew, 'tasks',
+  @mock.patch.object(workflow_template.WorkflowTemplate, 'tasks',
                      new_callable=mock.PropertyMock)
-  @mock.patch.object(workflow_new.WorkflowNew, 'is_template',
+  @mock.patch.object(workflow_template.WorkflowTemplate, 'is_template',
                      new_callable=mock.PropertyMock)
   @ddt.unpack
   @ddt.data(
@@ -109,5 +109,5 @@ class TestWorkflowNew(unittest.TestCase):
     is_recurrent_attr.return_value = is_recurrent_ret
     query.return_value.scalar = mock.MagicMock(
         return_value=not_finished_ct_ret)
-    workflow = workflow_new.WorkflowNew()
+    workflow = workflow_template.WorkflowTemplate()
     self.assertEqual(workflow.status, test_result)

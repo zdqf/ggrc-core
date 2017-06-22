@@ -10,17 +10,16 @@ from sqlalchemy import sql
 from sqlalchemy.ext import declarative
 from sqlalchemy.ext import hybrid
 from ggrc import db
-from ggrc.models import context
 from ggrc.models import deferred
 from ggrc.models import mixins
 from ggrc.models import reflection
 from ggrc_workflows_new.models import task as task_module
 
 
-class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
-                  mixins.Titled, db.Model):
+class WorkflowTemplate(mixins.Described, mixins.Slugged,
+                       mixins.Titled, db.Model):
   """New 'Workflow' model implementation."""
-  __tablename__ = 'workflows_new'
+  __tablename__ = 'workflow_templates'
   _title_uniqueness = False
   _publish_attrs = ('parent_id', 'unit', 'labels', 'repeat_every', 'title',
                     reflection.PublishOnly('parent'),
@@ -35,12 +34,8 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
   NOT_TEMPLATE_STATUS = u'Not Template'
   repeat_every = deferred.deferred(db.Column(db.Integer), 'WorkflowNew')
   unit = deferred.deferred(db.Column(db.Enum(*VALID_UNITS)), 'WorkflowNew')
-  parent_id = deferred.deferred(
-      db.Column(db.Integer,
-                db.ForeignKey('{}.id'.format(__tablename__),
-                              ondelete='CASCADE')), 'WorkflowNew')
-  children = db.relationship('WorkflowNew', cascade='all, delete-orphan')
-  parent = db.relationship('WorkflowNew', remote_side='WorkflowNew.id')
+
+
   tasks = db.relationship('Task', back_populates='workflow',
                           cascade='all, delete-orphan')
   workflow_people = db.relationship('WorkflowPersonNew',
@@ -84,9 +79,9 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
     if not self.tasks:
       return self.NOT_STARTED_STATUS
     not_finished_cycle_tasks = db.session.query(task_module.Task).filter(
-        task_module.Task.workflow_id == WorkflowNew.id,
-        WorkflowNew.parent_id == self.id,
-        task_module.Task.status != task_module.Task.FINISHED_STATUS
+      task_module.Task.workflow_id == WorkflowTemplate.id,
+      WorkflowTemplate.parent_id == self.id,
+      task_module.Task.status != task_module.Task.FINISHED_STATUS
     )
     if (self.is_recurrent or
             db.session.query(not_finished_cycle_tasks.exists()).scalar()):
@@ -102,20 +97,20 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
 
   @cycle_number.expression
   def cycle_number(cls):
-    cycle = sa.orm.aliased(WorkflowNew)
+    cycle = sa.orm.aliased(WorkflowTemplate)
     return sa.select(
-        [func.count(WorkflowNew.id)]
+        [func.count(WorkflowTemplate.id)]
     ).where(
         sa.and_(
-            WorkflowNew.is_template == sa.sql.expression.false(),
-            WorkflowNew.parent_id == cycle.parent_id,
-            cycle.id <= WorkflowNew.id
+          WorkflowTemplate.is_template == sa.sql.expression.false(),
+          WorkflowTemplate.parent_id == cycle.parent_id,
+          cycle.id <= WorkflowTemplate.id
         )
-    ).group_by(WorkflowNew.id).label('cycle_number')
+    ).group_by(WorkflowTemplate.id).label('cycle_number')
 
   @hybrid.hybrid_property
   def latest_cycle_number(self):
-    if not isinstance(self, WorkflowNew):
+    if not isinstance(self, WorkflowTemplate):
       return None
     parent_id = self.id if self.is_template else self.parent_id
     return db.session.query(self.__class__).filter(
@@ -123,7 +118,7 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
 
   @hybrid.hybrid_property
   def latest_cycle(self):
-    if not isinstance(self, WorkflowNew):
+    if not isinstance(self, WorkflowTemplate):
       return None
     parent_id = self.id if self.is_template else self.parent_id
     return db.session.query(
@@ -133,7 +128,7 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
 
   @hybrid.hybrid_property
   def next_cycle_start_date(self):
-    if (not self.is_template or not isinstance(self, WorkflowNew) or
+    if (not self.is_template or not isinstance(self, WorkflowTemplate) or
             not self.is_recurrent):
       return None
     current_cycle_start_date = db.session.query(
@@ -158,7 +153,7 @@ class WorkflowNew(context.HasOwnContext, mixins.Described, mixins.Slugged,
     POST request's json should contain 'parent_id' field to run this check.
     """
     if value is not None and not db.session.query(
-            sql.exists().where(WorkflowNew.id == value)).scalar():
+            sql.exists().where(WorkflowTemplate.id == value)).scalar():
       raise ValueError(u"Parent workflow with id '{}' is "
                        u"not found".format(value))
     return value

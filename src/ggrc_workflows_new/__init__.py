@@ -1,6 +1,6 @@
 # Copyright (C) 2017 Google Inc.
 # Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
-"""Module contains main functions for workflows_new blueprint."""
+"""Module contains main functions for ggrc_workflows_new blueprint."""
 # pylint: disable=too-few-public-methods
 from datetime import datetime
 import flask
@@ -15,7 +15,7 @@ from ggrc_basic_permissions import models as permission_models
 from ggrc_workflows_new.models import label as label_module
 from ggrc_workflows_new.models import task as task_module
 from ggrc_workflows_new.models import task_comment
-from ggrc_workflows_new.models import workflow_new
+from ggrc_workflows_new.models import workflow_template
 from ggrc_workflows_new.models import workflow_person_new
 from ggrc_workflows_new.roles import BasicWorkflowReaderNew
 from ggrc_workflows_new.roles import WorkflowBasicReaderNew
@@ -29,7 +29,7 @@ blueprint = flask.Blueprint('ggrc_workflows_new', __name__)  # noqa # pylint: di
 def contributed_services():
   """Return contributed object services."""
   return (
-      registry_service.service('workflows_new', workflow_new.WorkflowNew),
+      registry_service.service('workflow_templates', workflow_template.WorkflowTemplate),
       registry_service.service('tasks', task_module.Task),
       registry_service.service('task_comments', task_comment.TaskComment),
       registry_service.service('workflow_people_new',
@@ -40,11 +40,11 @@ def contributed_services():
 def contributed_object_views():
   """Return contributed object views."""
   return (
-      registry_view.object_view(workflow_new.WorkflowNew),
+      registry_view.object_view(workflow_template.WorkflowTemplate),
   )
 
 
-@signals.Restful.model_posted.connect_via(workflow_new.WorkflowNew)
+@signals.Restful.model_posted.connect_via(workflow_template.WorkflowTemplate)
 def handle_workflow_new_post(sender, obj=None, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle WorkflowNew model POST."""
   _validate_is_template_workflow(obj)
@@ -109,7 +109,7 @@ def handle_workflow_new_post(sender, obj=None, src=None, service=None):  # noqa 
   _generate_cycle(obj)
 
 
-@signals.Restful.model_put.connect_via(workflow_new.WorkflowNew)
+@signals.Restful.model_put.connect_via(workflow_template.WorkflowTemplate)
 def handle_workflow_put(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle WorkflowNew model PUT."""
   _validate_is_template_workflow(obj)
@@ -197,7 +197,7 @@ def _generate_task(task):
 
 
 def _generate_cycle(workflow_template):
-  cycle = workflow_new.WorkflowNew(
+  cycle = workflow_template.WorkflowNew(
       context=workflow_template.context,
       parent=workflow_template
   )
