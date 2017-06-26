@@ -12,8 +12,7 @@ export GGRC_SETTINGS_MODULE="testing \
   ggrc_risk_assessments.settings.development \
   ggrc_risks.settings.development \
   ggrc_workflows.settings.development \
-  ggrc_gdrive_integration.settings.development \
-  ggrc_workflows_new.settings.development"
+  ggrc_gdrive_integration.settings.development"
 db_migrate
 
 echo -e "\nRunning unit tests"
