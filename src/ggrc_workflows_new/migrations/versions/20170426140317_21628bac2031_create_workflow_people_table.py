@@ -26,13 +26,13 @@ def upgrade():
       sa.Column('updated_at', sa.DateTime(), nullable=False),
       sa.Column('context_id', sa.Integer()),
       sa.Column('id', sa.Integer(), primary_key=True),
-      sa.Column('workflow_id', sa.Integer(), nullable=False),
+      # sa.Column('workflow_id', sa.Integer(), nullable=False),
       sa.Column('person_id', sa.Integer(), nullable=False),
       sa.ForeignKeyConstraint(['context_id'], ['contexts.id'],
                               'fk_workflow_people_new_context_id'),
-      sa.ForeignKeyConstraint(['workflow_id'], ['workflows_new.id'],
-                              'fk_workflow_people_new_workflow_new_id',
-                              ondelete='CASCADE'),
+      # sa.ForeignKeyConstraint(['workflow_id'], ['workflows_new.id'],
+      #                         'fk_workflow_people_new_workflow_new_id',
+      #                         ondelete='CASCADE'),
       sa.ForeignKeyConstraint(['person_id'], ['people.id'],
                               'fk_workflow_people_new_people_id'),
   )
@@ -40,8 +40,8 @@ def upgrade():
                   ['updated_at'])
   op.create_index('fk_{}_contexts'.format(TABLE_NAME), TABLE_NAME,
                   ['context_id'])
-  op.create_index('fk_{}_workflow_id'.format(TABLE_NAME), TABLE_NAME,
-                  ['workflow_id'])
+  # op.create_index('fk_{}_workflow_id'.format(TABLE_NAME), TABLE_NAME,
+  #                 ['workflow_id'])
   op.create_index('fk_{}_person_id'.format(TABLE_NAME), TABLE_NAME,
                   ['person_id'])
 

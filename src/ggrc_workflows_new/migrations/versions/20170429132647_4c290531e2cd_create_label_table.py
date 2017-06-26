@@ -27,18 +27,18 @@ def upgrade():
       sa.Column('updated_at', sa.DateTime(), nullable=False),
       sa.Column('context_id', sa.Integer()),
       sa.Column('id', sa.Integer(), primary_key=True),
-      sa.Column('workflow_id', sa.Integer(), nullable=False),
+      # sa.Column('workflow_id', sa.Integer(), nullable=False),
       sa.ForeignKeyConstraint(['context_id'], ['contexts.id'],
                               'fk_label_context_id'),
-      sa.ForeignKeyConstraint(['workflow_id'], ['workflows_new.id'],
-                              'fk_label_workflow_new_id', ondelete='CASCADE')
+      # sa.ForeignKeyConstraint(['workflow_id'], ['workflows_new.id'],
+      #                         'fk_label_workflow_new_id', ondelete='CASCADE')
   )
   op.create_index('ix_{}_updated_at'.format(TABLE_NAME), TABLE_NAME,
                   ['updated_at'])
   op.create_index('fk_{}_contexts'.format(TABLE_NAME), TABLE_NAME,
                   ['context_id'])
-  op.create_index('fk_{}_workflow'.format(TABLE_NAME), TABLE_NAME,
-                  ['workflow_id'])
+  # op.create_index('fk_{}_workflow'.format(TABLE_NAME), TABLE_NAME,
+  #                 ['workflow_id'])
 
   # Create foreign key/index constraints between task and label table
   op.add_column('tasks', sa.Column('label_id', sa.Integer()))
