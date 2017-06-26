@@ -456,6 +456,17 @@
   }
 }
 
+.workflow-tree {
+  .zero-state {
+    color: $black;
+    font-size: $f-regular;
+    font-weight: normal;
+    line-height: 36px;
+    padding: 40px;
+    text-align: center;
+  }
+}
+
 // Table
 .table-wrap {
   padding-top: 20px;

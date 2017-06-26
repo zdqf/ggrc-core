@@ -4,13 +4,13 @@
 }}
 
 <dashboard-errors >
-{{^if_equals error_msg ''}}
+{{^if_equals errorMessage ''}}
 <div class="alert warning">
   <a href="#" class="close" data-dismiss="alert">x</a>
   <span>
     <i class="fa fa-exclamation-triangle red"></i>
     <!--This is global messaging letting you know that something is over due! -->
-    {{error_msg}}
+    {{errorMessage}}
   </span>
 </div>
 {{/if_equals}}

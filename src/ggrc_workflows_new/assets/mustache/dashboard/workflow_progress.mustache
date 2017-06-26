@@ -1,0 +1,101 @@
+{{!
+    Copyright (C) 2017 Google Inc.
+    Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+}}
+
+<ul class="new-tree tree-one dashboard-tree workflow-tree">
+    {{#workflowData}}
+        {{#list}}
+            {{#using ins=this}}
+                <li class="tree-item">
+                    <div class="item-wrap">
+                        <div class="row-fluid">
+                            <div class="span5">
+                                <div class="item-data">
+                                    <div class="tree-title-area">
+                                        <div class="oneline">
+                                            <a href="{{viewLink}}#current_widget">{{ins.title}}</a>
+                                            <ul class="item-util">
+                                                <li>
+                                                    {{{render '/static/mustache/dashboard/info/wf_owner.mustache' instance=ins stacked=true}}}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span5">
+                                <div class="tree-progress">
+                                    <div class="progress">
+                                        {{#if ins.taskData.finishedPercentage}}
+                                            <div class="bar bar-finish"
+                                                 style="width: {{ins.taskData.finishedPercentage}}%;" rel="tooltip"
+                                                 data-original-title="Finished {{ins.taskData.finishedPercentage}}%"></div>
+                                        {{/if}}
+                                        {{#if ins.taskData.verifiedPercentage}}
+                                            <div class="bar bar-verify"
+                                                 style="width: {{ins.taskData.verifiedPercentage}}%;" rel="tooltip"
+                                                 data-original-title="Verified {{ins.taskData.verifiedPercentage}}%"></div>
+                                        {{/if}}
+                                        {{#if ins.taskData.inProgressPercentage}}
+                                            <div class="bar bar-progress"
+                                                 style="width: {{ins.taskData.inProgressPercentage}}%;" rel="tooltip"
+                                                 data-original-title="In Progress {{ins.taskData.inProgressPercentage}}%"></div>
+                                        {{/if}}
+                                        {{#if ins.taskData.assignedPercentage}}
+                                            <div class="bar bar-pending"
+                                                 style="width: {{ins.taskData.assignedPercentage}}%;" rel="tooltip"
+                                                 data-original-title="Pending {{ins.taskData.assignedPercentage}}%"></div>
+                                        {{/if}}
+                                        {{#if ins.taskData.declinedPercentage}}
+                                            <div class="bar bar-decline"
+                                                 style="width: {{ins.taskData.declinedPercentage}}%;" rel="tooltip"
+                                                 data-original-title="Declined {{ins.taskData.declinedPercentage}}%"></div>
+                                        {{/if}}
+                                        {{#if ins.taskData.overduePercentage}}
+                                            <div class="bar bar-warning"
+                                                 style="width: {{ins.taskData.overduePercentage}}%;" rel="tooltip"
+                                                 data-original-title="Overdue {{ins.taskData.overduePercentage}}%"></div>
+                                        {{/if}}
+                                    </div>
+                                    <ul class="item-util">
+                                        <li>
+                                            {{ins.taskData.taskCount}} tasks in total
+                                            / {{ins.taskData.verifiedPercentage}}% completed
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="span2">
+                                <div class="right">
+                                    {{#if ins.taskData.overdueFlag}}
+                                        <span class="overdue">Overdue</span>
+                                    {{else}}
+                                        Due in {{ins.taskData.daysLeftForFirstTask}} days
+                                    {{/if}}
+                                    <ul class="item-util">
+                                        <li>{{{ins.taskData.firstEndDate}}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            {{/using}}
+        {{/list}}
+    {{/workflowData}}
+    {{#if_equals workflowCount 0}}
+        <li>
+            <div class="zero-state">
+                You have no workflows.
+                {{#is_allowed 'create' 'Workflow' context='any'}}
+                    <a href="javascript://" data-toggle="modal-ajax-form" data-modal-class="modal-wide"
+                       data-object-singular="Workflow" data-object-plural="workflows"
+                       data-modal-reset="reset" data-form-target="redirect">
+                        Start new workflow
+                    </a>
+                {{/is_allowed}}
+            </div>
+        </li>
+    {{/if_equals}}
+</ul><!-- tree-structure end -->
