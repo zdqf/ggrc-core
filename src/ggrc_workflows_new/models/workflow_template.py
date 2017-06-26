@@ -1,6 +1,6 @@
 # Copyright (C) 2017 Google Inc.
 # Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
-"""Module contains new 'Workflow' model implementation."""
+"""Module contains WorkflowTemplate model implementation."""
 import datetime
 from dateutil import relativedelta
 import sqlalchemy as sa
@@ -18,7 +18,7 @@ from ggrc_workflows_new.models import task as task_module
 
 class WorkflowTemplate(mixins.Described, mixins.Slugged,
                        mixins.Titled, db.Model):
-  """New 'Workflow' model implementation."""
+  """WorkflowTemplate model implementation."""
   __tablename__ = 'workflow_templates'
   _title_uniqueness = False
   _publish_attrs = ('unit', 'labels', 'repeat_every', 'title',
