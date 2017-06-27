@@ -45,123 +45,15 @@ def contributed_object_views():
 
 
 @signals.Restful.model_posted.connect_via(workflow_template.WorkflowTemplate)
-def handle_workflow_new_post(sender, obj=None, src=None, service=None):  # noqa pylint: disable=unused-argument
+def handle_workflow_template_post(sender, obj=None, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle WorkflowNew model POST."""
-  _validate_is_template_workflow(obj)
-  user = login.get_current_user()
-  personal_context = user.get_or_create_object_context(
-      context=1,
-      name='Personal Context for {0}'.format(user.id),
-      description='',
-  )
-  personal_context.modified_by = user
-  db.session.add(personal_context)
-  db.session.flush()
-
-  context = obj.build_object_context(
-      context=personal_context,
-      name='{object_type} Context {timestamp}'.format(
-          object_type=service.model.__name__,
-          timestamp=datetime.now()
-      ),
-      description='',
-  )
-  context.modified_by = user
-  db.session.add(obj)
-  db.session.flush()
-  db.session.add(context)
-  db.session.flush()
-  obj.contexts.append(context)
-  obj.context = context
-
-  workflow_owner_role = _find_role('WorkflowOwnerNew')
-  user_role = permission_models.UserRole(
-      person=user,
-      role=workflow_owner_role,
-      context=context,
-      modified_by=user,
-  )
-  db.session.add(user_role)
-  workflow_owner = workflow_person_new.WorkflowPersonNew(
-      person=user,
-      workflow=obj,
-      context=context,
-      modified_by=user,
-  )
-  db.session.add(workflow_owner)
-  db.session.flush()
-
-  db.session.add(permission_models.ContextImplication(
-      source_context=context,
-      context=None,
-      source_context_scope='WorkflowNew',
-      context_scope=None,
-      modified_by=user,
-  ))
-
-  db.session.add(permission_models.ContextImplication(
-      source_context=None,
-      context=context,
-      source_context_scope=None,
-      context_scope='WorkflowNew',
-      modified_by=user,
-  ))
-  _generate_cycle(obj)
+  pass
 
 
 @signals.Restful.model_put.connect_via(workflow_template.WorkflowTemplate)
 def handle_workflow_put(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
   """Handle WorkflowNew model PUT."""
-  _validate_is_template_workflow(obj)
-
-
-@signals.Restful.model_posted.connect_via(
-    workflow_person_new.WorkflowPersonNew)
-def handle_workflow_person_post(sender, obj=None, src=None, service=None):  # noqa pylint: disable=unused-argument
-  """Handle WorkflowPersonNew model POST."""
-  user_role = permission_models.UserRole(
-      person=obj.person,
-      role=_find_role('WorkflowMemberNew'),
-      context=obj.context,
-      modified_by=login.get_current_user(),
-  )
-  db.session.add(user_role)
-  db.session.flush()
-
-
-@signals.Restful.model_posted.connect_via(task_module.Task)
-def handle_task_post(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
-  """Handle Task model POST."""
-  _validate_is_cycle_task(obj)
-  _validate_cycle_task_status(obj)
-  _ensure_assignee_is_workflow_member(obj)
-  _setup_cycle_task_label(obj, src['label_title'])
-  if src['is_update_template']:
-    _generate_task(obj)
-
-
-@signals.Restful.model_put.connect_via(task_module.Task)
-def handle_task_put(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
-  """Handle Task model PUT."""
-  _validate_is_cycle_task(obj)
-  if sa.inspect(obj).attrs.contact.history.has_changes():
-    _ensure_assignee_is_workflow_member(obj)
-  old_label = obj.label
-  if old_label.title != src['label_title']:
-    _setup_cycle_task_label(obj, src['label_title'])
-  if src['is_update_template']:
-    if obj.parent:
-      _update_cycle_task_template(obj)
-    else:
-      _generate_task(obj)
-  if old_label.title != src['label_title']:
-    _delete_orphan_label(old_label)
-
-
-@signals.Restful.model_deleted.connect_via(task_module.Task)
-def handle_task_delete(sender, obj, src=None, service=None):  # noqa pylint: disable=unused-argument
-  """Handle Task model DELETE."""
-  _delete_orphan_label(obj.label, exclude_task=obj)
+  pass
 
 
 def _generate_task(task):
@@ -193,17 +85,6 @@ def _generate_task(task):
     db.session.add(new_task)
     task.parent = new_task
     db.session.add(task)
-  db.session.flush()
-
-
-def _generate_cycle(workflow_template):
-  cycle = workflow_template.WorkflowNew(
-      context=workflow_template.context,
-      parent=workflow_template
-  )
-  db.session.add(cycle)
-  for task_template in workflow_template.tasks:
-    _generate_task(task_template)
   db.session.flush()
 
 
@@ -239,16 +120,6 @@ def _delete_orphan_label(label, exclude_task=None):
                          exclude_task in label.tasks):
     db.session.delete(label)
     db.session.flush()
-
-
-def _validate_is_template_workflow(workflow):
-  if not workflow.is_template:
-    raise ValueError(u"Can't send POST/PUT requests for cycle")
-
-
-def _validate_is_cycle_task(task):
-  if task.is_template:
-    raise ValueError(u"Can't send POST/PUT requests for template task")
 
 
 def _validate_cycle_task_status(cycle_task):
@@ -299,69 +170,3 @@ def _ensure_assignee_is_workflow_member(cycle_task):  # noqa pylint: disable=inv
     )
     db.session.add(user_role)
     db.session.flush()
-
-
-def _find_role(role_name):
-  return db.session.query(permission_models.Role).filter(
-      permission_models.Role.name == role_name).first()
-
-
-class WorkflowRoleContributionsNew(contributed_roles.RoleContributions):
-  contributions = {
-      'ProgramCreator': {
-          'read': ['WorkflowNew'],
-          'create': ['WorkflowNew'],
-      },
-      'Creator': {
-          'create': ['WorkflowNew', 'Task']
-      },
-      'Editor': {
-          'read': ['WorkflowNew', 'Task'],
-          'create': ['WorkflowNew', 'Task'],
-          'update': ['Task'],
-          'edit': ['Task'],
-          'delete': ['Task']
-      },
-      'Reader': {
-          'read': ['WorkflowNew', 'Task'],
-          'create': ['WorkflowNew', 'Task'],
-      },
-      'ProgramEditor': {
-          'read': ['WorkflowNew'],
-          'create': ['WorkflowNew'],
-      },
-      'ProgramOwner': {
-          'read': ['WorkflowNew'],
-          'create': ['WorkflowNew'],
-      },
-  }
-
-
-class WorkflowRoleDeclarationsNew(contributed_roles.RoleDeclarations):
-  def roles(self):
-    return {
-        'WorkflowOwnerNew': WorkflowOwnerNew,
-        'WorkflowMemberNew': WorkflowMemberNew,
-        'BasicWorkflowReaderNew': BasicWorkflowReaderNew,
-        'WorkflowBasicReaderNew': WorkflowBasicReaderNew,
-    }
-
-
-class WorkflowRoleImplicationsNew(
-        contributed_roles.DeclarativeRoleImplications):
-  implications = {
-      (None, 'WorkflowNew'): {
-          'ProgramCreator': ['BasicWorkflowReaderNew'],
-          'Editor': ['WorkflowOwnerNew'],
-          'Reader': ['BasicWorkflowReaderNew'],
-          'Creator': ['WorkflowBasicReaderNew'],
-      },
-      ('WorkflowNew', None): {
-          'WorkflowOwnerNew': ['WorkflowBasicReaderNew'],
-          'WorkflowMemberNew': ['WorkflowBasicReaderNew'],
-      },
-  }
-
-ROLE_CONTRIBUTIONS = WorkflowRoleContributionsNew()
-ROLE_DECLARATIONS = WorkflowRoleDeclarationsNew()
-ROLE_IMPLICATIONS = WorkflowRoleImplicationsNew()
