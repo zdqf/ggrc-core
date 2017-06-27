@@ -41,6 +41,10 @@ collapsible-panel {
       }
     }
 
+    .object-list__item h6 {
+      float: none;
+    }
+
     .mapped-object-attributes custom-attributes {
       flex: 0 0 100%;
     }

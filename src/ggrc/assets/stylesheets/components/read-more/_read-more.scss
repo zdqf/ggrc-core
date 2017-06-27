@@ -10,6 +10,7 @@ read-more {
     transition: display 0.1s ease, height 0.1s ease, max-height 0.3s ease;
     padding: 0;
     box-sizing: border-box;
+    word-break: break-word;
 
     .read-more__body-content {
       line-height: 18px;
