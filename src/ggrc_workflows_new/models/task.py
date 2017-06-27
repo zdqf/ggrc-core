@@ -1,7 +1,7 @@
 # Copyright (C) 2017 Google Inc.
 # Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 """Module contains 'Task' model implementation."""
-from sqlalchemy.ext import hybrid
+# from sqlalchemy.ext import hybrid
 from ggrc import db
 from ggrc.models import deferred
 from ggrc.models import mixins
@@ -37,9 +37,9 @@ class Task(mixins.Described, mixins.Slugged, mixins.Titled, db.Model):
       db.Column(db.Integer, db.ForeignKey('labels.id')), 'Task')
   label = db.relationship('Label', back_populates='tasks')
   parent_id = deferred.deferred(
-    db.Column(db.Integer,
-              db.ForeignKey('{}.id'.format(__tablename__),
-                            ondelete='CASCADE')), 'Task')
+      db.Column(db.Integer,
+                db.ForeignKey('{}.id'.format(__tablename__),
+                              ondelete='CASCADE')), 'Task')
   children = db.relationship('Task', cascade='all, delete-orphan')
   parent = db.relationship('Task', remote_side='Task.id')
   comments = db.relationship('TaskComment', back_populates='task',

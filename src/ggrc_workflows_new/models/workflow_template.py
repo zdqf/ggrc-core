@@ -21,10 +21,13 @@ class WorkflowTemplate(mixins.Described, mixins.Slugged, mixins.Titled,
   DAY_UNIT = u'Day'
   MONTH_UNIT = u'Month'
   VALID_UNITS = (DAY_UNIT, MONTH_UNIT)
-  archived = deferred.deferred(db.Column(db.Boolean, nullable=False, default=False), 'WorkflowTemplate')
-  latest_cycle_number = deferred.deferred(db.Column(db.Integer, nullable=False, default=1), 'WorkflowTemplate')
+  archived = deferred.deferred(
+      db.Column(db.Boolean, nullable=False, default=False), 'WorkflowTemplate')
+  latest_cycle_number = deferred.deferred(
+      db.Column(db.Integer, nullable=False, default=1), 'WorkflowTemplate')
   repeat_every = deferred.deferred(db.Column(db.Integer), 'WorkflowTemplate')
-  unit = deferred.deferred(db.Column(db.Enum(*VALID_UNITS)), 'WorkflowTemplate')
+  unit = deferred.deferred(db.Column(db.Enum(*VALID_UNITS)),
+                           'WorkflowTemplate')
 
   @hybrid.hybrid_property
   def is_recurrent(self):
@@ -32,7 +35,7 @@ class WorkflowTemplate(mixins.Described, mixins.Slugged, mixins.Titled,
     return self.repeat_every is not None and self.unit is not None
 
   @is_recurrent.expression
-  def is_recurrent(cls):
+  def is_recurrent(cls):  # pylint: disable=no-self-argument
     return sa.and_(cls.repeat_every.isnot(None), cls.unit.isnot(None))
 
   @orm.validates('unit')
