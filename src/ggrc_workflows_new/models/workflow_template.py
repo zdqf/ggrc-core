@@ -15,15 +15,16 @@ class WorkflowTemplate(mixins.Described, mixins.Slugged, mixins.Titled,
   """WorkflowTemplate model implementation."""
   __tablename__ = 'workflow_templates'
   _title_uniqueness = False
-  _publish_attrs = ('unit', 'repeat_every', 'title',
-                    reflection.PublishOnly('latest_cycle_number'))
+  _publish_attrs = (reflection.PublishOnly('archived'),
+                    reflection.PublishOnly('latest_cycle_number'),
+                    'repeat_every', 'title', 'unit')
   DAY_UNIT = u'Day'
   MONTH_UNIT = u'Month'
   VALID_UNITS = (DAY_UNIT, MONTH_UNIT)
-  repeat_every = deferred.deferred(db.Column(db.Integer), 'WorkflowTemplate')
-  unit = deferred.deferred(db.Column(db.Enum(*VALID_UNITS)), 'WorkflowTemplate')
   archived = deferred.deferred(db.Column(db.Boolean, nullable=False, default=False), 'WorkflowTemplate')
   latest_cycle_number = deferred.deferred(db.Column(db.Integer, nullable=False, default=1), 'WorkflowTemplate')
+  repeat_every = deferred.deferred(db.Column(db.Integer), 'WorkflowTemplate')
+  unit = deferred.deferred(db.Column(db.Enum(*VALID_UNITS)), 'WorkflowTemplate')
 
   @hybrid.hybrid_property
   def is_recurrent(self):
