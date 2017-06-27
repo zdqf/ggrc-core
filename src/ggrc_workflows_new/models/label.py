@@ -10,9 +10,9 @@ class Label(mixins.Base, mixins.Titled, db.Model):
   """Label model for Workflow's cycles."""
   __tablename__ = 'labels'
   _title_uniqueness = False
-  workflow_id = deferred.deferred(
-      db.Column(db.Integer,
-                db.ForeignKey('workflows_new.id', ondelete='CASCADE'),
-                nullable=False), 'Label')
-  workflow = db.relationship('WorkflowNew', back_populates='labels')
+  # workflow_id = deferred.deferred(
+  #     db.Column(db.Integer,
+  #               db.ForeignKey('workflows_new.id', ondelete='CASCADE'),
+  #               nullable=False), 'Label')
+  # workflow = db.relationship('WorkflowNew', back_populates='labels')
   tasks = db.relationship('Task', back_populates='label')

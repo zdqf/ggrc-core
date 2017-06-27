@@ -26,11 +26,11 @@ class Task(mixins.Described, mixins.Slugged, mixins.Titled, db.Model):
   contact = db.relationship('Person')
   start_date = deferred.deferred(db.Column(db.Date, nullable=False), 'Task')
   end_date = deferred.deferred(db.Column(db.Date, nullable=False), 'Task')
-  workflow_id = deferred.deferred(
-      db.Column(db.Integer,
-                db.ForeignKey('workflows_new.id', ondelete='CASCADE'),
-                nullable=False), 'Task')
-  workflow = db.relationship('WorkflowNew', back_populates='tasks')
+  # workflow_id = deferred.deferred(
+  #     db.Column(db.Integer,
+  #               db.ForeignKey('workflows_new.id', ondelete='CASCADE'),
+  #               nullable=False), 'Task')
+  # workflow = db.relationship('WorkflowNew', back_populates='tasks')
   status = deferred.deferred(db.Column(
       db.Enum(*VALID_STATUSES), nullable=False), 'Task')
   label_id = deferred.deferred(
@@ -44,13 +44,3 @@ class Task(mixins.Described, mixins.Slugged, mixins.Titled, db.Model):
   parent = db.relationship('Task', remote_side='Task.id')
   comments = db.relationship('TaskComment', back_populates='task',
                              cascade='all, delete-orphan')
-
-  @hybrid.hybrid_property
-  def is_template(self):
-    """Calculates property which shows is task template or not.
-
-    Template tasks belong to workflow without parent. They are set up by user.
-    Non-template tasks belong to workflow with parent workflow. They are
-    application level generated cycle-tasks.
-    """
-    return self.workflow.is_template
