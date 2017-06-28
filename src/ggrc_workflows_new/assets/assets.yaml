@@ -8,5 +8,6 @@ dashboard-js-spec-files:
 dashboard-js-template-files:
   - dashboard/widgets.mustache
   - dashboard/workflow_progress.mustache
+  - workflows/modal_content.mustache
 
 
