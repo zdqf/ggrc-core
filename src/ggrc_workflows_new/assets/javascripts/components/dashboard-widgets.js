@@ -10,7 +10,7 @@
     viewModel: {
       initialWfSize: 5,
       workflowView: GGRC.mustache_path +
-        '/dashboard/workflow_progress.mustache',
+        '/dashboard/workflow-progress.mustache',
       workflowData: {},
       workflowCount: 0,
       workflowShowAll: false
@@ -49,30 +49,32 @@
       this.initMyWorkflows();
     },
     initMyWorkflows: function () {
+      var queryAPI = GGRC.Utils.QueryAPI;
       var self = this;
       var workflowData = {};
       var wfs;
       var currentWfs;
       var top5Wfs;
+      var ownedFilter = GGRC.Utils.TreeView.makeRelevantExpression(
+        'Person', 'Person', GGRC.current_user.id);
+      var params;
 
       if (!GGRC.current_user) {
         return;
       }
 
-      GGRC.Models.Search.search_for_types('', ['Workflow'],
-        {contact_id: GGRC.current_user.id})
-        .then(function (resultSet) {
-          var wfData = resultSet.getResultsForType('Workflow');
-          var refreshQueue = new RefreshQueue();
-          refreshQueue.enqueue(wfData);
-          return refreshQueue.trigger();
-        })
-        .then(function (options) {
-          wfs = options;
+      params = queryAPI.buildParam(
+        'WorkflowTemplate',
+        {},
+        ownedFilter);
 
-          return $.when.apply($, can.map(options, function (wf) {
+      queryAPI.makeRequest({data: [params]})
+        .then(function (data) {
+          wfs = data[0].WorkflowTemplate.values;
+
+          return can.map(wfs, function (wf) {
             return self.updateTasksForWorkflow(wf);
-          }));
+          });
         })
         .then(function () {
           if (wfs.length > 0) {

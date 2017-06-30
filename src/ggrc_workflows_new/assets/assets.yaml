@@ -2,12 +2,17 @@ dashboard-js-files:
   - workflows.js
   - components/dashboard-errors.js
   - components/dashboard-widgets.js
+  - models/workflow-template.js
 
 dashboard-js-spec-files:
 
 dashboard-js-template-files:
   - dashboard/widgets.mustache
-  - dashboard/workflow_progress.mustache
-  - workflows/modal_content.mustache
+  - dashboard/workflow-progress.mustache
+  - workflow_templates/extended_info.mustache
+  - workflow_templates/lhn_search.mustache
+  - workflow_templates/modal_content.mustache
+  - workflow_templates/search_result.mustache
+  - workflow_templates/info.mustache
 
 
