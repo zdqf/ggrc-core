@@ -36,7 +36,6 @@
       'title',
       'type',
       'viewLink',
-      'workflow_state',
       'archived',
       // label for Audit
       'program',

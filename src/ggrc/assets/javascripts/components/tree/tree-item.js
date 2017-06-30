@@ -21,10 +21,6 @@
             classes.push('snapshot');
           }
 
-          if (instance.workflow_state) {
-            classes.push('t-' + instance.workflow_state);
-          }
-
           if (this.attr('expanded')) {
             classes.push('open-item');
           }
