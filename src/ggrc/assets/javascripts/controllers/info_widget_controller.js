@@ -63,7 +63,8 @@
             model_name: CMS.Models[name].model_singular,
             model_lowercase: CMS.Models[name].table_singular,
             model_plural: CMS.Models[name].table_plural,
-            display_name: displayPrefix + CMS.Models[name].title_singular
+            display_name: displayPrefix + (CMS.Models[name].displayName ||
+              CMS.Models[name].title_singular)
           };
         }
       }));
@@ -75,7 +76,7 @@
         names = [
           'Program',
           'Audit',
-          'Workflow'
+          'WorkflowTemplate'
         ];
         this.options.start_menu = this.generate_menu_items(names, 'Start new ');
       }
