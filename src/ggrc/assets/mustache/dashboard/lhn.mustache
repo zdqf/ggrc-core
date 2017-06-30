@@ -33,7 +33,7 @@
       <div class="lhs-nav">
         <ul class="top-level">
           {{{renderLive '/static/mustache/dashboard/lhn_search.mustache' type="Program" li_class="programs" tooltip_view='/programs/extended_info.mustache'  template_view='/static/mustache/programs/search_result.mustache'}}}
-          {{{renderLive '/static/mustache/workflows/lhn_search.mustache' type="Workflow" li_class="workflow" template_view="/static/mustache/workflows/search_result.mustache" tooltip_view='/workflows/extended_info.mustache'}}}
+          {{{renderLive '/static/mustache/workflow_templates/lhn_search.mustache' type="WorkflowTemplate" li_class="workflow" template_view="/static/mustache/workflow_templates/search_result.mustache" tooltip_view='/workflow_templates/extended_info.mustache'}}}
           {{{renderLive '/static/mustache/dashboard/lhn_search.mustache' type="Audit" li_class="programs" tooltip_view='/audits/extended_info.mustache' template_view='/static/mustache/audits/search_result.mustache'}}}
           {{{renderLive '/static/mustache/dashboard/lhn_search.mustache' type="Assessment" tooltip_view='/base_templates/assignable_extended_info.mustache' li_class="programs" actions="/static/mustache/base_objects/empty.mustache"}}}
           {{{renderLive '/static/mustache/dashboard/lhn_search.mustache' type="Issue" li_class="programs" actions="/static/mustache/base_objects/empty.mustache"}}}

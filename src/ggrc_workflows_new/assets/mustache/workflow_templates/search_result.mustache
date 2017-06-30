@@ -1,0 +1,45 @@
+{{!
+    Copyright (C) 2017 Google Inc.
+    Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+}}
+
+
+<li class="filters" data-for="{{model.model_singular}}">
+    <a href="javascript://"
+       class="wf-trigger wf-active {{#if_equals filter_params.Workflow.status 'Active'}}active{{/if_equals}}"
+       data-key="status" data-value="Active">
+        Active
+        ({{firstnonempty counts.Workflow_Active 0}})
+    </a>
+    <a href="javascript://"
+       class="wf-trigger wf-draft {{#if_equals filter_params.Workflow.status 'Draft'}}active{{/if_equals}}"
+       data-key="status" data-value="Draft">
+        Draft
+        ({{firstnonempty counts.Workflow_Draft 0}})
+    </a>
+    <a href="javascript://"
+       class="wf-trigger wf-inactive {{#if_equals filter_params.Workflow.status 'Inactive'}}active{{/if_equals}}"
+       data-key="status" data-value="Inactive">
+        Inactive
+        ({{firstnonempty counts.Workflow_Inactive 0}})
+    </a>
+</li>
+
+{{#list}}
+    <li class="{{class.category}} {{firstnonempty status filter_params.Workflow.status}}" data-model="true" {{data
+            'model'}}>
+        <a href="{{viewLink}}" class="show-extended">
+            <div class="lhs-main-title">
+          <span class="lhs-item lhs-item-long">
+              {{title}}
+          </span>
+            </div>
+        </a>
+    </li>
+{{/list}}
+
+{{#list.is_loading}}
+    <li class="spinny">
+        <spinner toggle="list.is_loading"></spinner>
+    </li>
+{{/list.is_loading}}

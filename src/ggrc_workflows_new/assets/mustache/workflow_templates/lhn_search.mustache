@@ -1,0 +1,21 @@
+{{!
+    Copyright (C) 2017 Google Inc.
+    Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+}}
+
+
+{{#with_model_as "model" type}}
+<li class="{{li_class}} accordion-group" data-tooltip-view="{{tooltip_view}}" data-template="{{template_view}}" data-model-name="{{type}}"
+data-count="WorkflowTemplate">
+  <a class="{{li_class}} oneline list-toggle" href="javascript://" data-object-singular="{{type}}" data-parent=".top-level">
+    <i class="fa fa-caret-right"></i>
+    <i class="fa fa-{{model.table_singular}} color"></i>
+    Workflows
+    <small>(<span class="item-count"></span>)</small>
+  </a>
+  <div class="content">
+    <ul class="sub-level with-filters"></ul>
+    <ul class="sub-actions"></ul>
+  </div>
+</li>
+{{/with_model_as}}

@@ -1,0 +1,37 @@
+{{!
+    Copyright (C) 2017 Google Inc.
+    Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+
+    Template applicable to workflows only
+}}
+
+
+{{#instance}}
+  <div class="row-fluid">
+    <div class="span12">
+      <a class="main-title {{class.category}} oneline" href="{{viewLink}}">
+        {{title}}
+      </a>
+    </div>
+  </div>
+
+  <div class="row-fluid">
+    <div class="span12">
+      <h6>Description</h6>
+      <div class="rtf">
+        {{{firstnonempty description '<span class="empty-message">None</span>'}}}
+      </div>
+    </div>
+  </div>
+
+  <div class="links">
+    <div class="row-fluid">
+      <div class="span12">
+        <a class="secondary" href="{{viewLink}}">
+          View {{class.title_singular}}
+        </a>
+      </div>
+    </div>
+  </div>
+
+{{/instance}}
