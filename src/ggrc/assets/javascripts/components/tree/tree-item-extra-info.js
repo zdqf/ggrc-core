@@ -36,25 +36,11 @@
           return this.attr('instance') instanceof CMS.Models.Section;
         }
       },
-      isCycleTaskGroupObjectTask: {
+      isTask: {
         type: 'boolean',
         get: function () {
-          return this.attr('instance') instanceof
-            CMS.Models.CycleTaskGroupObjectTask;
-        }
-      },
-      isCycleTaskGroup: {
-        type: 'boolean',
-        get: function () {
-          return this.attr('instance') instanceof CMS.Models.CycleTaskGroup;
-        }
-      },
-      isCycleTasks: {
-        type: 'boolean',
-        get: function () {
-          return this.attr('isCycleTaskGroup') ||
-            this.attr('isCycleTaskGroupObjectTask') ||
-            this.attr('instance') instanceof CMS.Models.Cycle;
+          // return false until CMS.Models.Task is introduced
+          return false;
         }
       },
       isLoading: {
@@ -87,8 +73,7 @@
       isShowOverdue: {
         type: 'boolean',
         get: function () {
-          return this.attr('isCycleTaskGroup') ||
-            this.attr('isCycleTaskGroupObjectTask');
+          return this.attr('isTask');
         }
       },
       isOverdue: {
