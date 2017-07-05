@@ -24,14 +24,11 @@ describe('GGRC.Utils.TreeView module', function () {
   describe('getColumnsForModel() method', function () {
     var origCustomAttrDefs;
     var origRoleList;
-    var origAttrs;
 
     beforeAll(function () {
       method = module.getColumnsForModel;
 
       origRoleList = GGRC.access_control_roles;
-      origAttrs = [].concat(CMS.Models.CycleTaskGroupObjectTask
-        .tree_view_options.display_attr_names);
       GGRC.access_control_roles = [
         {id: 5, name: 'Role 5', object_type: 'Market'},
         {id: 9, name: 'Role 9', object_type: 'Audit'},
@@ -57,9 +54,6 @@ describe('GGRC.Utils.TreeView module', function () {
     afterAll(function () {
       GGRC.access_control_roles = origRoleList;
       GGRC.custom_attr_defs = origCustomAttrDefs;
-      CMS.Models.CycleTaskGroupObjectTask
-        .tree_view_options.display_attr_names =
-          origAttrs;
     });
 
     it('includes custom roles info in the result ', function () {
