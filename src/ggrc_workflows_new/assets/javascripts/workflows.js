@@ -31,10 +31,6 @@
       }
     );
 
-    // Initialize controller -- probably this should go in a separate
-    // initialization area
-    $(document.body).ggrc_controllers_workflow_page();
-
     $.extend(
       true,
       newWidgetDescriptors,
@@ -62,8 +58,18 @@
     descriptor[pageInstance.constructor.shortName] = {
     };
     new GGRC.WidgetList('ggrc_workflows', descriptor, [
-      'info_widget',
-      'task_widget'
+      'info_widget'
+    ]);
+  };
+
+  workflowExtension.init_widgets_for_other_pages = function () {
+    var descriptor = {};
+    var pageInstance = GGRC.page_instance();
+
+    descriptor[pageInstance.constructor.shortName] = {
+    };
+    new GGRC.WidgetList('ggrc_workflows', descriptor, [
+      'info_widget'
     ]);
   };
 

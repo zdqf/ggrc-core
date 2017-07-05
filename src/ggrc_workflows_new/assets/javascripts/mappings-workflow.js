@@ -4,16 +4,16 @@
  */
 
 (function ($, CMS, GGRC) {
-  var Cross = GGRC.MapperHelpers.Cross;
+  var Direct = GGRC.MapperHelpers.Direct;
 
   // Add mappings for basic workflow objects
   var mappings = {
-    Workflow: {
-      current_all_tasks: Cross(
-        'current_task_groups', 'cycle_task_group_tasks'
-      )
+    WorkflowTemplate: {
+      _canonical: {
+        context: 'Context'
+      },
+      context: Direct('Context', 'related_object', 'context')
     }
   };
-
   new GGRC.Mappings('ggrc_workflows', mappings);
 })(this.can.$, this.CMS, this.GGRC);

@@ -1,5 +1,6 @@
 dashboard-js-files:
   - workflows.js
+  - mappings-workflow.js
   - components/dashboard-errors.js
   - components/dashboard-widgets.js
   - models/workflow-template.js
