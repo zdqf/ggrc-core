@@ -55,8 +55,10 @@
     var descriptor = {};
     var pageInstance = GGRC.page_instance();
 
-    descriptor[pageInstance.constructor.shortName] = {
-    };
+    if (pageInstance) {
+      descriptor[pageInstance.constructor.shortName] = {
+      };
+    }
     new GGRC.WidgetList('ggrc_workflows', descriptor, [
       'info_widget'
     ]);
@@ -66,8 +68,10 @@
     var descriptor = {};
     var pageInstance = GGRC.page_instance();
 
-    descriptor[pageInstance.constructor.shortName] = {
-    };
+    if (pageInstance) {
+      descriptor[pageInstance.constructor.shortName] = {
+      };
+    }
     new GGRC.WidgetList('ggrc_workflows', descriptor, [
       'info_widget'
     ]);

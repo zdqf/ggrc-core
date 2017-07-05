@@ -47,18 +47,10 @@ describe('GGRC.Models.MapperModel', function () {
     },
     workflows: {
       models: [
-        'TaskGroup',
-        'Workflow',
-        'CycleTaskEntry',
-        'CycleTaskGroupObjectTask',
-        'CycleTaskGroupObject',
-        'CycleTaskGroup'
+        'WorkflowTemplate'
       ],
       notMappable: [
-        'CycleTaskEntry',
-        'CycleTaskGroupObjectTask',
-        'CycleTaskGroupObject',
-        'CycleTaskGroup'
+        'WorkflowTemplate'
       ]
     }
   };
@@ -87,26 +79,20 @@ describe('GGRC.Models.MapperModel', function () {
 
   mappingRules = {
     AccessGroup: _.difference(filtered, ['AccessGroup']),
-    Assessment: _.difference(filtered, ['Audit', 'Person', 'Program', 'Project',
-      'TaskGroup', 'Workflow']),
+    Assessment: _.difference(filtered, ['Audit', 'Person', 'Program', 'Project']),
     AssessmentTemplate: _.difference(filtered, ['Audit', 'Person', 'Program',
-      'Project', 'TaskGroup', 'Workflow']),
-    Audit: _.difference(filtered, ['Audit', 'Person', 'Program', 'Project',
-      'TaskGroup', 'Workflow']),
+      'Project']),
+    Audit: _.difference(filtered, ['Audit', 'Person', 'Program', 'Project']),
     Clause: _.difference(filtered, ['Clause']),
     Contract: _.difference(filtered, directives),
     Control: filtered,
-    CycleTaskGroupObjectTask: _.difference(filtered, ['Person',
-      'TaskGroup', 'Workflow']),
     DataAsset: filtered,
     Facility: filtered,
-    Issue: _.difference(filtered, ['Audit', 'Person', 'Program', 'Project',
-      'TaskGroup', 'Workflow']),
+    Issue: _.difference(filtered, ['Audit', 'Person', 'Program', 'Project']),
     Market: filtered,
     Objective: filtered,
     OrgGroup: filtered,
-    Person: _.difference(filtered, ['Person', 'Audit', 'TaskGroup',
-      'Workflow']),
+    Person: _.difference(filtered, ['Person', 'Audit']),
     Policy: _.difference(filtered, directives),
     Process: filtered,
     Product: filtered,
@@ -119,8 +105,6 @@ describe('GGRC.Models.MapperModel', function () {
     Section: filtered,
     Standard: _.difference(filtered, directives),
     System: filtered,
-    TaskGroup: _.difference(filtered, ['Audit', 'Person',
-      'TaskGroup', 'Workflow']),
     Threat: filtered,
     Vendor: filtered
   };
@@ -460,10 +444,7 @@ describe('GGRC.Models.MapperModel', function () {
     var initTypes;
     var EXPECTED_GROUPS = ['entities', 'business', 'governance'];
     var modelsForTests = _.difference(allTypes, [
-      'CycleTaskEntry',
-      'CycleTaskGroup',
-      'CycleTaskGroupObject',
-      'Workflow'
+      'WorkflowTemplate'
     ]);
 
     beforeEach(function () {
