@@ -28,7 +28,6 @@
 
     attributes: {
       people: 'CMS.Models.Person.stubs',
-      workflow_people: 'CMS.Models.WorkflowPerson.stubs',
       modified_by: 'CMS.Models.Person.stub',
       context: 'CMS.Models.Context.stub',
       custom_attribute_values: 'CMS.Models.CustomAttributeValue.stubs',
