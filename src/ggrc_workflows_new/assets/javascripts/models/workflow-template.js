@@ -3,7 +3,7 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 */
 
-(function (can) {
+(function (can, _) {
   can.Model.Cacheable('CMS.Models.WorkflowTemplate', {
     root_object: 'workflow_template',
     root_collection: 'workflow_templates',
@@ -17,14 +17,10 @@
     title_singular: 'Workflow',
     is_custom_attributable: true,
 
-    defaults: {
-      frequency_options: [
-        {title: 'One time', value: 'one_time'},
-        {title: 'Weekly', value: 'weekly'},
-        {title: 'Monthly', value: 'monthly'}
-      ],
-      frequency: 'one_time' // default value
-    },
+    unit: null,
+    repeat_every: null,
+    ends: null,
+    occurrences: null,
 
     attributes: {
       people: 'CMS.Models.Person.stubs',
@@ -137,4 +133,4 @@
       }
     }
   });
-})(window.can);
+})(window.can, window._);

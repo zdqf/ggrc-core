@@ -186,4 +186,15 @@ $grid-data-header-height: 66px;
       }
     }
   }
+
+  &.repeat-on {
+    min-width: 720px;
+    .simple-modal__body {
+      max-height: calc(100% - #{$simple-modal-header-height});
+    }
+
+    .simple-modal__header {
+      border-bottom: none;
+    }
+  }
 }

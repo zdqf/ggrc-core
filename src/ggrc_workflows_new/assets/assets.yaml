@@ -3,11 +3,15 @@ dashboard-js-files:
   - mappings-workflow.js
   - components/dashboard-errors.js
   - components/dashboard-widgets.js
+  - components/repeat-on-button.js
+  - components/repeat-on-button-wrapper.js
   - models/workflow-template.js
 
 dashboard-js-spec-files:
 
 dashboard-js-template-files:
+  - components/repeat-on-button.mustache
+  - components/repeat-on-options.mustache
   - dashboard/widgets.mustache
   - dashboard/workflow-progress.mustache
   - workflow_templates/extended_info.mustache

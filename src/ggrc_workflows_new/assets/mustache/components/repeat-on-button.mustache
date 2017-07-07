@@ -1,0 +1,24 @@
+{{!
+    Copyright (C) 2017 Google Inc.
+    Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+}}
+
+<a href="javascript://" ($click)="showDialog"
+   class="btn btn-small {{#if unit}}btn-green{{else}}btn-white{{/if}}">
+    {{buttonText}}
+</a>
+<simple-modal modal-title="modalTitle"
+              state="state"
+              extra-css-class="repeat-on">
+    <div class="simple-modal__body">
+        {{{> "/static/mustache/components/repeat-on-options"}}}
+        <div class="modal-footer">
+            <div class="confirm-buttons">
+                <button class="btn btn-small btn-green"
+                        ($click)="save()" {{^canSave}}disabled{{/canSave}}>
+                    Save &amp; Close
+                </button>
+            </div>
+        </div>
+    </div>
+</simple-modal>
