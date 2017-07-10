@@ -8,6 +8,7 @@ dashboard-js-files:
   - models/workflow-template.js
 
 dashboard-js-spec-files:
+  - components/tests/repeat-on-button_spec.js
 
 dashboard-js-template-files:
   - components/repeat-on-button.mustache
