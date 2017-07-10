@@ -16,6 +16,7 @@ revision = '4be9d0c0242a'
 down_revision = None
 WT_TABLE_NAME = 'workflow_templates'
 WT_DAY_UNIT = u'Day'
+WT_WEEK_UNIT = u'Week'
 WT_MONTH_UNIT = u'Month'
 
 
@@ -33,7 +34,7 @@ def upgrade():
       sa.Column('repeat_every', sa.Integer()),
       sa.Column('slug', sa.String(length=250), nullable=False),
       sa.Column('title', sa.String(length=250), nullable=False),
-      sa.Column('unit', sa.Enum(WT_DAY_UNIT, WT_MONTH_UNIT)),
+      sa.Column('unit', sa.Enum(WT_DAY_UNIT, WT_WEEK_UNIT, WT_MONTH_UNIT)),
       sa.Column('updated_at', sa.DateTime(), nullable=False),
       sa.ForeignKeyConstraint(['context_id'], ['contexts.id'],
                               'fk_workflow_template_context_id'),

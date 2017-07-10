@@ -19,8 +19,9 @@ class WorkflowTemplate(mixins.Described, mixins.Slugged, mixins.Titled,
                     reflection.PublishOnly('latest_cycle_number'),
                     'repeat_every', 'title', 'unit')
   DAY_UNIT = u'Day'
+  WEEK_UNIT = u'Week'
   MONTH_UNIT = u'Month'
-  VALID_UNITS = (DAY_UNIT, MONTH_UNIT)
+  VALID_UNITS = (DAY_UNIT, WEEK_UNIT, MONTH_UNIT)
   archived = deferred.deferred(
       db.Column(db.Boolean, nullable=False, default=False), 'WorkflowTemplate')
   latest_cycle_number = deferred.deferred(
