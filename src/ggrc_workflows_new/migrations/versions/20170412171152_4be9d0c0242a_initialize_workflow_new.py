@@ -31,6 +31,7 @@ def upgrade():
       sa.Column('id', sa.Integer(), primary_key=True),
       sa.Column('latest_cycle_number', sa.Integer(), nullable=False, server_default="1"),
       sa.Column('modified_by_id', sa.Integer()),
+      sa.Column('occurrences', sa.Integer()),
       sa.Column('repeat_every', sa.Integer()),
       sa.Column('slug', sa.String(length=250), nullable=False),
       sa.Column('title', sa.String(length=250), nullable=False),
