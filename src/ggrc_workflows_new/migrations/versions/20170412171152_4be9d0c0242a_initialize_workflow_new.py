@@ -9,6 +9,7 @@ Create Date: 2017-04-03 12:00:05.686115
 # pylint: disable=invalid-name
 from alembic import op
 import sqlalchemy as sa
+from datetime import datetime
 
 
 # revision identifiers, used by Alembic.
@@ -19,6 +20,22 @@ WT_DAY_UNIT = u'Day'
 WT_WEEK_UNIT = u'Week'
 WT_MONTH_UNIT = u'Month'
 
+
+acr_table = sa.sql.table('access_control_roles',
+                         sa.sql.column('id', sa.Integer),
+                         sa.sql.column('name', sa.String),
+                         sa.sql.column('object_type', sa.String),
+                         sa.sql.column('tooltip'),
+                         sa.sql.column('read', sa.Boolean),
+                         sa.sql.column('update', sa.Boolean),
+                         sa.sql.column('delete', sa.Boolean),
+                         sa.sql.column('my_work', sa.Boolean),
+                         sa.sql.column('created_at', sa.DateTime),
+                         sa.sql.column('modified_by_id', sa.Integer),
+                         sa.sql.column('updated_at', sa.DateTime),
+                         sa.sql.column('context_id', sa.Integer),
+                         sa.sql.column('mandatory', sa.Boolean),
+                        )
 
 def upgrade():
   """Upgrade database schema and/or data, creating a new revision."""
@@ -44,7 +61,38 @@ def upgrade():
   op.create_index('ix_{}_updated_at'.format(WT_TABLE_NAME), WT_TABLE_NAME,
                   ['updated_at'])
 
+  # Insert ACR values needed for WorkflowTemplate model
+  op.bulk_insert(acr_table,
+                 [
+                   {
+                     'name': 'Admin',
+                     'object_type': 'WorkflowTemplate',
+                     'read': True,
+                     'update': True,
+                     'delete': True,
+                     'created_at': datetime.now(),
+                     'updated_at': datetime.now(),
+                     'mandatory': True
+                   },
+                   {
+                     'name': 'CC List',
+                     'object_type': 'WorkflowTemplate',
+                     'read': True,
+                     'update': False,
+                     'delete': False,
+                     'created_at': datetime.now(),
+                     'updated_at': datetime.now(),
+                     'mandatory': False
+                   },
+                 ])
+
 
 def downgrade():
   """Downgrade database schema and/or data back to the previous revision."""
   op.drop_table(WT_TABLE_NAME)
+  op.execute(acr_table.delete().where(acr_table.c.name.in_(
+    [
+      op.inline_literal('Admin'),
+      op.inline_literal('CC List')
+    ]))
+  )
