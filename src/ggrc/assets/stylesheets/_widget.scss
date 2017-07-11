@@ -25,51 +25,9 @@
       }
     }
     &.widget-nav {
-      height: 40px;
       background: none;
-      ul {
-        @extend %reset-list;
-        @extend %clearfix;
-        li {
-          float: left;
-          font-size: 18px;
-          line-height: 30px;
-          color: $black;
-          font-family: $fontTitle;
-        }
-        a {
-          @include transition(background 0.2s ease, color 0.2s ease);
-          padding: 5px 10px;
-          display: block;
-          line-height: 30px;
-          color: $black;
-          &:hover {
-            background: $tabHoverBgnd;
-            color: $white;
-            text-decoration: none;
-            i {
-              @include opacity(1);
-            }
-          }
-        }
-        i {
-          @include opacity(0.55);
-          margin-top: 6px;
-        }
-        li.active {
-          a {
-            color: $black;
-            background-color: $white;
-            i {
-              @include opacity(1);
-            }
-            &:hover {
-              background: $tabHoverBgnd;
-              color: $white;
-            }
-          }
-        }
-      }
+      height: auto;
+      margin: 6px 0 4px;
     }
   }
   .filter {
@@ -458,6 +416,7 @@
 
 .workflow-tree {
   .zero-state {
+    background: $white;
     color: $black;
     font-size: $f-regular;
     font-weight: normal;
