@@ -5,13 +5,14 @@ import sqlalchemy as sa
 from sqlalchemy import orm
 from sqlalchemy.ext import hybrid
 from ggrc import db
+from ggrc.access_control import roleable
 from ggrc.models import deferred
 from ggrc.models import mixins
 from ggrc.models import reflection
 
 
 class WorkflowTemplate(mixins.Described, mixins.Slugged, mixins.Titled,
-                       db.Model):
+                       roleable.Roleable, db.Model):
   """WorkflowTemplate model implementation."""
   __tablename__ = 'workflow_templates'
   _title_uniqueness = False
