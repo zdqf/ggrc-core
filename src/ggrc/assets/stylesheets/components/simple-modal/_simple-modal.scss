@@ -196,5 +196,10 @@ $grid-data-header-height: 66px;
     .simple-modal__header {
       border-bottom: none;
     }
+
+    .simple-modal__footer {
+      border-top: none;
+      text-align: right;
+    }
   }
 }

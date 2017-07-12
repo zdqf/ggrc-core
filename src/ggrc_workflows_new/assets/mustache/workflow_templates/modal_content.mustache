@@ -39,11 +39,14 @@
         </div>
 
         <div class="ggrc-form-item">
-            <div class="ggrc-form-item__multiple-row">
+            <div class="ggrc-form-item__row">
                 <label class="ggrc-form-item__label">
                     Repeat Workflow
                 </label>
                 <repeat-on-button-wrapper {(instance)}="instance"></repeat-on-button-wrapper>
+                <repeat-on-summary {unit}="instance.unit" {ends}="instance.ends"
+                                   {occurrences}="instance.occurrences" {repeat-every}="instance.repeat_every">
+                </repeat-on-summary>
             </div>
         </div>
 

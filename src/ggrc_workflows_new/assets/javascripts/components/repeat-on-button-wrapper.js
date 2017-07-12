@@ -10,7 +10,7 @@
     tag: 'repeat-on-button-wrapper',
     template: '<repeat-on-button ' +
       '{unit}="instance.unit" ' +
-      '{repeat-every}="instance.repeatEvery" ' +
+      '{repeat-every}="instance.repeat_every" ' +
       '{ends}="instance.ends" ' +
       '{occurrences}="instance.occurrences" ' +
       '(on-set-repeat)="onSetRepeat(%event)">' +

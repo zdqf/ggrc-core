@@ -97,9 +97,9 @@ describe('GGRC.Components.repeatOnButton', function () {
         title: '2'
       }];
     var unitOptions = [
-      {title: 'Daily', value: 'Day', plural: 'days'},
-      {title: 'Weekly', value: 'Week', plural: 'weeks'},
-      {title: 'Monthly', value: 'Month', plural: 'months'}
+      {title: 'Daily', value: 'Day', plural: 'days', singular: 'day'},
+      {title: 'Weekly', value: 'Week', plural: 'weeks', singular: 'week'},
+      {title: 'Monthly', value: 'Month', plural: 'months', singular: 'month'}
     ];
 
     beforeEach(function () {
@@ -122,9 +122,7 @@ describe('GGRC.Components.repeatOnButton', function () {
     it('should update options when unit was not selected',
     function () {
       var actualTitles;
-      var expectedTitles = repeatOptions.map(function (option) {
-        return option.title + ' weeks';
-      });
+      var expectedTitles = ['1 week', '2 weeks']
       viewModel.attr('state.result.unit', 'Week');
 
       viewModel.updateRepeatEveryOptions();
@@ -292,9 +290,7 @@ describe('GGRC.Components.repeatOnButton', function () {
     it('should update repeat options when unit changed',
     function () {
       var actualTitles;
-      var expectedTitles = repeatOptions.map(function (option) {
-        return option.title + ' days';
-      });
+      var expectedTitles = ['1 day', '2 days'];
       context.viewModel.attr('state.result.unit', 'Day');
 
       unitChanged.apply(context);

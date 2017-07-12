@@ -46,5 +46,13 @@ form-validation-icon {
     i {
       opacity: 1;
     }
+
+    &.single-indent {
+      line-height: 18px;
+
+      i.fa-asterisk {
+        height: 16px;
+      }
+    }
   }
 }

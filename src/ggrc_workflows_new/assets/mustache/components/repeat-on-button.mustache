@@ -11,8 +11,10 @@
               state="state"
               extra-css-class="repeat-on">
     <div class="simple-modal__body">
-        {{{> "/static/mustache/components/repeat-on-options"}}}
-        <div class="modal-footer">
+        <div class="ggrc-form">
+            {{{> "/static/mustache/components/repeat-on-options"}}}
+        </div>
+        <div class="simple-modal__footer">
             <div class="confirm-buttons">
                 <button class="btn btn-small btn-green"
                         ($click)="save()" {{^canSave}}disabled{{/canSave}}>

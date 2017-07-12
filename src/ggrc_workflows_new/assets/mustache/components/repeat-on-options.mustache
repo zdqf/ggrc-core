@@ -3,17 +3,21 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-<div class="row-fluid">
-    <div class="span12">
-        <label for="repeat-checkbox">
-            <input type="checkbox" can-value="repeatEnabled" id="repeat-checkbox"/>
-            Repeat Workflow
-        </label>
+<div class="ggrc-form-item">
+    <div class="ggrc-form-item__row">
+        <div class="ggrc-form-item__checkbox-item">
+            <label class="input--inline" for="repeat-checkbox">
+                <input type="checkbox" can-value="repeatEnabled" id="repeat-checkbox"/>
+                Repeat Workflow
+            </label>
+        </div>
     </div>
 </div>
-<div class="row-fluid">
-    <div class="span4">
-        <label for="repeats-select" {{#unless repeatEnabled}}class="disabled"{{/unless}}>
+
+<div class="ggrc-form-item">
+    <div class="ggrc-form-item__multiple-row">
+        <label class="ggrc-form-item__label {{#unless repeatEnabled}}disabled{{/unless}}"
+               for="repeats-select">
             Repeats
         </label>
         <dropdown options-list="unitOptions"
@@ -22,8 +26,10 @@
                   {is-disabled}="repeatDisabled">
         </dropdown>
     </div>
-    <div class="span4">
-        <label for="repeat-every-select" {{#unless repeatEnabled}}class="disabled"{{/unless}}>
+
+    <div class="ggrc-form-item__multiple-row">
+        <label class="ggrc-form-item__label {{#unless repeatEnabled}}disabled{{/unless}}"
+               for="repeat-every-select">
             Repeat Every
         </label>
         <dropdown {options-list}="repeatOptions"
@@ -33,9 +39,11 @@
         </dropdown>
     </div>
 </div>
-<div class="row-fluid">
-    <div class="span4">
-        <label for="ends-select" {{#unless repeatEnabled}}class="disabled"{{/unless}}>
+
+<div class="ggrc-form-item">
+    <div class="ggrc-form-item__multiple-row">
+        <label class="ggrc-form-item__label {{#unless repeatEnabled}}disabled{{/unless}}"
+               for="ends-select">
             Ends
         </label>
         <dropdown options-list="endOptions"
@@ -44,9 +52,14 @@
                   {is-disabled}="repeatDisabled">
         </dropdown>
     </div>
-    <div class="span4">
-        <label for="occurrences-input" {{#unless shouldProvideOccurrences}}class="disabled"{{/unless}}>
+
+    <div class="ggrc-form-item__multiple-row">
+        <label class="form-label ggrc-form-item__label single-indent {{#unless shouldProvideOccurrences}}disabled{{else}}required-label{{/unless}}"
+               for="occurrences-input">
             Occurrences
+            {{#if shouldProvideOccurrences}}
+                <i class="fa fa-asterisk"></i>
+            {{/if}}
         </label>
         {{#if shouldProvideOccurrences}}
             <input class="input-block-level required" placeholder="Enter Number of Occurrences"
@@ -56,7 +69,7 @@
         {{else}}
             <input class="input-block-level required" placeholder="Enter Number of Occurrences"
                    id="occurrences-input" name="occurrences" readonly
-                   type="number"  {($value)}="state.result.occurrences" autofocus>
+                   type="number" {($value)}="state.result.occurrences" autofocus>
         {{/if}}
     </div>
 </div>

@@ -9,29 +9,6 @@
   var template = can.view(GGRC.mustache_path +
     '/components/repeat-on-button.mustache');
   var neverEndOption = '0';
-  var config = {
-    unitOptions: [
-      {title: 'Daily', value: 'Day', plural: 'days'},
-      {title: 'Weekly', value: 'Week', plural: 'weeks'},
-      {title: 'Monthly', value: 'Month', plural: 'months'}
-    ],
-    repeatOptions: _.range(1, 31)
-      .map(function (option) {
-        return {
-          value: option
-        };
-      }),
-    endOptions: [
-      {title: 'Never', value: neverEndOption},
-      {title: 'After', value: '1'}
-    ],
-    defaultRepeatValues: {
-      unit: 'Month',
-      repeatEvery: 1,
-      ends: 0,
-      occurrences: '10'
-    }
-  };
 
   GGRC.Components('repeatOnButton', {
     tag: 'repeat-on-button',
@@ -104,15 +81,18 @@
             return option.value === this.attr('state.result.unit');
           }.bind(this));
           repeatOptions.forEach(function (option) {
+            var unitName = option.value > 1 ?
+              selectedRepeatEvery.plural :
+              selectedRepeatEvery.singular;
             option.attr('title',
-              option.value + ' ' + selectedRepeatEvery.plural);
+              option.value + ' ' + unitName);
           });
         }
       },
       initOptionLists: function () {
-        this.attr('repeatOptions').replace(config.repeatOptions);
-        this.attr('unitOptions').replace(config.unitOptions);
-        this.attr('endOptions').replace(config.endOptions);
+        this.attr('repeatOptions').replace(GGRC.Workflow.repeatOptions);
+        this.attr('unitOptions').replace(GGRC.Workflow.unitOptions);
+        this.attr('endOptions').replace(GGRC.Workflow.endOptions);
       },
       setResultOptions: function (unit, repeatEvery, ends, occurrences) {
         this.attr('state.result.unit', unit);
@@ -121,10 +101,10 @@
         this.attr('state.result.occurrences', occurrences);
       },
       setDefaultOptions: function () {
-        this.setResultOptions(config.defaultRepeatValues.unit,
-          config.defaultRepeatValues.repeatEvery,
-          config.defaultRepeatValues.ends,
-          config.defaultRepeatValues.occurrences);
+        this.setResultOptions(GGRC.Workflow.defaultRepeatValues.unit,
+          GGRC.Workflow.defaultRepeatValues.repeatEvery,
+          GGRC.Workflow.defaultRepeatValues.ends,
+          GGRC.Workflow.defaultRepeatValues.occurrences);
       },
       initSelectedOptions: function () {
         var repeatEnabled = !!this.attr('unit');
@@ -179,7 +159,7 @@
           this.viewModel.attr('state.result.occurrences', null);
         } else {
           this.viewModel.attr('state.result.occurrences',
-            config.defaultRepeatValues.occurrences);
+            GGRC.Workflow.defaultRepeatValues.occurrences);
         }
       },
       '{viewModel} repeatEnabled': function () {
@@ -188,7 +168,7 @@
         } else if (!this.viewModel.attr('state.result.occurrences') &&
           this.viewModel.attr('state.result.ends') !== neverEndOption) {
           this.viewModel.attr('state.result.occurrences',
-            config.defaultRepeatValues.occurrences);
+            GGRC.Workflow.defaultRepeatValues.occurrences);
         }
       },
       '{state} open': function () {
