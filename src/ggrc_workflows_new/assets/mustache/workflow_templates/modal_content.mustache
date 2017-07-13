@@ -18,7 +18,7 @@
                        placeholder="Enter Title"
                        name="title"
                        type="text"
-                       {$value}="title" autofocus>
+                       {$value}="instance.title" autofocus>
                 {{#instance.computed_errors.title}}
                     <label class="help-inline warning">{{this}}</label>{{/instance.computed_errors.title}}
             </div>
@@ -32,7 +32,7 @@
                 <div class="wysiwyg-area">
                     <textarea tabindex="11" id="control_description" class="span12 triple wysihtml5"
                               name="description" placeholder="Enter Description">
-                        {{{description}}}
+                        {{{instance.description}}}
                     </textarea>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                     Code
                 </label>
                 <input data-id="code_txtbx" tabindex="14" class="input-block-level" name="slug"
-                       placeholder="WORKFLOW-XXX" type="text" {$value}="slug">
+                       placeholder="WORKFLOW-XXX" type="text" {$value}="instance.slug">
             </div>
         </div>
     </form>
