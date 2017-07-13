@@ -275,3 +275,25 @@ ul.add-task-comment {
   margin: 20px 0 0;
   list-style-type: none;
 }
+
+.workflow-info-pane {
+  flex-direction: column;
+
+  .info-pane__main-content.workflow-attributes {
+    display: flex;
+    flex-wrap: wrap;
+
+    > * {
+      flex: 1 1 50%;
+    }
+
+    .workflow-attributes__repeat > * {
+      padding-left: 10px;
+    }
+
+    .workflow-attributes__slug,
+    .workflow-attributes__custom {
+      flex-basis: 100%;
+    }
+  }
+}

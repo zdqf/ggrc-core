@@ -3,133 +3,86 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-{{#instance}}
-<section class="info{{#is_info_pin}} sticky-info-panel{{/is_info_pin}}">
 
-  {{#is_info_pin}}
-    <info-pin-buttons class="details-wrap" maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
-  {{/is_info_pin}}
+<section class="info info-pane{{#is_info_pin}} sticky-info-panel{{/is_info_pin}}">
+    {{#is_info_pin}}
+        <info-pin-buttons class="details-wrap" maximized="maximized" on-change-maximized-state="@onChangeMaximizedState"
+                          on-close="@onClose"></info-pin-buttons>
+    {{/is_info_pin}}
 
-  <div class="info-pane-utility">
-    {{#is_allowed 'update' instance context='for'}}
-      <div class="details-wrap">
-        <a class="btn btn-3bbps dropdown-toggle" href="#" data-toggle="dropdown">
-          <span class="bubble"></span>
-          <span class="bubble"></span>
-          <span class="bubble"></span>
-        </a>
-        <ul class="dropdown-menu three-dots-list" aria-labelledby="drop1" role="menu">
-          {{^is_info_pin}}
-            {{{render_hooks instance.class.shortName 'info_widget_actions'}}}
-            {{^if_equals instance.kind "Backlog"}}
-              <li>
-                <a href="javascript://" data-toggle="modal-ajax-form" data-object-plural="{{model.table_plural}}" data-object-singular="{{model.model_singular}}" data-modal-reset="reset" data-modal-class="modal-wide" title="Edit {{model.model_title}}" data-object-id="{{instance.id}}">
-                  <i class="fa fa-pencil-square-o"></i>
-                  Edit Workflow Info
-                </a>
-              </li>
-            {{/if_equals}}
-          {{/is_info_pin}}
+    <div class="workflow-info-pane info-pane__body">
+        <div class="info-pane__header">
+            <div class="info-pane__header-title">
+                <div class="info-pane__section-title">Title</div>
+                <h3>{{instance.title}}</h3>
+            </div>
 
-          <li>
-            <clipboard-link title="Get permalink" notify="true" text="{{get_permalink_url}}" />
-          </li>
-
-          {{^is_info_pin}}
-            {{^if_equals instance.kind "Backlog"}}
-              <li>
-                <workflow-clone workflow="instance">
-                  <a href="javascript://">
-                    <i class="fa fa-clone"></i>
-                    Clone Workflow
-                  </a>
-                </workflow-clone>
-              </li>
-              {{#if instance.recurrences}}
-                <li>
-                  <workflow-start-cycle workflow="instance">
-                    <workflow-activate workflow="instance" deferredData="can_activate">
-                      {{#can_activate}}
-                        <a href="#workflowStart" {{^instance.task_groups.length}}disabled="disabled"{{/task_groups}}>
-                          <i class="fa fa-sliders"></i>
-                          Manually Start a Cycle
+            <div class="info-pane__utility">
+                {{#is_allowed 'update' instance context='for'}}
+                    <div class="details-wrap">
+                        <a class="btn btn-3bbps dropdown-toggle" href="#" data-toggle="dropdown">
+                            <span class="bubble"></span>
+                            <span class="bubble"></span>
+                            <span class="bubble"></span>
                         </a>
-                      {{/can_activate}}
-                    </workflow-activate>
-                  </workflow-start-cycle>
-                </li>
-                <li>
-                  <workflow-deactivate workflow="instance">
-                    <a href="#workflowStart" {{^instance.task_groups.length}}disabled="disabled"{{/task_groups}}>
-                      <i class="fa fa-archive"></i>
-                      Archive workflow
-                    </a>
-                  </workflow-deactivate>
-                </li>
-              {{/if}}
-              {{#is_allowed 'delete' instance}}
-                <li>
-                  <a data-toggle="modal-ajax-deleteform" data-object-plural="{{model.table_plural}}" data-object-singular="{{model.model_singular}}" data-modal-reset="reset" data-modal-class="modal" data-object-id="{{instance.id}}" href="javascript://">
-                    <i class="fa fa-trash"></i>
-                    Delete
-                  </a>
-                </li>
-              {{/is_allowed}}
-            {{/if_equals}}
-          {{/is_info_pin}}
-
-          {{#is_info_pin}}
-            {{#if instance.viewLink}}
-              {{#is_allowed "view_object_page" instance}}
-                <li>
-                  <a href="{{instance.viewLink}}">
-                    <i class="fa fa-long-arrow-right"></i>
-                    Open {{instance.class.title_singular}}
-                  </a>
-                </li>
-              {{/is_allowed}}
-            {{/if}}
-          {{/is_info_pin}}
-
-        </ul>
-      </div>
-    {{/is_allowed}}
-  </div>
-
-  <div class="tier-content">
-    <div class="pane-header">
-      {{#instance}}
-        <div class="row-fluid wrap-row">
-          <div class="span9">
-            <h6>Title</h6>
-            <h3>{{title}}</h3>
-            {{#if type}}
-            <p>
-              {{type.title}}
-            </p>
-            {{/if}}
-          </div>
+                        <ul class="dropdown-menu three-dots-list" aria-labelledby="drop1" role="menu">
+                            {{^is_info_pin}}
+                                <li>
+                                    <a href="javascript://" data-toggle="modal-ajax-form"
+                                       data-object-plural="workflow_templates"
+                                       data-object-singular="WorkflowTemplate"
+                                       data-modal-reset="reset" data-modal-class="modal-wide"
+                                       title="Edit Workflow" data-object-id="{{instance.id}}">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                        Edit Workflow
+                                    </a>
+                                </li>
+                            {{/is_info_pin}}
+                        </ul>
+                    </div>
+                {{/is_allowed}}
+            </div>
         </div>
-      {{/instance}}
-    </div>
 
-    <div class="row-fluid wrap-row">
-      <div class="span12">
-        <h6>Description</h6>
-        <div class="rtf-block">
-          <p>{{{firstnonempty instance.description '<span class="empty-message">None</span>'}}}</p>
+        <div class="info-pane__main-content workflow-attributes">
+
+            <div class="workflow-attributes__description">
+                <div class="info-pane__section-title">
+                    <h6>Description</h6>
+                </div>
+
+                <div class="info-pane__section-content">
+                    <read-more {text}="instance.description"></read-more>
+                </div>
+            </div>
+
+            <div class="workflow-attributes__repeat">
+                <div class="info-pane__section-title">
+                    <h6>Repeat</h6>
+                </div>
+                <div class="info-pane__section-content">
+                    <repeat-on-summary {unit}="instance.unit" {ends}="instance.ends"
+                                       {occurrences}="instance.occurrences" {repeat-every}="instance.repeat_every">
+                    </repeat-on-summary>
+                </div>
+            </div>
+
+            <div class="workflow-attributes__slug">
+                <div class="info-pane__section-title">
+                    <h6>Code</h6>
+                </div>
+                <div class="info-pane__section-content">
+                    {{instance.slug}}
+                </div>
+            </div>
+
+            <div class="workflow-attributes__custom">
+                {{>'/static/mustache/custom_attributes/info.mustache'}}
+            </div>
+
         </div>
-      </div>
     </div>
-
-    <div class="row-fluid">
-      <div class="span12">
-        {{>'/static/mustache/custom_attributes/info.mustache'}}
-      </div>
-    </div>
-  </div> <!-- end tier-content -->
-
 </section>
 
-  <info-pane-footer {created-at}="instance.created_at" {modified-at}="instance.updated_at" {modified-by}="instance.modified_by"></info-pane-footer>
-{{/instance}}
+<info-pane-footer {created-at}="instance.created_at" {modified-at}="instance.updated_at"
+                  {modified-by}="instance.modified_by"></info-pane-footer>

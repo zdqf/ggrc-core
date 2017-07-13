@@ -4,6 +4,15 @@
  */
 
 .info-pane {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__header-title {
+    display: block;
+    margin: 0 16px 16px 0;
+  }
 
   &__body {
     display: flex;
