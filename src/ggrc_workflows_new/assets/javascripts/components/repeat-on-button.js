@@ -118,6 +118,7 @@
       init: function () {
         this.initSelectedOptions();
         this.initOptionLists();
+        this.updateRepeatEveryOptions();
       },
       save: function () {
         var unit = null;
