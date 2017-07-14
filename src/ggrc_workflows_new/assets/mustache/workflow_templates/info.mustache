@@ -68,6 +68,18 @@
                 </div>
             </div>
 
+            {{#unless is_info_pin}}
+                <custom-roles
+                        {instance}="instance"
+                        {is-new-instance}="new_object_form">
+                </custom-roles>
+            {{else}}
+                <custom-roles-modal
+                        {instance}="instance"
+                        {is-new-instance}="new_object_form">
+                </custom-roles-modal>
+            {{/unless}}
+
             <div class="workflow-attributes__slug">
                 <div class="info-pane__section-title">
                     <h6>Code</h6>

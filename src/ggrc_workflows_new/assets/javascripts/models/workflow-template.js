@@ -8,7 +8,7 @@
     root_object: 'workflow_template',
     root_collection: 'workflow_templates',
     category: 'workflow',
-    mixins: ['ca_update', 'timeboxed'],
+    mixins: ['ca_update', 'timeboxed', 'accessControlList'],
     findAll: 'GET /api/workflow_templates',
     findOne: 'GET /api/workflow_templates/{id}',
     create: 'POST /api/workflow_templates',
