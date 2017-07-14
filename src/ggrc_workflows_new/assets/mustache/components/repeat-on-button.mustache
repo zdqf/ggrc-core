@@ -17,8 +17,13 @@
         <div class="simple-modal__footer">
             <div class="confirm-buttons">
                 <button class="btn btn-small btn-green"
-                        ($click)="save()" {{^canSave}}disabled{{/canSave}}>
-                    Save &amp; Close
+                        ($click)="save()" {{^canSave}}disabled{{/canSave}}
+                        {{#if isSaving}}disabled{{/if}}>
+                    {{#if isSaving}}
+                        Saving, please wait...
+                    {{else}}
+                        Save &amp; Close
+                    {{/if}}
                 </button>
             </div>
         </div>

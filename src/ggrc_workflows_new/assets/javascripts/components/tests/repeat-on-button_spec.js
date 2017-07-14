@@ -79,6 +79,7 @@ describe('GGRC.Components.repeatOnButton', function () {
     function () {
       var result;
       viewModel.attr('repeatEnabled', true);
+      viewModel.attr('state.result.ends', afterEndOption);
 
       result = viewModel.attr('shouldProvideOccurrences');
 
@@ -122,7 +123,7 @@ describe('GGRC.Components.repeatOnButton', function () {
     it('should update options when unit was not selected',
     function () {
       var actualTitles;
-      var expectedTitles = ['1 week', '2 weeks']
+      var expectedTitles = ['1 week', '2 weeks'];
       viewModel.attr('state.result.unit', 'Week');
 
       viewModel.updateRepeatEveryOptions();
@@ -178,8 +179,12 @@ describe('GGRC.Components.repeatOnButton', function () {
   });
 
   describe('save method', function () {
+    var saveDfd;
     beforeEach(function () {
-      spyOn(viewModel, 'dispatch');
+      saveDfd = can.Deferred();
+      viewModel.attr('onSaveRepeat', function () {
+        return saveDfd;
+      });
     });
 
     it('should notify with selected values when repeat is enabled',
@@ -196,13 +201,10 @@ describe('GGRC.Components.repeatOnButton', function () {
 
       viewModel.save();
 
-      expect(viewModel.dispatch).toHaveBeenCalledWith({
-        type: 'onSetRepeat',
-        unit: unit,
-        repeatEvery: repeatEvery,
-        ends: ends,
-        occurrences: occurrences
-      });
+      expect(viewModel.attr('isSaving')).toBeTruthy();
+
+      saveDfd.resolve();
+      expect(viewModel.attr('isSaving')).toBeFalsy();
       expect(viewModel.attr('state.open')).toBeFalsy();
     });
 
@@ -210,13 +212,10 @@ describe('GGRC.Components.repeatOnButton', function () {
     function () {
       viewModel.save();
 
-      expect(viewModel.dispatch).toHaveBeenCalledWith({
-        type: 'onSetRepeat',
-        unit: null,
-        repeatEvery: null,
-        ends: null,
-        occurrences: null
-      });
+      expect(viewModel.attr('isSaving')).toBeTruthy();
+
+      saveDfd.resolve();
+      expect(viewModel.attr('isSaving')).toBeFalsy();
       expect(viewModel.attr('state.open')).toBeFalsy();
     });
   });
@@ -237,6 +236,7 @@ describe('GGRC.Components.repeatOnButton', function () {
     function () {
       var elements = [{value: '-1'}];
       viewModel.attr('repeatEnabled', true);
+      viewModel.attr('state.result.ends', afterEndOption);
 
       viewModel.checkOccurrences(null, elements);
 
@@ -248,6 +248,7 @@ describe('GGRC.Components.repeatOnButton', function () {
     function () {
       var elements = [{value: 'ab'}];
       viewModel.attr('repeatEnabled', true);
+      viewModel.attr('state.result.ends', afterEndOption);
 
       viewModel.checkOccurrences(null, elements);
 
@@ -259,6 +260,7 @@ describe('GGRC.Components.repeatOnButton', function () {
     function () {
       var elements = [{value: '23'}];
       viewModel.attr('repeatEnabled', true);
+      viewModel.attr('state.result.ends', afterEndOption);
 
       viewModel.checkOccurrences(null, elements);
 

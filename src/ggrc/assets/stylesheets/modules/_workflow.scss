@@ -289,6 +289,10 @@ ul.add-task-comment {
 
     .workflow-attributes__repeat > * {
       padding-left: 10px;
+
+      .repeat-summary {
+          margin-top: 20px;
+      }
     }
 
     .workflow-attributes__slug,

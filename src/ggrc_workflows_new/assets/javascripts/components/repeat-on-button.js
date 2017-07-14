@@ -3,12 +3,21 @@
  Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
  */
 
-(function (can, GGRC) {
+(function (can, GGRC, $) {
   'use strict';
 
   var template = can.view(GGRC.mustache_path +
     '/components/repeat-on-button.mustache');
-  var neverEndOption = '0';
+  var config = GGRC.Workflow;
+  var getEndOption = function (value) {
+    return function (option) {
+      return option.title.toLowerCase() === value;
+    };
+  };
+  var neverEndOption = config.endOptions
+    .find(getEndOption('never')).value;
+  var afterEndOption = config.endOptions
+      .find(getEndOption('after')).value;
 
   GGRC.Components('repeatOnButton', {
     tag: 'repeat-on-button',
@@ -52,11 +61,29 @@
         canSave: {
           type: 'boolean',
           value: true
+        },
+        isSaving: {
+          type: 'boolean',
+          value: false
+        },
+        onSaveRepeat: {
+          value: function () {
+            return function () {
+              return $.Deferred().resolve();
+            };
+          }
+        },
+        ends: {
+          get: function () {
+            var occurrences = this.attr('occurrences');
+            return occurrences ?
+              afterEndOption :
+              neverEndOption;
+          }
         }
       },
       unit: null,
       repeatEvery: null,
-      ends: null,
       occurrences: null,
       state: {
         open: false,
@@ -90,9 +117,9 @@
         }
       },
       initOptionLists: function () {
-        this.attr('repeatOptions').replace(GGRC.Workflow.repeatOptions);
-        this.attr('unitOptions').replace(GGRC.Workflow.unitOptions);
-        this.attr('endOptions').replace(GGRC.Workflow.endOptions);
+        this.attr('repeatOptions').replace(config.repeatOptions);
+        this.attr('unitOptions').replace(config.unitOptions);
+        this.attr('endOptions').replace(config.endOptions);
       },
       setResultOptions: function (unit, repeatEvery, ends, occurrences) {
         this.attr('state.result.unit', unit);
@@ -101,10 +128,10 @@
         this.attr('state.result.occurrences', occurrences);
       },
       setDefaultOptions: function () {
-        this.setResultOptions(GGRC.Workflow.defaultRepeatValues.unit,
-          GGRC.Workflow.defaultRepeatValues.repeatEvery,
-          GGRC.Workflow.defaultRepeatValues.ends,
-          GGRC.Workflow.defaultRepeatValues.occurrences);
+        this.setResultOptions(config.defaultRepeatValues.unit,
+          config.defaultRepeatValues.repeatEvery,
+          config.defaultRepeatValues.ends,
+          config.defaultRepeatValues.occurrences);
       },
       initSelectedOptions: function () {
         var repeatEnabled = !!this.attr('unit');
@@ -124,23 +151,20 @@
         var unit = null;
         var repeatEvery = null;
         var occurrences = null;
-        var ends = null;
+        var onSave = this.attr('onSaveRepeat');
 
         if (this.attr('repeatEnabled')) {
           unit = this.attr('state.result.unit');
           repeatEvery = this.attr('state.result.repeatEvery');
-          ends = this.attr('state.result.ends');
           occurrences = this.attr('state.result.occurrences');
         }
 
-        this.dispatch({
-          type: 'onSetRepeat',
-          unit: unit,
-          repeatEvery: repeatEvery,
-          ends: ends,
-          occurrences: occurrences
-        });
-        this.attr('state.open', false);
+        this.attr('isSaving', true);
+        onSave(unit, repeatEvery, occurrences)
+          .then(function () {
+            this.attr('isSaving', false);
+            this.attr('state.open', false);
+          }.bind(this));
       },
       checkOccurrences: function (event, element) {
         var occurrences = element[0].value;
@@ -156,11 +180,12 @@
         this.viewModel.updateRepeatEveryOptions();
       },
       '{state.result} ends': function () {
-        if (this.viewModel.attr('state.result.ends') === neverEndOption) {
+        if (this.viewModel.attr('state.result.ends') ===
+          neverEndOption) {
           this.viewModel.attr('state.result.occurrences', null);
         } else {
           this.viewModel.attr('state.result.occurrences',
-            GGRC.Workflow.defaultRepeatValues.occurrences);
+            config.defaultRepeatValues.occurrences);
         }
       },
       '{viewModel} repeatEnabled': function () {
@@ -169,7 +194,7 @@
         } else if (!this.viewModel.attr('state.result.occurrences') &&
           this.viewModel.attr('state.result.ends') !== neverEndOption) {
           this.viewModel.attr('state.result.occurrences',
-            GGRC.Workflow.defaultRepeatValues.occurrences);
+            config.defaultRepeatValues.occurrences);
         }
       },
       '{state} open': function () {
@@ -182,4 +207,4 @@
       }
     }
   });
-})(window.can, window.GGRC);
+})(window.can, window.GGRC, window.can.$);
