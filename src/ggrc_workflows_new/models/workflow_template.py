@@ -11,8 +11,8 @@ from ggrc.models import mixins
 from ggrc.models import reflection
 
 
-class WorkflowTemplate(mixins.Described, mixins.Slugged, mixins.Titled,
-                       roleable.Roleable, db.Model):
+class WorkflowTemplate(mixins.Described, mixins.Titled, roleable.Roleable,
+                       mixins.Slugged, db.Model):
   """WorkflowTemplate model implementation."""
   __tablename__ = 'workflow_templates'
   _title_uniqueness = False
