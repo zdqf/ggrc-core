@@ -223,7 +223,8 @@ owner_update = owner_base + [
 permissions = {
     "read": owner_read,
     "create": [
-        "Workflow"
+        "Workflow",
+        "WorkflowTemplate",
         "Categorization",
         "Category",
         "ControlCategory",

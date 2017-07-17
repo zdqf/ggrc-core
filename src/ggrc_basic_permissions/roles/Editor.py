@@ -53,6 +53,7 @@ permissions = {
         "Role",
         "Context",
         "UserRole",
+        "WorkflowTemplate",
         {
             "type": "BackgroundTask",
             "terms": {
@@ -66,6 +67,7 @@ permissions = {
         "Audit",
         "Snapshot",
         "Workflow",
+        "WorkflowTemplate",
         "Categorization",
         "Category",
         "Comment",
@@ -130,6 +132,7 @@ permissions = {
         },
         "Snapshot",
         "Workflow",
+        "WorkflowTemplate",
         "Categorization",
         "Category",
         "ControlCategory",
@@ -190,6 +193,7 @@ permissions = {
             "condition": "has_changed"
         },
         "Workflow",
+        "WorkflowTemplate",
         "Categorization",
         "Category",
         "ControlCategory",

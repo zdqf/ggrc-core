@@ -68,6 +68,7 @@ permissions = {
         "Revision",
         "Role",
         "UserRole",
+        "WorkflowTemplate",
         "Context",
         {
             "type": "BackgroundTask",
@@ -79,7 +80,8 @@ permissions = {
         },
     ],
     "create": [
-        "Workflow"
+        "Workflow",
+        "WorkflowTemplate",
         "Categorization",
         "Category",
         "ControlCategory",

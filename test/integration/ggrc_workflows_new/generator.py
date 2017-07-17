@@ -19,10 +19,10 @@ class WorkflowGenerator(Generator):
     """
     if not data:
       data = {}
-    obj_name = "workflowtemplate"
     data = copy.deepcopy(data)
 
     wflow = all_models.WorkflowTemplate(title="wf " + factories.random_str())
+    obj_name = wflow._inflector.table_singular
     obj_dict = self.obj_to_dict(wflow, obj_name)
     obj_dict[obj_name].update(data)
 
