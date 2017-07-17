@@ -24,7 +24,7 @@
       unit: 'Month',
       repeatEvery: 1,
       ends: 0,
-      occurrences: '10'
+      occurrences: '26'
     }
   };
 })(window.GGRC);

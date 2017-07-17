@@ -331,7 +331,7 @@ describe('GGRC.Components.repeatOnButton', function () {
       endsChanged.apply(context);
 
       expect(context.viewModel.attr('state.result.occurrences'))
-        .toEqual('10');
+        .toEqual('26');
     });
   });
 
@@ -392,7 +392,7 @@ describe('GGRC.Components.repeatOnButton', function () {
       repeatChanged.apply(context);
 
       expect(context.viewModel.attr('state.result.occurrences'))
-        .toEqual('10');
+        .toEqual('26');
     });
   });
 
@@ -447,7 +447,7 @@ describe('GGRC.Components.repeatOnButton', function () {
 
       expect(context.viewModel.attr('state.result.unit')).toEqual('Month');
       expect(context.viewModel.attr('state.result.repeatEvery')).toEqual(1);
-      expect(context.viewModel.attr('state.result.occurrences')).toEqual('10');
+      expect(context.viewModel.attr('state.result.occurrences')).toEqual('26');
       expect(context.viewModel.attr('state.result.ends')).toEqual(0);
     });
   });
