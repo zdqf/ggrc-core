@@ -44,9 +44,6 @@ environment.debug = settings.DEBUG_ASSETS
 if settings.DEBUG:
   environment.url_expire = False
 
-# Don't store webassets cache
-environment.cache = False
-
 environment.updater = webassets.updater.TimestampUpdater()
 
 # Read asset listing from YAML file

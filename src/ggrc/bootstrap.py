@@ -1,11 +1,24 @@
 # Copyright (C) 2017 Google Inc.
 # Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 
-from flask.ext.sqlalchemy import SQLAlchemy
+import os
+import sys
+
+
+from ggrc import settings
+
+
+def set_appengine_packages_path():
+  if getattr(settings, 'APP_ENGINE', False):
+    if os.path.exists(os.path.join(settings.BASE_DIR, 'packages')):
+      sys.path.insert(0, os.path.join(settings.BASE_DIR, 'packages'))
+    else:
+      sys.path.insert(0, os.path.join(settings.BASE_DIR, 'packages.zip'))
 
 
 def get_db():
   """Get modified db object."""
+  from flask.ext.sqlalchemy import SQLAlchemy
   db = SQLAlchemy()
 
   class String(db.String):
@@ -20,3 +33,6 @@ def get_db():
       return super(String, self).__init__(length, *args, **kwargs)
   db.String = String
   return db
+
+
+set_appengine_packages_path()

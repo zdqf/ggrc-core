@@ -1,8 +1,0 @@
-cleandev:
-  build: .
-  dockerfile: Dockerfile-clean
-  volumes:
-   - ".:/vagrant"
-  environment:
-   - PYTHONDONTWRITEBYTECODE=true
-   - NODE_PATH=/vagrant-dev/node_modules/

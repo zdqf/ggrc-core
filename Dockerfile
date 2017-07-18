@@ -36,8 +36,6 @@ RUN /etc/init.d/mysql start \
   && mkdir -p /vagrant-dev /vagrant/src /vagrant/bin
 
 COPY ./provision/docker/vagrant.bashrc /home/vagrant/.bashrc
-COPY ./git_hooks/post-checkout /home/vagrant/.git/hooks/post-checkout
-COPY ./git_hooks/post-merge /home/vagrant/.git/hooks/post-merge
 
 WORKDIR /vagrant
 

@@ -22,8 +22,6 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
   && rm -rf /var/lib/apt/lists/*
 
 COPY ./provision/docker/vagrant.bashrc /root/.bashrc
-COPY ./git_hooks/post-checkout /home/vagrant/.git/hooks/post-checkout
-COPY ./git_hooks/post-merge /home/vagrant/.git/hooks/post-merge
 WORKDIR /vagrant
 
 # Javascript dependencies
@@ -40,6 +38,6 @@ COPY ./extras /vagrant/extras
 RUN make setup_dev DEV_PREFIX=/vagrant-dev \
   && make appengine_sdk DEV_PREFIX=/vagrant-dev \
   && make appengine_packages DEV_PREFIX=/vagrant-dev \
-  && rm /vagrant-dev/opt/google-cloud-sdk-154.0.1-linux-x86_64.tar.gz
+  && rm /vagrant-dev/opt/google_appengine_1.9.3.zip
 
 CMD bash -c 'tail -f bin/init_env'

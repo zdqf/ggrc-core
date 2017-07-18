@@ -24,6 +24,6 @@ export GGRC_BOOTSTRAP_ADMIN_USERS="user@example.com"
 
 source "${DEV_PREFIX}/opt/dev_virtualenv/bin/activate"
 
-export PYTHONPATH="${PREFIX}/src:${PREFIX}/src/packages:${PREFIX}/test/selenium/src:${DEV_PREFIX}/opt/google-cloud-sdk/platform/google_appengine:${DEV_PREFIX}/opt/linked_packages:${PYTHONPATH}"
+export PYTHONPATH="${PREFIX}/src:${PREFIX}/test/selenium/src:${DEV_PREFIX}/opt/google_appengine:${DEV_PREFIX}/opt/linked_packages:${PYTHONPATH}"
 
-export PATH="${PREFIX}/bin:${DEV_PREFIX}/opt/google-cloud-sdk/bin:$PATH:${DEV_PREFIX}/node_modules/.bin/"
+export PATH="${PREFIX}/bin:${DEV_PREFIX}/opt/google_appengine:$PATH:${DEV_PREFIX}/node_modules/.bin/"
