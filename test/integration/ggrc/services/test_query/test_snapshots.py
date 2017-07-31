@@ -13,6 +13,7 @@ from ddt import ddt
 from ddt import unpack
 
 from ggrc import app
+from ggrc import views
 from ggrc import models
 from ggrc.models import all_models
 from ggrc import db
@@ -63,7 +64,6 @@ class TestAuditSnapshotQueries(TestCase):
   def setUp(self):
     """Log in before performing queries."""
     self.client.get("/login")
-    self.client.post("/admin/reindex")
 
   def _post(self, request_data):
     return self.client.post(
@@ -169,6 +169,8 @@ class TestAuditSnapshotQueries(TestCase):
 
     # Create an unmapped control for base tests
     factories.ControlFactory(title="Control 0")
+
+    views.do_reindex()
 
   def test_basic_snapshot_query(self):
     """Test fetching all snapshots for a given Audit."""

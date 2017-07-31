@@ -96,7 +96,6 @@ def start_compute_attributes(revision_ids):
 
 def do_reindex():
   """Update the full text search index."""
-  from ggrc.data_platform import computed_attributes
 
   indexer = get_indexer()
   indexed_models = {
@@ -123,7 +122,6 @@ def do_reindex():
   with benchmark("Create records for %s" % "Snapshot"):
     reindex_snapshots()
   indexer.invalidate_cache()
-  computed_attributes.compute_attributes("all_latest")
 
 
 def get_permissions_json():
