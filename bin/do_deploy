@@ -16,6 +16,8 @@ ACCOUNT="$2"
 KEY_FILE="$3"
 
 ENV_OVERRIDE_FILE=${ENV_OVERRIDE_FILE:-"override.sh"}
+VERSION="1"
+
 
 write_visible_message () {
   message=${1:-}
@@ -39,8 +41,6 @@ cat /vagrant/src/app.yaml
 source "$SETTINGS_FILE"
 source "$ENV_OVERRIDE_FILE"
 export GGRC_SETTINGS_MODULE="$SETTINGS_MODULE"
-
-VERSION=${VERSION_NUMBER:-"1"}
 
 db_migrate
 
