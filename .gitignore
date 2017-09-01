@@ -25,6 +25,7 @@ src/ggrc/static*
 !src/ggrc/static/images*
 !src/ggrc/static/favicon.ico
 src/ggrc/assets/assets.manifest
+src/ggrc/manifest.json
 src/ggrc/assets/stylesheets/dashboard.css
 src/ggrc/assets/stylesheets/*.js
 src/ggrc/assets/stylesheets/design.css

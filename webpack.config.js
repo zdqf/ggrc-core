@@ -8,6 +8,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const WebpackShellPlugin = require('webpack-shell-plugin');
 const _ = require('lodash');
 const path = require('path');
 const ENV = process.env;
@@ -108,6 +109,9 @@ module.exports = function (env, argv) {
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new ManifestPlugin({
         publicPath: STATIC_FOLDER
+      }),
+      new WebpackShellPlugin({
+        onBuildEnd:['cp src/ggrc/static/manifest.json src/ggrc/manifest.json']
       })
     ],
     stats: {

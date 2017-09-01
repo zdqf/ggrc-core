@@ -49,7 +49,8 @@
     "uglifyjs-webpack-plugin": "^0.4.6",
     "url-loader": "~0.5.7",
     "webpack": "^2.7.0",
-    "webpack-manifest-plugin": "^1.2.1"
+    "webpack-manifest-plugin": "^1.2.1",
+    "webpack-shell-plugin": "^0.5.0"
   },
   "scripts": {
     "test": "run_unittests",
