@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>CSS and HTML &#8212; GGRC 0.10.33-Raspberry (80af817) documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.33-Raspberry (80af817)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.33-Raspberry (80af817) documentation" href="../index.html" />
+    <link rel="up" title="Guidelines" href="index.html" />
+    <link rel="next" title="Javascript" href="javascript.html" />
+    <link rel="prev" title="Performance" href="performance.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="javascript.html" title="Javascript"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="performance.html" title="Performance"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Guidelines</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="css-and-html">
+<h1>CSS and HTML<a class="headerlink" href="#css-and-html" title="Permalink to this headline">¶</a></h1>
+<p>Based and borrowed from <a class="reference external" href="http://cssguidelin.es/">CSS Guidelines</a></p>
+<p>Syntax and formatting</p>
+<ul class="simple">
+<li>two space indents, no tabs</li>
+<li>80 character wide columns</li>
+<li>multi-line CSS</li>
+<li>meaningful use of whitespace</li>
+</ul>
+<div class="section" id="css">
+<h2>CSS<a class="headerlink" href="#css" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="anathomy-of-a-selector">
+<h3>Anathomy of a selector<a class="headerlink" href="#anathomy-of-a-selector" title="Permalink to this headline">¶</a></h3>
+<p>Selectors should be written across multiple lines</p>
+<div class="highlight-html"><div class="highlight"><pre><span></span>[selector] {
+    [property]: [value];
+    [<span class="p">&lt;</span><span class="nt">--declaration---</span><span class="p">&gt;</span>]
+}
+</pre></div>
+</div>
+<ul class="simple">
+<li>related selectors on the same line</li>
+<li>unrelated selectors on new lines</li>
+<li>a space before our opening brace <code class="docutils literal"><span class="pre">{</span></code></li>
+<li>properties and values on the same line</li>
+<li>a space after our property–value delimiting colon <code class="docutils literal"><span class="pre">:</span></code></li>
+<li>each declaration on its own new line</li>
+<li>the opening brace <code class="docutils literal"><span class="pre">{</span></code> on the same line as our last selector</li>
+<li>our first declaration on a new line after our opening brace <code class="docutils literal"><span class="pre">{</span></code></li>
+<li>our closing brace <code class="docutils literal"><span class="pre">}</span></code> on its own new line</li>
+<li>each declaration indented by two spaces</li>
+<li>a trailing semi-colon <code class="docutils literal"><span class="pre">;</span></code> on our last declaration</li>
+</ul>
+<p>Exception, single line selector would be in case e.g.</p>
+<div class="highlight-css"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">icon</span> <span class="p">{</span>
+    <span class="k">display</span><span class="p">:</span> <span class="kc">inline-block</span><span class="p">;</span>
+    <span class="k">width</span><span class="p">:</span>  <span class="mi">16</span><span class="kt">px</span><span class="p">;</span>
+    <span class="k">height</span><span class="p">:</span> <span class="mi">16</span><span class="kt">px</span><span class="p">;</span>
+    <span class="k">background-image</span><span class="p">:</span> <span class="nb">url</span><span class="p">(</span><span class="sx">/img/sprite.svg</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="p">.</span><span class="nc">icon--home</span>     <span class="p">{</span> <span class="k">background-position</span><span class="p">:</span>   <span class="mi">0</span>     <span class="mi">0</span>  <span class="p">;</span> <span class="p">}</span>
+<span class="p">.</span><span class="nc">icon--person</span>   <span class="p">{</span> <span class="k">background-position</span><span class="p">:</span> <span class="mi">-16</span><span class="kt">px</span>   <span class="mi">0</span>  <span class="p">;</span> <span class="p">}</span>
+<span class="p">.</span><span class="nc">icon--files</span>    <span class="p">{</span> <span class="k">background-position</span><span class="p">:</span>   <span class="mi">0</span>   <span class="mi">-16</span><span class="kt">px</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">.</span><span class="nc">icon--settings</span> <span class="p">{</span> <span class="k">background-position</span><span class="p">:</span> <span class="mi">-16</span><span class="kt">px</span> <span class="mi">-16</span><span class="kt">px</span><span class="p">;</span> <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="indentations">
+<h3>Indentations<a class="headerlink" href="#indentations" title="Permalink to this headline">¶</a></h3>
+<p>Nesting in SASS should be avoided wherever possible. This is
+<a class="reference external" href="http://cssguidelin.es/#specificity">WHY</a></p>
+</div>
+<div class="section" id="naming">
+<h3>Naming<a class="headerlink" href="#naming" title="Permalink to this headline">¶</a></h3>
+<p>For naming we are using <a class="reference external" href="https://en.bem.info/method/">BEM</a>
+methodology. BEM stands for:</p>
+<ul class="simple">
+<li>Block: The sole root of the component.</li>
+<li>Element: A component part of the Block.</li>
+<li>Modifier: A variant or extension of the Block</li>
+</ul>
+<p>You can learn more about it
+<a class="reference external" href="https://en.bem.info/method/definitions/">here</a></p>
+<p>A good naming convention will tell you and your team:</p>
+<ul class="simple">
+<li>what type of thing a class does</li>
+<li>where a class can be used</li>
+<li>what (else) a class might be related to</li>
+</ul>
+</div>
+<div class="section" id="data-attributes">
+<h3><code class="docutils literal"><span class="pre">data-*</span></code> Attributes<a class="headerlink" href="#data-attributes" title="Permalink to this headline">¶</a></h3>
+<p>A common practice is to use data-* attributes as JS hooks, but this is
+incorrect. data-* attributes, as per the spec, are used to store custom
+data private to the page or application (emphasis mine). data-*
+attributes are designed to store data, not be bound to.</p>
+</div>
+</div>
+<div class="section" id="file-structure">
+<h2>File structure<a class="headerlink" href="#file-structure" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="partials">
+<h3>Partials<a class="headerlink" href="#partials" title="Permalink to this headline">¶</a></h3>
+<p>Every component should have it&#8217;s own partial</p>
+</div>
+</div>
+<div class="section" id="html">
+<h2>HTML<a class="headerlink" href="#html" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">CSS and HTML</a><ul>
+<li><a class="reference internal" href="#css">CSS</a><ul>
+<li><a class="reference internal" href="#anathomy-of-a-selector">Anathomy of a selector</a></li>
+<li><a class="reference internal" href="#indentations">Indentations</a></li>
+<li><a class="reference internal" href="#naming">Naming</a></li>
+<li><a class="reference internal" href="#data-attributes"><code class="docutils literal"><span class="pre">data-*</span></code> Attributes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#file-structure">File structure</a><ul>
+<li><a class="reference internal" href="#partials">Partials</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#html">HTML</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="performance.html"
+                        title="previous chapter">Performance</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="javascript.html"
+                        title="next chapter">Javascript</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/guidelines/css_and_html.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="javascript.html" title="Javascript"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="performance.html" title="Performance"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Guidelines</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

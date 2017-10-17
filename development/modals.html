@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Modals &#8212; GGRC 0.10.33-Raspberry (80af817) documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.33-Raspberry (80af817)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.33-Raspberry (80af817) documentation" href="../index.html" />
+    <link rel="up" title="Development" href="index.html" />
+    <link rel="next" title="Support" href="../support/index.html" />
+    <link rel="prev" title="Automapping" href="automapping.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../support/index.html" title="Support"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="automapping.html" title="Automapping"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Development</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="modals">
+<h1>Modals<a class="headerlink" href="#modals" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="modal-form-js">
+<h2><code class="docutils literal"><span class="pre">modal-form.js</span></code>:<a class="headerlink" href="#modal-form-js" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Where the basic low level code for modals exists</li>
+<li>ModalForm subclasses Form, and it&#8217;s cloned from Bootstrap for
+historical reasons. Some of the code may not be used any more.</li>
+<li>Can generate flash messages that aren&#8217;t obscured by the backdrop</li>
+</ul>
+</div>
+<div class="section" id="modal-ajax-js">
+<h2><code class="docutils literal"><span class="pre">modal-ajax.js</span></code>:<a class="headerlink" href="#modal-ajax-js" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Spawns modals; named that way for historical reasons (Rails)</li>
+<li>A big click handler - looking at the <code class="docutils literal"><span class="pre">data-toggle</span></code> attribute to
+figure out which modal to open: <code class="docutils literal"><span class="pre">data-toggle=modal-ajax</span></code></li>
+<li><code class="docutils literal"><span class="pre">GGRC.register_global_hook</span></code> instantiates modals based on links that
+have that attribute</li>
+<li>The biggest one is form - all the edit object modals</li>
+<li>We apply modals controller in this file as well</li>
+<li>We are handling modal:success on modal-ajax.js. It&#8217;s used to navigate
+to a new URL here.</li>
+<li>Dirty checks - legacy code, can possibly be removed. <code class="docutils literal"><span class="pre">data-dirty</span></code>
+stuff in .mustache marks elements that need reload, but there are
+only a few left any more</li>
+<li>Adding a new type of modal - create a new handler</li>
+<li><a class="reference external" href="https://github.com/reciprocity/ggrc-core/blob/1e370e487c4377d7e1162dd881954cc26cffe5a9/src/ggrc/assets/javascripts/bootstrap/modal-ajax.js#L355-L423">modal show</a>:
+handles stacking, positioning and prevents double submit and escape</li>
+<li><a class="reference external" href="https://github.com/reciprocity/ggrc-core/blob/1e370e487c4377d7e1162dd881954cc26cffe5a9/src/ggrc/assets/javascripts/bootstrap/modal-ajax.js#L451">line
+451</a>
+extends the Bootstrap model</li>
+<li><code class="docutils literal"><span class="pre">GGRC.register_global_hook</span></code> can be used to add a special modal for
+a module</li>
+<li>if you click Delete, a new modal is displayed, <a class="reference external" href="https://github.com/reciprocity/ggrc-core/blob/1e370e487c4377d7e1162dd881954cc26cffe5a9/src/ggrc/assets/javascripts/bootstrap/modal-ajax.js#L119-L151">lines
+119-151</a></li>
+</ul>
+<p>Each modal can have its own controller that handles actions performed by
+the modals</p>
+</div>
+<div class="section" id="modals-controller-js">
+<h2><code class="docutils literal"><span class="pre">modals_controller.js</span></code>:<a class="headerlink" href="#modals-controller-js" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>shows the spinner</li>
+<li>establishes two-way data binding with the form fields; you want to
+find the state where things stop changing</li>
+<li><code class="docutils literal"><span class="pre">data-also-set</span></code> - TBD</li>
+<li>&#8216;dfd&#8217; = abbreviation for deferred; we need the promise</li>
+<li><code class="docutils literal"><span class="pre">wysiwyg_html</span></code> extension - we need it to fire triggers when the
+textarea is updates because we can&#8217;t read the iframe, it&#8217;s not in the
+same domain</li>
+<li>init()</li>
+<li>fetch_all fetches the data and template</li>
+<li>fetch_data a bit complex because we could be TBD</li>
+<li><code class="docutils literal"><span class="pre">_transient</span></code> property - added to the object instance while the object
+is open, but removed from the modal once the modal closes</li>
+<li>run form_preload on the modal (if it exists)</li>
+<li>apply object params - uses the data-object-params from the link that
+gets set on the modal. Example: when you create a request for an
+audit, a hidden field is the audit id. That&#8217;s how you communicate any
+information, by adding it to the link that spawns the modal.</li>
+<li>apply_object_params after all the deferreds - you can pass in
+arbitrary information into data-param</li>
+<li>data-object-params gets added to the modal controller as the options
+object as well</li>
+<li>calls serialize_form</li>
+<li>triggers preload</li>
+<li>serialize_form():</li>
+<li>gets every element and then calls set_value_for_element()</li>
+<li>autocomplete</li>
+<li>extended jQuery UI plugin applied to every input that has data-lookup
+defined on it</li>
+<li><code class="docutils literal"><span class="pre">autocomplete_select</span></code> is the callback called when the autocomplete
+value is selected</li>
+<li>set_value():</li>
+<li>keeping TBD</li>
+<li>&#8220;it&#8217;s getting a bit unwieldy, the setvalue function is 100 lines&#8221;</li>
+</ul>
+</div>
+<div class="section" id="naming-conventions-in-the-forms">
+<h2>Naming conventions in the forms:<a class="headerlink" href="#naming-conventions-in-the-forms" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>name of the input maps to the value of the instance. Most commonly
+<code class="docutils literal"><span class="pre">&lt;input</span> <span class="pre">name='url',</span> <span class="pre">value='{{url}}'</span> <span class="pre">/&gt;</span></code></li>
+<li>if name is name=&#8217;contact.email&#8217; value=&#8221;{{contact.email}}&#8221; - special
+cases for null in data-lookup onkeyup so that it clears the field</li>
+</ul>
+</div>
+<div class="section" id="deferred-modal-elements">
+<h2>&#8216;Deferred&#8217; modal elements<a class="headerlink" href="#deferred-modal-elements" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">mark_for_deletion</span></code>/<code class="docutils literal"><span class="pre">mark_for_addition</span></code> in <code class="docutils literal"><span class="pre">cacheable.js</span></code>
+adds/removes items into <code class="docutils literal"><span class="pre">_pending_joins</span></code>. These pending joins are then
+handled in <code class="docutils literal"><span class="pre">resolve_deferred_bindings</span></code>. Removes are easy - it just
+destroys the mapping. The &#8220;add&#8221; case is a bit more complex than the
+&#8220;remove&#8221; case, as we must check we aren&#8217;t re-mapping something which is
+already mapped.</p>
+<p><code class="docutils literal"><span class="pre">ggrc_modal_connector</span></code> Component used for mapping audits inside
+modals. Double layer of indirection in this case because context is not
+yet available when we are creating a new audit. When autocomplete
+selects a person the app is using <code class="docutils literal"><span class="pre">this.scope.changes</span></code> to handle the
+double deferred. Otherwise we just <code class="docutils literal"><span class="pre">mark_for_addition</span></code> (adding
+responses). <code class="docutils literal"><span class="pre">data-object-source</span></code> used for picker additions.
+<code class="docutils literal"><span class="pre">.ui-autocomplete-input</span></code> we listen on this for when a new object is
+created in the mapping modal. That object is created even if we cancel
+the modal.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Modals</a><ul>
+<li><a class="reference internal" href="#modal-form-js"><code class="docutils literal"><span class="pre">modal-form.js</span></code>:</a></li>
+<li><a class="reference internal" href="#modal-ajax-js"><code class="docutils literal"><span class="pre">modal-ajax.js</span></code>:</a></li>
+<li><a class="reference internal" href="#modals-controller-js"><code class="docutils literal"><span class="pre">modals_controller.js</span></code>:</a></li>
+<li><a class="reference internal" href="#naming-conventions-in-the-forms">Naming conventions in the forms:</a></li>
+<li><a class="reference internal" href="#deferred-modal-elements">&#8216;Deferred&#8217; modal elements</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="automapping.html"
+                        title="previous chapter">Automapping</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../support/index.html"
+                        title="next chapter">Support</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/development/modals.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../support/index.html" title="Support"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="automapping.html" title="Automapping"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Development</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

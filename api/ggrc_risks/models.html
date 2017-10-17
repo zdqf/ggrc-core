@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Models &#8212; GGRC 0.10.33-Raspberry (80af817) documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.10.33-Raspberry (80af817)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.33-Raspberry (80af817) documentation" href="../../index.html" />
+    <link rel="up" title="ggrc_risks" href="index.html" />
+    <link rel="next" title="Mixins" href="mixins.html" />
+    <link rel="prev" title="Services" href="services.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mixins.html" title="Mixins"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="services.html" title="Services"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">ggrc_risks</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="models">
+<h1>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="risk">
+<h2><code class="docutils literal"><span class="pre">Risk</span></code><a class="headerlink" href="#risk" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc_risks.models.risk.Risk">
+<em class="property">class </em><code class="descclassname">ggrc_risks.models.risk.</code><code class="descname">Risk</code><a class="headerlink" href="#ggrc_risks.models.risk.Risk" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Missing doc-string of <code class="docutils literal"><span class="pre">ggrc_risks.models.risk.Risk</span></code></p>
+</div>
+<p>Schema:</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">risks</span> <span class="p">(</span>
+        <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">notes</span> <span class="nb">TEXT</span><span class="p">,</span>
+        <span class="n">description</span> <span class="nb">TEXT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">title</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">slug</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">updated_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">modified_by_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_risks</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_risks</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Mixins:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.access_control.roleable.Roleable" title="ggrc.access_control.roleable.Roleable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.access_control.roleable.Roleable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.track_object_state.HasObjectState" title="ggrc.models.track_object_state.HasObjectState"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.track_object_state.HasObjectState</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.customattributable.CustomAttributable" title="ggrc.models.mixins.customattributable.CustomAttributable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.customattributable.CustomAttributable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.relationship.Relatable" title="ggrc.models.relationship.Relatable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.relationship.Relatable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.object_person.Personable" title="ggrc.models.object_person.Personable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_person.Personable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.object_document.PublicDocumentable" title="ggrc.models.object_document.PublicDocumentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.PublicDocumentable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.object_document.Documentable" title="ggrc.models.object_document.Documentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.Documentable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.LastDeprecatedTimeboxed" title="ggrc.models.mixins.LastDeprecatedTimeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.LastDeprecatedTimeboxed</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Stateful" title="ggrc.models.mixins.Stateful"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Stateful</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Noted" title="ggrc.models.mixins.Noted"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Noted</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Described" title="ggrc.models.mixins.Described"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Described</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Titled" title="ggrc.models.mixins.Titled"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Titled</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Slugged" title="ggrc.models.mixins.Slugged"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Slugged</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Base" title="ggrc.models.mixins.Base"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Base</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ChangeTracked" title="ggrc.models.mixins.ChangeTracked"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ChangeTracked</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ContextRBAC" title="ggrc.models.mixins.ContextRBAC"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ContextRBAC</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Identifiable" title="ggrc.models.mixins.Identifiable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Identifiable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.fulltext.mixin.Indexed" title="ggrc.fulltext.mixin.Indexed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.fulltext.mixin.Indexed</span></code></a></li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="riskobject">
+<h2><code class="docutils literal"><span class="pre">RiskObject</span></code><a class="headerlink" href="#riskobject" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc_risks.models.risk_object.RiskObject">
+<em class="property">class </em><code class="descclassname">ggrc_risks.models.risk_object.</code><code class="descname">RiskObject</code><a class="headerlink" href="#ggrc_risks.models.risk_object.RiskObject" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Missing doc-string of <code class="docutils literal"><span class="pre">ggrc_risks.models.risk_object.RiskObject</span></code></p>
+</div>
+<p>Schema:</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">risk_objects</span> <span class="p">(</span>
+        <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">risk_id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">object_id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">object_type</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">updated_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">modified_by_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">risk_id</span><span class="p">,</span> <span class="n">object_id</span><span class="p">,</span> <span class="n">object_type</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">risk_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">risks</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Mixins:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Base" title="ggrc.models.mixins.Base"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Base</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ChangeTracked" title="ggrc.models.mixins.ChangeTracked"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ChangeTracked</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ContextRBAC" title="ggrc.models.mixins.ContextRBAC"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ContextRBAC</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Identifiable" title="ggrc.models.mixins.Identifiable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Identifiable</span></code></a></li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="threat">
+<h2><code class="docutils literal"><span class="pre">Threat</span></code><a class="headerlink" href="#threat" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc_risks.models.threat.Threat">
+<em class="property">class </em><code class="descclassname">ggrc_risks.models.threat.</code><code class="descname">Threat</code><a class="headerlink" href="#ggrc_risks.models.threat.Threat" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Missing doc-string of <code class="docutils literal"><span class="pre">ggrc_risks.models.threat.Threat</span></code></p>
+</div>
+<p>Schema:</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">threats</span> <span class="p">(</span>
+        <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">notes</span> <span class="nb">TEXT</span><span class="p">,</span>
+        <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
+        <span class="n">title</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">slug</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">updated_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">modified_by_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_threats</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_threats</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Mixins:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.access_control.roleable.Roleable" title="ggrc.access_control.roleable.Roleable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.access_control.roleable.Roleable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.track_object_state.HasObjectState" title="ggrc.models.track_object_state.HasObjectState"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.track_object_state.HasObjectState</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.customattributable.CustomAttributable" title="ggrc.models.mixins.customattributable.CustomAttributable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.customattributable.CustomAttributable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.object_person.Personable" title="ggrc.models.object_person.Personable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_person.Personable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.relationship.Relatable" title="ggrc.models.relationship.Relatable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.relationship.Relatable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.LastDeprecatedTimeboxed" title="ggrc.models.mixins.LastDeprecatedTimeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.LastDeprecatedTimeboxed</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.object_document.PublicDocumentable" title="ggrc.models.object_document.PublicDocumentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.PublicDocumentable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.object_document.Documentable" title="ggrc.models.object_document.Documentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.Documentable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Stateful" title="ggrc.models.mixins.Stateful"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Stateful</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Noted" title="ggrc.models.mixins.Noted"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Noted</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Described" title="ggrc.models.mixins.Described"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Described</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Titled" title="ggrc.models.mixins.Titled"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Titled</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Slugged" title="ggrc.models.mixins.Slugged"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Slugged</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Base" title="ggrc.models.mixins.Base"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Base</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ChangeTracked" title="ggrc.models.mixins.ChangeTracked"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ChangeTracked</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ContextRBAC" title="ggrc.models.mixins.ContextRBAC"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ContextRBAC</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Identifiable" title="ggrc.models.mixins.Identifiable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Identifiable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.fulltext.mixin.Indexed" title="ggrc.fulltext.mixin.Indexed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.fulltext.mixin.Indexed</span></code></a></li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Models</a><ul>
+<li><a class="reference internal" href="#risk"><code class="docutils literal"><span class="pre">Risk</span></code></a></li>
+<li><a class="reference internal" href="#riskobject"><code class="docutils literal"><span class="pre">RiskObject</span></code></a></li>
+<li><a class="reference internal" href="#threat"><code class="docutils literal"><span class="pre">Threat</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="services.html"
+                        title="previous chapter">Services</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="mixins.html"
+                        title="next chapter">Mixins</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/api/ggrc_risks/models.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mixins.html" title="Mixins"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="services.html" title="Services"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >ggrc_risks</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

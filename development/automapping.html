@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Automapping &#8212; GGRC 0.10.33-Raspberry (80af817) documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.33-Raspberry (80af817)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.33-Raspberry (80af817) documentation" href="../index.html" />
+    <link rel="up" title="Development" href="index.html" />
+    <link rel="next" title="Modals" href="modals.html" />
+    <link rel="prev" title="Object Manipulation" href="object_manipulation.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modals.html" title="Modals"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="object_manipulation.html" title="Object Manipulation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Development</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="automapping">
+<h1>Automapping<a class="headerlink" href="#automapping" title="Permalink to this headline">¶</a></h1>
+<p>This is a process that automatically creates mappings based on user
+created mappings.</p>
+<div class="section" id="ggrc-automapper">
+<h2><code class="docutils literal"><span class="pre">ggrc.automapper</span></code><a class="headerlink" href="#ggrc-automapper" title="Permalink to this headline">¶</a></h2>
+<p>This defines the entry point <code class="docutils literal"><span class="pre">register_automapping_listeners</span></code> that
+registers an event listener that fires on every user-created mapping.
+Based on the neighborhood of the two mapped objects it fires the
+appropriate rules and creates new mappings. The process is then repeated
+for newly created mappings. This effectively traverses the local
+relevant subgraph as defined by the rules.</p>
+</div>
+<div class="section" id="ggrc-automapper-rules">
+<h2><code class="docutils literal"><span class="pre">ggrc.automapper.rules</span></code><a class="headerlink" href="#ggrc-automapper-rules" title="Permalink to this headline">¶</a></h2>
+<p>This defines rules for mapping creation as data. This approach allows
+for automatic sanity checking of the rules which can help prevent
+unintended blowups of the auto-mappings. In order to keep automatic
+mappings under control we impose a tree structure on the mappings graph
+as defined by <code class="docutils literal"><span class="pre">type_ordering</span></code>. Then we only allow auto-mappings
+between <code class="docutils literal"><span class="pre">A</span></code> and <code class="docutils literal"><span class="pre">C</span></code> if the <code class="docutils literal"><span class="pre">ABC</span></code> path is a minor of the mappings
+tree.</p>
+<p>The rules themselves come in two varieties: regular and attribute-link.</p>
+</div>
+<div class="section" id="regular-rules">
+<h2>Regular rules<a class="headerlink" href="#regular-rules" title="Permalink to this headline">¶</a></h2>
+<p>Regular rules are defined by <code class="docutils literal"><span class="pre">Rule(name,</span> <span class="pre">top,</span> <span class="pre">mid,</span> <span class="pre">bottom)</span></code> where name
+is the for-humans name of the rule and top/mid/bottom are types or sets
+of types. Their names correspond to the positioning in the mapping tree.</p>
+<p>Example:</p>
+<p><code class="docutils literal"><span class="pre">Rule(&quot;example</span> <span class="pre">rule&quot;,</span> <span class="pre">&quot;Program&quot;,</span> <span class="pre">&quot;Regulation&quot;,</span> <span class="pre">&quot;Objective&quot;)</span></code></p>
+<p>The above rule will fire in two cases:</p>
+<ul class="simple">
+<li>a program <code class="docutils literal"><span class="pre">p</span></code> is mapped to a regulation <code class="docutils literal"><span class="pre">r</span></code> and the user adds a
+mapping between <code class="docutils literal"><span class="pre">r</span></code> and an objective <code class="docutils literal"><span class="pre">o</span></code>. In this case the rule
+implies mapping <code class="docutils literal"><span class="pre">p</span></code> to <code class="docutils literal"><span class="pre">o</span></code>.</li>
+<li>a regulation <code class="docutils literal"><span class="pre">r</span></code> is mapped to an objective <code class="docutils literal"><span class="pre">o</span></code> and the user adds
+a mapping between <code class="docutils literal"><span class="pre">r</span></code> and a program <code class="docutils literal"><span class="pre">p</span></code>. In this case the rule
+implies mapping <code class="docutils literal"><span class="pre">p</span></code> to <code class="docutils literal"><span class="pre">o</span></code>.</li>
+</ul>
+<p>Any or all types can be replaced by sets of type. This generates rules
+for the cross product of sets.</p>
+</div>
+<div class="section" id="attribute-link-rules">
+<h2>Attribute-link rules<a class="headerlink" href="#attribute-link-rules" title="Permalink to this headline">¶</a></h2>
+<p>Attribute-link rules regard special mappings that are not a part of the
+<code class="docutils literal"><span class="pre">relationships</span></code> table. They are defined by specifying the attribute
+that links to the relevant object in an <code class="docutils literal"><span class="pre">Attr</span></code> instance.</p>
+<p>Example:</p>
+<p><code class="docutils literal"><span class="pre">Rule(&quot;example</span> <span class="pre">rule&quot;,</span> <span class="pre">Attr(&quot;directive&quot;),</span> <span class="pre">&quot;Section&quot;,</span> <span class="pre">&quot;Objective&quot;)</span></code></p>
+<p>The above rule will only fire in on case. When an objective <code class="docutils literal"><span class="pre">o</span></code> is
+mapped to a section <code class="docutils literal"><span class="pre">s</span></code> it will map <code class="docutils literal"><span class="pre">o</span></code> to directive <code class="docutils literal"><span class="pre">d</span></code>
+accessible through <code class="docutils literal"><span class="pre">s</span></code>&#8216;s <code class="docutils literal"><span class="pre">directive</span></code> attribute.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Automapping</a><ul>
+<li><a class="reference internal" href="#ggrc-automapper"><code class="docutils literal"><span class="pre">ggrc.automapper</span></code></a></li>
+<li><a class="reference internal" href="#ggrc-automapper-rules"><code class="docutils literal"><span class="pre">ggrc.automapper.rules</span></code></a></li>
+<li><a class="reference internal" href="#regular-rules">Regular rules</a></li>
+<li><a class="reference internal" href="#attribute-link-rules">Attribute-link rules</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="object_manipulation.html"
+                        title="previous chapter">Object Manipulation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="modals.html"
+                        title="next chapter">Modals</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/development/automapping.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modals.html" title="Modals"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="object_manipulation.html" title="Object Manipulation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Development</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

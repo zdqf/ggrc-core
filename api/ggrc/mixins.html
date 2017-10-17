@@ -1,0 +1,649 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Mixins &#8212; GGRC 0.10.33-Raspberry (80af817) documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.10.33-Raspberry (80af817)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.33-Raspberry (80af817) documentation" href="../../index.html" />
+    <link rel="up" title="ggrc" href="index.html" />
+    <link rel="next" title="ggrc_basic_permissions" href="../ggrc_basic_permissions/index.html" />
+    <link rel="prev" title="Models" href="models.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../ggrc_basic_permissions/index.html" title="ggrc_basic_permissions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="models.html" title="Models"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">ggrc</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="mixins">
+<h1>Mixins<a class="headerlink" href="#mixins" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="roleable">
+<h2><code class="docutils literal"><span class="pre">Roleable</span></code><a class="headerlink" href="#roleable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.access_control.roleable.Roleable">
+<em class="property">class </em><code class="descclassname">ggrc.access_control.roleable.</code><code class="descname">Roleable</code><a class="headerlink" href="#ggrc.access_control.roleable.Roleable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Roleable Mixin</p>
+<p>Mixin that adds access_control_list property to the parent object. Access
+control list includes a list of AccessControlList objects.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="base">
+<h2><code class="docutils literal"><span class="pre">Base</span></code><a class="headerlink" href="#base" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.data_platform.base.Base">
+<em class="property">class </em><code class="descclassname">ggrc.data_platform.base.</code><code class="descname">Base</code><a class="headerlink" href="#ggrc.data_platform.base.Base" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base Model for data platform models.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="indexed">
+<h2><code class="docutils literal"><span class="pre">Indexed</span></code><a class="headerlink" href="#indexed" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.fulltext.mixin.Indexed">
+<em class="property">class </em><code class="descclassname">ggrc.fulltext.mixin.</code><code class="descname">Indexed</code><a class="headerlink" href="#ggrc.fulltext.mixin.Indexed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mixin for Index And auto reindex current model instance</p>
+</dd></dl>
+
+</div>
+<div class="section" id="auditable">
+<h2><code class="docutils literal"><span class="pre">Auditable</span></code><a class="headerlink" href="#auditable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.audit_object.Auditable">
+<em class="property">class </em><code class="descclassname">ggrc.models.audit_object.</code><code class="descname">Auditable</code><a class="headerlink" href="#ggrc.models.audit_object.Auditable" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Missing doc-string of <code class="docutils literal"><span class="pre">ggrc.models.audit_object.Auditable</span></code></p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="categorizable">
+<h2><code class="docutils literal"><span class="pre">Categorizable</span></code><a class="headerlink" href="#categorizable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.categorization.Categorizable">
+<em class="property">class </em><code class="descclassname">ggrc.models.categorization.</code><code class="descname">Categorizable</code><a class="headerlink" href="#ggrc.models.categorization.Categorizable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subclasses <strong>MUST</strong> provide a declared_attr method that defines the
+relationship and association_proxy. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="nd">@declared_attr</span>
+<span class="k">def</span> <span class="nf">control_categorizations</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+  <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">categorizations</span><span class="p">(</span>
+      <span class="s1">&#39;control_categorizations&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;control_categories&#39;</span><span class="p">,</span>
+      <span class="mi">100</span><span class="p">,</span>
+  <span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="commentable">
+<h2><code class="docutils literal"><span class="pre">Commentable</span></code><a class="headerlink" href="#commentable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.comment.Commentable">
+<em class="property">class </em><code class="descclassname">ggrc.models.comment.</code><code class="descname">Commentable</code><a class="headerlink" href="#ggrc.models.comment.Commentable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mixin for commentable objects.</p>
+<p>This is a mixin for adding default options to objects on which people can
+comment.</p>
+<p>recipients is used for setting who gets notified (Verifer, Requester, ...).
+send_by_default should be used for setting the &#8220;send notification&#8221; flag in
+the comment modal.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="hasowncontext">
+<h2><code class="docutils literal"><span class="pre">HasOwnContext</span></code><a class="headerlink" href="#hasowncontext" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.context.HasOwnContext">
+<em class="property">class </em><code class="descclassname">ggrc.models.context.</code><code class="descname">HasOwnContext</code><a class="headerlink" href="#ggrc.models.context.HasOwnContext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mixin for models which may have their own context</p>
+</dd></dl>
+
+</div>
+<div class="section" id="assertioncategorized">
+<h2><code class="docutils literal"><span class="pre">AssertionCategorized</span></code><a class="headerlink" href="#assertioncategorized" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.control.AssertionCategorized">
+<em class="property">class </em><code class="descclassname">ggrc.models.control.</code><code class="descname">AssertionCategorized</code><a class="headerlink" href="#ggrc.models.control.AssertionCategorized" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Missing doc-string of <code class="docutils literal"><span class="pre">ggrc.models.control.AssertionCategorized</span></code></p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="controlcategorized">
+<h2><code class="docutils literal"><span class="pre">ControlCategorized</span></code><a class="headerlink" href="#controlcategorized" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.control.ControlCategorized">
+<em class="property">class </em><code class="descclassname">ggrc.models.control.</code><code class="descname">ControlCategorized</code><a class="headerlink" href="#ggrc.models.control.ControlCategorized" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Missing doc-string of <code class="docutils literal"><span class="pre">ggrc.models.control.ControlCategorized</span></code></p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="customattributemapable">
+<h2><code class="docutils literal"><span class="pre">CustomAttributeMapable</span></code><a class="headerlink" href="#customattributemapable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.custom_attribute_definition.CustomAttributeMapable">
+<em class="property">class </em><code class="descclassname">ggrc.models.custom_attribute_definition.</code><code class="descname">CustomAttributeMapable</code><a class="headerlink" href="#ggrc.models.custom_attribute_definition.CustomAttributeMapable" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Missing doc-string of <code class="docutils literal"><span class="pre">ggrc.models.custom_attribute_definition.CustomAttributeMapable</span></code></p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="id1">
+<h2><code class="docutils literal"><span class="pre">Base</span></code><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.Base">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.</code><code class="descname">Base</code><a class="headerlink" href="#ggrc.models.mixins.Base" title="Permalink to this definition">¶</a></dt>
+<dd><p>Several of the models use the same mixins. This class covers that common
+case.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="businessobject">
+<h2><code class="docutils literal"><span class="pre">BusinessObject</span></code><a class="headerlink" href="#businessobject" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.BusinessObject">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.</code><code class="descname">BusinessObject</code><a class="headerlink" href="#ggrc.models.mixins.BusinessObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mixin that groups most commonly-used mixins into one.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="changetracked">
+<h2><code class="docutils literal"><span class="pre">ChangeTracked</span></code><a class="headerlink" href="#changetracked" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.ChangeTracked">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.</code><code class="descname">ChangeTracked</code><a class="headerlink" href="#ggrc.models.mixins.ChangeTracked" title="Permalink to this definition">¶</a></dt>
+<dd><p>A model with fields to tracked the last user to modify the model, the
+creation time of the model, and the last time the model was updated.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="contextrbac">
+<h2><code class="docutils literal"><span class="pre">ContextRBAC</span></code><a class="headerlink" href="#contextrbac" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.ContextRBAC">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.</code><code class="descname">ContextRBAC</code><a class="headerlink" href="#ggrc.models.mixins.ContextRBAC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines <cite>context</cite> relationship for Context-based access control.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="described">
+<h2><code class="docutils literal"><span class="pre">Described</span></code><a class="headerlink" href="#described" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.Described">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.</code><code class="descname">Described</code><a class="headerlink" href="#ggrc.models.mixins.Described" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mixin that defines <cite>description</cite> field.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="finisheddate">
+<h2><code class="docutils literal"><span class="pre">FinishedDate</span></code><a class="headerlink" href="#finisheddate" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.FinishedDate">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.</code><code class="descname">FinishedDate</code><a class="headerlink" href="#ggrc.models.mixins.FinishedDate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds &#8216;Finished Date&#8217; which is set when status is set to a finished state.</p>
+<p>Requires Stateful to be mixed in as well.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="hierarchical">
+<h2><code class="docutils literal"><span class="pre">Hierarchical</span></code><a class="headerlink" href="#hierarchical" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.Hierarchical">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.</code><code class="descname">Hierarchical</code><a class="headerlink" href="#ggrc.models.mixins.Hierarchical" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mixin that defines <cite>parent</cite> and <cite>child</cite> fields to organize hierarchy.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="identifiable">
+<h2><code class="docutils literal"><span class="pre">Identifiable</span></code><a class="headerlink" href="#identifiable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.Identifiable">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.</code><code class="descname">Identifiable</code><a class="headerlink" href="#ggrc.models.mixins.Identifiable" title="Permalink to this definition">¶</a></dt>
+<dd><p>A model with an <code class="docutils literal"><span class="pre">id</span></code> property that is the primary key.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="lastdeprecatedtimeboxed">
+<h2><code class="docutils literal"><span class="pre">LastDeprecatedTimeboxed</span></code><a class="headerlink" href="#lastdeprecatedtimeboxed" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.LastDeprecatedTimeboxed">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.</code><code class="descname">LastDeprecatedTimeboxed</code><a class="headerlink" href="#ggrc.models.mixins.LastDeprecatedTimeboxed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mixin that redefines <cite>end_date</cite>&#8216;s alias.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="noted">
+<h2><code class="docutils literal"><span class="pre">Noted</span></code><a class="headerlink" href="#noted" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.Noted">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.</code><code class="descname">Noted</code><a class="headerlink" href="#ggrc.models.mixins.Noted" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mixin that defines <cite>notes</cite> field.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="slugged">
+<h2><code class="docutils literal"><span class="pre">Slugged</span></code><a class="headerlink" href="#slugged" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.Slugged">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.</code><code class="descname">Slugged</code><a class="headerlink" href="#ggrc.models.mixins.Slugged" title="Permalink to this definition">¶</a></dt>
+<dd><p>Several classes make use of the common mixins and additional are
+&#8220;slugged&#8221; and have additional fields related to their publishing in the
+system.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="stateful">
+<h2><code class="docutils literal"><span class="pre">Stateful</span></code><a class="headerlink" href="#stateful" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.Stateful">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.</code><code class="descname">Stateful</code><a class="headerlink" href="#ggrc.models.mixins.Stateful" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mixin that defines <cite>status</cite> field and status validation logic.</p>
+<p>TODO: unify with Statusable.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="testplanned">
+<h2><code class="docutils literal"><span class="pre">TestPlanned</span></code><a class="headerlink" href="#testplanned" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.TestPlanned">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.</code><code class="descname">TestPlanned</code><a class="headerlink" href="#ggrc.models.mixins.TestPlanned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mixin that defines <cite>test_plan</cite> field.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="timeboxed">
+<h2><code class="docutils literal"><span class="pre">Timeboxed</span></code><a class="headerlink" href="#timeboxed" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.Timeboxed">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.</code><code class="descname">Timeboxed</code><a class="headerlink" href="#ggrc.models.mixins.Timeboxed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mixin that defines <cite>start_date</cite> and <cite>end_date</cite> fields.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="titled">
+<h2><code class="docutils literal"><span class="pre">Titled</span></code><a class="headerlink" href="#titled" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.Titled">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.</code><code class="descname">Titled</code><a class="headerlink" href="#ggrc.models.mixins.Titled" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mixin that defines <cite>title</cite> field.</p>
+<p>Strips title on update and defines optional UNIQUE constraint on it.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="verifieddate">
+<h2><code class="docutils literal"><span class="pre">VerifiedDate</span></code><a class="headerlink" href="#verifieddate" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.VerifiedDate">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.</code><code class="descname">VerifiedDate</code><a class="headerlink" href="#ggrc.models.mixins.VerifiedDate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds &#8216;Verified Date&#8217; which is set when status is set to &#8216;Verified&#8217;.</p>
+<p>When object is verified the status is overridden to &#8216;Final&#8217; and the
+information about verification exposed as the &#8216;verified&#8217; boolean.
+Requires Stateful to be mixed in as well.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="withcontact">
+<h2><code class="docutils literal"><span class="pre">WithContact</span></code><a class="headerlink" href="#withcontact" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.WithContact">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.</code><code class="descname">WithContact</code><a class="headerlink" href="#ggrc.models.mixins.WithContact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mixin that defines <cite>contact</cite> and <cite>secondary_contact</cite> fields.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="assignable">
+<h2><code class="docutils literal"><span class="pre">Assignable</span></code><a class="headerlink" href="#assignable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.assignable.Assignable">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.assignable.</code><code class="descname">Assignable</code><a class="headerlink" href="#ggrc.models.mixins.assignable.Assignable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mixin for models with assignees</p>
+</dd></dl>
+
+</div>
+<div class="section" id="attributable">
+<h2><code class="docutils literal"><span class="pre">Attributable</span></code><a class="headerlink" href="#attributable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.attributable.Attributable">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.attributable.</code><code class="descname">Attributable</code><a class="headerlink" href="#ggrc.models.mixins.attributable.Attributable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Custom Attributable mixin.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="attributevalidator">
+<h2><code class="docutils literal"><span class="pre">AttributeValidator</span></code><a class="headerlink" href="#attributevalidator" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.attributevalidator.AttributeValidator">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.attributevalidator.</code><code class="descname">AttributeValidator</code><a class="headerlink" href="#ggrc.models.mixins.attributevalidator.AttributeValidator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds methods needed for attribute name vaidation</p>
+</dd></dl>
+
+</div>
+<div class="section" id="auditrelationship">
+<h2><code class="docutils literal"><span class="pre">AuditRelationship</span></code><a class="headerlink" href="#auditrelationship" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.audit_relationship.AuditRelationship">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.audit_relationship.</code><code class="descname">AuditRelationship</code><a class="headerlink" href="#ggrc.models.mixins.audit_relationship.AuditRelationship" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mixin for mandatory link to an Audit via Relationships.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="autostatuschangeable">
+<h2><code class="docutils literal"><span class="pre">AutoStatusChangeable</span></code><a class="headerlink" href="#autostatuschangeable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.autostatuschangeable.AutoStatusChangeable">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.autostatuschangeable.</code><code class="descname">AutoStatusChangeable</code><a class="headerlink" href="#ggrc.models.mixins.autostatuschangeable.AutoStatusChangeable" title="Permalink to this definition">¶</a></dt>
+<dd><p>A mixin for automatic status changes.</p>
+<p>Enables automatic transitioning of objects on any edit in cases when an
+object is in one of the DONE states, or in the START state.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="clonable">
+<h2><code class="docutils literal"><span class="pre">Clonable</span></code><a class="headerlink" href="#clonable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.clonable.Clonable">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.clonable.</code><code class="descname">Clonable</code><a class="headerlink" href="#ggrc.models.mixins.clonable.Clonable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clonable mixin</p>
+</dd></dl>
+
+</div>
+<div class="section" id="customattributable">
+<h2><code class="docutils literal"><span class="pre">CustomAttributable</span></code><a class="headerlink" href="#customattributable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.customattributable.CustomAttributable">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.customattributable.</code><code class="descname">CustomAttributable</code><a class="headerlink" href="#ggrc.models.mixins.customattributable.CustomAttributable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Custom Attributable mixin.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="notifiable">
+<h2><code class="docutils literal"><span class="pre">Notifiable</span></code><a class="headerlink" href="#notifiable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.notifiable.Notifiable">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.notifiable.</code><code class="descname">Notifiable</code><a class="headerlink" href="#ggrc.models.mixins.notifiable.Notifiable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notifiable mixin.</p>
+<p>Defines a backref in Notification model named like ModelName_notifiable.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="reminderable">
+<h2><code class="docutils literal"><span class="pre">Reminderable</span></code><a class="headerlink" href="#reminderable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.reminderable.Reminderable">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.reminderable.</code><code class="descname">Reminderable</code><a class="headerlink" href="#ggrc.models.mixins.reminderable.Reminderable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mixin for processing various handlers for reminders</p>
+</dd></dl>
+
+</div>
+<div class="section" id="statusable">
+<h2><code class="docutils literal"><span class="pre">Statusable</span></code><a class="headerlink" href="#statusable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.statusable.Statusable">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.statusable.</code><code class="descname">Statusable</code><a class="headerlink" href="#ggrc.models.mixins.statusable.Statusable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mixin with default labels for status field</p>
+</dd></dl>
+
+</div>
+<div class="section" id="validateoncomplete">
+<h2><code class="docutils literal"><span class="pre">ValidateOnComplete</span></code><a class="headerlink" href="#validateoncomplete" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.validate_on_complete.ValidateOnComplete">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.validate_on_complete.</code><code class="descname">ValidateOnComplete</code><a class="headerlink" href="#ggrc.models.mixins.validate_on_complete.ValidateOnComplete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the validation routine before marking an object as complete.</p>
+<p>Requires Stateful and Statusable to be mixed in as well.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="withaction">
+<h2><code class="docutils literal"><span class="pre">WithAction</span></code><a class="headerlink" href="#withaction" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.with_action.WithAction">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.with_action.</code><code class="descname">WithAction</code><a class="headerlink" href="#ggrc.models.mixins.with_action.WithAction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mixin for add/remove map/unmap actions processing</p>
+</dd></dl>
+
+</div>
+<div class="section" id="withlastassessmentdate">
+<h2><code class="docutils literal"><span class="pre">WithLastAssessmentDate</span></code><a class="headerlink" href="#withlastassessmentdate" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.with_last_assessment_date.WithLastAssessmentDate">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.with_last_assessment_date.</code><code class="descname">WithLastAssessmentDate</code><a class="headerlink" href="#ggrc.models.mixins.with_last_assessment_date.WithLastAssessmentDate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines logic to get max finished_date of all Asmts over own Snapshots.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="withsimilarityscore">
+<h2><code class="docutils literal"><span class="pre">WithSimilarityScore</span></code><a class="headerlink" href="#withsimilarityscore" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.mixins.with_similarity_score.WithSimilarityScore">
+<em class="property">class </em><code class="descclassname">ggrc.models.mixins.with_similarity_score.</code><code class="descname">WithSimilarityScore</code><a class="headerlink" href="#ggrc.models.mixins.with_similarity_score.WithSimilarityScore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a routine to get similar object with mappings to same objects.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="documentable">
+<h2><code class="docutils literal"><span class="pre">Documentable</span></code><a class="headerlink" href="#documentable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.object_document.Documentable">
+<em class="property">class </em><code class="descclassname">ggrc.models.object_document.</code><code class="descname">Documentable</code><a class="headerlink" href="#ggrc.models.object_document.Documentable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Documentable mixin.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="publicdocumentable">
+<h2><code class="docutils literal"><span class="pre">PublicDocumentable</span></code><a class="headerlink" href="#publicdocumentable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.object_document.PublicDocumentable">
+<em class="property">class </em><code class="descclassname">ggrc.models.object_document.</code><code class="descname">PublicDocumentable</code><a class="headerlink" href="#ggrc.models.object_document.PublicDocumentable" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Missing doc-string of <code class="docutils literal"><span class="pre">ggrc.models.object_document.PublicDocumentable</span></code></p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="personable">
+<h2><code class="docutils literal"><span class="pre">Personable</span></code><a class="headerlink" href="#personable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.object_person.Personable">
+<em class="property">class </em><code class="descclassname">ggrc.models.object_person.</code><code class="descname">Personable</code><a class="headerlink" href="#ggrc.models.object_person.Personable" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Missing doc-string of <code class="docutils literal"><span class="pre">ggrc.models.object_person.Personable</span></code></p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="relatable">
+<h2><code class="docutils literal"><span class="pre">Relatable</span></code><a class="headerlink" href="#relatable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.relationship.Relatable">
+<em class="property">class </em><code class="descclassname">ggrc.models.relationship.</code><code class="descname">Relatable</code><a class="headerlink" href="#ggrc.models.relationship.Relatable" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Missing doc-string of <code class="docutils literal"><span class="pre">ggrc.models.relationship.Relatable</span></code></p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="snapshotable">
+<h2><code class="docutils literal"><span class="pre">Snapshotable</span></code><a class="headerlink" href="#snapshotable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.snapshot.Snapshotable">
+<em class="property">class </em><code class="descclassname">ggrc.models.snapshot.</code><code class="descname">Snapshotable</code><a class="headerlink" href="#ggrc.models.snapshot.Snapshotable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provide <cite>snapshotted_objects</cite> on for parent objects.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="hasobjectstate">
+<h2><code class="docutils literal"><span class="pre">HasObjectState</span></code><a class="headerlink" href="#hasobjectstate" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc.models.track_object_state.HasObjectState">
+<em class="property">class </em><code class="descclassname">ggrc.models.track_object_state.</code><code class="descname">HasObjectState</code><a class="headerlink" href="#ggrc.models.track_object_state.HasObjectState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Has Object State Mixin</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Mixins</a><ul>
+<li><a class="reference internal" href="#roleable"><code class="docutils literal"><span class="pre">Roleable</span></code></a></li>
+<li><a class="reference internal" href="#base"><code class="docutils literal"><span class="pre">Base</span></code></a></li>
+<li><a class="reference internal" href="#indexed"><code class="docutils literal"><span class="pre">Indexed</span></code></a></li>
+<li><a class="reference internal" href="#auditable"><code class="docutils literal"><span class="pre">Auditable</span></code></a></li>
+<li><a class="reference internal" href="#categorizable"><code class="docutils literal"><span class="pre">Categorizable</span></code></a></li>
+<li><a class="reference internal" href="#commentable"><code class="docutils literal"><span class="pre">Commentable</span></code></a></li>
+<li><a class="reference internal" href="#hasowncontext"><code class="docutils literal"><span class="pre">HasOwnContext</span></code></a></li>
+<li><a class="reference internal" href="#assertioncategorized"><code class="docutils literal"><span class="pre">AssertionCategorized</span></code></a></li>
+<li><a class="reference internal" href="#controlcategorized"><code class="docutils literal"><span class="pre">ControlCategorized</span></code></a></li>
+<li><a class="reference internal" href="#customattributemapable"><code class="docutils literal"><span class="pre">CustomAttributeMapable</span></code></a></li>
+<li><a class="reference internal" href="#id1"><code class="docutils literal"><span class="pre">Base</span></code></a></li>
+<li><a class="reference internal" href="#businessobject"><code class="docutils literal"><span class="pre">BusinessObject</span></code></a></li>
+<li><a class="reference internal" href="#changetracked"><code class="docutils literal"><span class="pre">ChangeTracked</span></code></a></li>
+<li><a class="reference internal" href="#contextrbac"><code class="docutils literal"><span class="pre">ContextRBAC</span></code></a></li>
+<li><a class="reference internal" href="#described"><code class="docutils literal"><span class="pre">Described</span></code></a></li>
+<li><a class="reference internal" href="#finisheddate"><code class="docutils literal"><span class="pre">FinishedDate</span></code></a></li>
+<li><a class="reference internal" href="#hierarchical"><code class="docutils literal"><span class="pre">Hierarchical</span></code></a></li>
+<li><a class="reference internal" href="#identifiable"><code class="docutils literal"><span class="pre">Identifiable</span></code></a></li>
+<li><a class="reference internal" href="#lastdeprecatedtimeboxed"><code class="docutils literal"><span class="pre">LastDeprecatedTimeboxed</span></code></a></li>
+<li><a class="reference internal" href="#noted"><code class="docutils literal"><span class="pre">Noted</span></code></a></li>
+<li><a class="reference internal" href="#slugged"><code class="docutils literal"><span class="pre">Slugged</span></code></a></li>
+<li><a class="reference internal" href="#stateful"><code class="docutils literal"><span class="pre">Stateful</span></code></a></li>
+<li><a class="reference internal" href="#testplanned"><code class="docutils literal"><span class="pre">TestPlanned</span></code></a></li>
+<li><a class="reference internal" href="#timeboxed"><code class="docutils literal"><span class="pre">Timeboxed</span></code></a></li>
+<li><a class="reference internal" href="#titled"><code class="docutils literal"><span class="pre">Titled</span></code></a></li>
+<li><a class="reference internal" href="#verifieddate"><code class="docutils literal"><span class="pre">VerifiedDate</span></code></a></li>
+<li><a class="reference internal" href="#withcontact"><code class="docutils literal"><span class="pre">WithContact</span></code></a></li>
+<li><a class="reference internal" href="#assignable"><code class="docutils literal"><span class="pre">Assignable</span></code></a></li>
+<li><a class="reference internal" href="#attributable"><code class="docutils literal"><span class="pre">Attributable</span></code></a></li>
+<li><a class="reference internal" href="#attributevalidator"><code class="docutils literal"><span class="pre">AttributeValidator</span></code></a></li>
+<li><a class="reference internal" href="#auditrelationship"><code class="docutils literal"><span class="pre">AuditRelationship</span></code></a></li>
+<li><a class="reference internal" href="#autostatuschangeable"><code class="docutils literal"><span class="pre">AutoStatusChangeable</span></code></a></li>
+<li><a class="reference internal" href="#clonable"><code class="docutils literal"><span class="pre">Clonable</span></code></a></li>
+<li><a class="reference internal" href="#customattributable"><code class="docutils literal"><span class="pre">CustomAttributable</span></code></a></li>
+<li><a class="reference internal" href="#notifiable"><code class="docutils literal"><span class="pre">Notifiable</span></code></a></li>
+<li><a class="reference internal" href="#reminderable"><code class="docutils literal"><span class="pre">Reminderable</span></code></a></li>
+<li><a class="reference internal" href="#statusable"><code class="docutils literal"><span class="pre">Statusable</span></code></a></li>
+<li><a class="reference internal" href="#validateoncomplete"><code class="docutils literal"><span class="pre">ValidateOnComplete</span></code></a></li>
+<li><a class="reference internal" href="#withaction"><code class="docutils literal"><span class="pre">WithAction</span></code></a></li>
+<li><a class="reference internal" href="#withlastassessmentdate"><code class="docutils literal"><span class="pre">WithLastAssessmentDate</span></code></a></li>
+<li><a class="reference internal" href="#withsimilarityscore"><code class="docutils literal"><span class="pre">WithSimilarityScore</span></code></a></li>
+<li><a class="reference internal" href="#documentable"><code class="docutils literal"><span class="pre">Documentable</span></code></a></li>
+<li><a class="reference internal" href="#publicdocumentable"><code class="docutils literal"><span class="pre">PublicDocumentable</span></code></a></li>
+<li><a class="reference internal" href="#personable"><code class="docutils literal"><span class="pre">Personable</span></code></a></li>
+<li><a class="reference internal" href="#relatable"><code class="docutils literal"><span class="pre">Relatable</span></code></a></li>
+<li><a class="reference internal" href="#snapshotable"><code class="docutils literal"><span class="pre">Snapshotable</span></code></a></li>
+<li><a class="reference internal" href="#hasobjectstate"><code class="docutils literal"><span class="pre">HasObjectState</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="models.html"
+                        title="previous chapter">Models</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../ggrc_basic_permissions/index.html"
+                        title="next chapter">ggrc_basic_permissions</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/api/ggrc/mixins.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../ggrc_basic_permissions/index.html" title="ggrc_basic_permissions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="models.html" title="Models"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >ggrc</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

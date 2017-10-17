@@ -1,0 +1,480 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Reviewing pull requests &#8212; GGRC 0.10.33-Raspberry (80af817) documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.10.33-Raspberry (80af817)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.33-Raspberry (80af817) documentation" href="../../index.html" />
+    <link rel="up" title="Git" href="index.html" />
+    <link rel="next" title="Performance" href="../performance.html" />
+    <link rel="prev" title="Branch management" href="branch_management.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../performance.html" title="Performance"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="branch_management.html" title="Branch management"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Guidelines</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Git</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="reviewing-pull-requests">
+<h1>Reviewing pull requests<a class="headerlink" href="#reviewing-pull-requests" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Before doing anything else, if you are reviewing a bugfix pull
+request, you must first reproduce the issue on the main development
+branch as mentioned in the <a class="reference internal" href="#reviewing-a-bugfix-pr"><span class="std std-ref">Reviewing a bugfix PR</span></a>.</p>
+</div>
+<p>Add the following git alias to your <code class="docutils literal"><span class="pre">.gitconfig</span></code> file (e.g. the one
+located in your home directory):</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[alias]</span>
+    <span class="na">pr</span> <span class="o">=</span> <span class="s">&quot;!f() { \</span>
+<span class="s">        git fetch -fu ${2:-&lt;remote_main&gt;} refs/pull/$1/head:pr/$1 &amp;&amp; \</span>
+<span class="s">        git checkout pr/$1; \</span>
+<span class="s">    }; f&quot;</span>
+</pre></div>
+</div>
+<p>In the alias <code class="docutils literal"><span class="pre">&lt;remote_main&gt;</span></code> stands for the name of the remote
+representing the main development repository, i.e. the one the pull
+requests are sent to. Such a remote is commonly named <code class="docutils literal"><span class="pre">upstream</span></code>. You
+need to make sure to insert the correct name in the above alias
+definition.</p>
+<p>With the alias defined, go to the project root directory and type the
+following in the console:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git pr &lt;pr_number&gt;
+</pre></div>
+</div>
+<p>This command will automatically fetch and checkout the branch containing
+the changes in the pull request <code class="docutils literal"><span class="pre">&lt;pr_number&gt;</span></code>, e.g. 1234.</p>
+<p><em>NOTE: The command must be run on a clean repository. If you have any
+pending local changes, you first need to put them aside by running
+``git stash``, or discarding them altogether.</em></p>
+<p>If the pull request contains database changes (marked with the
+<code class="docutils literal"><span class="pre">migration</span></code> label), you need to update the database as well before you
+start reviewing the changes.</p>
+<p>With the PR branch fetched, you need to merge it with the branch the PR
+was made against, usually - but not always - <code class="docutils literal"><span class="pre">develop</span></code>, and test how
+the <em>merged</em> code performs.</p>
+<p>When you have everything set up, start the application and verify that
+everything works as intended (see the <a class="reference internal" href="#reviewing-and-merging-pull-requests"><span class="std std-ref">Reviewing and merging pull requests</span></a>
+for details). If the pull request turns out to be good, you can merge it,
+provided that all the <a class="reference internal" href="#merging-pull-requests"><span class="std std-ref">Merging pull requests</span></a> are met.</p>
+<p>On the other hand, if there are <a class="reference internal" href="#acceptance-criteria"><span class="std std-ref">reasons to reject</span></a>
+a pull request, leave the feedback in the comment(s), so that the author
+can make the necessary changes.</p>
+</div>
+<div class="section" id="using-github-labels">
+<h2>Using GitHub labels<a class="headerlink" href="#using-github-labels" title="Permalink to this headline">¶</a></h2>
+<p>There are several labels defined on the GitHub project repository page
+that can (and should!) be used for tagging pull requests. Labeling
+enables easier PR categorization and searching, thus make sure to use
+them.</p>
+<p>The meaning of the labels and their intended usage is as follows (sorted
+alphabetically):</p>
+<ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">code</span> <span class="pre">freeze</span></code> - the PR should not be merged due to the ongoing QA testing.
+Used at the end of the sprint, when extensive QA testing is started,</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">critical</span></code> - the PR has the highest possible priority and should thus be
+reviewed <em>immediately</em>. Cases when applying this label is justifiable are,
+among others, when a PR fixes a blocking issue or a severe issue that needs
+to be shipped to production in the shortest time possible. Should be used
+sparsely,</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">documentation</span></code> - the PR contains updates to project documentation,</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">migration</span></code> - the PR contains a migration script that changes the
+database schema. Such pull requests require additional setup and
+verification steps,</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">mising</span> <span class="pre">tests</span></code> - the changes submitted are not sufficiently covered with
+automated tests, and the latter need to be added,</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">needs</span> <span class="pre">work</span></code> - a reviewer or the PR author has concluded that the PR
+requires additional work before it can be accepted and merged,</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">new</span> <span class="pre">contribution</span></code> - the PR author is a new contributor that might not yet
+be familiar with the project workflow, conventions, and other nuances. Please
+take extra care and effort to answer all the questions, and to explain things
+as necessary in a welcoming manner, even if they might seem trivial to
+a seasoned contributor,</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">next</span> <span class="pre">release</span></code> - the PR will be merged after the current release
+has branched off of the main development branch, and should not be
+merged just yet,</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">on</span> <span class="pre">hold</span></code> - the PR has been temporarily put on hold for a reason that does
+not fall under any of the other labels. An example would be a case when
+merging the PR would potentially result in a merge conflict with another PR
+that is otherwise difficult to review and update, thus resolving such issues
+would likely be easier on the (less complex) PR itself,</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">please</span> <span class="pre">review</span></code> - the author asked that the PR should be reviewed
+with a higher priority. This label is usually used when the PR has either
+not received enough attention for a considerable period of time, attempts to
+resolve an important issue, or blocks another (important) PR,</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">question</span></code> - the PR author seeks advice/feedback on some code
+feature and/or design decision. It can also be used by a reviewer to
+ask the PR author for additional explanation before a decision can be
+made on whether the PR meets all the requirements. On top of that,
+this label is occasionally used when a reviewer makes a non-essential
+suggestion for a PR change, but that change is not required to deem
+the PR ready to merge,</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">wrong</span> <span class="pre">branch</span></code> - the author sent the PR to the wrong branch. The
+author should re-issue the same PR against the correct branch.</p>
+<p>IMPORTANT: The last commit <strong>must</strong> be modified and force-pushed again, so
+that the tests are re-run against the new base branch.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="reviewing-and-merging-pull-requests">
+<span id="id1"></span><h2>Reviewing and merging pull requests<a class="headerlink" href="#reviewing-and-merging-pull-requests" title="Permalink to this headline">¶</a></h2>
+<p>First of all, make sure that you have properly set up the local
+environment, then follow the guidelines described in the next couple of
+sections.</p>
+<div class="section" id="reviewing-a-new-feature-pr">
+<h3>Reviewing a new feature PR<a class="headerlink" href="#reviewing-a-new-feature-pr" title="Permalink to this headline">¶</a></h3>
+<p>The philosophy is simple - verify that the PR implements everything that
+is required by the corresponding project task / specification. While
+reviewing, it is highly recommended that you also test a few other
+application features that might have been affected by the submitted code
+changes.</p>
+</div>
+<div class="section" id="reviewing-a-bugfix-pr">
+<span id="id2"></span><h3>Reviewing a bugfix PR<a class="headerlink" href="#reviewing-a-bugfix-pr" title="Permalink to this headline">¶</a></h3>
+<p>If reviewing a pull request that contains a bug fix, you <strong>must</strong> first
+reproduce the bug on the vanilla <code class="docutils literal"><span class="pre">develop</span></code> branch, i.e. the one
+without the PR branch merged. Only after the bug has been reproduced,
+you can actually verify that the PR indeed fixes something.</p>
+<p>Again, try to also check that the bugfix has not accidentally introduced
+any other issues.</p>
+</div>
+<div class="section" id="reviewing-a-pr-containing-database-migration-scripts">
+<h3>Reviewing a PR containing database migration scripts<a class="headerlink" href="#reviewing-a-pr-containing-database-migration-scripts" title="Permalink to this headline">¶</a></h3>
+<p>Note: Before clicking &#8220;Merge pull request&#8221;, a developer must test the
+migrations once again by running:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git pr &lt;pr_number&gt;
+db_reset
+</pre></div>
+</div>
+<p>This is needed because migration chain can be out of date if another
+migration PR was merged after the last commit on the current PR has
+been pushed.</p>
+<p>Pull requests that modify the database (marked with the <code class="docutils literal"><span class="pre">migration</span></code>
+label) require additional checks to be performed on top of all the
+others regular checks, namely the following:</p>
+<ul class="simple">
+<li>The migration works from a clean database,</li>
+<li>Downgrading and upgrading work on a clean database,</li>
+<li>Migrations work from the current database state on the main
+<code class="docutils literal"><span class="pre">develop</span></code> branch,</li>
+<li>Migrations work on a populated database (using the data from the
+<code class="docutils literal"><span class="pre">grc-dev</span></code> instance).</li>
+</ul>
+</div>
+<div class="section" id="acceptance-criteria">
+<span id="id3"></span><h3>Acceptance criteria<a class="headerlink" href="#acceptance-criteria" title="Permalink to this headline">¶</a></h3>
+<p>A pull request <strong>must be rejected</strong> if <strong>any</strong> of the following is true:</p>
+<ul class="simple">
+<li>It does not do/fix what it claims to and/or it does that only
+partially,</li>
+<li>The review reveals that the PR has introduced new issues,</li>
+<li>At least one of the automatic checks on the continuous integration
+server fails, i.e. the build is broken,</li>
+<li>The new code contains severe readability, logical, performance, and/or
+architectural issues,</li>
+<li>The new code is not sufficiently covered with automated tests
+(subject to exceptions, e.g. when a test would be disproportionally
+difficult and time-consuming to write, or for little UI changes like
+changing an icon or a font color).</li>
+</ul>
+<p>The reviewer must mark the pull request with the <code class="docutils literal"><span class="pre">needs</span> <span class="pre">work</span></code> label,
+signaling to the author that the PR cannot yet been merged as-is, and
+additional changes are required. Along with the tagging, the reviewer
+should clearly explain why the PR has temporarily been rejected, and
+what needs to be done before it can be merged.</p>
+<p>On the other hand, if the PR looks good, it can be merged immediately
+(subject to the conditions described in the <a class="reference internal" href="#merging-pull-requests"><span class="std std-ref">Merging pull requests</span></a>).</p>
+<p>Sometimes, however, a PR looks good, but the reviewer is nevertheless
+not yet 100% confident with merging it, usually due to its complexity
+and/or size, or his own lesser familiarity with the project codebase. In
+such cases, the reviewer can still express the approval of the PR, but
+defer the final verdict on merging to other reviewers (assign if necessary).</p>
+</div>
+<div class="section" id="merging-pull-requests">
+<span id="id4"></span><h3>Merging pull requests<a class="headerlink" href="#merging-pull-requests" title="Permalink to this headline">¶</a></h3>
+<p>A pull request can be merged only if <strong>all</strong> of the following is true:</p>
+<ul class="simple">
+<li><em>You</em> have gone through all the verification steps and concluded that
+everything works as expected (other people&#8217;s approvals by themselves
+<em>are not enough</em>!),</li>
+<li>All automatic continuous integration checks have passed,</li>
+<li>The pull request does not contain <strong>any of your commits</strong>. You are
+not allowed to merge your own work, including the pull requests that
+you have at least partially contributed to,</li>
+<li>The pull request is <strong>not</strong> labeled with any of the &#8220;blocking&#8221; labels
+(<code class="docutils literal"><span class="pre">code</span> <span class="pre">freeze</span></code>, <code class="docutils literal"><span class="pre">missing</span> <span class="pre">tests</span></code>, <code class="docutils literal"><span class="pre">needs</span> <span class="pre">work</span></code>, <code class="docutils literal"><span class="pre">next</span> <span class="pre">release</span></code>,
+<code class="docutils literal"><span class="pre">on</span> <span class="pre">hold</span></code>, <code class="docutils literal"><span class="pre">question</span></code>, <code class="docutils literal"><span class="pre">wrong</span> <span class="pre">branch</span></code>), meaning that not all open
+questions and issues have been resolved yet,</li>
+<li>The pull request does <strong>not</strong> have any Reviewers assigned that have not yet
+completed their review (seek information on why, if necessary), or if at
+least one of the reviewers has requested changes.</li>
+</ul>
+<p>NOTE: After merging a PR that contains a database migration step, the reviewer
+must mark all other currently open migration PRs with the <code class="docutils literal"><span class="pre">needs</span> <span class="pre">work</span></code> label,
+and add a note containing the new <code class="docutils literal"><span class="pre">down_revision</span></code> value in the database
+migration chain, so that the authors of those PRs can update their migration
+scripts accordingly.
+Mind that this only applies to the PRs containing migration scripts in the same
+application module as the just merged PR.</p>
+</div>
+</div>
+<div class="section" id="setting-up-and-tearing-down-the-environment-step-by-step-guide">
+<h2>Setting up (and tearing down) the environment - step by step guide<a class="headerlink" href="#setting-up-and-tearing-down-the-environment-step-by-step-guide" title="Permalink to this headline">¶</a></h2>
+<p>In order to better understand how the local environment must be set up,
+and as a reference, the following sections describe all the steps in
+more details.</p>
+<p><em>NOTE: Depending on your setup, some of the steps may be omitted. If not
+sure, just run them all.</em></p>
+<ol class="arabic">
+<li><p class="first">Make sure your local files are up to date:</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">to</span><span class="o">/</span><span class="n">your</span><span class="o">/</span><span class="n">ggrc</span><span class="o">/</span><span class="n">clone</span>
+<span class="n">git</span> <span class="n">stash</span>  <span class="c1"># make sure you don&#39;t have any local changes</span>
+<span class="n">git</span> <span class="n">fetch</span> <span class="o">&lt;</span><span class="n">remote_main</span><span class="o">&gt;</span>
+<span class="n">git</span> <span class="n">checkout</span> <span class="o">&lt;</span><span class="n">remote_main</span><span class="o">&gt;/</span><span class="n">develop</span>
+</pre></div>
+</div>
+<p>Here <code class="docutils literal"><span class="pre">&lt;remote_main&gt;</span></code> stands for the name of the <em>remote</em>
+representing the main development repository, i.e. the one the pull
+requests are sent to. Such a remote is commonly named <code class="docutils literal"><span class="pre">upstream</span></code>.</p>
+<p><em>NOTE: If the pull request was made against a branch other than
+``develop``, you need to replace that name accordingly in the
+``git checkout`` command. The rest of this section assumes that
+``develop`` is the name of the branch we want to merge the new code
+into.</em></p>
+</li>
+<li><p class="first">Test should be done on the merged branch:</p>
+<p><em>NOTE: The merge must **not*</em> be a fast-forward, since all pull
+requests are merged with the <code class="docutils literal"><span class="pre">--no-ff</span></code> flag.*</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">b</span> <span class="n">temp_branch</span>
+<span class="n">git</span> <span class="n">fetch</span> <span class="o">&lt;</span><span class="n">pr_origin</span><span class="o">&gt;</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">ff</span> <span class="o">&lt;</span><span class="n">pr_origin</span><span class="o">&gt;/&lt;</span><span class="n">feature_branch_name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Here <code class="docutils literal"><span class="pre">&lt;pr_origin&gt;</span></code> stands for the name of the <em>remote</em> the pull
+request is originating from. This is most often a fork of the
+<code class="docutils literal"><span class="pre">&lt;remote_main&gt;</span></code> by one of the fellow developers on the project.</p>
+<p><code class="docutils literal"><span class="pre">&lt;feature_branch_name&gt;</span></code> must of course be replaced with the actual
+name of the remote branch containing the changes, e.g.
+<code class="docutils literal"><span class="pre">feature/CORE-1234</span></code>.</p>
+<p>If you don&#8217;t yet have the <code class="docutils literal"><span class="pre">&lt;pr_origin&gt;</span></code> defined, you need to add it
+(<a class="reference external" href="https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes#Adding-Remote-Repositories">instructions</a>).</p>
+</li>
+<li><p class="first">Start your local development environment (Vagrant or Docker). No need
+if you already have it running.</p>
+<p><strong>If using Vagrant</strong></p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span><span class="n">vagrant</span> <span class="n">up</span>
+
+<span class="c1"># run the following if there were any changes in the provisioning files,</span>
+<span class="c1"># requirements, requirements-dev, requirements-selenium, or npm</span>
+<span class="n">requirements</span><span class="o">...</span>
+<span class="n">vagrant</span> <span class="n">provision</span>
+
+<span class="n">vagrant</span> <span class="n">ssh</span>
+</pre></div>
+</div>
+<p><strong>If using Docker</strong></p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span><span class="c1"># TODO: write Docker commands</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">(optional) Run the database migration</p>
+<p>If the pull request is marked with the <code class="docutils literal"><span class="pre">migration</span></code> label, it
+modifies the database schema, and you thus need to update the schema
+locally as well.</p>
+<p>First, backup the current development database by running the
+following in the development container&#8217;s console (you will be
+prompted for the database root password):</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span><span class="n">mysqldump</span> <span class="n">ggrcdev</span> <span class="o">-</span><span class="n">u</span> <span class="n">root</span> <span class="o">-</span><span class="n">p</span> <span class="o">&gt;</span> <span class="n">db_backup</span><span class="o">.</span><span class="n">sql</span>
+</pre></div>
+</div>
+<p>With the backup successfully created, run the actual database
+migration:</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span><span class="n">db_migrate</span>
+</pre></div>
+</div>
+<p><em>NOTE: Database migration must be run from the latest database state
+on the main ``develop`` branch. If your topic branch introduced any
+DB changes, they must first be reverted before running the
+migration.</em></p>
+</li>
+<li><p class="first">Rebuild all asset files and launch the application:</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span><span class="n">deploy_appengine</span> <span class="n">extras</span><span class="o">/</span><span class="n">deploy_settings_local</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">launch_ggrc</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Test the application in incognito mode.</p>
+<p><em>HINT: For incognito mode in Chrome press Ctrl+Shift+n (or
+⌘Cmd+Shift+n on Mac)</em></p>
+<p><em>NOTE: You have to close all current incognito browsers to get a
+clean session.</em></p>
+<p>Test the pull request as described in the <a class="reference internal" href="#reviewing-and-merging-pull-requests"><span class="std std-ref">Reviewing and merging pull requests</span></a> of this guide.</p>
+</li>
+<li><p class="first">Go back to your branch and continue with your work:</p>
+<p>After you have finished verifying the pull request, you can remove
+the temporary branch that was used for testing it:</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">checkout</span> <span class="n">develop</span>
+<span class="n">git</span> <span class="n">branch</span> <span class="o">-</span><span class="n">D</span> <span class="n">temp_branch</span>
+</pre></div>
+</div>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">checkout</span> <span class="n">my</span><span class="o">/</span><span class="n">previous</span><span class="o">-</span><span class="n">branch</span>
+<span class="n">git</span> <span class="n">stash</span> <span class="n">pop</span>  <span class="c1"># only needed if you had any changes stashed in Step 1</span>
+</pre></div>
+</div>
+<p>If you tested a <code class="docutils literal"><span class="pre">migration</span></code> pull request, you should also revert
+the database to its previous state by running the following from the
+development container&#8217;s console:</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span><span class="n">mysql</span> <span class="o">-</span><span class="n">u</span> <span class="n">root</span> <span class="o">-</span><span class="n">p</span> <span class="n">ggrcdev</span> <span class="o">&lt;</span> <span class="n">db_backup</span><span class="o">.</span><span class="n">sql</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="notes-for-developers-and-reviewers">
+<h2>Notes for developers and reviewers<a class="headerlink" href="#notes-for-developers-and-reviewers" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Read guidelines and go through all required steps during PR review</li>
+<li>Make sure to check for regression before creating and merging PR</li>
+<li>Be extra careful with changing existing unit-tests</li>
+<li>Analize for performance degradation</li>
+<li>Check if existing code can be improved<ul>
+<li>Remove unused code</li>
+<li>Avoid optional code</li>
+<li>Avoid deeply nested code, etc</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Reviewing pull requests</a><ul>
+<li><a class="reference internal" href="#quickstart">Quickstart</a></li>
+<li><a class="reference internal" href="#using-github-labels">Using GitHub labels</a></li>
+<li><a class="reference internal" href="#reviewing-and-merging-pull-requests">Reviewing and merging pull requests</a><ul>
+<li><a class="reference internal" href="#reviewing-a-new-feature-pr">Reviewing a new feature PR</a></li>
+<li><a class="reference internal" href="#reviewing-a-bugfix-pr">Reviewing a bugfix PR</a></li>
+<li><a class="reference internal" href="#reviewing-a-pr-containing-database-migration-scripts">Reviewing a PR containing database migration scripts</a></li>
+<li><a class="reference internal" href="#acceptance-criteria">Acceptance criteria</a></li>
+<li><a class="reference internal" href="#merging-pull-requests">Merging pull requests</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#setting-up-and-tearing-down-the-environment-step-by-step-guide">Setting up (and tearing down) the environment - step by step guide</a></li>
+<li><a class="reference internal" href="#notes-for-developers-and-reviewers">Notes for developers and reviewers</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="branch_management.html"
+                        title="previous chapter">Branch management</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../performance.html"
+                        title="next chapter">Performance</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/guidelines/git/reviewing_pull_requests.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../performance.html" title="Performance"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="branch_management.html" title="Branch management"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Guidelines</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Git</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

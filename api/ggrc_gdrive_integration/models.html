@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Models &#8212; GGRC 0.10.33-Raspberry (80af817) documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.10.33-Raspberry (80af817)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.33-Raspberry (80af817) documentation" href="../../index.html" />
+    <link rel="up" title="ggrc_gdrive_integration" href="index.html" />
+    <link rel="next" title="Mixins" href="mixins.html" />
+    <link rel="prev" title="Services" href="services.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mixins.html" title="Mixins"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="services.html" title="Services"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">ggrc_gdrive_integration</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="models">
+<h1>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="objectevent">
+<h2><code class="docutils literal"><span class="pre">ObjectEvent</span></code><a class="headerlink" href="#objectevent" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc_gdrive_integration.models.object_event.ObjectEvent">
+<em class="property">class </em><code class="descclassname">ggrc_gdrive_integration.models.object_event.</code><code class="descname">ObjectEvent</code><a class="headerlink" href="#ggrc_gdrive_integration.models.object_event.ObjectEvent" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Missing doc-string of <code class="docutils literal"><span class="pre">ggrc_gdrive_integration.models.object_event.ObjectEvent</span></code></p>
+</div>
+<p>Schema:</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">object_events</span> <span class="p">(</span>
+        <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">event_id</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">calendar_id</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">eventable_id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">eventable_type</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">updated_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">modified_by_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Mixins:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Base" title="ggrc.models.mixins.Base"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Base</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ChangeTracked" title="ggrc.models.mixins.ChangeTracked"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ChangeTracked</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ContextRBAC" title="ggrc.models.mixins.ContextRBAC"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ContextRBAC</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Identifiable" title="ggrc.models.mixins.Identifiable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Identifiable</span></code></a></li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="objectfile">
+<h2><code class="docutils literal"><span class="pre">ObjectFile</span></code><a class="headerlink" href="#objectfile" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc_gdrive_integration.models.object_file.ObjectFile">
+<em class="property">class </em><code class="descclassname">ggrc_gdrive_integration.models.object_file.</code><code class="descname">ObjectFile</code><a class="headerlink" href="#ggrc_gdrive_integration.models.object_file.ObjectFile" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Missing doc-string of <code class="docutils literal"><span class="pre">ggrc_gdrive_integration.models.object_file.ObjectFile</span></code></p>
+</div>
+<p>Schema:</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">object_files</span> <span class="p">(</span>
+        <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">file_id</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">parent_folder_id</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">fileable_id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">fileable_type</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">updated_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">modified_by_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Mixins:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Base" title="ggrc.models.mixins.Base"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Base</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ChangeTracked" title="ggrc.models.mixins.ChangeTracked"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ChangeTracked</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ContextRBAC" title="ggrc.models.mixins.ContextRBAC"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ContextRBAC</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Identifiable" title="ggrc.models.mixins.Identifiable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Identifiable</span></code></a></li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="objectfolder">
+<h2><code class="docutils literal"><span class="pre">ObjectFolder</span></code><a class="headerlink" href="#objectfolder" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc_gdrive_integration.models.object_folder.ObjectFolder">
+<em class="property">class </em><code class="descclassname">ggrc_gdrive_integration.models.object_folder.</code><code class="descname">ObjectFolder</code><a class="headerlink" href="#ggrc_gdrive_integration.models.object_folder.ObjectFolder" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Missing doc-string of <code class="docutils literal"><span class="pre">ggrc_gdrive_integration.models.object_folder.ObjectFolder</span></code></p>
+</div>
+<p>Schema:</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">object_folders</span> <span class="p">(</span>
+        <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">folder_id</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">parent_folder_id</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">folderable_id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">folderable_type</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">updated_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">modified_by_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Mixins:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Base" title="ggrc.models.mixins.Base"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Base</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ChangeTracked" title="ggrc.models.mixins.ChangeTracked"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ChangeTracked</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ContextRBAC" title="ggrc.models.mixins.ContextRBAC"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ContextRBAC</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Identifiable" title="ggrc.models.mixins.Identifiable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Identifiable</span></code></a></li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Models</a><ul>
+<li><a class="reference internal" href="#objectevent"><code class="docutils literal"><span class="pre">ObjectEvent</span></code></a></li>
+<li><a class="reference internal" href="#objectfile"><code class="docutils literal"><span class="pre">ObjectFile</span></code></a></li>
+<li><a class="reference internal" href="#objectfolder"><code class="docutils literal"><span class="pre">ObjectFolder</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="services.html"
+                        title="previous chapter">Services</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="mixins.html"
+                        title="next chapter">Mixins</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/api/ggrc_gdrive_integration/models.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mixins.html" title="Mixins"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="services.html" title="Services"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >ggrc_gdrive_integration</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

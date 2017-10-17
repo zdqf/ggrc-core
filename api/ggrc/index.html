@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ggrc &#8212; GGRC 0.10.33-Raspberry (80af817) documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.10.33-Raspberry (80af817)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.33-Raspberry (80af817) documentation" href="../../index.html" />
+    <link rel="up" title="API" href="../index.html" />
+    <link rel="next" title="Services" href="services.html" />
+    <link rel="prev" title="API" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="services.html" title="Services"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="API"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">API</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-ggrc"></span><div class="section" id="ggrc">
+<h1>ggrc<a class="headerlink" href="#ggrc" title="Permalink to this headline">¶</a></h1>
+<p>Main API endpoints for GGRC</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="services.html">Services</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-access-control-roles"><code class="docutils literal"><span class="pre">/api/access_control_roles</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-access-groups"><code class="docutils literal"><span class="pre">/api/access_groups</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-assessments"><code class="docutils literal"><span class="pre">/api/assessments</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-assessment-templates"><code class="docutils literal"><span class="pre">/api/assessment_templates</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-audits"><code class="docutils literal"><span class="pre">/api/audits</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-audit-objects"><code class="docutils literal"><span class="pre">/api/audit_objects</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-background-tasks"><code class="docutils literal"><span class="pre">/api/background_tasks</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-categorizations"><code class="docutils literal"><span class="pre">/api/categorizations</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-category-bases"><code class="docutils literal"><span class="pre">/api/category_bases</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-clauses"><code class="docutils literal"><span class="pre">/api/clauses</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-comments"><code class="docutils literal"><span class="pre">/api/comments</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-contexts"><code class="docutils literal"><span class="pre">/api/contexts</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-controls"><code class="docutils literal"><span class="pre">/api/controls</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-control-assertions"><code class="docutils literal"><span class="pre">/api/control_assertions</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-control-categories"><code class="docutils literal"><span class="pre">/api/control_categories</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-custom-attribute-definitions"><code class="docutils literal"><span class="pre">/api/custom_attribute_definitions</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-custom-attribute-values"><code class="docutils literal"><span class="pre">/api/custom_attribute_values</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-data-assets"><code class="docutils literal"><span class="pre">/api/data_assets</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-contracts"><code class="docutils literal"><span class="pre">/api/contracts</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-directives"><code class="docutils literal"><span class="pre">/api/directives</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-policies"><code class="docutils literal"><span class="pre">/api/policies</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-regulations"><code class="docutils literal"><span class="pre">/api/regulations</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-standards"><code class="docutils literal"><span class="pre">/api/standards</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-documents"><code class="docutils literal"><span class="pre">/api/documents</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-events"><code class="docutils literal"><span class="pre">/api/events</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-facilities"><code class="docutils literal"><span class="pre">/api/facilities</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-help"><code class="docutils literal"><span class="pre">/api/help</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-issues"><code class="docutils literal"><span class="pre">/api/issues</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-markets"><code class="docutils literal"><span class="pre">/api/markets</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-meetings"><code class="docutils literal"><span class="pre">/api/meetings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-notification-configs"><code class="docutils literal"><span class="pre">/api/notification_configs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-object-people"><code class="docutils literal"><span class="pre">/api/object_people</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-objectives"><code class="docutils literal"><span class="pre">/api/objectives</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-options"><code class="docutils literal"><span class="pre">/api/options</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-org-groups"><code class="docutils literal"><span class="pre">/api/org_groups</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-people"><code class="docutils literal"><span class="pre">/api/people</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-products"><code class="docutils literal"><span class="pre">/api/products</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-programs"><code class="docutils literal"><span class="pre">/api/programs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-projects"><code class="docutils literal"><span class="pre">/api/projects</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-relationships"><code class="docutils literal"><span class="pre">/api/relationships</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-revisions"><code class="docutils literal"><span class="pre">/api/revisions</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-sections"><code class="docutils literal"><span class="pre">/api/sections</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-snapshots"><code class="docutils literal"><span class="pre">/api/snapshots</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-processes"><code class="docutils literal"><span class="pre">/api/processes</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-systems"><code class="docutils literal"><span class="pre">/api/systems</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-systems-or-processes"><code class="docutils literal"><span class="pre">/api/systems_or_processes</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="services.html#api-vendors"><code class="docutils literal"><span class="pre">/api/vendors</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="models.html#accesscontrollist"><code class="docutils literal"><span class="pre">AccessControlList</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#accesscontrolrole"><code class="docutils literal"><span class="pre">AccessControlRole</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#attributedefinitions"><code class="docutils literal"><span class="pre">AttributeDefinitions</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#attributetemplates"><code class="docutils literal"><span class="pre">AttributeTemplates</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#attributetypes"><code class="docutils literal"><span class="pre">AttributeTypes</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#attributes"><code class="docutils literal"><span class="pre">Attributes</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#namespaces"><code class="docutils literal"><span class="pre">Namespaces</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#objecttemplates"><code class="docutils literal"><span class="pre">ObjectTemplates</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#objecttypes"><code class="docutils literal"><span class="pre">ObjectTypes</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#accessgroup"><code class="docutils literal"><span class="pre">AccessGroup</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#assessment"><code class="docutils literal"><span class="pre">Assessment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#assessmenttemplate"><code class="docutils literal"><span class="pre">AssessmentTemplate</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#audit"><code class="docutils literal"><span class="pre">Audit</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#auditobject"><code class="docutils literal"><span class="pre">AuditObject</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#automapping"><code class="docutils literal"><span class="pre">Automapping</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#backgroundtask"><code class="docutils literal"><span class="pre">BackgroundTask</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#categorization"><code class="docutils literal"><span class="pre">Categorization</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#categorybase"><code class="docutils literal"><span class="pre">CategoryBase</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#clause"><code class="docutils literal"><span class="pre">Clause</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#comment"><code class="docutils literal"><span class="pre">Comment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#context"><code class="docutils literal"><span class="pre">Context</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#control"><code class="docutils literal"><span class="pre">Control</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#controlassertion"><code class="docutils literal"><span class="pre">ControlAssertion</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#controlcategory"><code class="docutils literal"><span class="pre">ControlCategory</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#customattributedefinition"><code class="docutils literal"><span class="pre">CustomAttributeDefinition</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#customattributevalue"><code class="docutils literal"><span class="pre">CustomAttributeValue</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#dataasset"><code class="docutils literal"><span class="pre">DataAsset</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#contract"><code class="docutils literal"><span class="pre">Contract</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#directive"><code class="docutils literal"><span class="pre">Directive</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#policy"><code class="docutils literal"><span class="pre">Policy</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#regulation"><code class="docutils literal"><span class="pre">Regulation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#standard"><code class="docutils literal"><span class="pre">Standard</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#document"><code class="docutils literal"><span class="pre">Document</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#event"><code class="docutils literal"><span class="pre">Event</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#facility"><code class="docutils literal"><span class="pre">Facility</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#help"><code class="docutils literal"><span class="pre">Help</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#issue"><code class="docutils literal"><span class="pre">Issue</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#market"><code class="docutils literal"><span class="pre">Market</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#meeting"><code class="docutils literal"><span class="pre">Meeting</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#notification"><code class="docutils literal"><span class="pre">Notification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#notificationconfig"><code class="docutils literal"><span class="pre">NotificationConfig</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#notificationtype"><code class="docutils literal"><span class="pre">NotificationType</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#objectperson"><code class="docutils literal"><span class="pre">ObjectPerson</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#objective"><code class="docutils literal"><span class="pre">Objective</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#option"><code class="docutils literal"><span class="pre">Option</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#orggroup"><code class="docutils literal"><span class="pre">OrgGroup</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#person"><code class="docutils literal"><span class="pre">Person</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#product"><code class="docutils literal"><span class="pre">Product</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#program"><code class="docutils literal"><span class="pre">Program</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#project"><code class="docutils literal"><span class="pre">Project</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#relationship"><code class="docutils literal"><span class="pre">Relationship</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#relationshipattr"><code class="docutils literal"><span class="pre">RelationshipAttr</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#revision"><code class="docutils literal"><span class="pre">Revision</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#section"><code class="docutils literal"><span class="pre">Section</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#snapshot"><code class="docutils literal"><span class="pre">Snapshot</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#process"><code class="docutils literal"><span class="pre">Process</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#system"><code class="docutils literal"><span class="pre">System</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#systemorprocess"><code class="docutils literal"><span class="pre">SystemOrProcess</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#vendor"><code class="docutils literal"><span class="pre">Vendor</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mixins.html">Mixins</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#roleable"><code class="docutils literal"><span class="pre">Roleable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#base"><code class="docutils literal"><span class="pre">Base</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#indexed"><code class="docutils literal"><span class="pre">Indexed</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#auditable"><code class="docutils literal"><span class="pre">Auditable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#categorizable"><code class="docutils literal"><span class="pre">Categorizable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#commentable"><code class="docutils literal"><span class="pre">Commentable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#hasowncontext"><code class="docutils literal"><span class="pre">HasOwnContext</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#assertioncategorized"><code class="docutils literal"><span class="pre">AssertionCategorized</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#controlcategorized"><code class="docutils literal"><span class="pre">ControlCategorized</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#customattributemapable"><code class="docutils literal"><span class="pre">CustomAttributeMapable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#id1"><code class="docutils literal"><span class="pre">Base</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#businessobject"><code class="docutils literal"><span class="pre">BusinessObject</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#changetracked"><code class="docutils literal"><span class="pre">ChangeTracked</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#contextrbac"><code class="docutils literal"><span class="pre">ContextRBAC</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#described"><code class="docutils literal"><span class="pre">Described</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#finisheddate"><code class="docutils literal"><span class="pre">FinishedDate</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#hierarchical"><code class="docutils literal"><span class="pre">Hierarchical</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#identifiable"><code class="docutils literal"><span class="pre">Identifiable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#lastdeprecatedtimeboxed"><code class="docutils literal"><span class="pre">LastDeprecatedTimeboxed</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#noted"><code class="docutils literal"><span class="pre">Noted</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#slugged"><code class="docutils literal"><span class="pre">Slugged</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#stateful"><code class="docutils literal"><span class="pre">Stateful</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#testplanned"><code class="docutils literal"><span class="pre">TestPlanned</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#timeboxed"><code class="docutils literal"><span class="pre">Timeboxed</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#titled"><code class="docutils literal"><span class="pre">Titled</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#verifieddate"><code class="docutils literal"><span class="pre">VerifiedDate</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#withcontact"><code class="docutils literal"><span class="pre">WithContact</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#assignable"><code class="docutils literal"><span class="pre">Assignable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#attributable"><code class="docutils literal"><span class="pre">Attributable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#attributevalidator"><code class="docutils literal"><span class="pre">AttributeValidator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#auditrelationship"><code class="docutils literal"><span class="pre">AuditRelationship</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#autostatuschangeable"><code class="docutils literal"><span class="pre">AutoStatusChangeable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#clonable"><code class="docutils literal"><span class="pre">Clonable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#customattributable"><code class="docutils literal"><span class="pre">CustomAttributable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#notifiable"><code class="docutils literal"><span class="pre">Notifiable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#reminderable"><code class="docutils literal"><span class="pre">Reminderable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#statusable"><code class="docutils literal"><span class="pre">Statusable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#validateoncomplete"><code class="docutils literal"><span class="pre">ValidateOnComplete</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#withaction"><code class="docutils literal"><span class="pre">WithAction</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#withlastassessmentdate"><code class="docutils literal"><span class="pre">WithLastAssessmentDate</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#withsimilarityscore"><code class="docutils literal"><span class="pre">WithSimilarityScore</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#documentable"><code class="docutils literal"><span class="pre">Documentable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#publicdocumentable"><code class="docutils literal"><span class="pre">PublicDocumentable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#personable"><code class="docutils literal"><span class="pre">Personable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#relatable"><code class="docutils literal"><span class="pre">Relatable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#snapshotable"><code class="docutils literal"><span class="pre">Snapshotable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixins.html#hasobjectstate"><code class="docutils literal"><span class="pre">HasObjectState</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../index.html"
+                        title="previous chapter">API</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="services.html"
+                        title="next chapter">Services</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/api/ggrc/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="services.html" title="Services"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="API"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >API</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

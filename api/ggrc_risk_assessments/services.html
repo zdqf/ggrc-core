@@ -1,0 +1,296 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Services &#8212; GGRC 0.10.33-Raspberry (80af817) documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.10.33-Raspberry (80af817)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.33-Raspberry (80af817) documentation" href="../../index.html" />
+    <link rel="up" title="ggrc_risk_assessments" href="index.html" />
+    <link rel="next" title="Models" href="models.html" />
+    <link rel="prev" title="ggrc_risk_assessments" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="models.html" title="Models"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="ggrc_risk_assessments"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">ggrc_risk_assessments</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="services">
+<h1>Services<a class="headerlink" href="#services" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="api-risk-assessments">
+<h2><code class="docutils literal"><span class="pre">/api/risk_assessments</span></code><a class="headerlink" href="#api-risk-assessments" title="Permalink to this headline">¶</a></h2>
+<p>Methods:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">POST</span>   <span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">risk_assessments</span>
+<span class="n">GET</span>    <span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">risk_assessments</span>
+<span class="n">GET</span>    <span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">risk_assessments</span><span class="o">/</span><span class="p">{</span><span class="nb">id</span><span class="p">}</span>
+<span class="n">PUT</span>    <span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">risk_assessments</span><span class="o">/</span><span class="p">{</span><span class="nb">id</span><span class="p">}</span>
+<span class="n">DELETE</span> <span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">risk_assessments</span><span class="o">/</span><span class="p">{</span><span class="nb">id</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Model <a class="reference internal" href="models.html#ggrc_risk_assessments.models.risk_assessment.RiskAssessment" title="ggrc_risk_assessments.models.risk_assessment.RiskAssessment"><code class="xref py py-class docutils literal"><span class="pre">ggrc_risk_assessments.models.risk_assessment.RiskAssessment</span></code></a></p>
+<p>POST Example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">POST</span> <span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">risk_assessments</span><span class="o">/</span>
+
+<span class="n">Request</span> <span class="n">headers</span><span class="p">:</span>
+  <span class="n">content</span><span class="o">-</span><span class="nb">type</span><span class="p">:</span><span class="n">application</span><span class="o">/</span><span class="n">json</span>
+  <span class="n">cookie</span><span class="p">:</span><span class="n">SACSID</span><span class="o">=&lt;</span><span class="n">ID</span><span class="o">&gt;</span><span class="p">;</span>
+         <span class="n">session</span><span class="o">=&lt;</span><span class="n">SessionID</span><span class="o">&gt;</span>
+  <span class="n">x</span><span class="o">-</span><span class="n">requested</span><span class="o">-</span><span class="n">by</span><span class="p">:</span><span class="n">GGRC</span>
+
+<span class="n">Request</span> <span class="n">body</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">&quot;risk_assessment&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Context&quot;</span> <span class="p">},</span>
+    <span class="s2">&quot;custom_attribute_values&quot;</span><span class="p">:</span> <span class="p">[{}],</span>
+    <span class="s2">&quot;custom_attributes&quot;</span><span class="p">:</span> <span class="p">[{}],</span>
+    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Object &lt;b&gt;description&lt;/b&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;end_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-08-14&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;notes&quot;</span><span class="p">:</span> <span class="s1">&#39;Object &lt;i&gt;Notes&lt;/i&gt;&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;program&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Program&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;ra_counsel&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ra_manager&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;related_destinations&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;related_sources&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;slug&quot;</span><span class="p">:</span> <span class="s2">&quot;OBJECT-1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;start_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-08-14&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Object title&quot;</span><span class="p">,</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">Response</span> <span class="n">body</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">&quot;risk_assessment&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Context&quot;</span> <span class="p">},</span>
+    <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-08-14T14:24:43&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;custom_attribute_definitions&quot;</span><span class="p">:</span> <span class="p">[{}],</span>
+    <span class="s2">&quot;custom_attribute_values&quot;</span><span class="p">:</span> <span class="p">[{}],</span>
+    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Object &lt;b&gt;description&lt;/b&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;end_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-08-14&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;modified_by&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;notes&quot;</span><span class="p">:</span> <span class="s1">&#39;Object &lt;i&gt;Notes&lt;/i&gt;&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;preconditions_failed&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s2">&quot;program&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Program&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;ra_counsel&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ra_manager&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;related_destinations&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;related_sources&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;slug&quot;</span><span class="p">:</span> <span class="s2">&quot;OBJECT-1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;start_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-08-14&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Object title&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;RiskAssessment&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-08-14T14:24:43&quot;</span><span class="p">,</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>GET Example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GET</span> <span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">risk_assessments</span><span class="o">/</span><span class="mi">1</span>
+
+<span class="n">Request</span> <span class="n">headers</span><span class="p">:</span>
+  <span class="n">content</span><span class="o">-</span><span class="nb">type</span><span class="p">:</span><span class="n">application</span><span class="o">/</span><span class="n">json</span>
+  <span class="n">cookie</span><span class="p">:</span><span class="n">SACSID</span><span class="o">=&lt;</span><span class="n">ID</span><span class="o">&gt;</span><span class="p">;</span>
+         <span class="n">session</span><span class="o">=&lt;</span><span class="n">SessionID</span><span class="o">&gt;</span>
+  <span class="n">x</span><span class="o">-</span><span class="n">requested</span><span class="o">-</span><span class="n">by</span><span class="p">:</span><span class="n">GGRC</span>
+
+<span class="n">Response</span> <span class="n">body</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">&quot;risk_assessment&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Context&quot;</span> <span class="p">},</span>
+    <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-08-14T14:24:43&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;custom_attribute_definitions&quot;</span><span class="p">:</span> <span class="p">[{}],</span>
+    <span class="s2">&quot;custom_attribute_values&quot;</span><span class="p">:</span> <span class="p">[{}],</span>
+    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Object &lt;b&gt;description&lt;/b&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;end_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-08-14&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;modified_by&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;notes&quot;</span><span class="p">:</span> <span class="s1">&#39;Object &lt;i&gt;Notes&lt;/i&gt;&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;preconditions_failed&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s2">&quot;program&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Program&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;ra_counsel&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ra_manager&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;related_destinations&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;related_sources&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;slug&quot;</span><span class="p">:</span> <span class="s2">&quot;OBJECT-1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;start_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-08-14&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Object title&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;RiskAssessment&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-08-14T14:24:43&quot;</span><span class="p">,</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>PUT Example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">PUT</span> <span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">risk_assessments</span><span class="o">/</span><span class="mi">1</span>
+
+<span class="n">Request</span> <span class="n">headers</span><span class="p">:</span>
+  <span class="n">content</span><span class="o">-</span><span class="nb">type</span><span class="p">:</span><span class="n">application</span><span class="o">/</span><span class="n">json</span>
+  <span class="n">cookie</span><span class="p">:</span><span class="n">SACSID</span><span class="o">=&lt;</span><span class="n">ID</span><span class="o">&gt;</span><span class="p">;</span>
+         <span class="n">session</span><span class="o">=&lt;</span><span class="n">SessionID</span><span class="o">&gt;</span>
+  <span class="k">if</span><span class="o">-</span><span class="n">match</span><span class="p">:</span><span class="s2">&quot;d87058b07a1c1efe8bc2949033b5766db239fb9d&quot;</span>
+  <span class="k">if</span><span class="o">-</span><span class="n">unmodified</span><span class="o">-</span><span class="n">since</span><span class="p">:</span><span class="n">Thu</span><span class="p">,</span> <span class="mi">30</span> <span class="n">Mar</span> <span class="mi">2017</span> <span class="mi">10</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="mi">14</span> <span class="n">GMT</span>
+  <span class="n">x</span><span class="o">-</span><span class="n">requested</span><span class="o">-</span><span class="n">by</span><span class="p">:</span><span class="n">GGRC</span>
+
+<span class="n">Request</span> <span class="n">body</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">&quot;risk_assessment&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Context&quot;</span> <span class="p">},</span>
+    <span class="s2">&quot;custom_attribute_values&quot;</span><span class="p">:</span> <span class="p">[{}],</span>
+    <span class="s2">&quot;custom_attributes&quot;</span><span class="p">:</span> <span class="p">[{}],</span>
+    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Object &lt;b&gt;description&lt;/b&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;end_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-08-14&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;notes&quot;</span><span class="p">:</span> <span class="s1">&#39;Object &lt;i&gt;Notes&lt;/i&gt;&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;program&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Program&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;ra_counsel&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ra_manager&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;related_destinations&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;related_sources&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;slug&quot;</span><span class="p">:</span> <span class="s2">&quot;OBJECT-1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;start_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-08-14&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Object title&quot;</span><span class="p">,</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">Response</span> <span class="n">headers</span><span class="p">:</span>
+  <span class="n">content</span><span class="o">-</span><span class="nb">type</span><span class="p">:</span><span class="n">application</span><span class="o">/</span><span class="n">json</span>
+  <span class="n">date</span><span class="p">:</span><span class="n">Mon</span><span class="p">,</span> <span class="mi">16</span> <span class="n">Oct</span> <span class="mi">2017</span> <span class="mi">15</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">07</span> <span class="n">GMT</span>
+  <span class="n">etag</span><span class="p">:</span><span class="s2">&quot;d87058b07a1c1efe8bc2949033b5766db239fb9d&quot;</span>
+  <span class="n">last</span><span class="o">-</span><span class="n">modified</span><span class="p">:</span><span class="n">Thu</span><span class="p">,</span> <span class="mi">30</span> <span class="n">Mar</span> <span class="mi">2017</span> <span class="mi">10</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="mi">14</span> <span class="n">GMT</span>
+
+<span class="n">Response</span> <span class="n">body</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">&quot;risk_assessment&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Context&quot;</span> <span class="p">},</span>
+    <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-08-14T14:24:43&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;custom_attribute_definitions&quot;</span><span class="p">:</span> <span class="p">[{}],</span>
+    <span class="s2">&quot;custom_attribute_values&quot;</span><span class="p">:</span> <span class="p">[{}],</span>
+    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Object &lt;b&gt;description&lt;/b&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;end_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-08-14&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;modified_by&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;notes&quot;</span><span class="p">:</span> <span class="s1">&#39;Object &lt;i&gt;Notes&lt;/i&gt;&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;preconditions_failed&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s2">&quot;program&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Program&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;ra_counsel&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ra_manager&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;related_destinations&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;related_sources&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;slug&quot;</span><span class="p">:</span> <span class="s2">&quot;OBJECT-1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;start_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-08-14&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Object title&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;RiskAssessment&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-08-14T14:24:43&quot;</span><span class="p">,</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Services</a><ul>
+<li><a class="reference internal" href="#api-risk-assessments"><code class="docutils literal"><span class="pre">/api/risk_assessments</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">ggrc_risk_assessments</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="models.html"
+                        title="next chapter">Models</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/api/ggrc_risk_assessments/services.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="models.html" title="Models"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="ggrc_risk_assessments"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >ggrc_risk_assessments</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

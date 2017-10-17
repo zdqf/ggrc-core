@@ -1,0 +1,579 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Models &#8212; GGRC 0.10.33-Raspberry (80af817) documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.10.33-Raspberry (80af817)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.33-Raspberry (80af817) documentation" href="../../index.html" />
+    <link rel="up" title="ggrc_workflows" href="index.html" />
+    <link rel="next" title="Mixins" href="mixins.html" />
+    <link rel="prev" title="Services" href="services.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mixins.html" title="Mixins"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="services.html" title="Services"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">ggrc_workflows</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="models">
+<h1>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="cycle">
+<h2><code class="docutils literal"><span class="pre">Cycle</span></code><a class="headerlink" href="#cycle" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc_workflows.models.cycle.Cycle">
+<em class="property">class </em><code class="descclassname">ggrc_workflows.models.cycle.</code><code class="descname">Cycle</code><a class="headerlink" href="#ggrc_workflows.models.cycle.Cycle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Workflow Cycle model</p>
+<p>Schema:</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">cycles</span> <span class="p">(</span>
+        <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">workflow_id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">is_current</span> <span class="n">BOOL</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">next_due_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">secondary_contact_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">contact_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">is_verification_needed</span> <span class="n">BOOL</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
+        <span class="n">title</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">slug</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">updated_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">modified_by_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_cycles</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">workflow_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">workflows</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span><span class="p">,</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">is_current</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">secondary_contact_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">people</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">contact_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">people</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">is_verification_needed</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Mixins:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.WithContact" title="ggrc.models.mixins.WithContact"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.WithContact</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc_workflows.models.mixins.CycleStatusValidatedMixin" title="ggrc_workflows.models.mixins.CycleStatusValidatedMixin"><code class="xref py py-class docutils literal"><span class="pre">ggrc_workflows.models.mixins.CycleStatusValidatedMixin</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc_workflows.models.mixins.StatusValidatedMixin" title="ggrc_workflows.models.mixins.StatusValidatedMixin"><code class="xref py py-class docutils literal"><span class="pre">ggrc_workflows.models.mixins.StatusValidatedMixin</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Stateful" title="ggrc.models.mixins.Stateful"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Stateful</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Described" title="ggrc.models.mixins.Described"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Described</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Titled" title="ggrc.models.mixins.Titled"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Titled</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Slugged" title="ggrc.models.mixins.Slugged"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Slugged</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Base" title="ggrc.models.mixins.Base"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Base</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ChangeTracked" title="ggrc.models.mixins.ChangeTracked"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ChangeTracked</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ContextRBAC" title="ggrc.models.mixins.ContextRBAC"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ContextRBAC</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Identifiable" title="ggrc.models.mixins.Identifiable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Identifiable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.notifiable.Notifiable" title="ggrc.models.mixins.notifiable.Notifiable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.notifiable.Notifiable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.fulltext.mixin.Indexed" title="ggrc.fulltext.mixin.Indexed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.fulltext.mixin.Indexed</span></code></a></li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="cycletaskentry">
+<h2><code class="docutils literal"><span class="pre">CycleTaskEntry</span></code><a class="headerlink" href="#cycletaskentry" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc_workflows.models.cycle_task_entry.CycleTaskEntry">
+<em class="property">class </em><code class="descclassname">ggrc_workflows.models.cycle_task_entry.</code><code class="descname">CycleTaskEntry</code><a class="headerlink" href="#ggrc_workflows.models.cycle_task_entry.CycleTaskEntry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Workflow CycleTaskEntry model.</p>
+<p>Schema:</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">cycle_task_entries</span> <span class="p">(</span>
+        <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">_is_declining_review</span> <span class="n">BOOL</span><span class="p">,</span>
+        <span class="n">cycle_id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">cycle_task_group_object_task_id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
+        <span class="n">updated_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">modified_by_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">_is_declining_review</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">cycle_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">cycles</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span><span class="p">,</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">cycle_task_group_object_task_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">cycle_task_group_object_tasks</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span><span class="p">,</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Mixins:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.relationship.Relatable" title="ggrc.models.relationship.Relatable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.relationship.Relatable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Described" title="ggrc.models.mixins.Described"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Described</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Base" title="ggrc.models.mixins.Base"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Base</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ChangeTracked" title="ggrc.models.mixins.ChangeTracked"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ChangeTracked</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ContextRBAC" title="ggrc.models.mixins.ContextRBAC"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ContextRBAC</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Identifiable" title="ggrc.models.mixins.Identifiable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Identifiable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.fulltext.mixin.Indexed" title="ggrc.fulltext.mixin.Indexed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.fulltext.mixin.Indexed</span></code></a></li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="cycletaskgroup">
+<h2><code class="docutils literal"><span class="pre">CycleTaskGroup</span></code><a class="headerlink" href="#cycletaskgroup" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc_workflows.models.cycle_task_group.CycleTaskGroup">
+<em class="property">class </em><code class="descclassname">ggrc_workflows.models.cycle_task_group.</code><code class="descname">CycleTaskGroup</code><a class="headerlink" href="#ggrc_workflows.models.cycle_task_group.CycleTaskGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cycle Task Group model.</p>
+<p>Schema:</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">cycle_task_groups</span> <span class="p">(</span>
+        <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">cycle_id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">task_group_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">sort_index</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">next_due_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">secondary_contact_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">contact_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">slug</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
+        <span class="n">title</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">updated_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">modified_by_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_cycle_task_groups</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">cycle_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">cycles</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span><span class="p">,</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">task_group_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">task_groups</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">secondary_contact_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">people</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">contact_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">people</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Mixins:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.WithContact" title="ggrc.models.mixins.WithContact"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.WithContact</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc_workflows.models.mixins.CycleTaskGroupRelatedStatusValidatedMixin" title="ggrc_workflows.models.mixins.CycleTaskGroupRelatedStatusValidatedMixin"><code class="xref py py-class docutils literal"><span class="pre">ggrc_workflows.models.mixins.CycleTaskGroupRelatedStatusValidatedMixin</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc_workflows.models.mixins.StatusValidatedMixin" title="ggrc_workflows.models.mixins.StatusValidatedMixin"><code class="xref py py-class docutils literal"><span class="pre">ggrc_workflows.models.mixins.StatusValidatedMixin</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Stateful" title="ggrc.models.mixins.Stateful"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Stateful</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Slugged" title="ggrc.models.mixins.Slugged"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Slugged</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Described" title="ggrc.models.mixins.Described"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Described</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Titled" title="ggrc.models.mixins.Titled"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Titled</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Base" title="ggrc.models.mixins.Base"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Base</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ChangeTracked" title="ggrc.models.mixins.ChangeTracked"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ChangeTracked</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ContextRBAC" title="ggrc.models.mixins.ContextRBAC"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ContextRBAC</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Identifiable" title="ggrc.models.mixins.Identifiable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Identifiable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.fulltext.mixin.Indexed" title="ggrc.fulltext.mixin.Indexed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.fulltext.mixin.Indexed</span></code></a></li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="cycletaskgroupobjecttask">
+<h2><code class="docutils literal"><span class="pre">CycleTaskGroupObjectTask</span></code><a class="headerlink" href="#cycletaskgroupobjecttask" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc_workflows.models.cycle_task_group_object_task.CycleTaskGroupObjectTask">
+<em class="property">class </em><code class="descclassname">ggrc_workflows.models.cycle_task_group_object_task.</code><code class="descname">CycleTaskGroupObjectTask</code><a class="headerlink" href="#ggrc_workflows.models.cycle_task_group_object_task.CycleTaskGroupObjectTask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cycle task model</p>
+<p>Schema:</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">cycle_task_group_object_tasks</span> <span class="p">(</span>
+        <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">cycle_id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">cycle_task_group_id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">task_group_task_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">task_type</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">response_options</span> <span class="nb">TEXT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">selected_response_options</span> <span class="nb">TEXT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">sort_index</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">finished_date</span> <span class="n">DATETIME</span><span class="p">,</span>
+        <span class="n">verified_date</span> <span class="n">DATETIME</span><span class="p">,</span>
+        <span class="n">secondary_contact_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">contact_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
+        <span class="n">title</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">slug</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">updated_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">modified_by_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_cycle_task_group_object_tasks</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">cycle_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">cycles</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span><span class="p">,</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">cycle_task_group_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">cycle_task_groups</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span><span class="p">,</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">task_group_task_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">task_group_tasks</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">secondary_contact_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">people</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">contact_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">people</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Mixins:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.WithContact" title="ggrc.models.mixins.WithContact"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.WithContact</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc_workflows.models.mixins.CycleTaskStatusValidatedMixin" title="ggrc_workflows.models.mixins.CycleTaskStatusValidatedMixin"><code class="xref py py-class docutils literal"><span class="pre">ggrc_workflows.models.mixins.CycleTaskStatusValidatedMixin</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc_workflows.models.mixins.CycleTaskGroupRelatedStatusValidatedMixin" title="ggrc_workflows.models.mixins.CycleTaskGroupRelatedStatusValidatedMixin"><code class="xref py py-class docutils literal"><span class="pre">ggrc_workflows.models.mixins.CycleTaskGroupRelatedStatusValidatedMixin</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc_workflows.models.mixins.StatusValidatedMixin" title="ggrc_workflows.models.mixins.StatusValidatedMixin"><code class="xref py py-class docutils literal"><span class="pre">ggrc_workflows.models.mixins.StatusValidatedMixin</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Stateful" title="ggrc.models.mixins.Stateful"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Stateful</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.relationship.Relatable" title="ggrc.models.relationship.Relatable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.relationship.Relatable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.notifiable.Notifiable" title="ggrc.models.mixins.notifiable.Notifiable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.notifiable.Notifiable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Described" title="ggrc.models.mixins.Described"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Described</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Titled" title="ggrc.models.mixins.Titled"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Titled</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Slugged" title="ggrc.models.mixins.Slugged"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Slugged</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Base" title="ggrc.models.mixins.Base"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Base</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ChangeTracked" title="ggrc.models.mixins.ChangeTracked"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ChangeTracked</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ContextRBAC" title="ggrc.models.mixins.ContextRBAC"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ContextRBAC</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Identifiable" title="ggrc.models.mixins.Identifiable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Identifiable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.fulltext.mixin.Indexed" title="ggrc.fulltext.mixin.Indexed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.fulltext.mixin.Indexed</span></code></a></li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="taskgroup">
+<h2><code class="docutils literal"><span class="pre">TaskGroup</span></code><a class="headerlink" href="#taskgroup" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc_workflows.models.task_group.TaskGroup">
+<em class="property">class </em><code class="descclassname">ggrc_workflows.models.task_group.</code><code class="descname">TaskGroup</code><a class="headerlink" href="#ggrc_workflows.models.task_group.TaskGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Workflow TaskGroup model.</p>
+<p>Schema:</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">task_groups</span> <span class="p">(</span>
+        <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">workflow_id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">lock_task_order</span> <span class="n">BOOL</span><span class="p">,</span>
+        <span class="n">sort_index</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">secondary_contact_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">contact_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
+        <span class="n">title</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">slug</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">updated_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">modified_by_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_task_groups</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">workflow_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">workflows</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span><span class="p">,</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">lock_task_order</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">secondary_contact_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">people</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">contact_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">people</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Mixins:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.WithContact" title="ggrc.models.mixins.WithContact"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.WithContact</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Described" title="ggrc.models.mixins.Described"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Described</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Titled" title="ggrc.models.mixins.Titled"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Titled</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Slugged" title="ggrc.models.mixins.Slugged"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Slugged</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Base" title="ggrc.models.mixins.Base"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Base</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ChangeTracked" title="ggrc.models.mixins.ChangeTracked"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ChangeTracked</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ContextRBAC" title="ggrc.models.mixins.ContextRBAC"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ContextRBAC</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Identifiable" title="ggrc.models.mixins.Identifiable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Identifiable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.fulltext.mixin.Indexed" title="ggrc.fulltext.mixin.Indexed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.fulltext.mixin.Indexed</span></code></a></li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="taskgroupobject">
+<h2><code class="docutils literal"><span class="pre">TaskGroupObject</span></code><a class="headerlink" href="#taskgroupobject" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc_workflows.models.task_group_object.TaskGroupObject">
+<em class="property">class </em><code class="descclassname">ggrc_workflows.models.task_group_object.</code><code class="descname">TaskGroupObject</code><a class="headerlink" href="#ggrc_workflows.models.task_group_object.TaskGroupObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Workflow TaskGroupObject model.</p>
+<p>Schema:</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">task_group_objects</span> <span class="p">(</span>
+        <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">task_group_id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">object_id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">object_type</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">updated_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">modified_by_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">task_group_id</span><span class="p">,</span> <span class="n">object_id</span><span class="p">,</span> <span class="n">object_type</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">task_group_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">task_groups</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span><span class="p">,</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Mixins:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Base" title="ggrc.models.mixins.Base"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Base</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ChangeTracked" title="ggrc.models.mixins.ChangeTracked"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ChangeTracked</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ContextRBAC" title="ggrc.models.mixins.ContextRBAC"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ContextRBAC</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Identifiable" title="ggrc.models.mixins.Identifiable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Identifiable</span></code></a></li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="taskgrouptask">
+<h2><code class="docutils literal"><span class="pre">TaskGroupTask</span></code><a class="headerlink" href="#taskgrouptask" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc_workflows.models.task_group_task.TaskGroupTask">
+<em class="property">class </em><code class="descclassname">ggrc_workflows.models.task_group_task.</code><code class="descname">TaskGroupTask</code><a class="headerlink" href="#ggrc_workflows.models.task_group_task.TaskGroupTask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Workflow TaskGroupTask model.</p>
+<p>Schema:</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">task_group_tasks</span> <span class="p">(</span>
+        <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">task_group_id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">sort_index</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">object_approval</span> <span class="n">BOOL</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">task_type</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">response_options</span> <span class="nb">TEXT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">secondary_contact_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">contact_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">title</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
+        <span class="n">slug</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">updated_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">modified_by_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">start_date</span> <span class="o">&lt;=</span> <span class="n">end_date</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_task_group_tasks</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">task_group_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">task_groups</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span><span class="p">,</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">object_approval</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">secondary_contact_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">people</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">contact_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">people</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Mixins:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.WithContact" title="ggrc.models.mixins.WithContact"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.WithContact</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Titled" title="ggrc.models.mixins.Titled"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Titled</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Described" title="ggrc.models.mixins.Described"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Described</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Slugged" title="ggrc.models.mixins.Slugged"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Slugged</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Base" title="ggrc.models.mixins.Base"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Base</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ChangeTracked" title="ggrc.models.mixins.ChangeTracked"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ChangeTracked</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ContextRBAC" title="ggrc.models.mixins.ContextRBAC"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ContextRBAC</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Identifiable" title="ggrc.models.mixins.Identifiable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Identifiable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.fulltext.mixin.Indexed" title="ggrc.fulltext.mixin.Indexed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.fulltext.mixin.Indexed</span></code></a></li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="workflow">
+<h2><code class="docutils literal"><span class="pre">Workflow</span></code><a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc_workflows.models.workflow.Workflow">
+<em class="property">class </em><code class="descclassname">ggrc_workflows.models.workflow.</code><code class="descname">Workflow</code><a class="headerlink" href="#ggrc_workflows.models.workflow.Workflow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Basic Workflow first class object.</p>
+<p>Schema:</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">workflows</span> <span class="p">(</span>
+        <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">notify_on_change</span> <span class="n">BOOL</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">notify_custom_message</span> <span class="nb">TEXT</span><span class="p">,</span>
+        <span class="n">object_approval</span> <span class="n">BOOL</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">recurrences</span> <span class="n">BOOL</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">next_cycle_start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">non_adjusted_next_cycle_start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">is_old_workflow</span> <span class="n">BOOL</span><span class="p">,</span>
+        <span class="n">kind</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">is_verification_needed</span> <span class="n">BOOL</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">repeat_every</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">unit</span> <span class="n">ENUM</span><span class="p">(</span><span class="s1">&#39;day&#39;</span><span class="p">,</span><span class="s1">&#39;week&#39;</span><span class="p">,</span><span class="s1">&#39;month&#39;</span><span class="p">),</span>
+        <span class="n">repeat_multiplier</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
+        <span class="n">title</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">slug</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">updated_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">modified_by_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_workflows</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">notify_on_change</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">object_approval</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">recurrences</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">is_old_workflow</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">is_verification_needed</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Mixins:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../ggrc_gdrive_integration/mixins.html#ggrc_gdrive_integration.models.object_folder.Folderable" title="ggrc_gdrive_integration.models.object_folder.Folderable"><code class="xref py py-class docutils literal"><span class="pre">ggrc_gdrive_integration.models.object_folder.Folderable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.customattributable.CustomAttributable" title="ggrc.models.mixins.customattributable.CustomAttributable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.customattributable.CustomAttributable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.context.HasOwnContext" title="ggrc.models.context.HasOwnContext"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.context.HasOwnContext</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Described" title="ggrc.models.mixins.Described"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Described</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Titled" title="ggrc.models.mixins.Titled"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Titled</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.notifiable.Notifiable" title="ggrc.models.mixins.notifiable.Notifiable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.notifiable.Notifiable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Stateful" title="ggrc.models.mixins.Stateful"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Stateful</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Slugged" title="ggrc.models.mixins.Slugged"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Slugged</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Base" title="ggrc.models.mixins.Base"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Base</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ChangeTracked" title="ggrc.models.mixins.ChangeTracked"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ChangeTracked</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ContextRBAC" title="ggrc.models.mixins.ContextRBAC"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ContextRBAC</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Identifiable" title="ggrc.models.mixins.Identifiable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Identifiable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.fulltext.mixin.Indexed" title="ggrc.fulltext.mixin.Indexed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.fulltext.mixin.Indexed</span></code></a></li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="workflowperson">
+<h2><code class="docutils literal"><span class="pre">WorkflowPerson</span></code><a class="headerlink" href="#workflowperson" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ggrc_workflows.models.workflow_person.WorkflowPerson">
+<em class="property">class </em><code class="descclassname">ggrc_workflows.models.workflow_person.</code><code class="descname">WorkflowPerson</code><a class="headerlink" href="#ggrc_workflows.models.workflow_person.WorkflowPerson" title="Permalink to this definition">¶</a></dt>
+<dd><p>Workflow WorkflowPerson model.</p>
+<p>Schema:</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">workflow_people</span> <span class="p">(</span>
+        <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">workflow_id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">person_id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">updated_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">modified_by_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">workflow_id</span><span class="p">,</span> <span class="n">person_id</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">workflow_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">workflows</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span><span class="p">,</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">person_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">people</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Mixins:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Base" title="ggrc.models.mixins.Base"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Base</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ChangeTracked" title="ggrc.models.mixins.ChangeTracked"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ChangeTracked</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ContextRBAC" title="ggrc.models.mixins.ContextRBAC"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ContextRBAC</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Identifiable" title="ggrc.models.mixins.Identifiable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Identifiable</span></code></a></li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Models</a><ul>
+<li><a class="reference internal" href="#cycle"><code class="docutils literal"><span class="pre">Cycle</span></code></a></li>
+<li><a class="reference internal" href="#cycletaskentry"><code class="docutils literal"><span class="pre">CycleTaskEntry</span></code></a></li>
+<li><a class="reference internal" href="#cycletaskgroup"><code class="docutils literal"><span class="pre">CycleTaskGroup</span></code></a></li>
+<li><a class="reference internal" href="#cycletaskgroupobjecttask"><code class="docutils literal"><span class="pre">CycleTaskGroupObjectTask</span></code></a></li>
+<li><a class="reference internal" href="#taskgroup"><code class="docutils literal"><span class="pre">TaskGroup</span></code></a></li>
+<li><a class="reference internal" href="#taskgroupobject"><code class="docutils literal"><span class="pre">TaskGroupObject</span></code></a></li>
+<li><a class="reference internal" href="#taskgrouptask"><code class="docutils literal"><span class="pre">TaskGroupTask</span></code></a></li>
+<li><a class="reference internal" href="#workflow"><code class="docutils literal"><span class="pre">Workflow</span></code></a></li>
+<li><a class="reference internal" href="#workflowperson"><code class="docutils literal"><span class="pre">WorkflowPerson</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="services.html"
+                        title="previous chapter">Services</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="mixins.html"
+                        title="next chapter">Mixins</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/api/ggrc_workflows/models.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mixins.html" title="Mixins"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="services.html" title="Services"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >ggrc_workflows</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

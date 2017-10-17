@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Adding a new Object &#8212; GGRC 0.10.33-Raspberry (80af817) documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.33-Raspberry (80af817)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.33-Raspberry (80af817) documentation" href="../index.html" />
+    <link rel="up" title="Development" href="index.html" />
+    <link rel="next" title="Advanced Query API" href="advanced_query_api.html" />
+    <link rel="prev" title="Overview" href="overview.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="advanced_query_api.html" title="Advanced Query API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="Overview"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Development</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="adding-a-new-object">
+<h1>Adding a new Object<a class="headerlink" href="#adding-a-new-object" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="backend">
+<h2>Backend<a class="headerlink" href="#backend" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="create-new-object-py-in-src-module-models">
+<h3>Create <code class="docutils literal"><span class="pre">new_object.py</span></code> in <code class="docutils literal"><span class="pre">src/&lt;module&gt;/models/</span></code><a class="headerlink" href="#create-new-object-py-in-src-module-models" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">NewObject</span><span class="p">(</span><span class="n">mixins</span><span class="o">...</span><span class="p">,</span> <span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+  <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;new_objects&#39;</span>
+
+  <span class="n">new_object_attr</span> <span class="o">=</span> <span class="n">deferred</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">),</span> <span class="s1">&#39;NewObject&#39;</span><span class="p">)</span>
+
+  <span class="c1"># REST properties</span>
+  <span class="n">_publish_attrs</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="s1">&#39;new_object_attr&#39;</span><span class="p">,</span>
+  <span class="p">]</span>
+</pre></div>
+</div>
+<p>Add the NewObject to the <code class="docutils literal"><span class="pre">all_models</span></code> list in <code class="docutils literal"><span class="pre">all_models.py</span></code>, or
+register it using the <code class="docutils literal"><span class="pre">register_model</span></code> method if your adding it inside
+a module.</p>
+</div>
+<div class="section" id="generate-a-migration-file">
+<h3>Generate a migration file<a class="headerlink" href="#generate-a-migration-file" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python src/ggrc/migrate.py &lt;module&gt; revision --autogenerate -m <span class="s2">&quot;Add NewObject&quot;</span>
+</pre></div>
+</div>
+<p>Consider the generated migration file a template that you need to
+manually update.</p>
+<p><strong>Important:</strong> Make sure both <code class="docutils literal"><span class="pre">db_migrate</span></code> and <code class="docutils literal"><span class="pre">db_downgrade</span></code> are
+working correctly, both in a clean database and in a database with
+existing data</p>
+</div>
+<div class="section" id="add-new-object-to-appropriate-services">
+<h3>Add new Object to appropriate services<a class="headerlink" href="#add-new-object-to-appropriate-services" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><code class="docutils literal"><span class="pre">ggrc/cache/cache.py</span></code> configure memcache</li>
+<li><code class="docutils literal"><span class="pre">ggrc/services/__init__.py</span></code> or use <code class="docutils literal"><span class="pre">init_extra_services()</span></code> to
+init REST APIs for NewObject</li>
+<li><code class="docutils literal"><span class="pre">ggrc/views/__init__.py</span></code> or use <code class="docutils literal"><span class="pre">init_extra_views()</span></code> to init
+object view page</li>
+</ol>
+</div>
+<div class="section" id="add-permissions-for-newobject">
+<h3>Add permissions for NewObject<a class="headerlink" href="#add-permissions-for-newobject" title="Permalink to this headline">¶</a></h3>
+<p>Add the NewObject to appropriate roles in
+<code class="docutils literal"><span class="pre">ggrc_basic_permissions/roles</span></code></p>
+</div>
+</div>
+<div class="section" id="frontend">
+<h2>Frontend<a class="headerlink" href="#frontend" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="create-a-cms-models-cacheable-object">
+<h3>Create a CMS.Models.Cacheable object<a class="headerlink" href="#create-a-cms-models-cacheable-object" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">can</span><span class="p">.</span><span class="nx">Model</span><span class="p">.</span><span class="nx">Cacheable</span><span class="p">(</span><span class="s2">&quot;CMS.Models.NewObject&quot;</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">root_object</span> <span class="o">:</span> <span class="s2">&quot;new_object&quot;</span><span class="p">,</span>
+  <span class="nx">root_collection</span> <span class="o">:</span> <span class="s2">&quot;new_objects&quot;</span><span class="p">,</span>
+  <span class="nx">findOne</span> <span class="o">:</span> <span class="s2">&quot;GET /api/new_objects/{id}&quot;</span><span class="p">,</span>
+  <span class="nx">update</span> <span class="o">:</span> <span class="s2">&quot;PUT /api/new_objects/{id}&quot;</span><span class="p">,</span>
+  <span class="nx">destroy</span> <span class="o">:</span> <span class="s2">&quot;DELETE /api/new_objects/{id}&quot;</span><span class="p">,</span>
+  <span class="nx">create</span> <span class="o">:</span> <span class="s2">&quot;POST /api/new_objects&quot;</span><span class="p">,</span>
+  <span class="nx">mixins</span> <span class="o">:</span> <span class="p">[</span><span class="s2">&quot;ownable&quot;</span><span class="p">,</span> <span class="s2">&quot;contactable&quot;</span><span class="p">],</span>
+  <span class="nx">is_custom_attributable</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nx">attributes</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="nx">context</span> <span class="o">:</span> <span class="s2">&quot;CMS.Models.Context.stub&quot;</span><span class="p">,</span>
+    <span class="nx">modified_by</span> <span class="o">:</span> <span class="s2">&quot;CMS.Models.Person.stub&quot;</span><span class="p">,</span>
+    <span class="nx">custom_attribute_values</span> <span class="o">:</span> <span class="s2">&quot;CMS.Models.CustomAttributeValue.stubs&quot;</span><span class="p">,</span>
+    <span class="nx">start_date</span><span class="o">:</span> <span class="s2">&quot;date&quot;</span><span class="p">,</span>
+    <span class="nx">end_date</span><span class="o">:</span> <span class="s2">&quot;date&quot;</span>
+  <span class="p">},</span>
+  <span class="nx">init</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_super</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">_super</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">validateNonBlank</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+
+<span class="p">});</span>
+</pre></div>
+</div>
+<ol class="arabic">
+<li><p class="first">Add <code class="docutils literal"><span class="pre">new_object</span></code> to <code class="docutils literal"><span class="pre">object_type_decision_tree</span></code> in
+assets/javascripts/ggrc-base.js or extended it in your module (see
+below).</p>
+</li>
+<li><p class="first">Add <code class="docutils literal"><span class="pre">new_object</span></code> to <code class="docutils literal"><span class="pre">business_object.js</span></code></p>
+<p><code class="docutils literal"><span class="pre">baseWidgetsByType</span></code> is where you define the attributes shown in
+widgets <code class="docutils literal"><span class="pre">extra_descriptor_options</span></code> is where you define special
+parameters for some of the widgets ie. their content controller,
+icon, widget name etc. <code class="docutils literal"><span class="pre">extra_content_controller_options</span></code> is where
+you define parameters for the <code class="docutils literal"><span class="pre">content_controller</span></code> ie can view
+children, mapping, model, footer view etc.</p>
+</li>
+<li><p class="first">Add <code class="docutils literal"><span class="pre">new_object</span></code> to <code class="docutils literal"><span class="pre">mappings-ggrc.js</span></code></p>
+<p>Add the object to the list of mappings:
+<code class="docutils literal"><span class="pre">GGRC.Mappings(&quot;ggrc_core&quot;,</span> <span class="pre">{base:{},</span> <span class="pre">NewObject:</span> <span class="pre">{...}}</span></code>.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="extending">
+<h3>Extending<a class="headerlink" href="#extending" title="Permalink to this headline">¶</a></h3>
+<p>Create a ModuleExtension object:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">ModuleExtension</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;module&quot;</span><span class="p">,</span>
+  <span class="nx">object_type_decision_tree</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="nx">NewModel</span><span class="o">:</span> <span class="nx">CMS</span><span class="p">.</span><span class="nx">Models</span><span class="p">.</span><span class="nx">NewModel</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nx">init_widgets</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="p">},</span>
+  <span class="nx">init_admin_widgets</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="p">},</span>
+<span class="p">}</span>
+<span class="nx">GGRC</span><span class="p">.</span><span class="nx">extensions</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">ModuleExtension</span><span class="p">);</span>
+
+<span class="c1">// Add mappings:</span>
+
+<span class="kd">var</span> <span class="nx">mappings</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="c1">// your mappings</span>
+<span class="p">}</span>
+<span class="k">new</span> <span class="nx">GGRC</span><span class="p">.</span><span class="nx">Mappings</span><span class="p">(</span><span class="s2">&quot;ggrc_new_module&quot;</span><span class="p">,</span> <span class="nx">mappings</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="add-newobject-to-the-lhn">
+<h3>Add NewObject to the LHN<a class="headerlink" href="#add-newobject-to-the-lhn" title="Permalink to this headline">¶</a></h3>
+<p>In <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/assets/mustache/dashboard/lhn.mustache">src/ggrc/assets/mustache/dashboard/lhn.mustache</a> add the line:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{{{</span><span class="nx">renderLive</span> <span class="s1">&#39;/static/mustache/dashboard/lhn_search.mustache&#39;</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;NewObject&quot;</span> <span class="nx">li_class</span><span class="o">=</span><span class="s2">&quot;class&quot;</span><span class="p">}}}</span>
+</pre></div>
+</div>
+<p>If you are inside a module, you have to create a hook:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{{{</span><span class="nx">render_hooks</span> <span class="s1">&#39;LHN.Sections_new_object&#39;</span><span class="p">}}}</span>
+</pre></div>
+</div>
+<p>And then init the hook inside your module:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">GGRC</span><span class="p">.</span><span class="nx">register_hook</span><span class="p">(</span><span class="s2">&quot;LHN.Sections_new_object&quot;</span><span class="p">,</span> <span class="nx">GGRC</span><span class="p">.</span><span class="nx">mustache_path</span> <span class="o">+</span> <span class="s2">&quot;/dashboard/lhn_new_object&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="create-mustache-files">
+<h2>Create mustache files<a class="headerlink" href="#create-mustache-files" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">new_object/modal_content.mustache</span></code> is the only mandatory mustache
+file that needs to be created. Creating all the other mustache files is
+optional. If the mustache file is not found in <code class="docutils literal"><span class="pre">new_object</span></code> it will be
+taken from <code class="docutils literal"><span class="pre">base_objects</span></code>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Adding a new Object</a><ul>
+<li><a class="reference internal" href="#backend">Backend</a><ul>
+<li><a class="reference internal" href="#create-new-object-py-in-src-module-models">Create <code class="docutils literal"><span class="pre">new_object.py</span></code> in <code class="docutils literal"><span class="pre">src/&lt;module&gt;/models/</span></code></a></li>
+<li><a class="reference internal" href="#generate-a-migration-file">Generate a migration file</a></li>
+<li><a class="reference internal" href="#add-new-object-to-appropriate-services">Add new Object to appropriate services</a></li>
+<li><a class="reference internal" href="#add-permissions-for-newobject">Add permissions for NewObject</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#frontend">Frontend</a><ul>
+<li><a class="reference internal" href="#create-a-cms-models-cacheable-object">Create a CMS.Models.Cacheable object</a></li>
+<li><a class="reference internal" href="#extending">Extending</a></li>
+<li><a class="reference internal" href="#add-newobject-to-the-lhn">Add NewObject to the LHN</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#create-mustache-files">Create mustache files</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="overview.html"
+                        title="previous chapter">Overview</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="advanced_query_api.html"
+                        title="next chapter">Advanced Query API</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/development/adding_new_object.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="advanced_query_api.html" title="Advanced Query API"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="Overview"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Development</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

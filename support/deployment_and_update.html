@@ -1,0 +1,455 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Deployment and Update &#8212; GGRC 0.10.33-Raspberry (80af817) documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.33-Raspberry (80af817)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.33-Raspberry (80af817) documentation" href="../index.html" />
+    <link rel="up" title="Support" href="index.html" />
+    <link rel="next" title="API" href="../api/index.html" />
+    <link rel="prev" title="Support" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../api/index.html" title="API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Support"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Support</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="deployment-and-update">
+<h1>Deployment and Update<a class="headerlink" href="#deployment-and-update" title="Permalink to this headline">¶</a></h1>
+<p>TODO (Please add any questions or clarification requests here):</p>
+<ol class="arabic simple">
+<li>Add a summary of deployment-specific values (e.g., filename of
+deployment settings file, filename of <code class="docutils literal"><span class="pre">ggrc/settings/*</span></code> file)
+and/or use some convention to denote these as variable in this
+document</li>
+<li>Add a CHANGELOG’ or version/upgrade matrix in steps 2 and 3 (and 5,
+for settings modules) to make it clear when the step must be repeated
+or more closely examined (or which values/APIs have changed)</li>
+<li>Add note about how to verify backup in Cloud Storage</li>
+<li>Update <code class="docutils literal"><span class="pre">deploy_appengine</span></code> to (optionally) handle migrations &#8211;
+environment variables and database settings are too opaque and
+error-prone. &nbsp;Could also have it check and warn about valid settings
+in settings files, maybe? &nbsp;At least several “verify this value” steps
+for database and App Engine instance name.</li>
+</ol>
+<div class="section" id="complete-initial-development-environment-setup">
+<h2>0. Complete initial development environment setup<a class="headerlink" href="#complete-initial-development-environment-setup" title="Permalink to this headline">¶</a></h2>
+<p>This step should only need to be done once per deployment machine,
+following instructions in&nbsp;the main <a class="reference external" href="https://github.com/google/ggrc-core/blob/develop/README.md">README</a>.</p>
+</div>
+<div class="section" id="start-and-connect-to-the-virtual-machine-if-necessary">
+<h2>1. Start and connect to the virtual machine (if necessary)<a class="headerlink" href="#start-and-connect-to-the-virtual-machine-if-necessary" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># Change to the directory of the project repository</span>
+vagrant up
+<span class="c1"># Wait until VM boot completes</span>
+vagrant ssh  <span class="c1"># or SSH into localhost:2222 with your favorite SSH client</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-update-deployment-settings-file-s">
+<h2>2. Create/Update deployment settings file(s)<a class="headerlink" href="#create-update-deployment-settings-file-s" title="Permalink to this headline">¶</a></h2>
+<p>By convention, this file will be called
+<code class="docutils literal"><span class="pre">deploy_settings_&lt;something&gt;.sh</span></code> where <code class="docutils literal"><span class="pre">&lt;something&gt;</span></code> is the name of
+the deployment instance. &nbsp;This file should not be part of the
+repository, as it is deployment-specific. &nbsp;There is, however, an example
+file in the repository at <code class="docutils literal"><span class="pre">extras/deploy_settings_local.sh</span></code>.
+&nbsp;You can use this file as a starting point.</p>
+<p>Create or update the deployment settings file (e.g.
+<code class="docutils literal"><span class="pre">deploy_settings_ggrc_prod.sh</span></code>). &nbsp;If this is an upgrade, this file
+will likely be almost complete, but check for changes. &nbsp;It should look
+similar to the following:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+
+<span class="nv">APPENGINE_INSTANCE</span><span class="o">=</span><span class="s1">&#39;******&#39;</span>
+<span class="nv">SETTINGS_MODULE</span><span class="o">=</span><span class="s1">&#39;app_engine_ggrc_prod ggrc_basic_permissions.settings.development ggrc_gdrive_integration.settings.development&#39;</span>
+<span class="nv">DATABASE_URI</span><span class="o">=</span><span class="s1">&#39;********&#39;</span>
+<span class="nv">GAPI_KEY</span><span class="o">=</span><span class="s1">&#39;XXX&#39;</span>
+<span class="nv">GAPI_CLIENT_ID</span><span class="o">=</span><span class="s1">&#39;YYY&#39;</span>
+<span class="nv">GAPI_CLIENT_SECRET</span><span class="o">=</span><span class="s1">&#39;ZZZ&#39;</span>
+<span class="nv">GAPI_ADMIN_GROUP</span><span class="o">=</span><span class="s1">&#39;***@***.com&#39;</span>
+<span class="nv">BOOTSTRAP_ADMIN_USERS</span><span class="o">=</span><span class="s1">&#39;***@***.com&#39;</span>
+<span class="nv">RISK_ASSESSMENT_URL</span><span class="o">=</span><span class="s1">&#39;https://****************&#39;</span>
+<span class="nv">SECRET_KEY</span><span class="o">=</span><span class="s1">&#39;--CHANGE-TO-SOMETHING-SECRET--&#39;</span>
+<span class="nv">APPENGINE_EMAIL</span><span class="o">=</span><span class="s1">&#39;*****@****.com&#39;</span>
+<span class="nv">INSTANCE_CLASS</span><span class="o">=</span><span class="s1">&#39;B4&#39;</span>
+<span class="nv">MAX_INSTANCES</span><span class="o">=</span><span class="s1">&#39;4&#39;</span>
+</pre></div>
+</div>
+<p>The line <code class="docutils literal"><span class="pre">SETTINGS_MODULE</span></code> specifies what <code class="docutils literal"><span class="pre">.py</span></code> files from
+<code class="docutils literal"><span class="pre">settings</span></code> subdirectories should be included. For example,</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nv">SETTINGS_MODULE</span><span class="o">=</span><span class="s1">&#39;app_engine ggrc_basic_permissions.settings.development&#39;</span>
+</pre></div>
+</div>
+<p>means &#8220;Include <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/settings/app_engine.py">src/ggrc/settings/app_engine.py</a> and
+<a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc_basic_permissions/settings/development.py">src/ggrc_basic_permissions/settings/development.py</a>. Note hoe <code class="docutils literal"><span class="pre">ggrc</span></code> is the default module.</p>
+<p>For production, include the <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/settings/production.py">src/ggrc/settings/production.py</a> file among the settings:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nv">SETTINGS_MODULE</span><span class="o">=</span><span class="s2">&quot;app_engine production ggrc_basic_permissions.settings.development ggrc_gdrive_integration.settings.development ggrc_risk_assessments.settings.development ggrc_workflows.settings.development&quot;</span>
+</pre></div>
+</div>
+<p>Remember to update the required values (the <code class="docutils literal"><span class="pre">GAPI_KEY</span></code> and
+<code class="docutils literal"><span class="pre">GAPI_CLIENT_ID</span></code> will be found in step 3).</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="77%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Setting</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>APPENGINE_INSTANCE</td>
+<td>The “Application Identifier” you see at <a class="reference external" href="https://appengine.google.com/settings">https://appengine.google.com/settings</a></td>
+</tr>
+<tr class="row-odd"><td>DATABASE_URI</td>
+<td>The connection string for the database</td>
+</tr>
+<tr class="row-even"><td>GAPI_KEY</td>
+<td>The “Browser Key” from Step 3</td>
+</tr>
+<tr class="row-odd"><td>GAPI_CLIENT_ID</td>
+<td>The “OAuth Client ID” from Step 3</td>
+</tr>
+<tr class="row-even"><td>GAPI_CLIENT_SECRET</td>
+<td>The “OAuth Client Secret” from Step 3</td>
+</tr>
+<tr class="row-odd"><td>GAPI_ADMIN_GROUP</td>
+<td>The group which is granted permissions to all files and folders in GDrive</td>
+</tr>
+<tr class="row-even"><td>APPENGINE_EMAIL</td>
+<td>The email address to use as the “From” address in outgoing emails</td>
+</tr>
+<tr class="row-odd"><td>INSTANCE_CLASS</td>
+<td>The instance class that should be used on appengine</td>
+</tr>
+<tr class="row-even"><td>MAX_INSTANCES</td>
+<td>The maximum number of instances to be used on appengine</td>
+</tr>
+</tbody>
+</table>
+<p>There may also be a customized <code class="docutils literal"><span class="pre">src/ggrc/settings/&lt;something&gt;.py</span></code> file, for example,
+<a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/settings/app_engine_ggrc_test.py">src/ggrc/settings/app_engine_ggrc_test.py</a>
+(This file should also not be included in the repository, though
+examples can be found at <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/settings">src/ggrc/settings</a>). This file can contain
+additional configuration variables, including:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Setting</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>COMPANY</td>
+<td>This is the company name shown in the “Copyright” footer at
+the bottom of each page</td>
+</tr>
+<tr class="row-odd"><td>COMPANY_LOGO</td>
+<td>If specified, this is an image to be displayed in the top-left corner
+of each page.</td>
+</tr>
+<tr class="row-even"><td>COMPANY_LOGO_TEXT</td>
+<td>If COMPANY_LOGO is not set, this (text) value is used instead of an image in
+the top-left corner of each page.</td>
+</tr>
+<tr class="row-odd"><td>SQLALCHEMY_RECORD_QUERIES</td>
+<td>This setting causes queries to be reported in the App Engine logs. Possible
+options are: &#8216;count&#8217; - only the number of queries is logged, &#8216;slow&#8217; - only slow
+queries are logged, &#8216;all&#8217; - all queries are logged.  This is useful for
+debugging purposes.</td>
+</tr>
+<tr class="row-even"><td>CALENDAR_MECHANISM</td>
+<td>If True, Workflow includes Google Calendar integration</td>
+</tr>
+</tbody>
+</table>
+<p>Please note: Both settings files must use ASCII quotation marks, not the
+stylized marks used in rich text documents. &nbsp;E.g., they should be
+straight, like &#8221; or &#8216;, not “” or ‘’.</p>
+</div>
+<div class="section" id="configure-google-apis">
+<h2>3. Configure Google APIs<a class="headerlink" href="#configure-google-apis" title="Permalink to this headline">¶</a></h2>
+<p>Note: This step only needs to be done once, but required APIs might
+change, so during upgrades, verify rather than add the APIs and keys.</p>
+<ol class="arabic">
+<li><p class="first">Go to the Google Developers Console at
+<a class="reference external" href="https://cloud.google.com/console">https://cloud.google.com/console</a> and click the Project being updated.</p>
+</li>
+<li><p class="first">Click “APIs &amp; Auth” in the left-hand column. Find each of the
+following APIs and click the “OFF” button to toggle the API to “ON”.</p>
+<ul class="simple">
+<li>Calendar API</li>
+<li>Drive API</li>
+<li>Drive SDK</li>
+<li>Google Picker API</li>
+</ul>
+<p>Your screen should now look like the following:</p>
+<div class="figure" id="id1">
+<img alt="Enable APIs" src="../_images/deployment1.png" />
+<p class="caption"><span class="caption-text">Enable APIs</span></p>
+</div>
+</li>
+<li><p class="first">Select “Credentials” in the left-hand column, and click “CREATE NEW
+CLIENT ID”.</p>
+<ul>
+<li><p class="first">Select “Web Application”</p>
+</li>
+<li><p class="first">Add “<a class="reference external" href="https://">https://</a><strong>*</strong>.****.com” to the box labeled “Authorized JavaScript origins”</p>
+</li>
+<li><p class="first">Delete the content from the box labeled “Authorized redirect URI”</p>
+<p>Your screen should look like the following:</p>
+<div class="figure" id="id2">
+<img alt="Create Client ID" src="../_images/deployment2.png" />
+<p class="caption"><span class="caption-text">Create Client ID</span></p>
+</div>
+</li>
+<li><p class="first">Click “Create Client ID”</p>
+</li>
+<li><p class="first">Now click “CREATE NEW KEY”, and then “BROWSER KEY”:</p>
+<div class="figure" id="id3">
+<img alt="Create a new key" src="../_images/deployment3.png" />
+<p class="caption"><span class="caption-text">Create a new key</span></p>
+</div>
+</li>
+<li><p class="first">If the text box in the modal contains text, delete it.</p>
+</li>
+<li><p class="first">Click “Create”.</p>
+<div class="figure" id="id4">
+<img alt="Create a browser key" src="../_images/deployment4.png" />
+<p class="caption"><span class="caption-text">Create a browser key</span></p>
+</div>
+</li>
+<li><p class="first">Your screen should now look something like this:</p>
+<p>Please note!</p>
+<p>The “Client Secret” should never be revealed to untrusted parties.
+GGRC doesn’t currently use it, but may at some time in the future.
+If other parties have the “Client secret” value, they may be able to
+impersonate the GGRC deployment.</p>
+<div class="figure" id="id5">
+<img alt="Credentials" src="../_images/deployment5-credentials.png" />
+<p class="caption"><span class="caption-text">Credentials</span></p>
+</div>
+</li>
+<li><p class="first">Copy two of these values into the <code class="docutils literal"><span class="pre">deploy_settings_ggrc_prod.sh</span></code>
+file from above:</p>
+<ul>
+<li><p class="first">First, copy the “Client ID”, and paste it in place of the “YYY” on
+the line beginning with <code class="docutils literal"><span class="pre">GAPI_CLIENT_ID</span></code>:</p>
+<div class="figure" id="id6">
+<img alt="Credentials Client ID" src="../_images/deployment5-credentials-selected_client_ID.png" />
+<p class="caption"><span class="caption-text">Credentials Client ID</span></p>
+</div>
+</li>
+<li><p class="first">Second, copy the “API key”, and paste it in place of the “XXX” on
+the line beginning with <code class="docutils literal"><span class="pre">GAPI_KEY</span></code>:</p>
+<div class="figure" id="id7">
+<img alt="Credentials API Key" src="../_images/deployment5-credentials-selected_API_key.png" />
+<p class="caption"><span class="caption-text">Credentials API Key</span></p>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p class="first">Click “Consent Screen” in the left-hand column, assign the email
+address, and fill in at least the “PRODUCT NAME” box:</p>
+<div class="figure" id="id8">
+<img alt="Consent screen" src="../_images/deployment6-consent_screen.png" />
+<p class="caption"><span class="caption-text">Consent screen</span></p>
+</div>
+</li>
+</ol>
+<p>Now we’re done setting up the Google APIs, so let’s deploy.</p>
+</div>
+<div class="section" id="backup-the-database-via-google-cloud-console">
+<h2>4. Backup the database via Google Cloud Console<a class="headerlink" href="#backup-the-database-via-google-cloud-console" title="Permalink to this headline">¶</a></h2>
+<p>In the left-hand column of the Google Developers Console
+(<a class="reference external" href="https://cloud.google.com/console/project">https://cloud.google.com/console/project</a>), select “Cloud SQL” and
+select the database instance to be used.</p>
+<p>In the top line, click the “Export...” button, select a Cloud Storage
+path, and click “OK”. The Cloud Storage Path should look something like:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">gs</span><span class="p">:</span><span class="o">//****-</span><span class="n">backups</span><span class="o">/****-</span><span class="n">yyyymmdd</span><span class="o">.</span><span class="n">sql</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="complete-the-deployment">
+<h2>5. Complete the deployment<a class="headerlink" href="#complete-the-deployment" title="Permalink to this headline">¶</a></h2>
+<p>Go back to the virtual machine, and do the following (note the
+<code class="docutils literal"><span class="pre">GGRC_DATABASE_URI</span></code> value should be the same as the <code class="docutils literal"><span class="pre">DATABASE_URI</span></code>
+value from the deployment settings file.):</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># Update the local repository</span>
+git fetch
+
+<span class="c1"># Checkout the release tag we want to deploy, e.g. 0.9.2-Grapes</span>
+git checkout <span class="m">0</span>.9.2-Grapes
+
+<span class="c1"># If Python packages may have changed, you need to remove previous packages</span>
+make clean_appengine_packages
+make appengine_packages_zip
+
+<span class="c1"># Set some environment variables used by later commands</span>
+<span class="c1"># Note, as of Sprint 30, the possible &quot;extra&quot; values in this variable are:</span>
+<span class="c1">#   ggrc_basic_permissions.settings.development  (should include)</span>
+<span class="c1">#   ggrc_gdrive_integration.settings.development (should include)</span>
+<span class="c1">#   ggrc_risk_assessments.settings.development   (should include)</span>
+<span class="c1">#   ggrc_workflows.settings.development          (should include)</span>
+
+<span class="nb">export</span> <span class="nv">GGRC_SETTINGS_MODULE</span><span class="o">=</span><span class="s1">&#39;app_engine_ggrc_test ggrc_basic_permissions.settings.development ggrc_gdrive_integration.settings.development ggrc_workflow.settings.development&#39;</span>
+
+<span class="nb">export</span> <span class="nv">GGRC_DATABASE_URI</span><span class="o">=</span><span class="s1">&#39;*****&#39;</span>
+
+<span class="c1"># This line prepares the static assets (Javascripts and Stylesheets) and creates</span>
+<span class="c1"># the required `app.yaml` file. Choose one, or edit to match your .sh file.</span>
+
+bin/deploy_appengine deploy_settings_ggrc_&lt;something&gt;.sh
+
+<span class="c1"># Update the database for new changes. This command may take a while to complete.</span>
+db_migrate
+
+<span class="c1"># Update the deployment</span>
+appcfg.py --oauth2 update src/
+</pre></div>
+</div>
+<p>The first time you run the command above, you’ll be prompted to “Go to
+the following link in your browser:” to complete the Oauth2 process.
+Paste the auth code as requested.</p>
+</div>
+<div class="section" id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
+<p><strong>Q:</strong> <code class="docutils literal"><span class="pre">httplib2.ServerNotFoundError:</span> <span class="pre">Unable</span> <span class="pre">to</span> <span class="pre">find</span> <span class="pre">the</span> <span class="pre">server</span> <span class="pre">at</span> <span class="pre">appengine.google.com</span></code></p>
+<p><strong>A:</strong> This may be caused by the VirtualBox machine losing connectivity when
+you resume your machine from sleep. Exit the vagrant shell and
+run&nbsp;<code class="docutils literal"><span class="pre">vagrant</span> <span class="pre">reload</span></code>; or run <code class="docutils literal"><span class="pre">sudo</span> <span class="pre">shutdown</span> <span class="pre">now</span></code> in the VM, and <code class="docutils literal"><span class="pre">vagrant</span> <span class="pre">up</span></code> to bring it up again.</p>
+<p><strong>Q:</strong> App Engine logs show <code class="docutils literal"><span class="pre">ImportError:</span> <span class="pre">No</span> <span class="pre">module</span> <span class="pre">named</span> <span class="pre">flask.ext.sqlalchemy</span></code></p>
+<p><strong>A:</strong> Make sure&nbsp;make <code class="docutils literal"><span class="pre">appengine_packages_zip</span></code> outputs a zip file containing a <code class="docutils literal"><span class="pre">flask_sqlalchemy</span></code> directory</p>
+<p><strong>Q:</strong> 500 Internal error and logs show
+<code class="docutils literal"><span class="pre">IOError:</span> <span class="pre">[Errno</span> <span class="pre">30]</span> <span class="pre">Read-only</span> <span class="pre">file</span> <span class="pre">system:</span> <span class="pre">'/vagrant/src/ggrc/static/webassets-external/12345….67890_dashboard.css'</span></code></p>
+<p><strong>A:</strong> AppEngine doesn’t support file writes. Caused
+by&nbsp;<code class="docutils literal"><span class="pre">DEBUG_ASSETS</span> <span class="pre">=</span> <span class="pre">True</span></code>&nbsp;in <code class="docutils literal"><span class="pre">ggrc/settings/default.py</span></code>. Set it to
+<code class="docutils literal"><span class="pre">False</span></code>.</p>
+<p><strong>Q:</strong> I get some other error</p>
+<p><strong>A:</strong> For reference/as a baseline, try:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git checkout origin/develop
+deploy_appengine extras/deploy_settings_local.sh
+launch_gae_ggrc
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Deployment and Update</a><ul>
+<li><a class="reference internal" href="#complete-initial-development-environment-setup">0. Complete initial development environment setup</a></li>
+<li><a class="reference internal" href="#start-and-connect-to-the-virtual-machine-if-necessary">1. Start and connect to the virtual machine (if necessary)</a></li>
+<li><a class="reference internal" href="#create-update-deployment-settings-file-s">2. Create/Update deployment settings file(s)</a></li>
+<li><a class="reference internal" href="#configure-google-apis">3. Configure Google APIs</a></li>
+<li><a class="reference internal" href="#backup-the-database-via-google-cloud-console">4. Backup the database via Google Cloud Console</a></li>
+<li><a class="reference internal" href="#complete-the-deployment">5. Complete the deployment</a></li>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Support</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../api/index.html"
+                        title="next chapter">API</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/support/deployment_and_update.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../api/index.html" title="API"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Support"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Support</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

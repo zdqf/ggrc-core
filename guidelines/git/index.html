@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Git &#8212; GGRC 0.10.33-Raspberry (80af817) documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.10.33-Raspberry (80af817)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.33-Raspberry (80af817) documentation" href="../../index.html" />
+    <link rel="up" title="Guidelines" href="../index.html" />
+    <link rel="next" title="Setup" href="setup.html" />
+    <link rel="prev" title="Guidelines" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="setup.html" title="Setup"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Guidelines"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Guidelines</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="git">
+<h1>Git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how_to_write_a_commit_message.html">How to Write a Commit Message</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="how_to_write_a_commit_message.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_write_a_commit_message.html#before-issuing-a-new-pull-request">Before Issuing a New Pull Request</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_write_a_commit_message.html#checking-the-front-end-code">Checking the front-end code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_write_a_commit_message.html#checking-the-back-end-code">Checking the back-end code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_write_a_commit_message.html#end-to-end-tests">End-to-end tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_write_a_commit_message.html#pull-request-titles">Pull Request Titles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="branch_management.html">Branch management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="branch_management.html#develop-branch-develop">Develop Branch (develop)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="branch_management.html#feature-branches">Feature Branches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="branch_management.html#release-branch-release">Release Branch (release/*)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="branch_management.html#hotfix-branches-hotfix">Hotfix Branches (hotfix/*)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="branch_management.html#epic-branches-epic">Epic Branches (epic/*)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="branch_management.html#tagging">Tagging</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reviewing_pull_requests.html">Reviewing pull requests</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reviewing_pull_requests.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reviewing_pull_requests.html#using-github-labels">Using GitHub labels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reviewing_pull_requests.html#reviewing-and-merging-pull-requests">Reviewing and merging pull requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reviewing_pull_requests.html#setting-up-and-tearing-down-the-environment-step-by-step-guide">Setting up (and tearing down) the environment - step by step guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reviewing_pull_requests.html#notes-for-developers-and-reviewers">Notes for developers and reviewers</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../index.html"
+                        title="previous chapter">Guidelines</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="setup.html"
+                        title="next chapter">Setup</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/guidelines/git/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="setup.html" title="Setup"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Guidelines"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Guidelines</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>
