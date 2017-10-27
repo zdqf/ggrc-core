@@ -6,7 +6,7 @@
 ggrc_basic_permissions
 ======================
 
-RBAC API endpoints for GGRC
+RBAC module
 
 ..  toctree::
     :maxdepth: 2

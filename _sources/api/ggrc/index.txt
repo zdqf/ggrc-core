@@ -6,7 +6,7 @@
 ggrc
 ====
 
-Main API endpoints for GGRC
+Main GGRC module
 
 ..  toctree::
     :maxdepth: 2

@@ -6,7 +6,7 @@
 ggrc_risk_assessments
 =====================
 
-Risk Assessment API endpoints for GGRC
+Risk Assessment module
 
 ..  toctree::
     :maxdepth: 2

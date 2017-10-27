@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Models &#8212; GGRC 0.10.33-Raspberry (80af817) documentation</title>
+    <title>Models &#8212; GGRC 0.10.35-Raspberry (beb3baa) documentation</title>
     
     <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.10.33-Raspberry (80af817)',
+        VERSION:     '0.10.35-Raspberry (beb3baa)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="GGRC 0.10.33-Raspberry (80af817) documentation" href="../../index.html" />
+    <link rel="top" title="GGRC 0.10.35-Raspberry (beb3baa) documentation" href="../../index.html" />
     <link rel="up" title="ggrc_risks" href="index.html" />
     <link rel="next" title="Mixins" href="mixins.html" />
     <link rel="prev" title="Services" href="services.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="services.html" title="Services"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.35-Raspberry (beb3baa) documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">ggrc_risks</a> &#187;</li> 
       </ul>
@@ -62,14 +62,14 @@
 <dl class="class">
 <dt id="ggrc_risks.models.risk.Risk">
 <em class="property">class </em><code class="descclassname">ggrc_risks.models.risk.</code><code class="descname">Risk</code><a class="headerlink" href="#ggrc_risks.models.risk.Risk" title="Permalink to this definition">¶</a></dt>
-<dd><div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">Missing doc-string of <code class="docutils literal"><span class="pre">ggrc_risks.models.risk.Risk</span></code></p>
-</div>
+<dd><p>Basic Risk model.</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">risks</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
@@ -82,8 +82,9 @@
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_risks</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_risks</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_risks</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -97,6 +98,8 @@
 <li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.object_person.Personable" title="ggrc.models.object_person.Personable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_person.Personable</span></code></a></li>
 <li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.object_document.PublicDocumentable" title="ggrc.models.object_document.PublicDocumentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.PublicDocumentable</span></code></a></li>
 <li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.object_document.Documentable" title="ggrc.models.object_document.Documentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.Documentable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.LastDeprecatedTimeboxed" title="ggrc.models.mixins.LastDeprecatedTimeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.LastDeprecatedTimeboxed</span></code></a></li>
 <li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
 <li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
@@ -162,9 +165,12 @@
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">threats</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">notes</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
@@ -175,8 +181,9 @@
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_threats</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_threats</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_threats</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -192,6 +199,8 @@
 <li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
 <li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.object_document.PublicDocumentable" title="ggrc.models.object_document.PublicDocumentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.PublicDocumentable</span></code></a></li>
 <li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.object_document.Documentable" title="ggrc.models.object_document.Documentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.Documentable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
 <li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Stateful" title="ggrc.models.mixins.Stateful"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Stateful</span></code></a></li>
 <li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Noted" title="ggrc.models.mixins.Noted"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Noted</span></code></a></li>
@@ -267,7 +276,7 @@
         <li class="right" >
           <a href="services.html" title="Services"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.35-Raspberry (beb3baa) documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index.html" >ggrc_risks</a> &#187;</li> 
       </ul>

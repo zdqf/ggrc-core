@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Branch management &#8212; GGRC 0.10.35-Raspberry (beb3baa) documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.10.35-Raspberry (beb3baa)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.35-Raspberry (beb3baa) documentation" href="../../index.html" />
+    <link rel="up" title="Git" href="index.html" />
+    <link rel="next" title="Reviewing pull requests" href="reviewing_pull_requests.html" />
+    <link rel="prev" title="How to Write a Commit Message" href="how_to_write_a_commit_message.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="reviewing_pull_requests.html" title="Reviewing pull requests"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="how_to_write_a_commit_message.html" title="How to Write a Commit Message"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.35-Raspberry (beb3baa) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Contributing</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Git</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="branch-management">
+<h1>Branch management<a class="headerlink" href="#branch-management" title="Permalink to this headline">¶</a></h1>
+<p>The basic idea is this. We want one branch for mainline, fast and
+furious development, another branch for incremental changes to an
+upcoming release, and one branch per epic.</p>
+<div class="section" id="develop-branch-develop">
+<h2>Develop Branch (develop)<a class="headerlink" href="#develop-branch-develop" title="Permalink to this headline">¶</a></h2>
+<p><em>The develop (main) branch is the 65MPH (105KPH) zone. Development in
+this branch is fast and furious with many contributors.</em></p>
+<p>This is the default branch for the developers to open pull requests
+against. Work in develop is work that is not scheduled for the upcoming
+release. If it&#8217;s not scheduled for the upcoming release, it should go
+into develop (unless it&#8217;s an epic, which we&#8217;ll talk about below).</p>
+</div>
+<div class="section" id="feature-branches">
+<h2>Feature Branches<a class="headerlink" href="#feature-branches" title="Permalink to this headline">¶</a></h2>
+<p>Feature branches are used for creating pull requests against develop.
+When the changes are reviewed, they are merged into develop by the
+reviewer.</p>
+<p>The base for a feature branch is always the current develop branch:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git checkout origin/develop -b new-feature
+</pre></div>
+</div>
+<p>Because feature branches are only on repo forks, we don&#8217;t have strict
+naming policy, but suggestions are as follows:</p>
+<ul class="simple">
+<li>Branches created for a specific ticket should start with ticket id
+and optional description (CORE-123, CORE-456-update-documentation)</li>
+<li>Quickfix branches should have a &#8220;quickfix-&#8221; prefix</li>
+</ul>
+</div>
+<div class="section" id="release-branch-release">
+<h2>Release Branch (release/*)<a class="headerlink" href="#release-branch-release" title="Permalink to this headline">¶</a></h2>
+<p><em>The release branch is like an off-ramp from the highway. Work in this
+branch is &#8220;polish&#8221; work to get a release ready to deliver. Progressively
+fewer commits go into this branch as the release gets more stable and
+developers progressively, individually transition to working on the next
+release. Again, the work in this branch is more for bug fixes and
+&#8220;polish&#8221; work and less for major feature work. When you start the
+release branch work will still be fast and furious. As the features and
+fixes scoped for the specific release are completed the pace of work
+will slow down and eventually stop, when a release candidate is bug free
+and all required features and fixes are complete.</em></p>
+<p>Developers open pull requests against this branch ONLY if the story they
+are working on is scheduled (via the JIRA FixVersion field) for the
+upcoming release.</p>
+<p>We always want to have exactly one active release branch.</p>
+<p>The release branch should be &#8220;swapped&#8221; when a release is accepted as
+final. This means that the release/N+1 branch should be created at the
+same time that release/N is tagged as the shippable release candidate.</p>
+<p>When needed, hotfixes can be made to a release that has already shipped.
+For this reason, release branches for releases that have already shipped
+should be kept around after they are released.</p>
+<p>Changes made to release are periodically merged back into develop.
+Release branch should never be ahead of develop.</p>
+<p>Release branches are never deleted.</p>
+</div>
+<div class="section" id="hotfix-branches-hotfix">
+<h2>Hotfix Branches (hotfix/*)<a class="headerlink" href="#hotfix-branches-hotfix" title="Permalink to this headline">¶</a></h2>
+<p>Hotfix branches are used for creating pull requests against release.
+When the changes are reviewed, they are merged into release <strong>AND</strong>
+develop by the reviewer. This can easily be accomplished by opening a
+new pull request from release to develop when the changes are merged.
+The reviewer is also responsible for deleting the hotfix branch after
+the changes are merged.</p>
+<p>The base for a hotfix branch is always the current release branch:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git checkout origin/release/x.x.x -b hotfix/new-hotfix
+</pre></div>
+</div>
+</div>
+<div class="section" id="epic-branches-epic">
+<h2>Epic Branches (epic/*)<a class="headerlink" href="#epic-branches-epic" title="Permalink to this headline">¶</a></h2>
+<p>One branch per epic. These branches allow large work items to be
+developed in isolation over multiple sprints without putting either the
+main or release branch in an inconsistent and intermediate state.</p>
+<p>The difference between epic and feature branches is that epic branches
+have their own appengine instance while feature branches do not. Having
+their own App Engine instance allows acceptance testing on the epic
+while the work progresses. Then, when the epic work is complete, there
+is reasonable assurance (provided that QA was done on the epic work)
+that the work is stable and satisfies acceptance criteria before it is
+merged back into develop.</p>
+<p><strong>Develop, Release and Epic branches are deployed to their own App
+Engine instance.</strong></p>
+</div>
+<div class="section" id="tagging">
+<h2>Tagging<a class="headerlink" href="#tagging" title="Permalink to this headline">¶</a></h2>
+<p>We tag release branches after QA is finished and we are ready to deploy
+to production. The name of the tag should include the full version
+number (e.g. <code class="docutils literal"><span class="pre">v0.9.0.6591</span></code>).</p>
+<div class="figure" id="id1">
+<img alt="branch diagram" src="../../_images/branch_management.png" />
+<p class="caption"><span class="caption-text">branch diagram</span></p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Branch management</a><ul>
+<li><a class="reference internal" href="#develop-branch-develop">Develop Branch (develop)</a></li>
+<li><a class="reference internal" href="#feature-branches">Feature Branches</a></li>
+<li><a class="reference internal" href="#release-branch-release">Release Branch (release/*)</a></li>
+<li><a class="reference internal" href="#hotfix-branches-hotfix">Hotfix Branches (hotfix/*)</a></li>
+<li><a class="reference internal" href="#epic-branches-epic">Epic Branches (epic/*)</a></li>
+<li><a class="reference internal" href="#tagging">Tagging</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="how_to_write_a_commit_message.html"
+                        title="previous chapter">How to Write a Commit Message</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="reviewing_pull_requests.html"
+                        title="next chapter">Reviewing pull requests</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/contributing/git/branch_management.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="reviewing_pull_requests.html" title="Reviewing pull requests"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="how_to_write_a_commit_message.html" title="How to Write a Commit Message"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.35-Raspberry (beb3baa) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Contributing</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Git</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

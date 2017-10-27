@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Models &#8212; GGRC 0.10.33-Raspberry (80af817) documentation</title>
+    <title>Models &#8212; GGRC 0.10.35-Raspberry (beb3baa) documentation</title>
     
     <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.10.33-Raspberry (80af817)',
+        VERSION:     '0.10.35-Raspberry (beb3baa)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="GGRC 0.10.33-Raspberry (80af817) documentation" href="../../index.html" />
+    <link rel="top" title="GGRC 0.10.35-Raspberry (beb3baa) documentation" href="../../index.html" />
     <link rel="up" title="ggrc_workflows" href="index.html" />
     <link rel="next" title="Mixins" href="mixins.html" />
     <link rel="prev" title="Services" href="services.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="services.html" title="Services"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.35-Raspberry (beb3baa) documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">ggrc_workflows</a> &#187;</li> 
       </ul>
@@ -223,8 +223,6 @@
         <span class="n">sort_index</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">finished_date</span> <span class="n">DATETIME</span><span class="p">,</span>
         <span class="n">verified_date</span> <span class="n">DATETIME</span><span class="p">,</span>
-        <span class="n">secondary_contact_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
-        <span class="n">contact_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
@@ -240,15 +238,13 @@
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">cycle_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">cycles</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span><span class="p">,</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">cycle_task_group_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">cycle_task_groups</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span><span class="p">,</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">task_group_task_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">task_group_tasks</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">secondary_contact_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">people</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">contact_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">people</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 <p>Mixins:</p>
 <ul class="simple">
-<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.WithContact" title="ggrc.models.mixins.WithContact"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.WithContact</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.access_control.roleable.Roleable" title="ggrc.access_control.roleable.Roleable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.access_control.roleable.Roleable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc_workflows.models.mixins.CycleTaskStatusValidatedMixin" title="ggrc_workflows.models.mixins.CycleTaskStatusValidatedMixin"><code class="xref py py-class docutils literal"><span class="pre">ggrc_workflows.models.mixins.CycleTaskStatusValidatedMixin</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc_workflows.models.mixins.CycleTaskGroupRelatedStatusValidatedMixin" title="ggrc_workflows.models.mixins.CycleTaskGroupRelatedStatusValidatedMixin"><code class="xref py py-class docutils literal"><span class="pre">ggrc_workflows.models.mixins.CycleTaskGroupRelatedStatusValidatedMixin</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc_workflows.models.mixins.StatusValidatedMixin" title="ggrc_workflows.models.mixins.StatusValidatedMixin"><code class="xref py py-class docutils literal"><span class="pre">ggrc_workflows.models.mixins.StatusValidatedMixin</span></code></a></li>
@@ -367,8 +363,6 @@
         <span class="n">object_approval</span> <span class="n">BOOL</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">task_type</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">response_options</span> <span class="nb">TEXT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-        <span class="n">secondary_contact_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
-        <span class="n">contact_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="n">title</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">slug</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
@@ -383,15 +377,13 @@
         <span class="k">CONSTRAINT</span> <span class="n">uq_task_group_tasks</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">task_group_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">task_groups</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span><span class="p">,</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">object_approval</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
-        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">secondary_contact_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">people</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">contact_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">people</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 <p>Mixins:</p>
 <ul class="simple">
-<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.WithContact" title="ggrc.models.mixins.WithContact"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.WithContact</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.access_control.roleable.Roleable" title="ggrc.access_control.roleable.Roleable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.access_control.roleable.Roleable</span></code></a></li>
 <li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Titled" title="ggrc.models.mixins.Titled"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Titled</span></code></a></li>
 <li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Described" title="ggrc.models.mixins.Described"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Described</span></code></a></li>
 <li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Slugged" title="ggrc.models.mixins.Slugged"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Slugged</span></code></a></li>
@@ -566,7 +558,7 @@
         <li class="right" >
           <a href="services.html" title="Services"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.35-Raspberry (beb3baa) documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index.html" >ggrc_workflows</a> &#187;</li> 
       </ul>

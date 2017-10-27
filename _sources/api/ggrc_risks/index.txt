@@ -6,7 +6,7 @@
 ggrc_risks
 ==========
 
-Risk API endpoints for GGRC
+Risk module
 
 ..  toctree::
     :maxdepth: 2

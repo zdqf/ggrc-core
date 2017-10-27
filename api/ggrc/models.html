@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Models &#8212; GGRC 0.10.33-Raspberry (80af817) documentation</title>
+    <title>Models &#8212; GGRC 0.10.35-Raspberry (beb3baa) documentation</title>
     
     <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.10.33-Raspberry (80af817)',
+        VERSION:     '0.10.35-Raspberry (beb3baa)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="GGRC 0.10.33-Raspberry (80af817) documentation" href="../../index.html" />
+    <link rel="top" title="GGRC 0.10.35-Raspberry (beb3baa) documentation" href="../../index.html" />
     <link rel="up" title="ggrc" href="index.html" />
     <link rel="next" title="Mixins" href="mixins.html" />
     <link rel="prev" title="Services" href="services.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="services.html" title="Services"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.35-Raspberry (beb3baa) documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">ggrc</a> &#187;</li> 
       </ul>
@@ -402,7 +402,10 @@ by the users.</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">access_groups</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
@@ -415,8 +418,9 @@ by the users.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_access_groups</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_access_groups</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_access_groups</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -430,9 +434,11 @@ by the users.</p>
 <li><a class="reference internal" href="mixins.html#ggrc.models.track_object_state.HasObjectState" title="ggrc.models.track_object_state.HasObjectState"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.track_object_state.HasObjectState</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_document.PublicDocumentable" title="ggrc.models.object_document.PublicDocumentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.PublicDocumentable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_document.Documentable" title="ggrc.models.object_document.Documentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.Documentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.customattributable.CustomAttributable" title="ggrc.models.mixins.customattributable.CustomAttributable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.customattributable.CustomAttributable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_person.Personable" title="ggrc.models.object_person.Personable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_person.Personable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.relationship.Relatable" title="ggrc.models.relationship.Relatable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.relationship.Relatable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.LastDeprecatedTimeboxed" title="ggrc.models.mixins.LastDeprecatedTimeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.LastDeprecatedTimeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
@@ -464,9 +470,8 @@ certain conditions were met for that object.</p>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
         <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
         <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
-        <span class="n">status</span> <span class="n">ENUM</span><span class="p">(</span><span class="s1">&#39;In Progress&#39;</span><span class="p">,</span><span class="s1">&#39;Not Started&#39;</span><span class="p">,</span><span class="s1">&#39;Verified&#39;</span><span class="p">,</span><span class="s1">&#39;Deprecated&#39;</span><span class="p">,</span><span class="s1">&#39;In Review&#39;</span><span class="p">,</span><span class="s1">&#39;Completed&#39;</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-        <span class="n">design</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
-        <span class="n">operationally</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">design</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">operationally</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">audit_id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">assessment_type</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="s1">&#39;Control&#39;</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
@@ -475,6 +480,7 @@ certain conditions were met for that object.</p>
         <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">finished_date</span> <span class="n">DATETIME</span><span class="p">,</span>
         <span class="n">verified_date</span> <span class="n">DATETIME</span><span class="p">,</span>
+        <span class="n">status</span> <span class="n">ENUM</span><span class="p">(</span><span class="s1">&#39;In Progress&#39;</span><span class="p">,</span><span class="s1">&#39;Not Started&#39;</span><span class="p">,</span><span class="s1">&#39;Verified&#39;</span><span class="p">,</span><span class="s1">&#39;Rework Needed&#39;</span><span class="p">,</span><span class="s1">&#39;Deprecated&#39;</span><span class="p">,</span><span class="s1">&#39;In Review&#39;</span><span class="p">,</span><span class="s1">&#39;Completed&#39;</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">notes</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">title</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
@@ -839,12 +845,15 @@ automapping even if the base relationship was deleted.</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">clauses</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">na</span> <span class="n">BOOL</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">notes</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">parent_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">title</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
@@ -854,8 +863,9 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_clauses</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_clauses</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_clauses</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">na</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">parent_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">clauses</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
@@ -876,8 +886,10 @@ automapping even if the base relationship was deleted.</p>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.LastDeprecatedTimeboxed" title="ggrc.models.mixins.LastDeprecatedTimeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.LastDeprecatedTimeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.relationship.Relatable" title="ggrc.models.relationship.Relatable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.relationship.Relatable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_document.PublicDocumentable" title="ggrc.models.object_document.PublicDocumentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.PublicDocumentable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_document.Documentable" title="ggrc.models.object_document.Documentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.Documentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Stateful" title="ggrc.models.mixins.Stateful"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Stateful</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Noted" title="ggrc.models.mixins.Noted"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Noted</span></code></a></li>
@@ -979,6 +991,8 @@ automapping even if the base relationship was deleted.</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">controls</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">company_control</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">directive_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="n">kind_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
@@ -1008,6 +1022,7 @@ automapping even if the base relationship was deleted.</p>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_controls</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_t_controls</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">company_control</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">directive_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">directives</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">fraud_related</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
@@ -1044,6 +1059,7 @@ automapping even if the base relationship was deleted.</p>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.audit_object.Auditable" title="ggrc.models.audit_object.Auditable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.audit_object.Auditable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Stateful" title="ggrc.models.mixins.Stateful"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Stateful</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Noted" title="ggrc.models.mixins.Noted"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Noted</span></code></a></li>
@@ -1237,7 +1253,10 @@ automapping even if the base relationship was deleted.</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">data_assets</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
@@ -1250,8 +1269,9 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_data_assets</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_data_assets</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_data_assets</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -1269,6 +1289,8 @@ automapping even if the base relationship was deleted.</p>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.customattributable.CustomAttributable" title="ggrc.models.mixins.customattributable.CustomAttributable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.customattributable.CustomAttributable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_person.Personable" title="ggrc.models.object_person.Personable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_person.Personable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.relationship.Relatable" title="ggrc.models.relationship.Relatable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.relationship.Relatable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.LastDeprecatedTimeboxed" title="ggrc.models.mixins.LastDeprecatedTimeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.LastDeprecatedTimeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
@@ -1298,6 +1320,8 @@ automapping even if the base relationship was deleted.</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">directives</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="k">version</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
         <span class="n">organization</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
         <span class="k">scope</span> <span class="nb">TEXT</span><span class="p">,</span>
@@ -1310,6 +1334,7 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">notes</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
@@ -1320,8 +1345,9 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_directives</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_t_directives</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_directives</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -1342,6 +1368,8 @@ automapping even if the base relationship was deleted.</p>
 <li><a class="reference internal" href="mixins.html#ggrc.models.track_object_state.HasObjectState" title="ggrc.models.track_object_state.HasObjectState"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.track_object_state.HasObjectState</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.LastDeprecatedTimeboxed" title="ggrc.models.mixins.LastDeprecatedTimeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.LastDeprecatedTimeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Stateful" title="ggrc.models.mixins.Stateful"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Stateful</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Noted" title="ggrc.models.mixins.Noted"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Noted</span></code></a></li>
@@ -1369,6 +1397,8 @@ automapping even if the base relationship was deleted.</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">directives</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="k">version</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
         <span class="n">organization</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
         <span class="k">scope</span> <span class="nb">TEXT</span><span class="p">,</span>
@@ -1381,6 +1411,7 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">notes</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
@@ -1391,8 +1422,9 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_directives</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_t_directives</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_directives</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -1402,6 +1434,8 @@ automapping even if the base relationship was deleted.</p>
 <li><a class="reference internal" href="mixins.html#ggrc.models.track_object_state.HasObjectState" title="ggrc.models.track_object_state.HasObjectState"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.track_object_state.HasObjectState</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.LastDeprecatedTimeboxed" title="ggrc.models.mixins.LastDeprecatedTimeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.LastDeprecatedTimeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Stateful" title="ggrc.models.mixins.Stateful"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Stateful</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Noted" title="ggrc.models.mixins.Noted"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Noted</span></code></a></li>
@@ -1428,6 +1462,8 @@ automapping even if the base relationship was deleted.</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">directives</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="k">version</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
         <span class="n">organization</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
         <span class="k">scope</span> <span class="nb">TEXT</span><span class="p">,</span>
@@ -1440,6 +1476,7 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">notes</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
@@ -1450,8 +1487,9 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_directives</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_t_directives</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_directives</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -1472,6 +1510,8 @@ automapping even if the base relationship was deleted.</p>
 <li><a class="reference internal" href="mixins.html#ggrc.models.track_object_state.HasObjectState" title="ggrc.models.track_object_state.HasObjectState"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.track_object_state.HasObjectState</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.LastDeprecatedTimeboxed" title="ggrc.models.mixins.LastDeprecatedTimeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.LastDeprecatedTimeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Stateful" title="ggrc.models.mixins.Stateful"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Stateful</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Noted" title="ggrc.models.mixins.Noted"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Noted</span></code></a></li>
@@ -1499,6 +1539,8 @@ automapping even if the base relationship was deleted.</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">directives</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="k">version</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
         <span class="n">organization</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
         <span class="k">scope</span> <span class="nb">TEXT</span><span class="p">,</span>
@@ -1511,6 +1553,7 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">notes</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
@@ -1521,8 +1564,9 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_directives</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_t_directives</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_directives</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -1543,6 +1587,8 @@ automapping even if the base relationship was deleted.</p>
 <li><a class="reference internal" href="mixins.html#ggrc.models.track_object_state.HasObjectState" title="ggrc.models.track_object_state.HasObjectState"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.track_object_state.HasObjectState</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.LastDeprecatedTimeboxed" title="ggrc.models.mixins.LastDeprecatedTimeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.LastDeprecatedTimeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Stateful" title="ggrc.models.mixins.Stateful"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Stateful</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Noted" title="ggrc.models.mixins.Noted"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Noted</span></code></a></li>
@@ -1570,6 +1616,8 @@ automapping even if the base relationship was deleted.</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">directives</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="k">version</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
         <span class="n">organization</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
         <span class="k">scope</span> <span class="nb">TEXT</span><span class="p">,</span>
@@ -1582,6 +1630,7 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">notes</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
@@ -1592,8 +1641,9 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_directives</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_t_directives</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_directives</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -1614,6 +1664,8 @@ automapping even if the base relationship was deleted.</p>
 <li><a class="reference internal" href="mixins.html#ggrc.models.track_object_state.HasObjectState" title="ggrc.models.track_object_state.HasObjectState"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.track_object_state.HasObjectState</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.LastDeprecatedTimeboxed" title="ggrc.models.mixins.LastDeprecatedTimeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.LastDeprecatedTimeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Stateful" title="ggrc.models.mixins.Stateful"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Stateful</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Noted" title="ggrc.models.mixins.Noted"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Noted</span></code></a></li>
@@ -1717,7 +1769,10 @@ automapping even if the base relationship was deleted.</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">facilities</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
@@ -1730,8 +1785,9 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_facilities</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_facilities</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_facilities</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -1749,6 +1805,8 @@ automapping even if the base relationship was deleted.</p>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.customattributable.CustomAttributable" title="ggrc.models.mixins.customattributable.CustomAttributable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.customattributable.CustomAttributable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_person.Personable" title="ggrc.models.object_person.Personable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_person.Personable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.relationship.Relatable" title="ggrc.models.relationship.Relatable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.relationship.Relatable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.LastDeprecatedTimeboxed" title="ggrc.models.mixins.LastDeprecatedTimeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.LastDeprecatedTimeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
@@ -1812,6 +1870,8 @@ automapping even if the base relationship was deleted.</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">issues</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">audit_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
@@ -1827,8 +1887,9 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_issues</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_issues</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_issues</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">audit_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">audits</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
@@ -1849,6 +1910,7 @@ automapping even if the base relationship was deleted.</p>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.LastDeprecatedTimeboxed" title="ggrc.models.mixins.LastDeprecatedTimeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.LastDeprecatedTimeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.relationship.Relatable" title="ggrc.models.relationship.Relatable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.relationship.Relatable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.audit_relationship.AuditRelationship" title="ggrc.models.mixins.audit_relationship.AuditRelationship"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.audit_relationship.AuditRelationship</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.with_action.WithAction" title="ggrc.models.mixins.with_action.WithAction"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.with_action.WithAction</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
@@ -1878,9 +1940,12 @@ automapping even if the base relationship was deleted.</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">markets</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">notes</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
@@ -1891,8 +1956,9 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_markets</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_markets</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_markets</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -1912,6 +1978,8 @@ automapping even if the base relationship was deleted.</p>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_document.PublicDocumentable" title="ggrc.models.object_document.PublicDocumentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.PublicDocumentable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_document.Documentable" title="ggrc.models.object_document.Documentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.Documentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Stateful" title="ggrc.models.mixins.Stateful"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Stateful</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Noted" title="ggrc.models.mixins.Noted"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Noted</span></code></a></li>
@@ -2135,7 +2203,10 @@ automapping even if the base relationship was deleted.</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">objectives</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">notes</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
@@ -2146,8 +2217,9 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_objectives</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_objectives</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_objectives</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -2168,6 +2240,8 @@ automapping even if the base relationship was deleted.</p>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_person.Personable" title="ggrc.models.object_person.Personable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_person.Personable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_document.PublicDocumentable" title="ggrc.models.object_document.PublicDocumentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.PublicDocumentable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_document.Documentable" title="ggrc.models.object_document.Documentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.Documentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Stateful" title="ggrc.models.mixins.Stateful"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Stateful</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Noted" title="ggrc.models.mixins.Noted"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Noted</span></code></a></li>
@@ -2232,9 +2306,12 @@ automapping even if the base relationship was deleted.</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">org_groups</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">notes</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
@@ -2245,8 +2322,9 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_org_groups</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_org_groups</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_org_groups</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -2263,6 +2341,8 @@ automapping even if the base relationship was deleted.</p>
 <li><a class="reference internal" href="mixins.html#ggrc.models.relationship.Relatable" title="ggrc.models.relationship.Relatable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.relationship.Relatable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.LastDeprecatedTimeboxed" title="ggrc.models.mixins.LastDeprecatedTimeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.LastDeprecatedTimeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_document.PublicDocumentable" title="ggrc.models.object_document.PublicDocumentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.PublicDocumentable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_document.Documentable" title="ggrc.models.object_document.Documentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.Documentable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
@@ -2332,11 +2412,14 @@ automapping even if the base relationship was deleted.</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">products</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">kind_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">version</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">notes</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
@@ -2347,8 +2430,9 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_products</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_products</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_products</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -2368,6 +2452,8 @@ automapping even if the base relationship was deleted.</p>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_document.PublicDocumentable" title="ggrc.models.object_document.PublicDocumentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.PublicDocumentable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_document.Documentable" title="ggrc.models.object_document.Documentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.Documentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Stateful" title="ggrc.models.mixins.Stateful"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Stateful</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Noted" title="ggrc.models.mixins.Noted"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Noted</span></code></a></li>
@@ -2409,8 +2495,8 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_programs</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_programs</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_programs</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -2460,9 +2546,12 @@ automapping even if the base relationship was deleted.</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">projects</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">notes</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
@@ -2473,8 +2562,9 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_projects</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_projects</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_projects</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -2494,6 +2584,8 @@ automapping even if the base relationship was deleted.</p>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_document.PublicDocumentable" title="ggrc.models.object_document.PublicDocumentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.PublicDocumentable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_document.Documentable" title="ggrc.models.object_document.Documentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.Documentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Stateful" title="ggrc.models.mixins.Stateful"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Stateful</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Noted" title="ggrc.models.mixins.Noted"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Noted</span></code></a></li>
@@ -2626,10 +2718,13 @@ extra information</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">sections</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">na</span> <span class="n">BOOL</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">notes</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">parent_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">title</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
@@ -2639,8 +2734,9 @@ extra information</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_sections</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_sections</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_sections</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">na</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">parent_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">sections</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
@@ -2660,6 +2756,8 @@ extra information</p>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_person.Personable" title="ggrc.models.object_person.Personable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_person.Personable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.relationship.Relatable" title="ggrc.models.relationship.Relatable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.relationship.Relatable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.fulltext.mixin.Indexed" title="ggrc.fulltext.mixin.Indexed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.fulltext.mixin.Indexed</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_document.PublicDocumentable" title="ggrc.models.object_document.PublicDocumentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.PublicDocumentable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_document.Documentable" title="ggrc.models.object_document.Documentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.Documentable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
@@ -2732,11 +2830,14 @@ Objects that were supposed to be mapped are called child objects.</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">systems</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">infrastructure</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">is_biz_process</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="k">version</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
         <span class="n">network_zone_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
@@ -2749,8 +2850,9 @@ Objects that were supposed to be mapped are called child objects.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_systems</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_systems</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_systems</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">infrastructure</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">is_biz_process</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
@@ -2771,6 +2873,8 @@ Objects that were supposed to be mapped are called child objects.</p>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_document.Documentable" title="ggrc.models.object_document.Documentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.Documentable</span></code></a></li>
 <li><a class="reference internal" href="#ggrc.models.system.SystemOrProcess" title="ggrc.models.system.SystemOrProcess"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.system.SystemOrProcess</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.track_object_state.HasObjectState" title="ggrc.models.track_object_state.HasObjectState"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.track_object_state.HasObjectState</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.LastDeprecatedTimeboxed" title="ggrc.models.mixins.LastDeprecatedTimeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.LastDeprecatedTimeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
@@ -2800,11 +2904,14 @@ Objects that were supposed to be mapped are called child objects.</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">systems</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">infrastructure</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">is_biz_process</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="k">version</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
         <span class="n">network_zone_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
@@ -2817,8 +2924,9 @@ Objects that were supposed to be mapped are called child objects.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_systems</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_systems</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_systems</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">infrastructure</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">is_biz_process</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
@@ -2839,6 +2947,8 @@ Objects that were supposed to be mapped are called child objects.</p>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_document.Documentable" title="ggrc.models.object_document.Documentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.Documentable</span></code></a></li>
 <li><a class="reference internal" href="#ggrc.models.system.SystemOrProcess" title="ggrc.models.system.SystemOrProcess"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.system.SystemOrProcess</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.track_object_state.HasObjectState" title="ggrc.models.track_object_state.HasObjectState"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.track_object_state.HasObjectState</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.LastDeprecatedTimeboxed" title="ggrc.models.mixins.LastDeprecatedTimeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.LastDeprecatedTimeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
@@ -2868,11 +2978,14 @@ Objects that were supposed to be mapped are called child objects.</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">systems</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">infrastructure</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">is_biz_process</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="k">version</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
         <span class="n">network_zone_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
@@ -2885,8 +2998,9 @@ Objects that were supposed to be mapped are called child objects.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_systems</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_systems</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_systems</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">infrastructure</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">is_biz_process</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
@@ -2896,6 +3010,8 @@ Objects that were supposed to be mapped are called child objects.</p>
 <p>Mixins:</p>
 <ul class="simple">
 <li><a class="reference internal" href="mixins.html#ggrc.models.track_object_state.HasObjectState" title="ggrc.models.track_object_state.HasObjectState"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.track_object_state.HasObjectState</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.LastDeprecatedTimeboxed" title="ggrc.models.mixins.LastDeprecatedTimeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.LastDeprecatedTimeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
@@ -2924,9 +3040,12 @@ Objects that were supposed to be mapped are called child objects.</p>
 <p>Schema:</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">vendors</span> <span class="p">(</span>
         <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+        <span class="n">recipients</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">),</span>
+        <span class="n">send_by_default</span> <span class="n">BOOL</span><span class="p">,</span>
         <span class="n">os_state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">end_date</span> <span class="nb">DATE</span><span class="p">,</span>
         <span class="n">start_date</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">status</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">notes</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="n">description</span> <span class="nb">TEXT</span><span class="p">,</span>
@@ -2937,8 +3056,9 @@ Objects that were supposed to be mapped are called child objects.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_vendors</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_vendors</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_vendors</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
+        <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -2957,6 +3077,8 @@ Objects that were supposed to be mapped are called child objects.</p>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Timeboxed" title="ggrc.models.mixins.Timeboxed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Timeboxed</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_document.PublicDocumentable" title="ggrc.models.object_document.PublicDocumentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.PublicDocumentable</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.object_document.Documentable" title="ggrc.models.object_document.Documentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.object_document.Documentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.comment.Commentable" title="ggrc.models.comment.Commentable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.comment.Commentable</span></code></a></li>
+<li><a class="reference internal" href="mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.BusinessObject" title="ggrc.models.mixins.BusinessObject"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.BusinessObject</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Stateful" title="ggrc.models.mixins.Stateful"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Stateful</span></code></a></li>
 <li><a class="reference internal" href="mixins.html#ggrc.models.mixins.Noted" title="ggrc.models.mixins.Noted"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Noted</span></code></a></li>
@@ -3088,7 +3210,7 @@ Objects that were supposed to be mapped are called child objects.</p>
         <li class="right" >
           <a href="services.html" title="Services"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.35-Raspberry (beb3baa) documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index.html" >ggrc</a> &#187;</li> 
       </ul>

@@ -45,6 +45,7 @@ POST Example::
         "related_sources": [],
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -69,6 +70,7 @@ POST Example::
         "related_sources": [],
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
+        "test_plan": "",
         "title": "Object title",
         "type": "RiskAssessment",
         "updated_at": "2015-08-14T14:24:43",
@@ -86,6 +88,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "risk_assessment": {
@@ -106,6 +113,7 @@ GET Example::
         "related_sources": [],
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
+        "test_plan": "",
         "title": "Object title",
         "type": "RiskAssessment",
         "updated_at": "2015-08-14T14:24:43",
@@ -140,6 +148,7 @@ PUT Example::
         "related_sources": [],
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -170,6 +179,7 @@ PUT Example::
         "related_sources": [],
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
+        "test_plan": "",
         "title": "Object title",
         "type": "RiskAssessment",
         "updated_at": "2015-08-14T14:24:43",

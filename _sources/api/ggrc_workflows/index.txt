@@ -6,7 +6,7 @@
 ggrc_workflows
 ==============
 
-Workflows API endpoints for GGRC
+Workflows module
 
 ..  toctree::
     :maxdepth: 2

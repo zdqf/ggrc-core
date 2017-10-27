@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Models &#8212; GGRC 0.10.33-Raspberry (80af817) documentation</title>
+    <title>Models &#8212; GGRC 0.10.35-Raspberry (beb3baa) documentation</title>
     
     <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.10.33-Raspberry (80af817)',
+        VERSION:     '0.10.35-Raspberry (beb3baa)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="GGRC 0.10.33-Raspberry (80af817) documentation" href="../../index.html" />
+    <link rel="top" title="GGRC 0.10.35-Raspberry (beb3baa) documentation" href="../../index.html" />
     <link rel="up" title="ggrc_risk_assessments" href="index.html" />
     <link rel="next" title="Mixins" href="mixins.html" />
     <link rel="prev" title="Services" href="services.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="services.html" title="Services"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.35-Raspberry (beb3baa) documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">ggrc_risk_assessments</a> &#187;</li> 
       </ul>
@@ -79,6 +79,7 @@
         <span class="n">modified_by_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">test_plan</span> <span class="nb">TEXT</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_risk_assessments</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">ra_manager_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">people</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
@@ -102,6 +103,7 @@
 <li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ChangeTracked" title="ggrc.models.mixins.ChangeTracked"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ChangeTracked</span></code></a></li>
 <li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.ContextRBAC" title="ggrc.models.mixins.ContextRBAC"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.ContextRBAC</span></code></a></li>
 <li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.Identifiable" title="ggrc.models.mixins.Identifiable"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.Identifiable</span></code></a></li>
+<li><a class="reference internal" href="../ggrc/mixins.html#ggrc.models.mixins.TestPlanned" title="ggrc.models.mixins.TestPlanned"><code class="xref py py-class docutils literal"><span class="pre">ggrc.models.mixins.TestPlanned</span></code></a></li>
 <li><a class="reference internal" href="../ggrc/mixins.html#ggrc.fulltext.mixin.Indexed" title="ggrc.fulltext.mixin.Indexed"><code class="xref py py-class docutils literal"><span class="pre">ggrc.fulltext.mixin.Indexed</span></code></a></li>
 </ul>
 </dd></dl>
@@ -165,7 +167,7 @@
         <li class="right" >
           <a href="services.html" title="Services"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.35-Raspberry (beb3baa) documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index.html" >ggrc_risk_assessments</a> &#187;</li> 
       </ul>

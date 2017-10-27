@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Setup &#8212; GGRC 0.10.35-Raspberry (beb3baa) documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.10.35-Raspberry (beb3baa)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.35-Raspberry (beb3baa) documentation" href="../../index.html" />
+    <link rel="up" title="Git" href="index.html" />
+    <link rel="next" title="How to Write a Commit Message" href="how_to_write_a_commit_message.html" />
+    <link rel="prev" title="Git" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="how_to_write_a_commit_message.html" title="How to Write a Commit Message"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Git"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.35-Raspberry (beb3baa) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Contributing</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Git</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="setup">
+<h1>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h1>
+<p>All code on <a class="reference external" href="https://github.com/google/ggrc-core">ggrc-core repo</a> should go through a
+proper pull request procedure. There should be no direct pushes to
+google ggrc-core repo. Anyone with the privilege to push to the main
+repo must configure their system to prevent that, in order to avoid any
+&#8220;ninja commits&#8221;.</p>
+<p>This document is not a tutorial on how to use git forks and how to work
+with multiple git remotes. It is only meant to help setting up your repo
+to prevent pushes to google/ggrc-core.</p>
+<ol class="arabic">
+<li><p class="first">create a fork on github</p>
+</li>
+<li><p class="first">set up your repo</p>
+<ol class="arabic">
+<li><p class="first">Starting from a fresh clone:</p>
+<p>clone your repo</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git clone git@github.com:&lt;nick&gt;/ggrc-core.git
+</pre></div>
+</div>
+</li>
+<li><p class="first">Adding a remote to an existing clone</p>
+<p>delete the current origin remote</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git remote remove origin
+</pre></div>
+</div>
+<p>add your fork as origin</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git remote add origin git@github.com:&lt;nick&gt;/ggrc-core.git
+</pre></div>
+</div>
+</li>
+</ol>
+</li>
+<li><p class="first">add the upstream repo for easy fetching</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git remote add upstream git@github.com:google/ggrc-core.git
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Extra:</p>
+<p>get a pull request from google/ggrc-core without adding other remotes to
+your repo:</p>
+<p>make an alias (assuming upstream is pointing to google/ggrc-core.git)</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git config alias.pr <span class="s1">&#39;!f() { git fetch upstream dev; git checkout -B pr-$1 FETCH_HEAD; git fetch upstream pull/$1/head; git merge --no-ff FETCH_HEAD -m \&quot;Automatic merge\&quot;; }; f&#39;</span>
+</pre></div>
+</div>
+<p>fetch a given pull request</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git pr <span class="m">1234</span>  <span class="c1"># where the 1234 is a pull request number</span>
+</pre></div>
+</div>
+<p>Note: this method will fail to pull changes form the updated pull
+request if the user uses force push to change any of the commits. In
+that case you need to delete your local pr-1234 branch and run the
+<code class="docutils literal"><span class="pre">git</span> <span class="pre">pr</span> <span class="pre">1234</span></code> again.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Git</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="how_to_write_a_commit_message.html"
+                        title="next chapter">How to Write a Commit Message</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/contributing/git/setup.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="how_to_write_a_commit_message.html" title="How to Write a Commit Message"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Git"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.35-Raspberry (beb3baa) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Contributing</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Git</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

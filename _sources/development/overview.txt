@@ -21,10 +21,11 @@ authentication/authorization/session management (ggrc.login, RBAC),
 parsing request and formatting responses and others (e.g. query
 generation).
 
-The server-side REST API has little to no actual logic outside of what’s
-relevant to saving/creating/deleting/updating models. The server-side is
-stateless. Complex business logic is encapsulated within the client-side
-portions of the application.
+Besides saving/creating/deleting/updating models the server-side REST API
+also includes business logic and validation. The server-side is
+stateless. Complex business logic is also duplicated within the client-side
+portions of the application to make operations like validating inputs more
+responsive.
 
 Composing the server-side
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -45,7 +46,7 @@ model. There isn’t much more to it than that.
 The code that builds out the API (what endpoints exist and what HTTP
 verbs are allowed on each) is in :src:`ggrc/services`.
 
-See `examples in this GitHub gist <https://gist.github.com/dandv/8794f5add6bcc0e11359>`_.
+See :ref:`api-docs` for more details.
 
 
 General REST parameters
@@ -92,6 +93,8 @@ parameters:
 
 Search
 ^^^^^^
+
+⚠️ The /search API is being deprecated in favor of :ref:`advanced-query-api`
 
 The server-side logic that handles search is in :src:`ggrc/services/search.py`.
 
@@ -157,8 +160,7 @@ The "decoupling" is two places:
 
 1. First, the resource-representation is constructed using the Builder
    class (``ggrc.builder.json``), the behavior of which is currently
-   defined from the model and the ``_publish_attrs`` and
-   ``_update_attrs`` attributes.
+   defined from the model and the ``_api_attrs`` attributes.
 2. Second, the interaction of resources and the database is defined by
    the Resource class (``ggrc.services.common.Resource``). The
    ``service(...)`` mappings in ``ggrc.services.__init__`` are defining
@@ -166,18 +168,9 @@ The "decoupling" is two places:
    the supplied model).
 
 Attributes to be included in the external representation of the model
-are declared via the ``_publish_attrs`` attribute of a Python model.
+are declared via the ``_api_attrs`` attribute of a Python model.
 Attributes not included in that list will not be included in external
 representations of the model.
-
-Full Text Search
-^^^^^^^^^^^^^^^^
-
-Full text search is enabled for certain models. It is enabled by a class
-attribute named ``_fulltext_attrs`` on the model type itself. This
-essentially declares certain attributes which should be
-full-text-searchable. The code that actually handles the full-text
-searching is in :src:`ggrc/fulltext`.
 
 Database Migrations
 ^^^^^^^^^^^^^^^^^^^
@@ -215,9 +208,6 @@ database state and model definition.  These should eventually be fixed.
 
 Presentation Layer
 ~~~~~~~~~~~~~~~~~~
-
-(I use the term “presentation” instead of “view” because GGRC has things
-called “views” and I don’t want to confuse the two.)  TBD: I = who?
 
 Templates
 ^^^^^^^^^
@@ -283,9 +273,9 @@ Infrastructure and Utilities
 Persistence
 ^^^^^^^^^^^
 
-CloudSQL is the underlying database used when running on App Engine.
+CloudSQL MySQL 2nd Gen 5.6 is the underlying database used when running on App Engine.
 
-MySQL is used when running locally (for development).
+MySQL 5.6 is used when running locally (for development).
 
 
 Caching
@@ -353,7 +343,7 @@ This facility is configured via :src:`cron.yaml`.
 Ad-Hoc Scheduled Tasks in Task Queue
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Import, Export, Rebuilding full-text index
+Generating assessments, Rebuilding full-text index, updating revisions
 
 
 Runtime Configurations
@@ -416,7 +406,7 @@ The client-side of GGRC is initially constructed from templates and/or
 views defined and rendered on the server. The templates and views
 provide a scaffolding for the UI. Rendering those elements invokes
 JavaScript code which bootstraps the majority of the client-side of GGRC
-which is constructed from CanJS Controls and Mustache templates.
+which is constructed from CanJS Controls, Components and Mustache templates.
 
 Once the Controls are rendered, they take control of generating the
 remainder of the UI and attaching all relevant logic and user
@@ -439,11 +429,13 @@ programs.
 Client-side File Manifests
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-JavaScript code as well as all Mustache templates need to be referenced
+Mustache templates need to be referenced
 from a manifest file in order for it to be usable in constructing the
 UI.
 
 These manifest files live in ``src/<module>/assets/assets.yaml``.
+
+Javascript resources are bundled together using webpack.
 
 Page Structure
 ~~~~~~~~~~~~~~

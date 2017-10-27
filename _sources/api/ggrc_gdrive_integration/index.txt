@@ -6,7 +6,7 @@
 ggrc_gdrive_integration
 =======================
 
-Gdrive API endpoints for GGRC
+GDrive module
 
 ..  toctree::
     :maxdepth: 2

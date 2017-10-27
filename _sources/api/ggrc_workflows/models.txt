@@ -180,8 +180,6 @@ Models
         	sort_index VARCHAR(250) NOT NULL, 
         	finished_date DATETIME, 
         	verified_date DATETIME, 
-        	secondary_contact_id INTEGER, 
-        	contact_id INTEGER, 
         	status VARCHAR(250) NOT NULL, 
         	end_date DATE, 
         	start_date DATE, 
@@ -197,14 +195,12 @@ Models
         	FOREIGN KEY(cycle_id) REFERENCES cycles (id) ON DELETE CASCADE, 
         	FOREIGN KEY(cycle_task_group_id) REFERENCES cycle_task_groups (id) ON DELETE CASCADE, 
         	FOREIGN KEY(task_group_task_id) REFERENCES task_group_tasks (id), 
-        	FOREIGN KEY(secondary_contact_id) REFERENCES people (id), 
-        	FOREIGN KEY(contact_id) REFERENCES people (id), 
         	FOREIGN KEY(context_id) REFERENCES contexts (id)
         )
 
     Mixins:
 
-    *   :class:`ggrc.models.mixins.WithContact`
+    *   :class:`ggrc.access_control.roleable.Roleable`
     *   :class:`ggrc_workflows.models.mixins.CycleTaskStatusValidatedMixin`
     *   :class:`ggrc_workflows.models.mixins.CycleTaskGroupRelatedStatusValidatedMixin`
     *   :class:`ggrc_workflows.models.mixins.StatusValidatedMixin`
@@ -327,8 +323,6 @@ Models
         	object_approval BOOL NOT NULL, 
         	task_type VARCHAR(250) NOT NULL, 
         	response_options TEXT NOT NULL, 
-        	secondary_contact_id INTEGER, 
-        	contact_id INTEGER, 
         	title VARCHAR(250) NOT NULL, 
         	description TEXT, 
         	slug VARCHAR(250) NOT NULL, 
@@ -343,14 +337,12 @@ Models
         	CONSTRAINT uq_task_group_tasks UNIQUE (slug), 
         	FOREIGN KEY(task_group_id) REFERENCES task_groups (id) ON DELETE CASCADE, 
         	CHECK (object_approval IN (0, 1)), 
-        	FOREIGN KEY(secondary_contact_id) REFERENCES people (id), 
-        	FOREIGN KEY(contact_id) REFERENCES people (id), 
         	FOREIGN KEY(context_id) REFERENCES contexts (id)
         )
 
     Mixins:
 
-    *   :class:`ggrc.models.mixins.WithContact`
+    *   :class:`ggrc.access_control.roleable.Roleable`
     *   :class:`ggrc.models.mixins.Titled`
     *   :class:`ggrc.models.mixins.Described`
     *   :class:`ggrc.models.mixins.Slugged`

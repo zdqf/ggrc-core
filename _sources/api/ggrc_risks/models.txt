@@ -9,8 +9,7 @@ Models
 
 ..  class:: ggrc_risks.models.risk.Risk
 
-    ..  warning::
-        Missing doc-string of ``ggrc_risks.models.risk.Risk``
+    Basic Risk model.
 
     Schema:
 
@@ -18,7 +17,10 @@ Models
 
         CREATE TABLE risks (
         	id INTEGER NOT NULL AUTO_INCREMENT, 
+        	recipients VARCHAR(250), 
+        	send_by_default BOOL, 
         	os_state VARCHAR(250) NOT NULL, 
+        	test_plan TEXT, 
         	end_date DATE, 
         	start_date DATE, 
         	status VARCHAR(250) NOT NULL, 
@@ -31,8 +33,9 @@ Models
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
         	PRIMARY KEY (id), 
-        	CONSTRAINT uq_t_risks UNIQUE (title), 
         	CONSTRAINT uq_risks UNIQUE (slug), 
+        	CONSTRAINT uq_t_risks UNIQUE (title), 
+        	CHECK (send_by_default IN (0, 1)), 
         	FOREIGN KEY(context_id) REFERENCES contexts (id)
         )
 
@@ -45,6 +48,8 @@ Models
     *   :class:`ggrc.models.object_person.Personable`
     *   :class:`ggrc.models.object_document.PublicDocumentable`
     *   :class:`ggrc.models.object_document.Documentable`
+    *   :class:`ggrc.models.comment.Commentable`
+    *   :class:`ggrc.models.mixins.TestPlanned`
     *   :class:`ggrc.models.mixins.LastDeprecatedTimeboxed`
     *   :class:`ggrc.models.mixins.Timeboxed`
     *   :class:`ggrc.models.mixins.BusinessObject`
@@ -109,9 +114,12 @@ Models
 
         CREATE TABLE threats (
         	id INTEGER NOT NULL AUTO_INCREMENT, 
+        	recipients VARCHAR(250), 
+        	send_by_default BOOL, 
         	os_state VARCHAR(250) NOT NULL, 
         	end_date DATE, 
         	start_date DATE, 
+        	test_plan TEXT, 
         	status VARCHAR(250) NOT NULL, 
         	notes TEXT, 
         	description TEXT, 
@@ -122,8 +130,9 @@ Models
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
         	PRIMARY KEY (id), 
-        	CONSTRAINT uq_t_threats UNIQUE (title), 
         	CONSTRAINT uq_threats UNIQUE (slug), 
+        	CONSTRAINT uq_t_threats UNIQUE (title), 
+        	CHECK (send_by_default IN (0, 1)), 
         	FOREIGN KEY(context_id) REFERENCES contexts (id)
         )
 
@@ -138,6 +147,8 @@ Models
     *   :class:`ggrc.models.mixins.Timeboxed`
     *   :class:`ggrc.models.object_document.PublicDocumentable`
     *   :class:`ggrc.models.object_document.Documentable`
+    *   :class:`ggrc.models.comment.Commentable`
+    *   :class:`ggrc.models.mixins.TestPlanned`
     *   :class:`ggrc.models.mixins.BusinessObject`
     *   :class:`ggrc.models.mixins.Stateful`
     *   :class:`ggrc.models.mixins.Noted`

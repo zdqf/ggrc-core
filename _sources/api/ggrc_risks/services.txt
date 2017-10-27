@@ -39,12 +39,15 @@ POST Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -67,12 +70,15 @@ POST Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
+        "test_plan": "",
         "title": "Object title",
         "type": "Risk",
         "updated_at": "2015-08-14T14:24:43",
@@ -90,6 +96,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "risk": {
@@ -108,12 +119,15 @@ GET Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
+        "test_plan": "",
         "title": "Object title",
         "type": "Risk",
         "updated_at": "2015-08-14T14:24:43",
@@ -142,12 +156,15 @@ PUT Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -176,12 +193,15 @@ PUT Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
+        "test_plan": "",
         "title": "Object title",
         "type": "Risk",
         "updated_at": "2015-08-14T14:24:43",
@@ -245,6 +265,11 @@ GET Example::
       cookie:SACSID=<ID>;
              session=<SessionID>
       x-requested-by:GGRC
+
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
 
     Response body:
     {
@@ -335,11 +360,14 @@ POST Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -361,11 +389,14 @@ POST Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
+        "test_plan": "",
         "title": "Object title",
         "type": "Threat",
         "updated_at": "2015-08-14T14:24:43",
@@ -383,6 +414,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "threat": {
@@ -400,11 +436,14 @@ GET Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
+        "test_plan": "",
         "title": "Object title",
         "type": "Threat",
         "updated_at": "2015-08-14T14:24:43",
@@ -433,11 +472,14 @@ PUT Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -465,11 +507,14 @@ PUT Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
+        "test_plan": "",
         "title": "Object title",
         "type": "Threat",
         "updated_at": "2015-08-14T14:24:43",

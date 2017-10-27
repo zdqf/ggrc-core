@@ -30,6 +30,7 @@ Models
         	modified_by_id INTEGER, 
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
+        	test_plan TEXT, 
         	PRIMARY KEY (id), 
         	CONSTRAINT uq_risk_assessments UNIQUE (slug), 
         	FOREIGN KEY(ra_manager_id) REFERENCES people (id), 
@@ -52,6 +53,7 @@ Models
     *   :class:`ggrc.models.mixins.ChangeTracked`
     *   :class:`ggrc.models.mixins.ContextRBAC`
     *   :class:`ggrc.models.mixins.Identifiable`
+    *   :class:`ggrc.models.mixins.TestPlanned`
     *   :class:`ggrc.fulltext.mixin.Indexed`
 
 

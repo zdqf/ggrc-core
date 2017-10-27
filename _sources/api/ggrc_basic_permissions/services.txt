@@ -69,6 +69,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "role": {
@@ -190,6 +195,11 @@ GET Example::
       cookie:SACSID=<ID>;
              session=<SessionID>
       x-requested-by:GGRC
+
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
 
     Response body:
     {

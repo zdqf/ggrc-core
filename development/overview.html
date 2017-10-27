@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Overview &#8212; GGRC 0.10.33-Raspberry (80af817) documentation</title>
+    <title>Overview &#8212; GGRC 0.10.35-Raspberry (beb3baa) documentation</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.10.33-Raspberry (80af817)',
+        VERSION:     '0.10.35-Raspberry (beb3baa)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="GGRC 0.10.33-Raspberry (80af817) documentation" href="../index.html" />
+    <link rel="top" title="GGRC 0.10.35-Raspberry (beb3baa) documentation" href="../index.html" />
     <link rel="up" title="Development" href="index.html" />
     <link rel="next" title="Adding a new Object" href="adding_new_object.html" />
     <link rel="prev" title="Development" href="index.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="index.html" title="Development"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (beb3baa) documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Development</a> &#187;</li> 
       </ul>
     </div>  
@@ -71,15 +71,16 @@ filters which handle basic concerns such as
 authentication/authorization/session management (ggrc.login, RBAC),
 parsing request and formatting responses and others (e.g. query
 generation).</p>
-<p>The server-side REST API has little to no actual logic outside of what’s
-relevant to saving/creating/deleting/updating models. The server-side is
-stateless. Complex business logic is encapsulated within the client-side
-portions of the application.</p>
+<p>Besides saving/creating/deleting/updating models the server-side REST API
+also includes business logic and validation. The server-side is
+stateless. Complex business logic is also duplicated within the client-side
+portions of the application to make operations like validating inputs more
+responsive.</p>
 </div>
 <div class="section" id="composing-the-server-side">
 <h3>Composing the server-side<a class="headerlink" href="#composing-the-server-side" title="Permalink to this headline">¶</a></h3>
 <p>All of the server-side functionality and behaviors are pulled together
-in <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/app.py">src/ggrc/app.py</a>. This is where all
+in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/app.py">src/ggrc/app.py</a>. This is where all
 infrastructure is initialized and loaded.</p>
 </div>
 <div class="section" id="resource-layer">
@@ -89,8 +90,8 @@ infrastructure is initialized and loaded.</p>
 <p>The resource layer provides a uniform, external interface to the data
 model. There isn’t much more to it than that.</p>
 <p>The code that builds out the API (what endpoints exist and what HTTP
-verbs are allowed on each) is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/services">src/ggrc/services</a>.</p>
-<p>See <a class="reference external" href="https://gist.github.com/dandv/8794f5add6bcc0e11359">examples in this GitHub gist</a>.</p>
+verbs are allowed on each) is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/services">src/ggrc/services</a>.</p>
+<p>See <a class="reference internal" href="../api/index.html#api-docs"><span class="std std-ref">API</span></a> for more details.</p>
 </div>
 <div class="section" id="general-rest-parameters">
 <h4>General REST parameters<a class="headerlink" href="#general-rest-parameters" title="Permalink to this headline">¶</a></h4>
@@ -115,7 +116,7 @@ for two programs:</p>
 <h4>REST Response Result Paging<a class="headerlink" href="#rest-response-result-paging" title="Permalink to this headline">¶</a></h4>
 <p>20 records per request are returned by default. This is configurable up
 to a max of 100 results per page. &nbsp;See <code class="docutils literal"><span class="pre">apply_paging</span></code> in
-<a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/services/common.py">src/ggrc/services/common.py</a>. Request
+<a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/services/common.py">src/ggrc/services/common.py</a>. Request
 parameters:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">__page_only</span></code> - only returns paging information, but not resource
@@ -130,7 +131,8 @@ otherwise TBD</li>
 </div>
 <div class="section" id="search">
 <h4>Search<a class="headerlink" href="#search" title="Permalink to this headline">¶</a></h4>
-<p>The server-side logic that handles search is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/services/search.py">src/ggrc/services/search.py</a>.</p>
+<p>⚠️ The /search API is being deprecated in favor of <a class="reference internal" href="advanced_query_api.html#advanced-query-api"><span class="std std-ref">Advanced Query API</span></a></p>
+<p>The server-side logic that handles search is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/services/search.py">src/ggrc/services/search.py</a>.</p>
 <p>Parameters:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">q</span></code> - the query; mandatory, but can be the empty string</li>
@@ -159,7 +161,7 @@ TBD</li>
 <h4>Routing<a class="headerlink" href="#routing" title="Permalink to this headline">¶</a></h4>
 <p>Routes to types of resources (audits, programs, etc.), as well as the
 base routes for the REST API (<code class="docutils literal"><span class="pre">/api/</span></code> and <code class="docutils literal"><span class="pre">/search/</span></code>) are determined
-with the help of a small amount of metadata specified in <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/services/__init__.py">src/ggrc/services/__init__.py</a>.</p>
+with the help of a small amount of metadata specified in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/services/__init__.py">src/ggrc/services/__init__.py</a>.</p>
 <p>Routes are specified in other places within the Python code via the
 &#64;app.route annotation.</p>
 </div>
@@ -188,8 +190,7 @@ the REST API to break, and that would be bad.</p>
 <ol class="arabic simple">
 <li>First, the resource-representation is constructed using the Builder
 class (<code class="docutils literal"><span class="pre">ggrc.builder.json</span></code>), the behavior of which is currently
-defined from the model and the <code class="docutils literal"><span class="pre">_publish_attrs</span></code> and
-<code class="docutils literal"><span class="pre">_update_attrs</span></code> attributes.</li>
+defined from the model and the <code class="docutils literal"><span class="pre">_api_attrs</span></code> attributes.</li>
 <li>Second, the interaction of resources and the database is defined by
 the Resource class (<code class="docutils literal"><span class="pre">ggrc.services.common.Resource</span></code>). The
 <code class="docutils literal"><span class="pre">service(...)</span></code> mappings in <code class="docutils literal"><span class="pre">ggrc.services.__init__</span></code> are defining
@@ -197,17 +198,9 @@ API endpoints and linking them to Builder classes (autogenerated from
 the supplied model).</li>
 </ol>
 <p>Attributes to be included in the external representation of the model
-are declared via the <code class="docutils literal"><span class="pre">_publish_attrs</span></code> attribute of a Python model.
+are declared via the <code class="docutils literal"><span class="pre">_api_attrs</span></code> attribute of a Python model.
 Attributes not included in that list will not be included in external
 representations of the model.</p>
-</div>
-<div class="section" id="full-text-search">
-<h4>Full Text Search<a class="headerlink" href="#full-text-search" title="Permalink to this headline">¶</a></h4>
-<p>Full text search is enabled for certain models. It is enabled by a class
-attribute named <code class="docutils literal"><span class="pre">_fulltext_attrs</span></code> on the model type itself. This
-essentially declares certain attributes which should be
-full-text-searchable. The code that actually handles the full-text
-searching is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/fulltext">src/ggrc/fulltext</a>.</p>
 </div>
 <div class="section" id="database-migrations">
 <h4>Database Migrations<a class="headerlink" href="#database-migrations" title="Permalink to this headline">¶</a></h4>
@@ -238,8 +231,6 @@ database state and model definition. &nbsp;These should eventually be fixed.
 </div>
 <div class="section" id="presentation-layer">
 <h3>Presentation Layer<a class="headerlink" href="#presentation-layer" title="Permalink to this headline">¶</a></h3>
-<p>(I use the term “presentation” instead of “view” because GGRC has things
-called “views” and I don’t want to confuse the two.) &nbsp;TBD: I = who?</p>
 <div class="section" id="templates">
 <h4>Templates<a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h4>
 <p>Templates are HAML files which define the structural HTML which is
@@ -267,7 +258,7 @@ majority of the actual UI.</li>
 <p>Responses returned from the server-side are generated by rendering
 Python objects into an encoding and format that is understood by the
 client-side. The standard format is JSON.</p>
-<p>The Python code that marshals/unmarshals models to/from JSON is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/builder">src/ggrc/builder</a>.</p>
+<p>The Python code that marshals/unmarshals models to/from JSON is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/builder">src/ggrc/builder</a>.</p>
 </div>
 <div class="section" id="import">
 <h4>Import<a class="headerlink" href="#import" title="Permalink to this headline">¶</a></h4>
@@ -287,7 +278,7 @@ the case of export, the format is CSV.</p>
 <h4>Request Interpretation and Response Construction<a class="headerlink" href="#request-interpretation-and-response-construction" title="Permalink to this headline">¶</a></h4>
 <p>The code that interprets requests (to figure out what action to take on
 the server-side) and constructs responses (applying rendering logic to
-models) lives in <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/services">src/ggrc/services</a>. <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/services/common.py">src/ggrc/services/common.py</a>
+models) lives in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/services">src/ggrc/services</a>. <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/services/common.py">src/ggrc/services/common.py</a>
 is particularly important. It implements ModelView &amp; Resource (which extends ModelView).</p>
 </div>
 </div>
@@ -295,20 +286,20 @@ is particularly important. It implements ModelView &amp; Resource (which extends
 <h3>Infrastructure and Utilities<a class="headerlink" href="#infrastructure-and-utilities" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="persistence">
 <h4>Persistence<a class="headerlink" href="#persistence" title="Permalink to this headline">¶</a></h4>
-<p>CloudSQL is the underlying database used when running on App Engine.</p>
-<p>MySQL is used when running locally (for development).</p>
+<p>CloudSQL MySQL 2nd Gen 5.6 is the underlying database used when running on App Engine.</p>
+<p>MySQL 5.6 is used when running locally (for development).</p>
 </div>
 <div class="section" id="caching">
 <h4>Caching<a class="headerlink" href="#caching" title="Permalink to this headline">¶</a></h4>
 <p>Memcache is used.</p>
 <p>A manifest of the types of objects that should be cached exists in
-<a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/cache/cache.py">src/ggrc/cache/cache.py</a>. Types not listed in this file will not be cached
+<a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/cache/cache.py">src/ggrc/cache/cache.py</a>. Types not listed in this file will not be cached
 by Memcache.</p>
-<p>All of the logic related to cache management is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/cache">src/ggrc/cache</a>.</p>
+<p>All of the logic related to cache management is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/cache">src/ggrc/cache</a>.</p>
 </div>
 <div class="section" id="authentication">
 <h4>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h4>
-<p>The Python code that handles authentication is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/login">src/ggrc/login</a>.
+<p>The Python code that handles authentication is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/login">src/ggrc/login</a>.
 There are currently two handlers, one to enable integration with
 Google Accounts and another to enable a developer to log in as a specific
 user by modifying a config file or request header.</p>
@@ -318,33 +309,33 @@ user by modifying a config file or request header.</p>
 <p>Several types of data can be imported into GGRC by uploading CSV files.
 The data in those files needs to be converted into python models and
 validated before being persisted. The code that handles all of this is
-in <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/converters">src/ggrc/converters</a>. All of the base
+in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/converters">src/ggrc/converters</a>. All of the base
 classes which define common handling logic, as well as code specific to
 one or more types of model is in that folder.</p>
 </div>
 <div class="section" id="extensions">
 <h4>Extensions<a class="headerlink" href="#extensions" title="Permalink to this headline">¶</a></h4>
-<p>Core code which enables the extension mechanism is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/extensions.py">src/ggrc/extensions.py</a>.</p>
+<p>Core code which enables the extension mechanism is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/extensions.py">src/ggrc/extensions.py</a>.</p>
 <p>Core code which bootstraps the core GGRC extensions (such as Workflow
-and GDrive integration) is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/ext/__init__.py">src/ggrc/ext/__init__.py</a>.</p>
+and GDrive integration) is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/ext/__init__.py">src/ggrc/ext/__init__.py</a>.</p>
 </div>
 <div class="section" id="notifications">
 <h4>Notifications<a class="headerlink" href="#notifications" title="Permalink to this headline">¶</a></h4>
-<p>Code relevant to sending notifications (e.g. email) is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/notifications">src/ggrc/notifications</a>.</p>
+<p>Code relevant to sending notifications (e.g. email) is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/notifications">src/ggrc/notifications</a>.</p>
 </div>
 <div class="section" id="role-based-access-control-rbac">
 <h4>Role-Based Access Control (RBAC)<a class="headerlink" href="#role-based-access-control-rbac" title="Permalink to this headline">¶</a></h4>
 <p>RBAC controls the ways in which a user is allowed to interact with GGRC.</p>
-<p>Base classes for defining, managing and checking permissions are in <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/rbac">src/ggrc/rbac</a>.</p>
+<p>Base classes for defining, managing and checking permissions are in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/rbac">src/ggrc/rbac</a>.</p>
 </div>
 <div class="section" id="cron">
 <h4>Cron<a class="headerlink" href="#cron" title="Permalink to this headline">¶</a></h4>
 <p>Cron jobs are available through App Engine&#8217;s scheduled tasks mechanism.
-This facility is configured via <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/cron.yaml">src/cron.yaml</a>.</p>
+This facility is configured via <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/cron.yaml">src/cron.yaml</a>.</p>
 </div>
 <div class="section" id="ad-hoc-scheduled-tasks-in-task-queue">
 <h4>Ad-Hoc Scheduled Tasks in Task Queue<a class="headerlink" href="#ad-hoc-scheduled-tasks-in-task-queue" title="Permalink to this headline">¶</a></h4>
-<p>Import, Export, Rebuilding full-text index</p>
+<p>Generating assessments, Rebuilding full-text index, updating revisions</p>
 </div>
 </div>
 <div class="section" id="runtime-configurations">
@@ -362,17 +353,17 @@ that variable.</p>
 <p>GGRC uses MySQL when running locally. There are other configurations
 like logging level and authorization which can be configured.</p>
 <p>GGRC always uses Google Accounts for authentication when running in App
-Engine. This is handled by <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/login/appengine.py">src/ggrc/login/appengine.py</a>. When
+Engine. This is handled by <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/login/appengine.py">src/ggrc/login/appengine.py</a>. When
 running locally, however, different authentication logic is substituted
-via <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/login/noop.py">src/ggrc/login/noop.py</a>. Within
+via <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/login/noop.py">src/ggrc/login/noop.py</a>. Within
 this file a developer can hard-code authentication email address and
 name. There is also logic to allow a developer to pass their email
 address (allowing them to log in as a specific user) in through a
 request header (<code class="docutils literal"><span class="pre">X-ggrc-user</span></code>) which can be manipulated with one of a
 few Chrome browser plugins. This makes it efficient for a developer to
 switch among user accounts to test functionality.</p>
-<p>Please take a minute to look at <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/settings/app_engine.py">src/ggrc/settings/app_engine.py</a> and
-<a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/settings/default.py">src/ggrc/settings/default.py</a> for more information on settings that
+<p>Please take a minute to look at <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/settings/app_engine.py">src/ggrc/settings/app_engine.py</a> and
+<a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/settings/default.py">src/ggrc/settings/default.py</a> for more information on settings that
 can be configured for running in either App Engine or local environments.</p>
 </div>
 <div class="section" id="development-testing-production-runtime">
@@ -380,9 +371,9 @@ can be configured for running in either App Engine or local environments.</p>
 <p>This dimension of runtime configuration allows setting of database
 credentials, query and application logging and other configurations.</p>
 <p>Settings typical for a development environment are in
-<a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/settings/development.py">src/ggrc/settings/development.py</a>.</p>
+<a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/settings/development.py">src/ggrc/settings/development.py</a>.</p>
 <p>Settings typical for a testing environment are in
-<a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/settings/testing.py">src/ggrc/settings/testing.py</a>.</p>
+<a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/settings/testing.py">src/ggrc/settings/testing.py</a>.</p>
 </div>
 </div>
 </div>
@@ -394,7 +385,7 @@ credentials, query and application logging and other configurations.</p>
 views defined and rendered on the server. The templates and views
 provide a scaffolding for the UI. Rendering those elements invokes
 JavaScript code which bootstraps the majority of the client-side of GGRC
-which is constructed from CanJS Controls and Mustache templates.</p>
+which is constructed from CanJS Controls, Components and Mustache templates.</p>
 <p>Once the Controls are rendered, they take control of generating the
 remainder of the UI and attaching all relevant logic and user
 interaction handlers.</p>
@@ -413,10 +404,11 @@ programs.</p>
 </div>
 <div class="section" id="client-side-file-manifests">
 <h3>Client-side File Manifests<a class="headerlink" href="#client-side-file-manifests" title="Permalink to this headline">¶</a></h3>
-<p>JavaScript code as well as all Mustache templates need to be referenced
+<p>Mustache templates need to be referenced
 from a manifest file in order for it to be usable in constructing the
 UI.</p>
 <p>These manifest files live in <code class="docutils literal"><span class="pre">src/&lt;module&gt;/assets/assets.yaml</span></code>.</p>
+<p>Javascript resources are bundled together using webpack.</p>
 </div>
 <div class="section" id="page-structure">
 <h3>Page Structure<a class="headerlink" href="#page-structure" title="Permalink to this headline">¶</a></h3>
@@ -612,7 +604,7 @@ definitions.</li>
 <li><code class="docutils literal"><span class="pre">extended_info.mustache</span></code> - Defines the content of an object’s
 tooltip/popover in the LHN lists. &nbsp;Specified as the <code class="docutils literal"><span class="pre">tooltip_view</span></code>
 parameter when rendering
-<a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/assets/mustache/dashboard/lhn.mustache">src/ggrc/assets/mustache/dashboard/lhn.mustache</a>.</li>
+<a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/mustache/dashboard/lhn.mustache">src/ggrc/assets/mustache/dashboard/lhn.mustache</a>.</li>
 <li><code class="docutils literal"><span class="pre">modal_content.mustache</span></code> - Defines the view for modal “create” or
 “edit” form functionality. &nbsp;For most objects, this path is
 automatically generated using the <code class="docutils literal"><span class="pre">data-template</span></code> or
@@ -625,14 +617,14 @@ automatically generated using the <code class="docutils literal"><span class="pr
 <p>The view files are in the following folder within a module
 <code class="docutils literal"><span class="pre">src/&lt;module&gt;/assets/mustache/</span></code>.</p>
 <p>For example, the <code class="docutils literal"><span class="pre">ggrc_workflow</span></code> views are in the following folder
-<a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc_workflows/assets/mustache/">src/ggrc_workflows/assets/mustache/</a></p>
+<a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc_workflows/assets/mustache/">src/ggrc_workflows/assets/mustache/</a></p>
 </div>
 <div class="section" id="view-helpers">
 <h4>View Helpers<a class="headerlink" href="#view-helpers" title="Permalink to this headline">¶</a></h4>
 <p>View helpers are defined using the Mustache <a class="reference external" href="http://canjs.com/docs/can.mustache.Helpers.html">helper mechanism provided
 by CanJS</a>. &nbsp;Core
 helpers are specified in
-<a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/assets/javascripts/mustache_helpers.js">src/ggrc/assets/javascripts/mustache_helpers.js</a>,
+<a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/mustache_helpers.js">src/ggrc/assets/javascripts/mustache_helpers.js</a>,
 and extension helpers should be specified in a file named similar to
 <code class="docutils literal"><span class="pre">src/&lt;module_name&gt;/assets/javascripts/&lt;class_name&gt;_mustache_helpers.js</span></code>.</p>
 </div>
@@ -800,7 +792,7 @@ database, so that you don&#8217;t have to care about which tables the
 relationships are stored in.</p>
 <p>Mappings essentially turn the entire system into a
 <a class="reference external" href="https://github.com/tinkerpop/gremlin/wiki/Defining-a-Property-Graph">property graph</a>.</p>
-<p>Mappings are defined in <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/assets/javascripts/models/mappings-ggrc.js">src/ggrc/assets/javascripts/models/mappings-ggrc.js</a>.</p>
+<p>Mappings are defined in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappings-ggrc.js">src/ggrc/assets/javascripts/models/mappings-ggrc.js</a>.</p>
 <p>We don&#8217;t have a function that gets all the objects mapped to a given
 object. You can get the mappings of an instance by calling
 <code class="docutils literal"><span class="pre">instance.get_mappings('_mapping_')</span></code> if the mappings are already
@@ -809,24 +801,24 @@ loaded, or by calling
 <div class="section" id="types-of-mappings">
 <h4>Types of Mappings<a class="headerlink" href="#types-of-mappings" title="Permalink to this headline">¶</a></h4>
 <p>There are 8 types of mappings. The types of mappings are defined with
-Mappers. Mappers are defined in <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/assets/javascripts/models/mappers.js">src/ggrc/assets/javascripts/models/mappers.js</a></p>
+Mappers. Mappers are defined in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers.js">src/ggrc/assets/javascripts/models/mappers.js</a></p>
 <p>Each type of mapping is defined below:</p>
 <ul class="simple">
-<li><strong>Proxy</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/assets/javascripts/models/mappers/proxy-list-loader.js">src/ggrc/assets/javascripts/models/mappers/proxy-list-loader.js</a>:
+<li><strong>Proxy</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/proxy-list-loader.js">src/ggrc/assets/javascripts/models/mappers/proxy-list-loader.js</a>:
 A proxy mapping is a relationship where one model
 references another through another “join” or “proxy” model. &nbsp;E.g.,
 Programs reference Controls via the ProgramControl join/proxy model.
 &nbsp;The Proxy mapping specifies the attributes and models involved in
 the relationship, e.g.:</li>
-<li><strong>Direct</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/assets/javascripts/models/mappers/direct-list-loader.js">src/ggrc/assets/javascripts/models/mappers/direct-list-loader.js</a>:
+<li><strong>Direct</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/direct-list-loader.js">src/ggrc/assets/javascripts/models/mappers/direct-list-loader.js</a>:
 A direct mapping is a relationship where one model
 directly references another model. &nbsp;E.g., Sections contain a
 <code class="docutils literal"><span class="pre">directive</span></code> attribute, so Section has a Direct mapping to
 Directive.</li>
-<li><strong>Indirect</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/assets/javascripts/models/mappers/indirect-list-loader.js">src/ggrc/assets/javascripts/models/mappers/indirect-list-loader.js</a>:
+<li><strong>Indirect</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/indirect-list-loader.js">src/ggrc/assets/javascripts/models/mappers/indirect-list-loader.js</a>:
 An indirect mapping is the reverse of <code class="docutils literal"><span class="pre">Direct</span></code>, but
 the implementation is inconsistent with the rest of the mappers.</li>
-<li><strong>Search</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/assets/javascripts/models/mappers/search-list-loader.js">src/ggrc/assets/javascripts/models/mappers/search-list-loader.js</a>:
+<li><strong>Search</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/search-list-loader.js">src/ggrc/assets/javascripts/models/mappers/search-list-loader.js</a>:
 A search mapping is a relationship where results are
 produced by a function returning a deferred. This mapping is f
 foremost used by the Advanced Search feature and for getting owned
@@ -834,22 +826,22 @@ objects for a Person, but other uses are also possible. Note that the
 search function is run at attach time and also when a new object of
 any type is created, so it is recommended to use this mapper
 sparingly in the system if it makes a number of large AJAX calls.</li>
-<li><strong>Multi</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/assets/javascripts/models/mappers/multi-list-loader.js">src/ggrc/assets/javascripts/models/mappers/multi-list-loader.js</a>:
+<li><strong>Multi</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/multi-list-loader.js">src/ggrc/assets/javascripts/models/mappers/multi-list-loader.js</a>:
 Constructs a mapping which is the union of zero or more
 other mappings. &nbsp;Specifically, the set of <code class="docutils literal"><span class="pre">result.instance</span></code> values
 is the union of <code class="docutils literal"><span class="pre">result.instance</span></code> from the contributing mappings.</li>
-<li><strong>TypeFilter</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/assets/javascripts/models/mappers/type-filtered-list-loader.js">src/ggrc/assets/javascripts/models/mappers/type-filtered-list-loader.js</a>:
+<li><strong>TypeFilter</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/type-filtered-list-loader.js">src/ggrc/assets/javascripts/models/mappers/type-filtered-list-loader.js</a>:
 A TypeFiltered mapping takes the result of another
 mapping and returns only the results which are instances of a
 specified type. This is useful for filtering polymorphic proxies.</li>
-<li><strong>CustomFilter</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/assets/javascripts/models/mappers/custom-filtered-list-loader.js">src/ggrc/assets/javascripts/models/mappers/custom-filtered-list-loader.js</a>:
+<li><strong>CustomFilter</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/custom-filtered-list-loader.js">src/ggrc/assets/javascripts/models/mappers/custom-filtered-list-loader.js</a>:
 A custom filtered mapping runs a filter function on
 every result coming from a source mapping and returns all results
 where the function returns either a truthy value or a deferred that
 resolves to a truthy value. The filter function is re-run whenever an
 instance in the source mapping changes, and adds and removes a
 mapping to that instance accordingly.</li>
-<li><strong>Cross</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/assets/javascripts/models/mappers/cross-list-loader.js">src/ggrc/assets/javascripts/models/mappers/cross-list-loader.js</a>:
+<li><strong>Cross</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/cross-list-loader.js">src/ggrc/assets/javascripts/models/mappers/cross-list-loader.js</a>:
 Similar to Proxy mapping, but joins across other mappings.
 For example, the result of <code class="docutils literal"><span class="pre">m</span> <span class="pre">=</span> <span class="pre">Cross(&quot;a&quot;,</span> <span class="pre">&quot;b&quot;)</span></code> would be the
 union of the “b” mappings for every instance in the root object’s “a”
@@ -874,7 +866,7 @@ the CI server.</p>
 </div>
 <div class="section" id="python-unit-tests">
 <h3>Python Unit Tests<a class="headerlink" href="#python-unit-tests" title="Permalink to this headline">¶</a></h3>
-<p>These are currently defined in <a class="reference external" href="https://github.com/google/ggrc-core/tree/develop/src/ggrc/tests">src/ggrc/tests</a>,
+<p>These are currently defined in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/tests">src/ggrc/tests</a>,
 but as of 2014/07/07 are in poor state due to non-upkeep. &nbsp;Mostly, these
 test import/export.</p>
 </div>
@@ -904,7 +896,6 @@ test import/export.</p>
 <li><a class="reference internal" href="#data-layer">Data Layer</a><ul>
 <li><a class="reference internal" href="#data-model">Data Model</a></li>
 <li><a class="reference internal" href="#internal-vs-external-model">Internal vs. External Model</a></li>
-<li><a class="reference internal" href="#full-text-search">Full Text Search</a></li>
 <li><a class="reference internal" href="#database-migrations">Database Migrations</a></li>
 </ul>
 </li>
@@ -1026,7 +1017,7 @@ test import/export.</p>
         <li class="right" >
           <a href="index.html" title="Development"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (beb3baa) documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Development</a> &#187;</li> 
       </ul>
     </div>

@@ -84,6 +84,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "cycle": {
@@ -237,6 +242,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "cycle_task_entry": {
@@ -385,6 +395,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "cycle_task_group": {
@@ -502,7 +517,7 @@ POST Example::
     Request body:
     {
       "cycle_task_group_object_task": {
-        "contact": "",
+        "access_control_list": [{}],
         "context": { "id": 1, "type": "Context" },
         "cycle": "",
         "cycle_task_entries": "",
@@ -512,7 +527,6 @@ POST Example::
         "related_destinations": [],
         "related_sources": [],
         "response_options": "",
-        "secondary_contact": "",
         "selected_response_options": "",
         "slug": "OBJECT-1",
         "sort_index": "",
@@ -527,8 +541,8 @@ POST Example::
     Response body:
     {
       "cycle_task_group_object_task": {
+        "access_control_list": [{}],
         "allow_change_state": "",
-        "contact": "",
         "context": { "id": 1, "type": "Context" },
         "created_at": "2015-08-14T14:24:43",
         "cycle": "",
@@ -544,7 +558,6 @@ POST Example::
         "related_destinations": [],
         "related_sources": [],
         "response_options": "",
-        "secondary_contact": "",
         "selected_response_options": "",
         "slug": "OBJECT-1",
         "sort_index": "",
@@ -570,11 +583,16 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "cycle_task_group_object_task": {
+        "access_control_list": [{}],
         "allow_change_state": "",
-        "contact": "",
         "context": { "id": 1, "type": "Context" },
         "created_at": "2015-08-14T14:24:43",
         "cycle": "",
@@ -590,7 +608,6 @@ GET Example::
         "related_destinations": [],
         "related_sources": [],
         "response_options": "",
-        "secondary_contact": "",
         "selected_response_options": "",
         "slug": "OBJECT-1",
         "sort_index": "",
@@ -620,7 +637,7 @@ PUT Example::
     Request body:
     {
       "cycle_task_group_object_task": {
-        "contact": "",
+        "access_control_list": [{}],
         "context": { "id": 1, "type": "Context" },
         "cycle": "",
         "cycle_task_entries": "",
@@ -630,7 +647,6 @@ PUT Example::
         "related_destinations": [],
         "related_sources": [],
         "response_options": "",
-        "secondary_contact": "",
         "selected_response_options": "",
         "slug": "OBJECT-1",
         "sort_index": "",
@@ -651,8 +667,8 @@ PUT Example::
     Response body:
     {
       "cycle_task_group_object_task": {
+        "access_control_list": [{}],
         "allow_change_state": "",
-        "contact": "",
         "context": { "id": 1, "type": "Context" },
         "created_at": "2015-08-14T14:24:43",
         "cycle": "",
@@ -668,7 +684,6 @@ PUT Example::
         "related_destinations": [],
         "related_sources": [],
         "response_options": "",
-        "secondary_contact": "",
         "selected_response_options": "",
         "slug": "OBJECT-1",
         "sort_index": "",
@@ -761,6 +776,11 @@ GET Example::
       cookie:SACSID=<ID>;
              session=<SessionID>
       x-requested-by:GGRC
+
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
 
     Response body:
     {
@@ -911,6 +931,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "task_group_object": {
@@ -999,13 +1024,12 @@ POST Example::
     Request body:
     {
       "task_group_task": {
-        "contact": "",
+        "access_control_list": [{}],
         "context": { "id": 1, "type": "Context" },
         "description": "Object <b>description</b>",
         "end_date": "2015-08-14",
         "object_approval": "",
         "response_options": "",
-        "secondary_contact": "",
         "slug": "OBJECT-1",
         "sort_index": "",
         "start_date": "2015-08-14",
@@ -1018,7 +1042,7 @@ POST Example::
     Response body:
     {
       "task_group_task": {
-        "contact": "",
+        "access_control_list": [{}],
         "context": { "id": 1, "type": "Context" },
         "created_at": "2015-08-14T14:24:43",
         "description": "Object <b>description</b>",
@@ -1027,7 +1051,6 @@ POST Example::
         "modified_by": { "id": 1, "type": "Person"},
         "object_approval": "",
         "response_options": "",
-        "secondary_contact": "",
         "slug": "OBJECT-1",
         "sort_index": "",
         "start_date": "2015-08-14",
@@ -1052,10 +1075,15 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "task_group_task": {
-        "contact": "",
+        "access_control_list": [{}],
         "context": { "id": 1, "type": "Context" },
         "created_at": "2015-08-14T14:24:43",
         "description": "Object <b>description</b>",
@@ -1064,7 +1092,6 @@ GET Example::
         "modified_by": { "id": 1, "type": "Person"},
         "object_approval": "",
         "response_options": "",
-        "secondary_contact": "",
         "slug": "OBJECT-1",
         "sort_index": "",
         "start_date": "2015-08-14",
@@ -1093,13 +1120,12 @@ PUT Example::
     Request body:
     {
       "task_group_task": {
-        "contact": "",
+        "access_control_list": [{}],
         "context": { "id": 1, "type": "Context" },
         "description": "Object <b>description</b>",
         "end_date": "2015-08-14",
         "object_approval": "",
         "response_options": "",
-        "secondary_contact": "",
         "slug": "OBJECT-1",
         "sort_index": "",
         "start_date": "2015-08-14",
@@ -1118,7 +1144,7 @@ PUT Example::
     Response body:
     {
       "task_group_task": {
-        "contact": "",
+        "access_control_list": [{}],
         "context": { "id": 1, "type": "Context" },
         "created_at": "2015-08-14T14:24:43",
         "description": "Object <b>description</b>",
@@ -1127,7 +1153,6 @@ PUT Example::
         "modified_by": { "id": 1, "type": "Person"},
         "object_approval": "",
         "response_options": "",
-        "secondary_contact": "",
         "slug": "OBJECT-1",
         "sort_index": "",
         "start_date": "2015-08-14",
@@ -1239,6 +1264,11 @@ GET Example::
       cookie:SACSID=<ID>;
              session=<SessionID>
       x-requested-by:GGRC
+
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
 
     Response body:
     {
@@ -1417,6 +1447,11 @@ GET Example::
       cookie:SACSID=<ID>;
              session=<SessionID>
       x-requested-by:GGRC
+
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
 
     Response body:
     {

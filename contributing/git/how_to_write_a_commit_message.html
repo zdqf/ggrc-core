@@ -1,0 +1,338 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>How to Write a Commit Message &#8212; GGRC 0.10.35-Raspberry (beb3baa) documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.10.35-Raspberry (beb3baa)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.35-Raspberry (beb3baa) documentation" href="../../index.html" />
+    <link rel="up" title="Git" href="index.html" />
+    <link rel="next" title="Branch management" href="branch_management.html" />
+    <link rel="prev" title="Setup" href="setup.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="branch_management.html" title="Branch management"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="setup.html" title="Setup"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.35-Raspberry (beb3baa) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Contributing</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Git</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="how-to-write-a-commit-message">
+<h1>How to Write a Commit Message<a class="headerlink" href="#how-to-write-a-commit-message" title="Permalink to this headline">¶</a></h1>
+<p>This is all shamelessly based on
+<a class="reference external" href="http://chris.beams.io/posts/git-commit/">chris.beams.io</a>.</p>
+<ol class="arabic simple">
+<li>Separate subject from body with a blank line</li>
+<li>Limit the subject line to 50 characters</li>
+<li>Capitalize the subject line</li>
+<li>Do not end the subject line with a period</li>
+<li>Use the imperative mood in the subject line (spoken or written as if
+giving a command or instruction)</li>
+<li>Wrap the body at 72 characters</li>
+<li>Use the body to explain what and why vs. how</li>
+</ol>
+<p>A properly formed git commit subject line should always be able to
+complete the following sentence:</p>
+<p><strong>If applied, this commit will *your subject line here*</strong></p>
+<p>Good: If applied, this commit will <strong>refactor subsystem X for
+readability</strong></p>
+<p>Bad: If applied, this commit will <strong>fixes for broken stuff</strong></p>
+<p>Commit message should be summary line and description of what you have
+done in the imperative mode, that is as if you were commanding someone.
+Write &#8220;fix&#8221;, &#8220;add&#8221;, &#8220;change&#8221; instead of &#8220;fixed&#8221;, &#8220;added&#8221;, &#8220;changed&#8221;.</p>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="bad">
+<h3>Bad<a class="headerlink" href="#bad" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Fixed bug with {something}.</li>
+<li>changing behavior of {something}</li>
+<li>more fixes for broken stuff</li>
+<li>sweet new API methods</li>
+<li>Removing stuff</li>
+</ol>
+</div>
+<div class="section" id="good">
+<h3>Good<a class="headerlink" href="#good" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Fix bug when {something_else} doesn&#8217;t exist</li>
+<li>Change behavior of {something} to do {behavior_x}</li>
+<li>[don&#8217;t do this, fix one specific thing in a commit]</li>
+<li>Add {method_a}, {method_b} and {method_c} methods to API</li>
+<li>Remove unused {method_a}, {method_b}...</li>
+</ol>
+</div>
+</div>
+<div class="section" id="before-issuing-a-new-pull-request">
+<h2>Before Issuing a New Pull Request<a class="headerlink" href="#before-issuing-a-new-pull-request" title="Permalink to this headline">¶</a></h2>
+<p>While every pull request is automatically checked on a continuous
+integration server, it is better to catch issues early, resulting in
+less broken builds and reduced time before the PR is merged. You should
+thus run a few tests locally before submitting the PR for a review.</p>
+<p>It is OK to defer some of the checks if they take too much time to be
+feasible to run them locally (as a rule of thumb: 10+ minutes). These
+checks can be deferred until the CI server runs them.</p>
+<p>You are still encouraged to run them yourself, though, if you can afford
+the waiting, e.g. just before taking a longer break (lunch, meeting...).</p>
+</div>
+<div class="section" id="checking-the-front-end-code">
+<h2>Checking the front-end code<a class="headerlink" href="#checking-the-front-end-code" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="code-style-checks">
+<h3>Code style checks<a class="headerlink" href="#code-style-checks" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference external" href="http://eslint.org/">ESLint</a> tool is used for checking the
+Javascript code quality. You must assure that your pull request does not
+increase the number of ESLint issues found.</p>
+<p>To check the code quality of a particular file, run the following in the
+development container&#8217;s console:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>eslint path/to/some/file.js
+</pre></div>
+</div>
+<p>You will see a list of all issues found and the corresponding line
+numbers. Sample output:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>...
+105:23  error    Strings must use singlequote                         quotes
+112:7   warning  Identifier name &#39;fooBaa...ar&#39; is too long. (&gt; 25)    id-length
+112:48  error    Missing space before function parentheses            space-before-function-paren
+114:23  error    Strings must use singlequote                         quotes
+120:3   error    Split &#39;var&#39; declarations into multiple statements    one-var
+...
+
+✖ 74 problems (73 errors, 1 warning)
+</pre></div>
+</div>
+<p>You need to resolve at least the issues in the line(s) you have
+modified, but it is strongly encouraged to also improve <em>all</em> the lines
+in every function/method you have touched.</p>
+<p>When you submit a new pull request, a script will check how many
+Javascript code issues there are on the PR branch, and how many there
+were at the point when the PR branch was forked from the target branch
+(i.e. the <em>merge base</em>). The target branch is the one the PR will be
+sent to, usually <code class="docutils literal"><span class="pre">develop</span></code>.</p>
+<p>If the issue count difference is positive, the check will fail, because
+new code should not increase the number of Javascript issues. To avoid
+that and preemptively perform the same check locally, do the following:</p>
+<ul>
+<li><p class="first">Make sure that you are currently on a branch containing the changes
+that will be submitted with the pull request (the PR branch), and
+that you have these changes committed,</p>
+</li>
+<li><p class="first">Make sure that you don&#8217;t have any pending local file modifications.
+Use <code class="docutils literal"><span class="pre">git</span> <span class="pre">stash</span></code> if necessary,</p>
+</li>
+<li><p class="first">Run the following in the development container&#8217;s console:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>check_eslint_diff
+</pre></div>
+</div>
+<p>If the PR branch was forked from (and will be sent to) a branch other
+than <code class="docutils literal"><span class="pre">develop</span></code>, you should specify this with a <code class="docutils literal"><span class="pre">-t</span></code> (or
+<code class="docutils literal"><span class="pre">--merge-target</span></code>) option when running the script:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>check_eslint_diff -t release/foo-0.0.1
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="running-the-tests">
+<h3>Running the tests<a class="headerlink" href="#running-the-tests" title="Permalink to this headline">¶</a></h3>
+<p>Run the following in the development container&#8217;s console:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run_karma
+</pre></div>
+</div>
+<p>When the Karma server (a Javascript test runner) starts, open
+<code class="docutils literal"><span class="pre">http://localhost:9876/</span></code> in a browser. The browser will connect to the
+Karma server and run all Javascript unit tests. The outcome of the tests
+will be printed to the console, make sure they all pass.</p>
+<p><em>NOTE: The officially supported browser by the application is Chrome. It
+is thus strongly recommended that you, too, use Chrome for running the
+tests locally.</em></p>
+</div>
+</div>
+<div class="section" id="checking-the-back-end-code">
+<h2>Checking the back-end code<a class="headerlink" href="#checking-the-back-end-code" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Code style checks<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>At the moment, no automatic Python coding style checks are performed -
+yet. You should nevertheless make your best effort to write <a class="reference external" href="https://www.python.org/dev/peps/pep-0008/">PEP8
+compliant</a> code to make it
+more future compatible for when such automatic checks are introduced and
+enforced.</p>
+</div>
+<div class="section" id="id2">
+<h3>Running the tests<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>To run the Python unit and integration tests, run the following in the
+development container&#8217;s console:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run_pytests
+</pre></div>
+</div>
+<p><em>NOTE: Python integration tests take a while to run, around 20 minutes
+(give or take) on a decent laptop.</em></p>
+</div>
+</div>
+<div class="section" id="end-to-end-tests">
+<h2>End-to-end tests<a class="headerlink" href="#end-to-end-tests" title="Permalink to this headline">¶</a></h2>
+<p>To run the full-fledged end-to-end system tests, go to the project root
+directory <strong>on the host machine</strong> and run the following from its
+console:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>./bin/jenkins/run_selenium
+</pre></div>
+</div>
+<p>Please keep in mind that, for various technical reasons, Selenium tests
+<strong>should not</strong> be run from inside a container!</p>
+<p><em>NOTE: These tests only work with Docker-based development environments,
+since they require Docker prerequisites to be installed on the host
+machine. Vagrant is not supported.</em></p>
+</div>
+<div class="section" id="pull-request-titles">
+<h2>Pull Request Titles<a class="headerlink" href="#pull-request-titles" title="Permalink to this headline">¶</a></h2>
+<p>For pull request titles we should use the same rules as for the subject
+line of a commit, but we need to prefix the title with one of:</p>
+<blockquote>
+<div><ul class="simple">
+<li>ISSUE ID when we have one or more issues</li>
+<li>QUICK-FIX when there is no jira ticket for the codechange</li>
+<li>DOCS when for PRs that update only documentation and there is no jira ticket</li>
+<li>BACKMERGE for merging release or master branches back into dev</li>
+<li>MERGE for dev branch to release and release to master</li>
+</ul>
+</div></blockquote>
+<p>A pull request title must also reflect on what changes have been done.
+If the pull request title states that it contains test modifications, it
+must not contain any code changes outside of tests. If there are logic
+changes in the PR, the title must reflect those and the changes in the
+tests are implied with the code changes.</p>
+<p>Examples:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">CORE</span><span class="o">-</span><span class="mi">9999</span> <span class="n">Fix</span> <span class="n">performance</span> <span class="n">issues</span> <span class="n">on</span> <span class="n">bulk</span> <span class="n">operations</span>
+<span class="n">CORE</span><span class="o">-</span><span class="mi">1111</span><span class="o">/</span><span class="mi">1112</span><span class="o">/</span><span class="mi">9900</span> <span class="n">Fix</span> <span class="n">rbac</span> <span class="n">issues</span> <span class="k">for</span> <span class="n">creators</span>
+<span class="n">QUICK</span><span class="o">-</span><span class="n">FIX</span> <span class="n">Break</span> <span class="n">test</span> <span class="n">cases</span> <span class="n">into</span> <span class="n">smaller</span> <span class="n">parts</span>
+<span class="n">DOCS</span> <span class="n">Add</span> <span class="n">section</span> <span class="n">that</span> <span class="n">explains</span> <span class="n">client</span> <span class="n">side</span> <span class="n">mappings</span>
+<span class="n">BACKMERGE</span> <span class="n">master</span> <span class="n">into</span> <span class="n">Release</span><span class="o">/</span><span class="n">xyz</span>
+<span class="n">BACKMERGE</span> <span class="n">Release</span><span class="o">/</span><span class="n">xyz</span> <span class="n">into</span> <span class="n">dev</span>
+<span class="n">MERGE</span> <span class="n">dev</span> <span class="n">into</span> <span class="n">Release</span><span class="o">/</span><span class="n">xyz</span>
+<span class="n">MERGE</span> <span class="n">Release</span><span class="o">/</span><span class="n">xyz</span> <span class="n">into</span> <span class="n">master</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">How to Write a Commit Message</a><ul>
+<li><a class="reference internal" href="#examples">Examples</a><ul>
+<li><a class="reference internal" href="#bad">Bad</a></li>
+<li><a class="reference internal" href="#good">Good</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#before-issuing-a-new-pull-request">Before Issuing a New Pull Request</a></li>
+<li><a class="reference internal" href="#checking-the-front-end-code">Checking the front-end code</a><ul>
+<li><a class="reference internal" href="#code-style-checks">Code style checks</a></li>
+<li><a class="reference internal" href="#running-the-tests">Running the tests</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#checking-the-back-end-code">Checking the back-end code</a><ul>
+<li><a class="reference internal" href="#id1">Code style checks</a></li>
+<li><a class="reference internal" href="#id2">Running the tests</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#end-to-end-tests">End-to-end tests</a></li>
+<li><a class="reference internal" href="#pull-request-titles">Pull Request Titles</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="setup.html"
+                        title="previous chapter">Setup</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="branch_management.html"
+                        title="next chapter">Branch management</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/contributing/git/how_to_write_a_commit_message.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="branch_management.html" title="Branch management"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="setup.html" title="Setup"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.35-Raspberry (beb3baa) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Contributing</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Git</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

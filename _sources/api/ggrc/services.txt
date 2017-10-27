@@ -78,6 +78,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "access_control_role": {
@@ -190,12 +195,15 @@ POST Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -217,13 +225,16 @@ POST Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "AccessGroup",
         "updated_at": "2015-08-14T14:24:43",
@@ -242,6 +253,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "access_group": {
@@ -259,13 +275,16 @@ GET Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "AccessGroup",
         "updated_at": "2015-08-14T14:24:43",
@@ -295,12 +314,15 @@ PUT Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -328,13 +350,16 @@ PUT Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "AccessGroup",
         "updated_at": "2015-08-14T14:24:43",
@@ -448,6 +473,11 @@ GET Example::
       cookie:SACSID=<ID>;
              session=<SessionID>
       x-requested-by:GGRC
+
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
 
     Response body:
     {
@@ -663,6 +693,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "assessment_template": {
@@ -855,6 +890,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "audit": {
@@ -1039,6 +1079,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "audit_object": {
@@ -1154,6 +1199,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "background_task": {
@@ -1266,6 +1316,11 @@ GET Example::
       cookie:SACSID=<ID>;
              session=<SessionID>
       x-requested-by:GGRC
+
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
 
     Response body:
     {
@@ -1381,6 +1436,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "category_base": {
@@ -1480,13 +1540,16 @@ POST Example::
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
         "parent": "",
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -1511,15 +1574,18 @@ POST Example::
         "parent": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Clause",
         "updated_at": "2015-08-14T14:24:43",
@@ -1538,6 +1604,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "clause": {
@@ -1558,15 +1629,18 @@ GET Example::
         "parent": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Clause",
         "updated_at": "2015-08-14T14:24:43",
@@ -1599,13 +1673,16 @@ PUT Example::
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
         "parent": "",
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -1636,15 +1713,18 @@ PUT Example::
         "parent": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Clause",
         "updated_at": "2015-08-14T14:24:43",
@@ -1717,6 +1797,11 @@ GET Example::
       cookie:SACSID=<ID>;
              session=<SessionID>
       x-requested-by:GGRC
+
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
 
     Response body:
     {
@@ -1847,6 +1932,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "context": {
@@ -1957,10 +2047,12 @@ POST Example::
         "object_people": {},
         "parent": "",
         "principal_assessor": "",
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "secondary_assessor": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
@@ -2010,11 +2102,13 @@ POST Example::
         "people": "",
         "preconditions_failed": false,
         "principal_assessor": "",
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
         "secondary_assessor": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
@@ -2041,6 +2135,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "control": {
@@ -2079,11 +2178,13 @@ GET Example::
         "people": "",
         "preconditions_failed": false,
         "principal_assessor": "",
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
         "secondary_assessor": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
@@ -2136,10 +2237,12 @@ PUT Example::
         "object_people": {},
         "parent": "",
         "principal_assessor": "",
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "secondary_assessor": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
@@ -2195,11 +2298,13 @@ PUT Example::
         "people": "",
         "preconditions_failed": false,
         "principal_assessor": "",
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
         "secondary_assessor": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
@@ -2277,6 +2382,11 @@ GET Example::
       cookie:SACSID=<ID>;
              session=<SessionID>
       x-requested-by:GGRC
+
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
 
     Response body:
     {
@@ -2402,6 +2512,11 @@ GET Example::
       cookie:SACSID=<ID>;
              session=<SessionID>
       x-requested-by:GGRC
+
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
 
     Response body:
     {
@@ -2536,6 +2651,11 @@ GET Example::
       cookie:SACSID=<ID>;
              session=<SessionID>
       x-requested-by:GGRC
+
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
 
     Response body:
     {
@@ -2678,6 +2798,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "custom_attribute_value": {
@@ -2778,13 +2903,16 @@ POST Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -2806,15 +2934,18 @@ POST Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "DataAsset",
         "updated_at": "2015-08-14T14:24:43",
@@ -2833,6 +2964,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "data_asset": {
@@ -2850,15 +2986,18 @@ GET Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "DataAsset",
         "updated_at": "2015-08-14T14:24:43",
@@ -2888,13 +3027,16 @@ PUT Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -2922,15 +3064,18 @@ PUT Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "DataAsset",
         "updated_at": "2015-08-14T14:24:43",
@@ -2978,14 +3123,17 @@ POST Example::
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
         "organization": "",
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
         "version": "",
       }
@@ -3014,16 +3162,19 @@ POST Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Contract",
         "updated_at": "2015-08-14T14:24:43",
@@ -3043,6 +3194,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "contract": {
@@ -3066,16 +3222,19 @@ GET Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Contract",
         "updated_at": "2015-08-14T14:24:43",
@@ -3112,14 +3271,17 @@ PUT Example::
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
         "organization": "",
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
         "version": "",
       }
@@ -3154,16 +3316,19 @@ PUT Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Contract",
         "updated_at": "2015-08-14T14:24:43",
@@ -3205,10 +3370,13 @@ POST Example::
         "kind": "",
         "notes": 'Object <i>Notes</i>',
         "organization": "",
+        "recipients": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
+        "test_plan": "",
         "title": "Object title",
         "version": "",
       }
@@ -3231,10 +3399,13 @@ POST Example::
         "notes": 'Object <i>Notes</i>',
         "organization": "",
         "os_state": "",
+        "recipients": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
+        "test_plan": "",
         "title": "Object title",
         "type": "Directive",
         "updated_at": "2015-08-14T14:24:43",
@@ -3253,6 +3424,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "directive": {
@@ -3270,10 +3446,13 @@ GET Example::
         "notes": 'Object <i>Notes</i>',
         "organization": "",
         "os_state": "",
+        "recipients": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
+        "test_plan": "",
         "title": "Object title",
         "type": "Directive",
         "updated_at": "2015-08-14T14:24:43",
@@ -3305,10 +3484,13 @@ PUT Example::
         "kind": "",
         "notes": 'Object <i>Notes</i>',
         "organization": "",
+        "recipients": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
+        "test_plan": "",
         "title": "Object title",
         "version": "",
       }
@@ -3337,10 +3519,13 @@ PUT Example::
         "notes": 'Object <i>Notes</i>',
         "organization": "",
         "os_state": "",
+        "recipients": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
+        "test_plan": "",
         "title": "Object title",
         "type": "Directive",
         "updated_at": "2015-08-14T14:24:43",
@@ -3388,14 +3573,17 @@ POST Example::
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
         "organization": "",
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
         "version": "",
       }
@@ -3424,16 +3612,19 @@ POST Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Policy",
         "updated_at": "2015-08-14T14:24:43",
@@ -3453,6 +3644,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "policy": {
@@ -3476,16 +3672,19 @@ GET Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Policy",
         "updated_at": "2015-08-14T14:24:43",
@@ -3522,14 +3721,17 @@ PUT Example::
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
         "organization": "",
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
         "version": "",
       }
@@ -3564,16 +3766,19 @@ PUT Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Policy",
         "updated_at": "2015-08-14T14:24:43",
@@ -3622,14 +3827,17 @@ POST Example::
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
         "organization": "",
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
         "version": "",
       }
@@ -3658,16 +3866,19 @@ POST Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Regulation",
         "updated_at": "2015-08-14T14:24:43",
@@ -3687,6 +3898,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "regulation": {
@@ -3710,16 +3926,19 @@ GET Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Regulation",
         "updated_at": "2015-08-14T14:24:43",
@@ -3756,14 +3975,17 @@ PUT Example::
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
         "organization": "",
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
         "version": "",
       }
@@ -3798,16 +4020,19 @@ PUT Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Regulation",
         "updated_at": "2015-08-14T14:24:43",
@@ -3856,14 +4081,17 @@ POST Example::
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
         "organization": "",
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
         "version": "",
       }
@@ -3892,16 +4120,19 @@ POST Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Standard",
         "updated_at": "2015-08-14T14:24:43",
@@ -3921,6 +4152,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "standard": {
@@ -3944,16 +4180,19 @@ GET Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Standard",
         "updated_at": "2015-08-14T14:24:43",
@@ -3990,14 +4229,17 @@ PUT Example::
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
         "organization": "",
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
         "version": "",
       }
@@ -4032,16 +4274,19 @@ PUT Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
         "scope": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Standard",
         "updated_at": "2015-08-14T14:24:43",
@@ -4125,6 +4370,11 @@ GET Example::
       cookie:SACSID=<ID>;
              session=<SessionID>
       x-requested-by:GGRC
+
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
 
     Response body:
     {
@@ -4267,6 +4517,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "event": {
@@ -4362,13 +4617,16 @@ POST Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -4390,15 +4648,18 @@ POST Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Facility",
         "updated_at": "2015-08-14T14:24:43",
@@ -4417,6 +4678,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "facility": {
@@ -4434,15 +4700,18 @@ GET Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Facility",
         "updated_at": "2015-08-14T14:24:43",
@@ -4472,13 +4741,16 @@ PUT Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -4506,15 +4778,18 @@ PUT Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Facility",
         "updated_at": "2015-08-14T14:24:43",
@@ -4581,6 +4856,11 @@ GET Example::
       cookie:SACSID=<ID>;
              session=<SessionID>
       x-requested-by:GGRC
+
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
 
     Response body:
     {
@@ -4674,8 +4954,10 @@ POST Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
@@ -4705,8 +4987,10 @@ POST Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
@@ -4731,6 +5015,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "issue": {
@@ -4751,8 +5040,10 @@ GET Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
@@ -4789,8 +5080,10 @@ PUT Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
@@ -4826,8 +5119,10 @@ PUT Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
@@ -4875,13 +5170,16 @@ POST Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -4903,15 +5201,18 @@ POST Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Market",
         "updated_at": "2015-08-14T14:24:43",
@@ -4930,6 +5231,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "market": {
@@ -4947,15 +5253,18 @@ GET Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Market",
         "updated_at": "2015-08-14T14:24:43",
@@ -4985,13 +5294,16 @@ PUT Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -5019,15 +5331,18 @@ PUT Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Market",
         "updated_at": "2015-08-14T14:24:43",
@@ -5101,6 +5416,11 @@ GET Example::
       cookie:SACSID=<ID>;
              session=<SessionID>
       x-requested-by:GGRC
+
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
 
     Response body:
     {
@@ -5231,6 +5551,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "notification_config": {
@@ -5355,6 +5680,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "object_person": {
@@ -5457,12 +5787,15 @@ POST Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -5487,14 +5820,17 @@ POST Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Objective",
         "updated_at": "2015-08-14T14:24:43",
@@ -5513,6 +5849,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "objective": {
@@ -5533,14 +5874,17 @@ GET Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Objective",
         "updated_at": "2015-08-14T14:24:43",
@@ -5571,12 +5915,15 @@ PUT Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -5607,14 +5954,17 @@ PUT Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Objective",
         "updated_at": "2015-08-14T14:24:43",
@@ -5683,6 +6033,11 @@ GET Example::
       cookie:SACSID=<ID>;
              session=<SessionID>
       x-requested-by:GGRC
+
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
 
     Response body:
     {
@@ -5779,12 +6134,15 @@ POST Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -5806,13 +6164,16 @@ POST Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "OrgGroup",
         "updated_at": "2015-08-14T14:24:43",
@@ -5831,6 +6192,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "org_group": {
@@ -5848,13 +6214,16 @@ GET Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "OrgGroup",
         "updated_at": "2015-08-14T14:24:43",
@@ -5884,12 +6253,15 @@ PUT Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -5917,13 +6289,16 @@ PUT Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "OrgGroup",
         "updated_at": "2015-08-14T14:24:43",
@@ -6005,6 +6380,11 @@ GET Example::
       cookie:SACSID=<ID>;
              session=<SessionID>
       x-requested-by:GGRC
+
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
 
     Response body:
     {
@@ -6123,13 +6503,16 @@ POST Example::
         "kind": "",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
         "version": "",
       }
@@ -6153,15 +6536,18 @@ POST Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Product",
         "updated_at": "2015-08-14T14:24:43",
@@ -6181,6 +6567,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "product": {
@@ -6199,15 +6590,18 @@ GET Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Product",
         "updated_at": "2015-08-14T14:24:43",
@@ -6239,13 +6633,16 @@ PUT Example::
         "kind": "",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
         "version": "",
       }
@@ -6275,15 +6672,18 @@ PUT Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Product",
         "updated_at": "2015-08-14T14:24:43",
@@ -6388,6 +6788,11 @@ GET Example::
       cookie:SACSID=<ID>;
              session=<SessionID>
       x-requested-by:GGRC
+
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
 
     Response body:
     {
@@ -6541,13 +6946,16 @@ POST Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -6569,15 +6977,18 @@ POST Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Project",
         "updated_at": "2015-08-14T14:24:43",
@@ -6596,6 +7007,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "project": {
@@ -6613,15 +7029,18 @@ GET Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Project",
         "updated_at": "2015-08-14T14:24:43",
@@ -6651,13 +7070,16 @@ PUT Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -6685,15 +7107,18 @@ PUT Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Project",
         "updated_at": "2015-08-14T14:24:43",
@@ -6760,6 +7185,11 @@ GET Example::
       cookie:SACSID=<ID>;
              session=<SessionID>
       x-requested-by:GGRC
+
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
 
     Response body:
     {
@@ -6888,6 +7318,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "revision": {
@@ -7001,12 +7436,15 @@ POST Example::
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
         "parent": "",
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -7030,14 +7468,17 @@ POST Example::
         "parent": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Section",
         "updated_at": "2015-08-14T14:24:43",
@@ -7056,6 +7497,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "section": {
@@ -7075,14 +7521,17 @@ GET Example::
         "parent": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Section",
         "updated_at": "2015-08-14T14:24:43",
@@ -7115,12 +7564,15 @@ PUT Example::
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
         "parent": "",
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -7150,14 +7602,17 @@ PUT Example::
         "parent": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Section",
         "updated_at": "2015-08-14T14:24:43",
@@ -7237,6 +7692,11 @@ GET Example::
       cookie:SACSID=<ID>;
              session=<SessionID>
       x-requested-by:GGRC
+
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
 
     Response body:
     {
@@ -7355,13 +7815,16 @@ POST Example::
         "network_zone": "",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
         "version": "",
       }
@@ -7387,15 +7850,18 @@ POST Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Process",
         "updated_at": "2015-08-14T14:24:43",
@@ -7415,6 +7881,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "process": {
@@ -7435,15 +7906,18 @@ GET Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Process",
         "updated_at": "2015-08-14T14:24:43",
@@ -7476,13 +7950,16 @@ PUT Example::
         "network_zone": "",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
         "version": "",
       }
@@ -7514,15 +7991,18 @@ PUT Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Process",
         "updated_at": "2015-08-14T14:24:43",
@@ -7567,13 +8047,16 @@ POST Example::
         "network_zone": "",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
         "version": "",
       }
@@ -7599,15 +8082,18 @@ POST Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "System",
         "updated_at": "2015-08-14T14:24:43",
@@ -7627,6 +8113,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "system": {
@@ -7647,15 +8138,18 @@ GET Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "System",
         "updated_at": "2015-08-14T14:24:43",
@@ -7688,13 +8182,16 @@ PUT Example::
         "network_zone": "",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
         "version": "",
       }
@@ -7726,15 +8223,18 @@ PUT Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
         "risk_objects": "",
         "risks": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "System",
         "updated_at": "2015-08-14T14:24:43",
@@ -7772,9 +8272,12 @@ POST Example::
         "infrastructure": "",
         "network_zone": "",
         "notes": 'Object <i>Notes</i>',
+        "recipients": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
+        "test_plan": "",
         "title": "Object title",
         "version": "",
       }
@@ -7794,9 +8297,12 @@ POST Example::
         "network_zone": "",
         "notes": 'Object <i>Notes</i>',
         "os_state": "",
+        "recipients": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
+        "test_plan": "",
         "title": "Object title",
         "type": "SystemOrProcess",
         "updated_at": "2015-08-14T14:24:43",
@@ -7815,6 +8321,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "system_or_process": {
@@ -7829,9 +8340,12 @@ GET Example::
         "network_zone": "",
         "notes": 'Object <i>Notes</i>',
         "os_state": "",
+        "recipients": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
+        "test_plan": "",
         "title": "Object title",
         "type": "SystemOrProcess",
         "updated_at": "2015-08-14T14:24:43",
@@ -7859,9 +8373,12 @@ PUT Example::
         "infrastructure": "",
         "network_zone": "",
         "notes": 'Object <i>Notes</i>',
+        "recipients": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
+        "test_plan": "",
         "title": "Object title",
         "version": "",
       }
@@ -7887,9 +8404,12 @@ PUT Example::
         "network_zone": "",
         "notes": 'Object <i>Notes</i>',
         "os_state": "",
+        "recipients": "",
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
+        "test_plan": "",
         "title": "Object title",
         "type": "SystemOrProcess",
         "updated_at": "2015-08-14T14:24:43",
@@ -7931,12 +8451,15 @@ POST Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -7958,13 +8481,16 @@ POST Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Vendor",
         "updated_at": "2015-08-14T14:24:43",
@@ -7983,6 +8509,11 @@ GET Example::
              session=<SessionID>
       x-requested-by:GGRC
 
+    Response headers:
+      content-type:application/json
+      Date:Thu, 30 Mar 2017 10:51:14 GMT
+      etag:"d87058b07a1c1efe8bc2949033b5766db239fb9d"
+
     Response body:
     {
       "vendor": {
@@ -8000,13 +8531,16 @@ GET Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Vendor",
         "updated_at": "2015-08-14T14:24:43",
@@ -8036,12 +8570,15 @@ PUT Example::
         "description": "Object <b>description</b>",
         "notes": 'Object <i>Notes</i>',
         "object_people": {},
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
+        "test_plan": "",
         "title": "Object title",
       }
     }
@@ -8069,13 +8606,16 @@ PUT Example::
         "os_state": "",
         "people": "",
         "preconditions_failed": false,
+        "recipients": "",
         "related_destinations": [],
         "related_sources": [],
+        "send_by_default": false,
         "slug": "OBJECT-1",
         "start_date": "2015-08-14",
         "status": "Active",
         "task_group_objects": [],
         "task_groups": "",
+        "test_plan": "",
         "title": "Object title",
         "type": "Vendor",
         "updated_at": "2015-08-14T14:24:43",
