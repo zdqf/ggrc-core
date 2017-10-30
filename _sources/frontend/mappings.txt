@@ -1,0 +1,85 @@
+Mappings
+~~~~~~~~
+
+⚠️ Mappings are getting phased out in favor of just using the /query API
+
+Mappings are best thought of as **links**. (“Mapping”
+`often means <http://www.merriam-webster.com/dictionary/mapping>`_ a 1-to-1
+correspondence, and for historical reasons is the term adopted by GGRC
+users; but in actuality; we have links between objects - e.g. a
+Directive is **linked** to a Section, or a Programs **references** zero
+or more Controls.) “Mappings” are a way to relate any model instance to
+another model instance in a way that is flexible, and doesn't require
+modifying the relational structure in the underlying data store used for
+persistence (database). They're essentially just an abstraction over our
+database, so that you don't have to care about which tables the
+relationships are stored in.
+
+Mappings essentially turn the entire system into a
+`property graph <https://github.com/tinkerpop/gremlin/wiki/Defining-a-Property-Graph>`_.
+
+Mappings are defined in :src:`ggrc/assets/javascripts/models/mappings-ggrc.js`.
+
+We don't have a function that gets all the objects mapped to a given
+object. You can get the mappings of an instance by calling
+``instance.get_mappings('_mapping_')`` if the mappings are already
+loaded, or by calling
+``instance.get_binding('_mapping_').refresh_list()`` if they are not.
+
+Types of Mappings
+^^^^^^^^^^^^^^^^^
+
+There are 8 types of mappings. The types of mappings are defined with
+Mappers. Mappers are defined in :src:`ggrc/assets/javascripts/models/mappers.js`
+
+Each type of mapping is defined below:
+
+-  **Proxy** :src:`ggrc/assets/javascripts/models/mappers/proxy-list-loader.js`:
+   A proxy mapping is a relationship where one model
+   references another through another “join” or “proxy” model.  E.g.,
+   Programs reference Controls via the ProgramControl join/proxy model.
+    The Proxy mapping specifies the attributes and models involved in
+   the relationship, e.g.:
+
+-  **Direct** :src:`ggrc/assets/javascripts/models/mappers/direct-list-loader.js`:
+   A direct mapping is a relationship where one model
+   directly references another model.  E.g., Sections contain a
+   ``directive`` attribute, so Section has a Direct mapping to
+   Directive.
+
+-  **Indirect** :src:`ggrc/assets/javascripts/models/mappers/indirect-list-loader.js`:
+   An indirect mapping is the reverse of ``Direct``, but
+   the implementation is inconsistent with the rest of the mappers.
+
+-  **Search** :src:`ggrc/assets/javascripts/models/mappers/search-list-loader.js`:
+   A search mapping is a relationship where results are
+   produced by a function returning a deferred. This mapping is f
+   foremost used by the Advanced Search feature and for getting owned
+   objects for a Person, but other uses are also possible. Note that the
+   search function is run at attach time and also when a new object of
+   any type is created, so it is recommended to use this mapper
+   sparingly in the system if it makes a number of large AJAX calls.
+
+-  **Multi** :src:`ggrc/assets/javascripts/models/mappers/multi-list-loader.js`:
+   Constructs a mapping which is the union of zero or more
+   other mappings.  Specifically, the set of ``result.instance`` values
+   is the union of ``result.instance`` from the contributing mappings.
+
+-  **TypeFilter** :src:`ggrc/assets/javascripts/models/mappers/type-filtered-list-loader.js`:
+   A TypeFiltered mapping takes the result of another
+   mapping and returns only the results which are instances of a
+   specified type. This is useful for filtering polymorphic proxies.
+
+-  **CustomFilter** :src:`ggrc/assets/javascripts/models/mappers/custom-filtered-list-loader.js`:
+   A custom filtered mapping runs a filter function on
+   every result coming from a source mapping and returns all results
+   where the function returns either a truthy value or a deferred that
+   resolves to a truthy value. The filter function is re-run whenever an
+   instance in the source mapping changes, and adds and removes a
+   mapping to that instance accordingly.
+
+-  **Cross** :src:`ggrc/assets/javascripts/models/mappers/cross-list-loader.js`:
+   Similar to Proxy mapping, but joins across other mappings.
+   For example, the result of ``m = Cross("a", "b")`` would be the
+   union of the “b” mappings for every instance in the root object’s “a”
+   result set.

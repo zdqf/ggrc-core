@@ -1,5 +1,7 @@
-Contributing
-============
+Contribution Guidelines
+=======================
+
+Every new contributions should follow our pull request template :base:`PULL_REQUEST_TEMPLATE.md`.
 
 Contents:
 

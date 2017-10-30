@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Mappings &#8212; GGRC 0.10.35-Raspberry (5972f93) documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.35-Raspberry (5972f93)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.35-Raspberry (5972f93) documentation" href="../index.html" />
+    <link rel="up" title="Frontend" href="index.html" />
+    <link rel="next" title="Support" href="../support/index.html" />
+    <link rel="prev" title="Modals" href="modals.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../support/index.html" title="Support"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="modals.html" title="Modals"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (5972f93) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Frontend</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="mappings">
+<h1>Mappings<a class="headerlink" href="#mappings" title="Permalink to this headline">¶</a></h1>
+<p>⚠️ Mappings are getting phased out in favor of just using the /query API</p>
+<p>Mappings are best thought of as <strong>links</strong>. (“Mapping”
+<a class="reference external" href="http://www.merriam-webster.com/dictionary/mapping">often means</a> a 1-to-1
+correspondence, and for historical reasons is the term adopted by GGRC
+users; but in actuality; we have links between objects - e.g. a
+Directive is <strong>linked</strong> to a Section, or a Programs <strong>references</strong> zero
+or more Controls.) “Mappings” are a way to relate any model instance to
+another model instance in a way that is flexible, and doesn&#8217;t require
+modifying the relational structure in the underlying data store used for
+persistence (database). They&#8217;re essentially just an abstraction over our
+database, so that you don&#8217;t have to care about which tables the
+relationships are stored in.</p>
+<p>Mappings essentially turn the entire system into a
+<a class="reference external" href="https://github.com/tinkerpop/gremlin/wiki/Defining-a-Property-Graph">property graph</a>.</p>
+<p>Mappings are defined in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappings-ggrc.js">src/ggrc/assets/javascripts/models/mappings-ggrc.js</a>.</p>
+<p>We don&#8217;t have a function that gets all the objects mapped to a given
+object. You can get the mappings of an instance by calling
+<code class="docutils literal"><span class="pre">instance.get_mappings('_mapping_')</span></code> if the mappings are already
+loaded, or by calling
+<code class="docutils literal"><span class="pre">instance.get_binding('_mapping_').refresh_list()</span></code> if they are not.</p>
+<div class="section" id="types-of-mappings">
+<h2>Types of Mappings<a class="headerlink" href="#types-of-mappings" title="Permalink to this headline">¶</a></h2>
+<p>There are 8 types of mappings. The types of mappings are defined with
+Mappers. Mappers are defined in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers.js">src/ggrc/assets/javascripts/models/mappers.js</a></p>
+<p>Each type of mapping is defined below:</p>
+<ul class="simple">
+<li><strong>Proxy</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/proxy-list-loader.js">src/ggrc/assets/javascripts/models/mappers/proxy-list-loader.js</a>:
+A proxy mapping is a relationship where one model
+references another through another “join” or “proxy” model. &nbsp;E.g.,
+Programs reference Controls via the ProgramControl join/proxy model.
+&nbsp;The Proxy mapping specifies the attributes and models involved in
+the relationship, e.g.:</li>
+<li><strong>Direct</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/direct-list-loader.js">src/ggrc/assets/javascripts/models/mappers/direct-list-loader.js</a>:
+A direct mapping is a relationship where one model
+directly references another model. &nbsp;E.g., Sections contain a
+<code class="docutils literal"><span class="pre">directive</span></code> attribute, so Section has a Direct mapping to
+Directive.</li>
+<li><strong>Indirect</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/indirect-list-loader.js">src/ggrc/assets/javascripts/models/mappers/indirect-list-loader.js</a>:
+An indirect mapping is the reverse of <code class="docutils literal"><span class="pre">Direct</span></code>, but
+the implementation is inconsistent with the rest of the mappers.</li>
+<li><strong>Search</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/search-list-loader.js">src/ggrc/assets/javascripts/models/mappers/search-list-loader.js</a>:
+A search mapping is a relationship where results are
+produced by a function returning a deferred. This mapping is f
+foremost used by the Advanced Search feature and for getting owned
+objects for a Person, but other uses are also possible. Note that the
+search function is run at attach time and also when a new object of
+any type is created, so it is recommended to use this mapper
+sparingly in the system if it makes a number of large AJAX calls.</li>
+<li><strong>Multi</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/multi-list-loader.js">src/ggrc/assets/javascripts/models/mappers/multi-list-loader.js</a>:
+Constructs a mapping which is the union of zero or more
+other mappings. &nbsp;Specifically, the set of <code class="docutils literal"><span class="pre">result.instance</span></code> values
+is the union of <code class="docutils literal"><span class="pre">result.instance</span></code> from the contributing mappings.</li>
+<li><strong>TypeFilter</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/type-filtered-list-loader.js">src/ggrc/assets/javascripts/models/mappers/type-filtered-list-loader.js</a>:
+A TypeFiltered mapping takes the result of another
+mapping and returns only the results which are instances of a
+specified type. This is useful for filtering polymorphic proxies.</li>
+<li><strong>CustomFilter</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/custom-filtered-list-loader.js">src/ggrc/assets/javascripts/models/mappers/custom-filtered-list-loader.js</a>:
+A custom filtered mapping runs a filter function on
+every result coming from a source mapping and returns all results
+where the function returns either a truthy value or a deferred that
+resolves to a truthy value. The filter function is re-run whenever an
+instance in the source mapping changes, and adds and removes a
+mapping to that instance accordingly.</li>
+<li><strong>Cross</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/cross-list-loader.js">src/ggrc/assets/javascripts/models/mappers/cross-list-loader.js</a>:
+Similar to Proxy mapping, but joins across other mappings.
+For example, the result of <code class="docutils literal"><span class="pre">m</span> <span class="pre">=</span> <span class="pre">Cross(&quot;a&quot;,</span> <span class="pre">&quot;b&quot;)</span></code> would be the
+union of the “b” mappings for every instance in the root object’s “a”
+result set.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Mappings</a><ul>
+<li><a class="reference internal" href="#types-of-mappings">Types of Mappings</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="modals.html"
+                        title="previous chapter">Modals</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../support/index.html"
+                        title="next chapter">Support</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/frontend/mappings.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../support/index.html" title="Support"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="modals.html" title="Modals"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (5972f93) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Frontend</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

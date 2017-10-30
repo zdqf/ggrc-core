@@ -1,0 +1,106 @@
+Extensions
+----------
+
+An extension is a bundle of code and assets packaged into a folder
+hierarchy similar to ggrc-core. Extensions have at minimum a startup
+script at <extension-folder>/__init__.py and a settings file in
+<extension-folder>/settings
+
+The extensions which are used in any GGRC instance are determined by the
+GGRC_SETTINGS_MODULE shell variable. To add an extension to a GGRC
+deployment, append a space separator and the Python path to the settings
+file (e.g. " ggrc_some_extension.settings.development") to this shell
+variable, and restart or redeploy the GGRC server.
+
+The minimum that the extension settings file must contain is
+``EXTENSIONS = ['<name_of_extension>']``. Additionally, global settings
+can be provided; any variable set at the top level in this file will be
+added to the ``ggrc.settings`` object and later accessible through
+``from ggrc import settings``. Setting ``exports =`` to an array of key
+names in the extension settings file will make those keys and their
+values available to the client side through the ``GGRC.config`` object.
+
+The minimum that __init__.py must contain is:
+
+.. code:: python
+
+    from flask import Blueprint
+
+    blueprint = Blueprint(
+        '<name_of_extension>',
+        __name__,
+        template_folder='templates',
+        static_folder='static',
+        static_url_path='/static/<name_of_extension>',
+        )
+
+This will set up an extension to be recognized by Flask.
+
+Asset hierarchies in extensions should follow the ggrc-core model:
+assets.yaml should define the bundles for dashboard-js,
+dashboard-templates, and dashboard-js-specs; The folder naming
+convention for these bundles (``assets/javascripts``,
+``assets/mustache``, and ``assets/js_specs``, respectively) should be
+followed for each extension. An important caveat is that the assets
+bundler can only bundle one asset with a given path over all base
+folders, so you should avoid re-using paths known to exist in ggrc-core
+or other extensions (e.g. "mustache_helper.js" and "models/mixins.js"
+already exist in ggrc-core, so don't name your files the same as these).
+
+DB migrations should be set up in ``migrations/versions`` as in
+ggrc-core. Once the extension is created and the settings path added to
+GGRC_SETTINGS_MODULE, db_migrate should pick up any migrations
+automatically. To completely undo the migrations from an extension (in
+order to remove it without possible database breakage), use the command
+``db_downgrade <name_of_extension> -1``
+
+Extension contributions
+^^^^^^^^^^^^^^^^^^^^^^^
+
+-  Models
+
+Define models in your ``<extension_name>/models/`` folder, and use the
+same patterns for implementing them as ggrc-core does (derive from
+ggrc.db.Model, use provided mixins, make association proxy tables and
+models, etc.). Be sure to import all files from models as part of the
+extension's __init__.py
+
+-  Services
+
+Services provide the CRUD object endpoints over REST to allow instances
+of your extension models. ggrc-core provides a contributions mechanism
+for defining more services from your extension at startup time. The
+services contribution is done as such:
+
+\`\`\`python from . import models from ggrc.services.registry import
+service
+
+def contributed_services(): return [ service(m.\ **table**.name, m) for
+m in models.\ **dict**.values() if isinstance(m, type) and issubclass(m,
+db.Model) ] \`\`\`
+
+-  Views
+-  Any special templates should be placed under
+   <extension_module_name>/templates/ and called as normal.
+-  To set up an object page for one of the contributed model classes,
+   declare a function similar to this (this function will work as long
+   as your module hierarchy is flat with all models at the first level
+   and you want all of your objects to have pages):
+
+\`\`\`python from ggrc.views.registry import object_view from . import
+models from ggrc import db
+
+def contributed_object_views(): return [ object_view(m) for m in
+models.\ **dict**.values() if isinstance(m, type) and issubclass(m,
+db.Model) ] \`\`\`
+
+-  Roles
+-  ROLE_CONTRIBUTIONS: at module level, subclass ``RoleContributions``,
+   overriding ``contributions``, and set this property to an instance of
+   the subclass.
+-  ROLE_DECLARATIONS: at module level, subclass ``RoleDeclarations``,
+   overriding ``roles()``, and set this property to an instance of the
+   subclass.
+-  ROLE_IMPLICATIONS: at module level, subclass
+   ``DeclarativeRoleImplications``, overriding ``implications``, and set
+   this property to an instance of the subclass.

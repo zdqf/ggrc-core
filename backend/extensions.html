@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Extensions &#8212; GGRC 0.10.35-Raspberry (5972f93) documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.35-Raspberry (5972f93)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.35-Raspberry (5972f93) documentation" href="../index.html" />
+    <link rel="up" title="Backend" href="index.html" />
+    <link rel="next" title="Frontend" href="../frontend/index.html" />
+    <link rel="prev" title="Automapping" href="automapping.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../frontend/index.html" title="Frontend"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="automapping.html" title="Automapping"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (5972f93) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Backend</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="extensions">
+<h1>Extensions<a class="headerlink" href="#extensions" title="Permalink to this headline">¶</a></h1>
+<p>An extension is a bundle of code and assets packaged into a folder
+hierarchy similar to ggrc-core. Extensions have at minimum a startup
+script at &lt;extension-folder&gt;/__init__.py and a settings file in
+&lt;extension-folder&gt;/settings</p>
+<p>The extensions which are used in any GGRC instance are determined by the
+GGRC_SETTINGS_MODULE shell variable. To add an extension to a GGRC
+deployment, append a space separator and the Python path to the settings
+file (e.g. &#8221; ggrc_some_extension.settings.development&#8221;) to this shell
+variable, and restart or redeploy the GGRC server.</p>
+<p>The minimum that the extension settings file must contain is
+<code class="docutils literal"><span class="pre">EXTENSIONS</span> <span class="pre">=</span> <span class="pre">['&lt;name_of_extension&gt;']</span></code>. Additionally, global settings
+can be provided; any variable set at the top level in this file will be
+added to the <code class="docutils literal"><span class="pre">ggrc.settings</span></code> object and later accessible through
+<code class="docutils literal"><span class="pre">from</span> <span class="pre">ggrc</span> <span class="pre">import</span> <span class="pre">settings</span></code>. Setting <code class="docutils literal"><span class="pre">exports</span> <span class="pre">=</span></code> to an array of key
+names in the extension settings file will make those keys and their
+values available to the client side through the <code class="docutils literal"><span class="pre">GGRC.config</span></code> object.</p>
+<p>The minimum that __init__.py must contain is:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="k">import</span> <span class="n">Blueprint</span>
+
+<span class="n">blueprint</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span>
+    <span class="s1">&#39;&lt;name_of_extension&gt;&#39;</span><span class="p">,</span>
+    <span class="vm">__name__</span><span class="p">,</span>
+    <span class="n">template_folder</span><span class="o">=</span><span class="s1">&#39;templates&#39;</span><span class="p">,</span>
+    <span class="n">static_folder</span><span class="o">=</span><span class="s1">&#39;static&#39;</span><span class="p">,</span>
+    <span class="n">static_url_path</span><span class="o">=</span><span class="s1">&#39;/static/&lt;name_of_extension&gt;&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>This will set up an extension to be recognized by Flask.</p>
+<p>Asset hierarchies in extensions should follow the ggrc-core model:
+assets.yaml should define the bundles for dashboard-js,
+dashboard-templates, and dashboard-js-specs; The folder naming
+convention for these bundles (<code class="docutils literal"><span class="pre">assets/javascripts</span></code>,
+<code class="docutils literal"><span class="pre">assets/mustache</span></code>, and <code class="docutils literal"><span class="pre">assets/js_specs</span></code>, respectively) should be
+followed for each extension. An important caveat is that the assets
+bundler can only bundle one asset with a given path over all base
+folders, so you should avoid re-using paths known to exist in ggrc-core
+or other extensions (e.g. &#8220;mustache_helper.js&#8221; and &#8220;models/mixins.js&#8221;
+already exist in ggrc-core, so don&#8217;t name your files the same as these).</p>
+<p>DB migrations should be set up in <code class="docutils literal"><span class="pre">migrations/versions</span></code> as in
+ggrc-core. Once the extension is created and the settings path added to
+GGRC_SETTINGS_MODULE, db_migrate should pick up any migrations
+automatically. To completely undo the migrations from an extension (in
+order to remove it without possible database breakage), use the command
+<code class="docutils literal"><span class="pre">db_downgrade</span> <span class="pre">&lt;name_of_extension&gt;</span> <span class="pre">-1</span></code></p>
+<div class="section" id="extension-contributions">
+<h2>Extension contributions<a class="headerlink" href="#extension-contributions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Models</li>
+</ul>
+<p>Define models in your <code class="docutils literal"><span class="pre">&lt;extension_name&gt;/models/</span></code> folder, and use the
+same patterns for implementing them as ggrc-core does (derive from
+ggrc.db.Model, use provided mixins, make association proxy tables and
+models, etc.). Be sure to import all files from models as part of the
+extension&#8217;s __init__.py</p>
+<ul class="simple">
+<li>Services</li>
+</ul>
+<p>Services provide the CRUD object endpoints over REST to allow instances
+of your extension models. ggrc-core provides a contributions mechanism
+for defining more services from your extension at startup time. The
+services contribution is done as such:</p>
+<p>```python from . import models from ggrc.services.registry import
+service</p>
+<p>def contributed_services(): return [ service(m.<strong>table</strong>.name, m) for
+m in models.<strong>dict</strong>.values() if isinstance(m, type) and issubclass(m,
+db.Model) ] ```</p>
+<ul class="simple">
+<li>Views</li>
+<li>Any special templates should be placed under
+&lt;extension_module_name&gt;/templates/ and called as normal.</li>
+<li>To set up an object page for one of the contributed model classes,
+declare a function similar to this (this function will work as long
+as your module hierarchy is flat with all models at the first level
+and you want all of your objects to have pages):</li>
+</ul>
+<p>```python from ggrc.views.registry import object_view from . import
+models from ggrc import db</p>
+<p>def contributed_object_views(): return [ object_view(m) for m in
+models.<strong>dict</strong>.values() if isinstance(m, type) and issubclass(m,
+db.Model) ] ```</p>
+<ul class="simple">
+<li>Roles</li>
+<li>ROLE_CONTRIBUTIONS: at module level, subclass <code class="docutils literal"><span class="pre">RoleContributions</span></code>,
+overriding <code class="docutils literal"><span class="pre">contributions</span></code>, and set this property to an instance of
+the subclass.</li>
+<li>ROLE_DECLARATIONS: at module level, subclass <code class="docutils literal"><span class="pre">RoleDeclarations</span></code>,
+overriding <code class="docutils literal"><span class="pre">roles()</span></code>, and set this property to an instance of the
+subclass.</li>
+<li>ROLE_IMPLICATIONS: at module level, subclass
+<code class="docutils literal"><span class="pre">DeclarativeRoleImplications</span></code>, overriding <code class="docutils literal"><span class="pre">implications</span></code>, and set
+this property to an instance of the subclass.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Extensions</a><ul>
+<li><a class="reference internal" href="#extension-contributions">Extension contributions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="automapping.html"
+                        title="previous chapter">Automapping</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../frontend/index.html"
+                        title="next chapter">Frontend</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/backend/extensions.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../frontend/index.html" title="Frontend"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="automapping.html" title="Automapping"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (5972f93) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Backend</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

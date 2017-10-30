@@ -240,6 +240,8 @@ Querying multiple types with a single query object
 
 **Is not supported yet.**
 
+.. _filter-expressions:
+
 Filter Expressions
 ------------------
 

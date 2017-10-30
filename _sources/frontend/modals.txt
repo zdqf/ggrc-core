@@ -107,3 +107,14 @@ responses). ``data-object-source`` used for picker additions.
 ``.ui-autocomplete-input`` we listen on this for when a new object is
 created in the mapping modal. That object is created even if we cancel
 the modal.
+
+.. _mapping-and-global-search:
+
+Mapping and global search modals:
+---------------------------------
+
+Mapping modal allow us search objects use :ref:`advanced-search` and
+map them to context one.
+
+Architecture of modals that contain ``Advanced Search`` functionality:
+.. figure:: /_static/res/mapping-advanced-search.png

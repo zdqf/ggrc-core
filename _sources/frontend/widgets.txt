@@ -1,0 +1,59 @@
+Widgets (tabs)
+--------------
+
+Which widgets (or tabs) are shown on the object page is defined in
+:src:`ggrc/assets/javascripts/apps/business_objects.js`.
+This is where we state which controller or component should be used
+for each tab:
+
+-  ``InfoWidget Controller``, is used as first tab on the page and contain
+    context of one (content of object for objects related pages
+    (Program, Audit etc.) or active workflows statistics on My Work page)
+-  ``Summary Controller``,
+    is used on Audit page and shows statistics of status related Assessments.
+-  Tree view tabs use ``tree-widget-container`` in order for wrap
+    all inner logic of the tab (:ref:`tree-view-widget`).
+-  ``TreeView/ListView Controllers`` are used only on the Admin Dashboard page.
+    ListViews have pagination.
+
+.. _tree-view-widget:
+
+Tree view widget
+~~~~~~~~~~~~~~~~
+
+Tree view widget has a ``tree-widget-container`` as a wrapper and has three
+major parts:
+
+1) Filter
+    a) The filter input where you can enter an arbitrary filter(corresponding to the rules for :ref:`filter-expressions`) as a string
+    b) Multi-select dropdown with statuses
+    c) :ref:`advanced-search`
+
+2) Tree view grid
+    a) Tree view grid
+        ``tree-view`` component uses the :ref:`advanced-query-api` in order for
+        fetch data for grid.
+        The default query for first level of grid will looks like it:
+
+        ..  code:: json
+
+            {
+                "object_name": "<tab model name>",
+                "limit": "[0, 10]",
+                "filters": {"expression": {
+                    "object_name": "<page context model name>",
+                    "op": {"name":"relevant"},
+                    "ids": ["<id of context object>"]
+                    }
+                }
+            }
+    b) Pagination component (at the filter line and under the grid)
+    c) Tree item action components (edit, preview, map logic and etc.)
+    d) Sub-level of tree item
+        Sub-level of tree item has limitation in 20 items. If object has
+        more than 20 mapped object is shown link on this object in order to
+        look at all related objects.
+
+3) Info pane (preview of object)
+
+.. figure:: /_static/res/tree-widget.png

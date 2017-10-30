@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Widgets (tabs) &#8212; GGRC 0.10.35-Raspberry (5972f93) documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.35-Raspberry (5972f93)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.35-Raspberry (5972f93) documentation" href="../index.html" />
+    <link rel="up" title="Frontend" href="index.html" />
+    <link rel="next" title="Modals" href="modals.html" />
+    <link rel="prev" title="View Models" href="models.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modals.html" title="Modals"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="models.html" title="View Models"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (5972f93) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Frontend</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="widgets-tabs">
+<h1>Widgets (tabs)<a class="headerlink" href="#widgets-tabs" title="Permalink to this headline">¶</a></h1>
+<p>Which widgets (or tabs) are shown on the object page is defined in
+<a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/apps/business_objects.js">src/ggrc/assets/javascripts/apps/business_objects.js</a>.
+This is where we state which controller or component should be used
+for each tab:</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">InfoWidget</span> <span class="pre">Controller</span></code>, is used as first tab on the page and contain</dt>
+<dd>context of one (content of object for objects related pages
+(Program, Audit etc.) or active workflows statistics on My Work page)</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">Summary</span> <span class="pre">Controller</span></code>,</dt>
+<dd>is used on Audit page and shows statistics of status related Assessments.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Tree view tabs use <code class="docutils literal"><span class="pre">tree-widget-container</span></code> in order for wrap</dt>
+<dd>all inner logic of the tab (<a class="reference internal" href="#tree-view-widget"><span class="std std-ref">Tree view widget</span></a>).</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">TreeView/ListView</span> <span class="pre">Controllers</span></code> are used only on the Admin Dashboard page.</dt>
+<dd>ListViews have pagination.</dd>
+</dl>
+</li>
+</ul>
+<div class="section" id="tree-view-widget">
+<span id="id1"></span><h2>Tree view widget<a class="headerlink" href="#tree-view-widget" title="Permalink to this headline">¶</a></h2>
+<p>Tree view widget has a <code class="docutils literal"><span class="pre">tree-widget-container</span></code> as a wrapper and has three
+major parts:</p>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt>Filter</dt>
+<dd><ol class="first last loweralpha simple">
+<li>The filter input where you can enter an arbitrary filter(corresponding to the rules for <a class="reference internal" href="../backend/advanced_query_api.html#filter-expressions"><span class="std std-ref">Filter Expressions</span></a>) as a string</li>
+<li>Multi-select dropdown with statuses</li>
+<li><a class="reference internal" href="overview.html#advanced-search"><span class="std std-ref">Advanced search</span></a></li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Tree view grid</dt>
+<dd><ol class="first last loweralpha">
+<li><dl class="first docutils">
+<dt>Tree view grid</dt>
+<dd><p class="first"><code class="docutils literal"><span class="pre">tree-view</span></code> component uses the <a class="reference internal" href="../backend/advanced_query_api.html#advanced-query-api"><span class="std std-ref">Advanced Query API</span></a> in order for
+fetch data for grid.
+The default query for first level of grid will looks like it:</p>
+<div class="code json last highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;tab model name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;limit&quot;</span><span class="p">:</span> <span class="s2">&quot;[0, 10]&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;page context model name&gt;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;relevant&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;&lt;id of context object&gt;&quot;</span><span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><p class="first">Pagination component (at the filter line and under the grid)</p>
+</li>
+<li><p class="first">Tree item action components (edit, preview, map logic and etc.)</p>
+</li>
+<li><dl class="first docutils">
+<dt>Sub-level of tree item</dt>
+<dd><p class="first last">Sub-level of tree item has limitation in 20 items. If object has
+more than 20 mapped object is shown link on this object in order to
+look at all related objects.</p>
+</dd>
+</dl>
+</li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><p class="first">Info pane (preview of object)</p>
+</li>
+</ol>
+<div class="figure">
+<img alt="../_images/tree-widget.png" src="../_images/tree-widget.png" />
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Widgets (tabs)</a><ul>
+<li><a class="reference internal" href="#tree-view-widget">Tree view widget</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="models.html"
+                        title="previous chapter">View Models</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="modals.html"
+                        title="next chapter">Modals</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/frontend/widgets.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modals.html" title="Modals"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="models.html" title="View Models"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (5972f93) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Frontend</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>
