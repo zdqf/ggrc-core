@@ -1,0 +1,1985 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Object Manipulation &#8212; GGRC 0.10.35-Raspberry (da448a6) documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.35-Raspberry (da448a6)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.35-Raspberry (da448a6) documentation" href="../index.html" />
+    <link rel="up" title="Backend" href="index.html" />
+    <link rel="next" title="Automapping" href="automapping.html" />
+    <link rel="prev" title="Advanced Query API" href="advanced_query_api.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="automapping.html" title="Automapping"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="advanced_query_api.html" title="Advanced Query API"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (da448a6) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Backend</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="object-manipulation">
+<h1>Object Manipulation<a class="headerlink" href="#object-manipulation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="creating-objects">
+<h2>Creating objects<a class="headerlink" href="#creating-objects" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="audit">
+<h3>Audit<a class="headerlink" href="#audit" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="overview">
+<h4>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td>/api/audits</td>
+</tr>
+<tr class="row-even"><td>Methods supported</td>
+<td><code class="docutils literal"><span class="pre">POST</span></code>, <code class="docutils literal"><span class="pre">DELETE</span></code></td>
+</tr>
+<tr class="row-odd"><td>Description</td>
+<td>Creates an audit object. Note that if we want to add auditors, additional requests to <a class="reference internal" href="#user-role"><span class="std std-ref">User Role</span></a> have to be made.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="elements">
+<h4>Elements<a class="headerlink" href="#elements" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="12%" />
+<col width="69%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>Required</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>title</td>
+<td>str</td>
+<td>Audit title</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td><a class="reference internal" href="#audit-status"><span class="std std-ref">Audit status</span></a></td>
+<td>Status of the audit object. Note that when creating a new audit the value has to be Audit_status.PLANNED</td>
+</tr>
+<tr class="row-odd"><td>program</td>
+<td><a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>Program reference</td>
+</tr>
+<tr class="row-even"><td>context</td>
+<td><a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>Context reference from included Program</td>
+</tr>
+<tr class="row-odd"><td><strong>Optional</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>description</td>
+<td>str</td>
+<td>Description of the audit object</td>
+</tr>
+<tr class="row-odd"><td>slug</td>
+<td>None or str</td>
+<td>Unique identifier for this audit (can be defined here or if empty will be created on the server and sent in the response)</td>
+</tr>
+<tr class="row-even"><td>start_date</td>
+<td>str</td>
+<td>ISO-8601 formatted planned start date</td>
+</tr>
+<tr class="row-odd"><td>end_date</td>
+<td>str</td>
+<td>ISO-8601 formatted planned end date</td>
+</tr>
+<tr class="row-even"><td>report_start_date</td>
+<td>str</td>
+<td>ISO-8601 formatted planned report start date</td>
+</tr>
+<tr class="row-odd"><td>report_end_date</td>
+<td>str</td>
+<td>ISO-8601 formatted planned report start date</td>
+</tr>
+<tr class="row-even"><td>contact</td>
+<td><a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>Audit captain</td>
+</tr>
+<tr class="row-odd"><td>audit_firm</td>
+<td><a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>OrgGroup reference</td>
+</tr>
+<tr class="row-even"><td>custom_attribute_definitions</td>
+<td>list</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>custom_attributes</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>modified_by_id</td>
+<td>str</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="examples">
+<h4>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first">create an audit object</p>
+<p>Request:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;audit&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;Planned&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;custom_attribute_definitions&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;custom_attributes&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="nt">&quot;contact&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;2016: Test Program - Audit 2&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;program&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/programs/2&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Program&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;audit_firm&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/org_groups/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;OrgGroup&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;slug&quot;</span><span class="p">:</span> <span class="s2">&quot;example code&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;modified_by_id&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;start_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-02&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;end_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-09&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;report_start_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-02&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;report_end_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-17&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/contexts/7&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Context&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Response:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;audit&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;custom_attribute_values&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;people&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;object_type&quot;</span><span class="p">:</span> <span class="s2">&quot;Assessment&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-19T14:44:25&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;secondary_contact&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="nt">&quot;audit_firm&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/org_groups/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;OrgGroup&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;object_folders&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;modified_by&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;2016: Test Program - Audit 2&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;program&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/programs/2&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Program&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">2</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;object_people&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Audit&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;start_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-02&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;viewLink&quot;</span><span class="p">:</span> <span class="s2">&quot;/audits/2&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;Planned&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;gdrive_evidence_folder&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;related_sources&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;end_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-09&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;report_end_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-17&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;related_destinations&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;slug&quot;</span><span class="p">:</span> <span class="s2">&quot;example code&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;audit_objects&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;notes&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;reference_url&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;contact&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/contexts/9&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Context&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">9</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;requests&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-19T14:44:25&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;selfLink&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/audits/2&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;report_start_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-02&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="assessment">
+<h3>Assessment<a class="headerlink" href="#assessment" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h4>Overview<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td>/api/assessments</td>
+</tr>
+<tr class="row-even"><td>Methods supported</td>
+<td><code class="docutils literal"><span class="pre">POST</span></code>, <code class="docutils literal"><span class="pre">DELETE</span></code></td>
+</tr>
+<tr class="row-odd"><td>Description</td>
+<td>Creates an assessment object. Notes: - for mapping creators, assessors and verifiers a separate request to the <a class="reference internal" href="#relationship"><span class="std std-ref">Relationship</span></a> has to be made - when creating assessments on the front end it&#8217;s required that an object and an audit are added. The API doesn&#8217;t require those fields. However if the &#8220;object&#8221; and &#8220;audit&#8221; fields are left empty, the object will be created in the DB but will not be visible on the page.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id2">
+<h4>Elements<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="37%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>Required</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>title</td>
+<td>str</td>
+<td>Assessment title</td>
+</tr>
+<tr class="row-even"><td>context</td>
+<td>None or <a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>Context reference object</td>
+</tr>
+<tr class="row-odd"><td><strong>Optional</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>description</td>
+<td>str</td>
+<td>Assessment description</td>
+</tr>
+<tr class="row-odd"><td>notes</td>
+<td>str</td>
+<td>Assessment notes</td>
+</tr>
+<tr class="row-even"><td>test_plan</td>
+<td>str</td>
+<td>Test plan description</td>
+</tr>
+<tr class="row-odd"><td>start_date</td>
+<td>str</td>
+<td>ISO-8601 formatted effective date</td>
+</tr>
+<tr class="row-even"><td>end_date</td>
+<td>str</td>
+<td>ISO-8601 formatted stop date</td>
+</tr>
+<tr class="row-odd"><td>reference_url</td>
+<td>str</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>url</td>
+<td>str</td>
+<td>Assessment url</td>
+</tr>
+<tr class="row-odd"><td>audit</td>
+<td><a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>Audit for assessment</td>
+</tr>
+<tr class="row-even"><td>contact</td>
+<td><a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>Assessment creator</td>
+</tr>
+<tr class="row-odd"><td>secondary_contact</td>
+<td><a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>Secondary contact</td>
+</tr>
+<tr class="row-even"><td>design</td>
+<td><a class="reference internal" href="#assessment-conclusion"><span class="std std-ref">Assessment conclusion</span></a></td>
+<td>Conclusion design</td>
+</tr>
+<tr class="row-odd"><td>operationally</td>
+<td><a class="reference internal" href="#assessment-conclusion"><span class="std std-ref">Assessment conclusion</span></a></td>
+<td>Conclusion operation</td>
+</tr>
+<tr class="row-even"><td>object</td>
+<td><a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>GGRC object under assessment</td>
+</tr>
+<tr class="row-odd"><td>program</td>
+<td><a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>recipients</td>
+<td>str of comma separated <a class="reference internal" href="#recipient"><span class="std std-ref">Recipient</span></a></td>
+<td>Recipients of notifications</td>
+</tr>
+<tr class="row-odd"><td>Assessor</td>
+<td>bool</td>
+<td>Notify assessors</td>
+</tr>
+<tr class="row-even"><td>Creator</td>
+<td>bool</td>
+<td>Notify creators</td>
+</tr>
+<tr class="row-odd"><td>Verifier</td>
+<td>bool</td>
+<td>Notify verifiers</td>
+</tr>
+<tr class="row-even"><td>custom_attribute_definitions</td>
+<td>list</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>custom_attributes</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>owners</td>
+<td>list</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>send_by_default</td>
+<td>bool</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>str</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>slug</td>
+<td>str</td>
+<td>Unique identifier for Assessments</td>
+</tr>
+<tr class="row-even"><td>validate_creator</td>
+<td>bool</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>validate_assessor</td>
+<td>bool</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id3">
+<h4>Examples<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first">create a new assessment</p>
+<p>Request:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;assessment&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;Not Started&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;custom_attribute_definitions&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;owners&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;custom_attributes&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="nt">&quot;contact&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;validate_creator&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;validate_assessor&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Example title&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;object&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;audit&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/audits/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Audit&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Example description&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;send_by_default&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;Creator&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;Assessor&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;Verifier&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;test_plan&quot;</span><span class="p">:</span> <span class="s2">&quot;Example plan&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;secondary_contact&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;notes&quot;</span><span class="p">:</span> <span class="s2">&quot;Example notes&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;assessmenturl.com&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;reference_url&quot;</span><span class="p">:</span> <span class="s2">&quot;referenceurl.com&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;slug&quot;</span><span class="p">:</span> <span class="s2">&quot;Example code2&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;design&quot;</span><span class="p">:</span> <span class="s2">&quot;Ineffective&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;operationally&quot;</span><span class="p">:</span> <span class="s2">&quot;Needs improvement&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;start_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-08&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;end_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-18&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;recipients&quot;</span><span class="p">:</span> <span class="s2">&quot;Creator,Assessor,Verifier&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;program&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/programs/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Program&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Response:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;assessment&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;custom_attribute_values&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;people&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;verified_date&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;task_group_objects&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;design&quot;</span><span class="p">:</span> <span class="s2">&quot;Ineffective&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;secondary_contact&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Example description&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;finished_date&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;documents&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;verified&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="nt">&quot;recipients&quot;</span><span class="p">:</span> <span class="s2">&quot;Creator,Assessor,Verifier&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Example title&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;contact&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;object_people&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Assessment&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;start_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-08&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;viewLink&quot;</span><span class="p">:</span> <span class="s2">&quot;/assessments/2&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;Not Started&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;related_sources&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;end_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-18&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;workflow_state&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;os_state&quot;</span><span class="p">:</span> <span class="s2">&quot;Draft&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;object&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="nt">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-20T09:01:26&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;object_documents&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;modified_by&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;related_destinations&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+                <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/relationships/None&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Relationship&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="kc">null</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+                <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/relationships/None&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Relationship&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="kc">null</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+                <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/relationships/None&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Relationship&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="kc">null</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;slug&quot;</span><span class="p">:</span> <span class="s2">&quot;Example code2&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;audit&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="nt">&quot;owners&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;send_by_default&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;assessmenturl.com&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;task_groups&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;notes&quot;</span><span class="p">:</span> <span class="s2">&quot;Example notes&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;reference_url&quot;</span><span class="p">:</span> <span class="s2">&quot;referenceurl.com&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;object_owners&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;test_plan&quot;</span><span class="p">:</span> <span class="s2">&quot;Example plan&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;operationally&quot;</span><span class="p">:</span> <span class="s2">&quot;Needs improvement&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-20T09:01:26&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;selfLink&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/assessments/2&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="object-owner">
+<h3>Object owner<a class="headerlink" href="#object-owner" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h4>Overview<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="63%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td>/api/object_owners</td>
+</tr>
+<tr class="row-even"><td>Methods supported</td>
+<td><code class="docutils literal"><span class="pre">POST</span></code>, <code class="docutils literal"><span class="pre">DELETE</span></code></td>
+</tr>
+<tr class="row-odd"><td>Description</td>
+<td>Creates an object owner object.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id5">
+<h4>Elements<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="21%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>Required</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="program">
+<h3>Program<a class="headerlink" href="#program" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h4>Overview<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="58%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td>/api/programs</td>
+</tr>
+<tr class="row-even"><td>Methods supported</td>
+<td><code class="docutils literal"><span class="pre">POST</span></code>, <code class="docutils literal"><span class="pre">DELETE</span></code></td>
+</tr>
+<tr class="row-odd"><td>Description</td>
+<td>Creates a program object.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id7">
+<h4>Elements<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="20%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>Required</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>title</td>
+<td>str</td>
+<td>Program unique title</td>
+</tr>
+<tr class="row-even"><td>context</td>
+<td>None or <a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>Context reference. When creating a new object, the value has to be set to None.</td>
+</tr>
+<tr class="row-odd"><td><strong>Optional</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>description</td>
+<td>str</td>
+<td>Program description</td>
+</tr>
+<tr class="row-odd"><td>notes</td>
+<td>str</td>
+<td>Program notes</td>
+</tr>
+<tr class="row-even"><td>url</td>
+<td>str</td>
+<td>Program url</td>
+</tr>
+<tr class="row-odd"><td>reference_url_url</td>
+<td>str</td>
+<td>Reference url</td>
+</tr>
+<tr class="row-even"><td>kind</td>
+<td><a class="reference internal" href="#program-status"><span class="std std-ref">Program status</span></a></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>start_date</td>
+<td>str</td>
+<td>Effective date in MDY format e.g. &#8220;05/31/2016&#8221;</td>
+</tr>
+<tr class="row-even"><td>end_date</td>
+<td>str</td>
+<td>Stop date in MDY format e.g. &#8220;05/31/2016&#8221;</td>
+</tr>
+<tr class="row-odd"><td>contact</td>
+<td><a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>Primary contact</td>
+</tr>
+<tr class="row-even"><td>secondary_contact</td>
+<td>None or <a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>Secondary contact.</td>
+</tr>
+<tr class="row-odd"><td>custom_attributes</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>custom_attribute_definitions</td>
+<td>list</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>str</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>slug</td>
+<td>str</td>
+<td>Unique string identifier for this program</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id8">
+<h4>Examples<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first">create a program</p>
+<p>Request:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+   <span class="nt">&quot;program&quot;</span><span class="p">:{</span>
+      <span class="nt">&quot;custom_attribute_definitions&quot;</span><span class="p">:[],</span>
+      <span class="nt">&quot;custom_attributes&quot;</span><span class="p">:{},</span>
+      <span class="nt">&quot;contact&quot;</span><span class="p">:{</span>
+         <span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span>
+         <span class="nt">&quot;href&quot;</span><span class="p">:</span><span class="s2">&quot;/api/people/3&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;Person&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="s2">&quot;Directive&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="s2">&quot;Test title&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;Some description&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;secondary_contact&quot;</span><span class="p">:{</span>
+         <span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span>
+         <span class="nt">&quot;href&quot;</span><span class="p">:</span><span class="s2">&quot;/api/people/4&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;Person&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="s2">&quot;Here are my notes&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="s2">&quot;programurl.com&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;reference_url&quot;</span><span class="p">:</span><span class="s2">&quot;referenceurl.com&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;slug&quot;</span><span class="p">:</span><span class="s2">&quot;SOME CODE&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;start_date&quot;</span><span class="p">:</span><span class="s2">&quot;05/01/2016&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;end_date&quot;</span><span class="p">:</span><span class="s2">&quot;05/31/2016&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="s2">&quot;Draft&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;context&quot;</span><span class="p">:</span><span class="kc">null</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Response:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;program&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;custom_attribute_values&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;people&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-19T12:09:15&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;task_group_objects&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;audits&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Some description&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;object_folders&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;documents&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;modified_by&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Test title&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;secondary_contact&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/4&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">4</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;risk_assessments&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;object_people&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Program&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;start_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-01&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;viewLink&quot;</span><span class="p">:</span> <span class="s2">&quot;/programs/10&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;Draft&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;related_sources&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;end_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-31&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;workflow_state&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;os_state&quot;</span><span class="p">:</span> <span class="s2">&quot;Modified&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;risk_objects&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;owners&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;object_documents&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;related_destinations&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;slug&quot;</span><span class="p">:</span> <span class="s2">&quot;SOME CODE&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;Directive&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;programurl.com&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;task_groups&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;notes&quot;</span><span class="p">:</span> <span class="s2">&quot;Here are my notes&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;reference_url&quot;</span><span class="p">:</span> <span class="s2">&quot;referenceurl.com&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;object_owners&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;contact&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/3&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">3</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;risks&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/contexts/17&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Context&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">17</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-19T12:09:14&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;selfLink&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/programs/10&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="request">
+<h3>Request<a class="headerlink" href="#request" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h4>Overview<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="58%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td>/api/requests</td>
+</tr>
+<tr class="row-even"><td>Methods supported</td>
+<td><code class="docutils literal"><span class="pre">POST</span></code>, <code class="docutils literal"><span class="pre">DELETE</span></code></td>
+</tr>
+<tr class="row-odd"><td>Description</td>
+<td>Creates a program object.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id10">
+<h4>Elements<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="23%" />
+<col width="41%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>Required</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>title</td>
+<td>str</td>
+<td>Request title</td>
+</tr>
+<tr class="row-even"><td>audit</td>
+<td><a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>Audit mapped to this request object</td>
+</tr>
+<tr class="row-odd"><td>start_date</td>
+<td>str</td>
+<td>ISO-8601 formatted effective date</td>
+</tr>
+<tr class="row-even"><td>end_date</td>
+<td>str</td>
+<td>ISO-8601 formatted stop date</td>
+</tr>
+<tr class="row-odd"><td><strong>Optional</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>str</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>custom_attribute_definitions</td>
+<td>list</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>custom_attributes</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>validate_requester</td>
+<td>bool</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>validate_assignee</td>
+<td>bool</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>description</td>
+<td>str</td>
+<td>Request description</td>
+</tr>
+<tr class="row-even"><td>request_type</td>
+<td><a class="reference internal" href="#id35"><span class="std std-ref">Request</span></a></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>test</td>
+<td>str</td>
+<td>Test message</td>
+</tr>
+<tr class="row-even"><td>notes</td>
+<td>str</td>
+<td>Notes for the request</td>
+</tr>
+<tr class="row-odd"><td>slug</td>
+<td>str</td>
+<td>Unique identifier for this request</td>
+</tr>
+<tr class="row-even"><td>context</td>
+<td><a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id11">
+<h4>Examples<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first">create a new request object</p>
+<p>Request:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;request&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;Not Started&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;start_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-20&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;end_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-27&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;custom_attribute_definitions&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;custom_attributes&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="nt">&quot;validate_requester&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;validate_assignee&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Example title&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;audit&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/audits/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Audit&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Example description&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;request_type&quot;</span><span class="p">:</span> <span class="s2">&quot;documentation&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;test&quot;</span><span class="p">:</span> <span class="s2">&quot;Example test message&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;notes&quot;</span><span class="p">:</span> <span class="s2">&quot;Example notes&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;slug&quot;</span><span class="p">:</span> <span class="s2">&quot;test code&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/contexts/5&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Context&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Response:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;request&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;custom_attribute_values&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;people&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-20T10:14:42&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;task_group_objects&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nt">&quot;related_sources&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+                <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/relationships/14&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Relationship&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">14</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;finished_date&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;object_folders&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;documents&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;modified_by&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;recipients&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Example title&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;verified&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="nt">&quot;requestor&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;object_people&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;test&quot;</span><span class="p">:</span> <span class="s2">&quot;Example test message&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Request&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;start_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-20&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;viewLink&quot;</span><span class="p">:</span> <span class="s2">&quot;/requests/1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;Not Started&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;verified_date&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Example description&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;end_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-27&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;workflow_state&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;object_documents&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;gdrive_upload_path&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;related_destinations&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;slug&quot;</span><span class="p">:</span> <span class="s2">&quot;test code&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;audit&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/audits/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Audit&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;send_by_default&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;task_groups&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;notes&quot;</span><span class="p">:</span> <span class="s2">&quot;Example notes&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;request_type&quot;</span><span class="p">:</span> <span class="s2">&quot;documentation&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/contexts/5&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Context&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">5</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-20T10:14:42&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;selfLink&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/requests/1&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="workflow">
+<h4>Workflow<a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="id12">
+<h4>Overview<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td>/api/workflows</td>
+</tr>
+<tr class="row-even"><td>Methods supported</td>
+<td><code class="docutils literal"><span class="pre">POST</span></code>, <code class="docutils literal"><span class="pre">DELETE</span></code></td>
+</tr>
+<tr class="row-odd"><td>Description</td>
+<td>Creates a workflow object. Note that if you want to connect task group to this object, a separate request to <a class="reference internal" href="#task-group"><span class="std std-ref">Task Group</span></a> needs to be made.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id13">
+<h4>Elements<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="20%" />
+<col width="57%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>Required</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>title</td>
+<td>str</td>
+<td>Workflow title</td>
+</tr>
+<tr class="row-even"><td>context</td>
+<td>None or ref:<cite>ggrc-object</cite></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><strong>Optional</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>description</td>
+<td>str</td>
+<td>Workflow description</td>
+</tr>
+<tr class="row-odd"><td>frequency_options</td>
+<td>list</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>frequency</td>
+<td><a class="reference internal" href="#workflow-frequency"><span class="std std-ref">Workflow frequency</span></a></td>
+<td>Note that if this field isn&#8217;t sent, <a class="reference internal" href="#workflow-frequency"><span class="std std-ref">Workflow frequency</span></a>.ONE_TIME is used</td>
+</tr>
+<tr class="row-odd"><td>custom_attribute_definitions</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>custom_attributes</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>notify_on_change</td>
+<td>bool</td>
+<td>Enable real time email updates</td>
+</tr>
+<tr class="row-even"><td>task_group_title</td>
+<td>str</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>notify_custom_message</td>
+<td>str</td>
+<td>Custom email message</td>
+</tr>
+<tr class="row-even"><td>slug</td>
+<td>str</td>
+<td>Unique identifier for this workflow</td>
+</tr>
+<tr class="row-odd"><td>owners</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id14">
+<h4>Examples<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first">create a new workflow</p>
+<p>Request:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;workflow&quot;</span><span class="p">:{</span>
+     <span class="nt">&quot;frequency_options&quot;</span><span class="p">:[</span>
+        <span class="p">{</span>
+           <span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="s2">&quot;One time&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="s2">&quot;one_time&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+           <span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="s2">&quot;Weekly&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="s2">&quot;weekly&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+           <span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="s2">&quot;Monthly&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="s2">&quot;monthly&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+           <span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="s2">&quot;Quarterly&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="s2">&quot;quarterly&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+           <span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="s2">&quot;Annually&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="s2">&quot;annually&quot;</span>
+        <span class="p">}</span>
+     <span class="p">],</span>
+     <span class="nt">&quot;frequency&quot;</span><span class="p">:</span><span class="s2">&quot;one_time&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;custom_attribute_definitions&quot;</span><span class="p">:[],</span>
+     <span class="nt">&quot;custom_attributes&quot;</span><span class="p">:{},</span>
+     <span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="s2">&quot;Test title&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;Some description.&amp;nbsp;&lt;br&gt;&lt;b&gt;This part is bold.&lt;/b&gt;&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;notify_on_change&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
+     <span class="nt">&quot;task_group_title&quot;</span><span class="p">:</span><span class="s2">&quot;Task Group 1&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;notify_custom_message&quot;</span><span class="p">:</span><span class="s2">&quot;Example email message.&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;slug&quot;</span><span class="p">:</span><span class="s2">&quot;Some unique value&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;owners&quot;</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span>
+     <span class="nt">&quot;context&quot;</span><span class="p">:</span><span class="kc">null</span>
+  <span class="p">}</span>
+   <span class="p">}</span>
+</pre></div>
+</div>
+<p>Response:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;workflow&quot;</span><span class="p">:{</span>
+       <span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="s2">&quot;Draft&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;notify_custom_message&quot;</span><span class="p">:</span><span class="s2">&quot;Example email message.&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;custom_attribute_values&quot;</span><span class="p">:[</span>
+
+       <span class="p">],</span>
+       <span class="nt">&quot;notify_on_change&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
+       <span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;Some description.\u00a0&lt;br&gt;&lt;b&gt;This part is bold.&lt;/b&gt;&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;end_date&quot;</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span>
+       <span class="nt">&quot;people&quot;</span><span class="p">:[</span>
+          <span class="p">{</span>
+             <span class="nt">&quot;context_id&quot;</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span>
+             <span class="nt">&quot;href&quot;</span><span class="p">:</span><span class="s2">&quot;/api/people/1&quot;</span><span class="p">,</span>
+             <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+             <span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="mi">1</span>
+          <span class="p">}</span>
+       <span class="p">],</span>
+       <span class="nt">&quot;non_adjusted_next_cycle_start_date&quot;</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span>
+       <span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="s2">&quot;2016-05-19T12:57:02&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;frequency&quot;</span><span class="p">:</span><span class="s2">&quot;one_time&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;recurrences&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
+       <span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
+       <span class="nt">&quot;object_folders&quot;</span><span class="p">:[</span>
+
+       <span class="p">],</span>
+       <span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span>
+       <span class="nt">&quot;modified_by&quot;</span><span class="p">:{</span>
+          <span class="nt">&quot;context_id&quot;</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span>
+          <span class="nt">&quot;href&quot;</span><span class="p">:</span><span class="s2">&quot;/api/people/1&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="mi">1</span>
+       <span class="p">},</span>
+       <span class="nt">&quot;next_cycle_start_date&quot;</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span>
+       <span class="nt">&quot;object_approval&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>
+       <span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="s2">&quot;Test title&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;task_groups&quot;</span><span class="p">:[</span>
+
+       <span class="p">],</span>
+       <span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="s2">&quot;2016-05-19T12:57:02&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;workflow_state&quot;</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span>
+       <span class="nt">&quot;slug&quot;</span><span class="p">:</span><span class="s2">&quot;Some unique value&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;context&quot;</span><span class="p">:{</span>
+          <span class="nt">&quot;context_id&quot;</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span>
+          <span class="nt">&quot;href&quot;</span><span class="p">:</span><span class="s2">&quot;/api/contexts/4&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;Context&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="mi">4</span>
+       <span class="p">},</span>
+       <span class="nt">&quot;workflow_people&quot;</span><span class="p">:[</span>
+          <span class="p">{</span>
+             <span class="nt">&quot;context_id&quot;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span>
+             <span class="nt">&quot;href&quot;</span><span class="p">:</span><span class="s2">&quot;/api/workflow_people/1&quot;</span><span class="p">,</span>
+             <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;WorkflowPerson&quot;</span><span class="p">,</span>
+             <span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="mi">1</span>
+          <span class="p">}</span>
+       <span class="p">],</span>
+       <span class="nt">&quot;cycles&quot;</span><span class="p">:[</span>
+
+       <span class="p">],</span>
+       <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;Workflow&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;start_date&quot;</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span>
+       <span class="nt">&quot;selfLink&quot;</span><span class="p">:</span><span class="s2">&quot;/api/workflows/1&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;viewLink&quot;</span><span class="p">:</span><span class="s2">&quot;/workflows/1&quot;</span>
+    <span class="p">}</span>
+ <span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="task-group">
+<span id="id15"></span><h4>Task Group<a class="headerlink" href="#task-group" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="id16">
+<h4>Overview<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td>/api/task_groups</td>
+</tr>
+<tr class="row-even"><td>Methods supported</td>
+<td><code class="docutils literal"><span class="pre">POST</span></code>, <code class="docutils literal"><span class="pre">DELETE</span></code></td>
+</tr>
+<tr class="row-odd"><td>Description</td>
+<td>Creates a task group object</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id17">
+<h4>Elements<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="25%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>Required</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>title</td>
+<td>str</td>
+<td>Task group title</td>
+</tr>
+<tr class="row-even"><td>workflow</td>
+<td><a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>Workgroup object reference</td>
+</tr>
+<tr class="row-odd"><td>context</td>
+<td><a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>Context reference of the referenced workgroup</td>
+</tr>
+<tr class="row-even"><td><strong>Optional</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>contact</td>
+<td><a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id18">
+<h4>Examples<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first">map a task group to a workflow</p>
+<p>Request:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;task_group&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Task Group 1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;workflow&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/workflows/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Workflow&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;contact&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/contexts/4&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Context&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Response:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;task_group&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;end_date&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;workflow&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/workflows/2&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Workflow&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">2</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-19T14:37:23&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;task_group_objects&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;objects&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;modified_by&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;secondary_contact&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="nt">&quot;slug&quot;</span><span class="p">:</span> <span class="s2">&quot;TASKGROUP-2&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;task_group_tasks&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;lock_task_order&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Task Group 1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-19T14:37:23&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;sort_index&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;contact&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/contexts/5&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Context&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">5</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;TaskGroup&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;start_date&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;selfLink&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/task_groups/2&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="user-role">
+<span id="id19"></span><h3>User Role<a class="headerlink" href="#user-role" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id20">
+<h4>Overview<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="79%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td>/api/user_roles</td>
+</tr>
+<tr class="row-even"><td>Methods supported</td>
+<td><code class="docutils literal"><span class="pre">POST</span></code></td>
+</tr>
+<tr class="row-odd"><td>Description</td>
+<td>Assigns a role to an user. Note that instead of making a request to
+<a class="reference internal" href="#relationship"><span class="std std-ref">Relationship</span></a> with source=[some_role_object] and
+destination=[some_user_object], this endpoint is preferred for
+assigning roles to users.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="element">
+<h4>Element<a class="headerlink" href="#element" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="28%" />
+<col width="52%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>Required</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>person</td>
+<td><a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>Person we want to set the role for.</td>
+</tr>
+<tr class="row-even"><td>role</td>
+<td><a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>Role reference.</td>
+</tr>
+<tr class="row-odd"><td><strong>Optional</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>role_name</td>
+<td><a class="reference internal" href="#role"><span class="std std-ref">Role</span></a></td>
+<td>Person role</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id21">
+<h4>Examples<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first">add an auditor to an audit object</p>
+<p>Request:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;user_role&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/contexts/11&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Context&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;person&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;role_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Auditor&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;role&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/roles/14&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Role&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Response:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;user_role&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;modified_by&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-19T14:50:24&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-19T14:50:24&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;person&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;role&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/roles/14&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Role&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">14</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/contexts/11&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Context&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">11</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;UserRole&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+        <span class="nt">&quot;selfLink&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/user_roles/7&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="creating-relationships-between-objects">
+<h2>Creating relationships between objects<a class="headerlink" href="#creating-relationships-between-objects" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="relationship">
+<span id="id22"></span><h3>Relationship<a class="headerlink" href="#relationship" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id23">
+<h4>Overview<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="71%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td>/api/relationships</td>
+</tr>
+<tr class="row-even"><td>Methods supported</td>
+<td><code class="docutils literal"><span class="pre">POST</span></code></td>
+</tr>
+<tr class="row-odd"><td>Description</td>
+<td>Creates a relationship between multiple object.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id24">
+<h4>Elements<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="30%" />
+<col width="49%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>Required</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>source</td>
+<td><a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>The object we want to connect.</td>
+</tr>
+<tr class="row-even"><td>destination</td>
+<td><a class="reference internal" href="#ggrc-object"><span class="std std-ref">GGRC object</span></a></td>
+<td>The object we want to connect to.</td>
+</tr>
+<tr class="row-odd"><td><strong>Optional</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>attrs</td>
+<td><a class="reference internal" href="#ggrc-attribute"><span class="std std-ref">GGRC attribute</span></a></td>
+<td>Additional attribute options.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id25">
+<h4>Examples<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first">map a person with id=1 to assessments with id=3 as assessor and
+verifier</p>
+<p>Request:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;relationship&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;source&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;destination&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/assessments/3&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Assessment&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;attrs&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;AssigneeType&quot;</span><span class="p">:</span> <span class="s2">&quot;Assessor,Verifier&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Response:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;relationship&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;Draft&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;modified_by&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-20T09:19:34&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;destination&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/assessments/3&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Assessment&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">3</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-05-20T09:19:34&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;source&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;context_id&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/3&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">3</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;attrs&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;AssigneeType&quot;</span><span class="p">:</span> <span class="s2">&quot;Verifier,Assessor&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Relationship&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+        <span class="nt">&quot;selfLink&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/relationships/12&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="objects">
+<h2>Objects<a class="headerlink" href="#objects" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ggrc-object">
+<span id="id26"></span><h3>GGRC object<a class="headerlink" href="#ggrc-object" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="11%" />
+<col width="68%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>object id</td>
+</tr>
+<tr class="row-odd"><td>href</td>
+<td>str</td>
+<td>uri reference e.g. &#8220;/api/programs/12&#8221;</td>
+</tr>
+<tr class="row-even"><td>type</td>
+<td>str</td>
+<td><a class="reference internal" href="#ggrc-object-type"><span class="std std-ref">GGRC object Type</span></a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="ggrc-attribute">
+<span id="id27"></span><h3>GGRC attribute<a class="headerlink" href="#ggrc-attribute" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="9%" />
+<col width="71%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>AssigneeType</td>
+<td>str</td>
+<td>comma separated sequence of <a class="reference internal" href="#assignee-type"><span class="std std-ref">Assignee Type</span></a></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="audit-status">
+<span id="id28"></span><h3>Audit status<a class="headerlink" href="#audit-status" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Planned</li>
+<li>In Progress</li>
+<li>Manager Review</li>
+<li>Ready for External Review</li>
+<li>Completed</li>
+</ul>
+<div class="section" id="assignee-type">
+<span id="id29"></span><h4>Assignee Type<a class="headerlink" href="#assignee-type" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>Assessor</li>
+<li>Verifier</li>
+</ul>
+</div>
+<div class="section" id="assessment-conclusion">
+<span id="id30"></span><h4>Assessment conclusion<a class="headerlink" href="#assessment-conclusion" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>Effective</li>
+<li>Ineffective</li>
+<li>Needs improvement</li>
+<li>Not Applicable</li>
+</ul>
+</div>
+<div class="section" id="ggrc-object-type">
+<span id="id31"></span><h4>GGRC object Type<a class="headerlink" href="#ggrc-object-type" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>Audit</li>
+<li>AccessGroup</li>
+<li>Assessment</li>
+<li>Context</li>
+<li>Clause</li>
+<li>Contract</li>
+<li>Control</li>
+<li>CycleTaskGroupObjectTask</li>
+<li>DataAsset</li>
+<li>Facility</li>
+<li>Issue</li>
+<li>Market</li>
+<li>Objective</li>
+<li>OrgGroup</li>
+<li>Person</li>
+<li>Policy</li>
+<li>Process</li>
+<li>Product</li>
+<li>Program</li>
+<li>Project</li>
+<li>Regulation</li>
+<li>Relationship</li>
+<li>Request</li>
+<li>Request</li>
+<li>Risk</li>
+<li>Section</li>
+<li>Standard</li>
+<li>System</li>
+<li>Threat</li>
+<li>TaskGroup</li>
+<li>Vendor</li>
+<li>Workflow</li>
+<li>WorkflowPerson</li>
+</ul>
+</div>
+<div class="section" id="recipient">
+<span id="id32"></span><h4>Recipient<a class="headerlink" href="#recipient" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>Creator</li>
+<li>Assessor</li>
+<li>Verifier</li>
+</ul>
+</div>
+<div class="section" id="role">
+<span id="id33"></span><h4>Role<a class="headerlink" href="#role" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>Auditor</li>
+<li>AuditorProgramReader</li>
+<li>AuditorReader</li>
+<li>ObjectEditor</li>
+<li>ProgramBasicReader</li>
+<li>ProgramReader</li>
+<li>ProgramCreator</li>
+<li>ProgramOwner</li>
+<li>ProgramEditor</li>
+<li>ProgramAuditOwner</li>
+<li>ProgramAuditEditor</li>
+<li>ProgramAuditReader</li>
+<li>Reader</li>
+</ul>
+</div>
+<div class="section" id="program-status">
+<span id="id34"></span><h4>Program status<a class="headerlink" href="#program-status" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>Draft</li>
+<li>Final</li>
+<li>Effective</li>
+<li>Ineffective</li>
+<li>Launched</li>
+<li>Not Launched</li>
+<li>In Scope</li>
+<li>Not in Scope</li>
+<li>Deprecated</li>
+</ul>
+</div>
+<div class="section" id="id35">
+<span id="id36"></span><h4>Request<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>documentation</li>
+<li>interview</li>
+</ul>
+</div>
+<div class="section" id="workflow-frequency">
+<span id="id37"></span><h4>Workflow frequency<a class="headerlink" href="#workflow-frequency" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>one_time</li>
+<li>weekly</li>
+<li>monthly</li>
+<li>quarterly</li>
+<li>annually</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Object Manipulation</a><ul>
+<li><a class="reference internal" href="#creating-objects">Creating objects</a><ul>
+<li><a class="reference internal" href="#audit">Audit</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#elements">Elements</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#assessment">Assessment</a><ul>
+<li><a class="reference internal" href="#id1">Overview</a></li>
+<li><a class="reference internal" href="#id2">Elements</a></li>
+<li><a class="reference internal" href="#id3">Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#object-owner">Object owner</a><ul>
+<li><a class="reference internal" href="#id4">Overview</a></li>
+<li><a class="reference internal" href="#id5">Elements</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#program">Program</a><ul>
+<li><a class="reference internal" href="#id6">Overview</a></li>
+<li><a class="reference internal" href="#id7">Elements</a></li>
+<li><a class="reference internal" href="#id8">Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#request">Request</a><ul>
+<li><a class="reference internal" href="#id9">Overview</a></li>
+<li><a class="reference internal" href="#id10">Elements</a></li>
+<li><a class="reference internal" href="#id11">Examples</a></li>
+<li><a class="reference internal" href="#workflow">Workflow</a></li>
+<li><a class="reference internal" href="#id12">Overview</a></li>
+<li><a class="reference internal" href="#id13">Elements</a></li>
+<li><a class="reference internal" href="#id14">Examples</a></li>
+<li><a class="reference internal" href="#task-group">Task Group</a></li>
+<li><a class="reference internal" href="#id16">Overview</a></li>
+<li><a class="reference internal" href="#id17">Elements</a></li>
+<li><a class="reference internal" href="#id18">Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#user-role">User Role</a><ul>
+<li><a class="reference internal" href="#id20">Overview</a></li>
+<li><a class="reference internal" href="#element">Element</a></li>
+<li><a class="reference internal" href="#id21">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#creating-relationships-between-objects">Creating relationships between objects</a><ul>
+<li><a class="reference internal" href="#relationship">Relationship</a><ul>
+<li><a class="reference internal" href="#id23">Overview</a></li>
+<li><a class="reference internal" href="#id24">Elements</a></li>
+<li><a class="reference internal" href="#id25">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#objects">Objects</a><ul>
+<li><a class="reference internal" href="#ggrc-object">GGRC object</a></li>
+<li><a class="reference internal" href="#ggrc-attribute">GGRC attribute</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#types">Types</a><ul>
+<li><a class="reference internal" href="#audit-status">Audit status</a><ul>
+<li><a class="reference internal" href="#assignee-type">Assignee Type</a></li>
+<li><a class="reference internal" href="#assessment-conclusion">Assessment conclusion</a></li>
+<li><a class="reference internal" href="#ggrc-object-type">GGRC object Type</a></li>
+<li><a class="reference internal" href="#recipient">Recipient</a></li>
+<li><a class="reference internal" href="#role">Role</a></li>
+<li><a class="reference internal" href="#program-status">Program status</a></li>
+<li><a class="reference internal" href="#id35">Request</a></li>
+<li><a class="reference internal" href="#workflow-frequency">Workflow frequency</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="advanced_query_api.html"
+                        title="previous chapter">Advanced Query API</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="automapping.html"
+                        title="next chapter">Automapping</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/backend/object_manipulation.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="automapping.html" title="Automapping"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="advanced_query_api.html" title="Advanced Query API"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (da448a6) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Backend</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

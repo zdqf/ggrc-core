@@ -12,8 +12,9 @@ Contents:
     :maxdepth: 2
 
     api/index
+    backend/index
+    frontend/index
     support/index
-    development/index
     contributing/index
 
 

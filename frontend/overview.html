@@ -1,0 +1,629 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Overview &#8212; GGRC 0.10.35-Raspberry (da448a6) documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.35-Raspberry (da448a6)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.35-Raspberry (da448a6) documentation" href="../index.html" />
+    <link rel="up" title="Frontend" href="index.html" />
+    <link rel="next" title="Modals" href="modals.html" />
+    <link rel="prev" title="Frontend" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modals.html" title="Modals"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Frontend"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (da448a6) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Frontend</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>This document is a reference for anyone interested in understanding how
+GGRC is constructed. The goal for this document is to explain how
+everything works in moderate detail with references to source code which
+can be used to understand in exact detail how GGRC works.</p>
+<div class="section" id="client-side">
+<h2>Client Side<a class="headerlink" href="#client-side" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Overview<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>The client-side of GGRC is initially constructed from templates and/or
+views defined and rendered on the server. The templates and views
+provide a scaffolding for the UI. Rendering those elements invokes
+JavaScript code which bootstraps the majority of the client-side of GGRC
+which is constructed from CanJS Controls, Components and Mustache templates.</p>
+<p>Once the Controls are rendered, they take control of generating the
+remainder of the UI and attaching all relevant logic and user
+interaction handlers.</p>
+<p>There are two main objects that are useful in managing the data model:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">GGRC</span></code></li>
+<li><code class="docutils literal"><span class="pre">CMS</span></code></li>
+</ul>
+<p>For example, <code class="docutils literal"><span class="pre">GGRC.page_instance()</span></code> returns the current page instance,
+and <code class="docutils literal"><span class="pre">GGRC.page_object</span></code> is the object rendered by the current page
+(e.g. a Program), as it was received from the server (mapped objects are
+stubs).</p>
+<p><code class="docutils literal"><span class="pre">CMS.Models.&lt;MODEL&gt;.cache</span></code> stores the loaded objects. For example,
+<code class="docutils literal"><span class="pre">CMS.Models.Program.cache</span></code> will have an array of all the loaded
+programs.</p>
+</div>
+<div class="section" id="client-side-file-manifests">
+<h3>Client-side File Manifests<a class="headerlink" href="#client-side-file-manifests" title="Permalink to this headline">¶</a></h3>
+<p>Mustache templates need to be referenced
+from a manifest file in order for it to be usable in constructing the
+UI.</p>
+<p>These manifest files live in <code class="docutils literal"><span class="pre">src/&lt;module&gt;/assets/assets.yaml</span></code>.</p>
+<p>Javascript resources are bundled together using webpack.</p>
+</div>
+<div class="section" id="page-structure">
+<h3>Page Structure<a class="headerlink" href="#page-structure" title="Permalink to this headline">¶</a></h3>
+<p><strong>TODO</strong>: Show and talk about diagram with Title, LHN, Dashboard,
+Dashboard Widget, Info Widget, TreeView &amp; TreeNode.</p>
+<div class="figure" id="id2">
+<img alt="Page structure" src="../_images/page_structure.png" />
+<p class="caption"><span class="caption-text">Page structure</span></p>
+</div>
+<div class="section" id="view-logic">
+<h4>View Logic<a class="headerlink" href="#view-logic" title="Permalink to this headline">¶</a></h4>
+<p>View logic is defined within the control (as functions on the control
+itself).</p>
+</div>
+</div>
+<div class="section" id="widgets-tabs">
+<h3>Widgets (tabs)<a class="headerlink" href="#widgets-tabs" title="Permalink to this headline">¶</a></h3>
+<p>Which widgets (or tabs) are shown on the object page is defined in
+<code class="docutils literal"><span class="pre">business_objects.js</span></code>.
+This is where we state which controller should be used for each tab
+(InfoWidget/TreeView/ListView). TreeViews are used almost everywhere,
+except on the Admin Dashboard, where we are using ListViews. ListViews
+have pagination.</p>
+<p>Almost every TreeView controller instance has a <code class="docutils literal"><span class="pre">parent_instance</span></code>
+variable that can be used to access the parent. You can&#8217;t get the parent
+of an object without a TreeView, because an object can have multiple
+parents (think of it as a graph). Our TreeViews are trees inside this
+graph so that&#8217;s why we can have parent instances in this context.</p>
+<p>Filtering a TreeView is done in the TreeFilter, which simply hides the
+elements from the DOM.</p>
+</div>
+<div class="section" id="quickformcontroller">
+<h3>QuickFormController<a class="headerlink" href="#quickformcontroller" title="Permalink to this headline">¶</a></h3>
+<p>This controller derives from the Modals controller in that it takes form
+input, converts it into properties on model instances, and saves the
+changes back to the server. A primary difference in QuickForm is that
+any update to the instance triggered by QuickForm results in an
+immediate save(). Also, QuickForm was created with the expectation that
+the instance already exists on the server; attempts to work with new
+model instances before first save may result in unexpected behavior.</p>
+<ul class="simple">
+<li>How do controllers interact with controls?</li>
+<li>How do controllers interact with the backend?</li>
+</ul>
+</div>
+<div class="section" id="model">
+<h3>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h3>
+<p>View models (defined in JavaScript) are in
+<code class="docutils literal"><span class="pre">src/&lt;module&gt;/assets/javascripts/models/</span></code></p>
+<p>The models define:</p>
+<ul class="simple">
+<li>how a type of model relates to other types</li>
+<li>behaviors relevant to the model<ul>
+<li>validation rules</li>
+<li>event listeners</li>
+<li>default values</li>
+<li>default view templates</li>
+<li>initialization logic</li>
+</ul>
+</li>
+<li>metadata that allows the model to integrate with frameworks and other
+conventions</li>
+</ul>
+<div class="section" id="stubs-vs-full-form-models">
+<h4>Stubs vs. Full-form Models<a class="headerlink" href="#stubs-vs-full-form-models" title="Permalink to this headline">¶</a></h4>
+<p>All models have a stub and a full form. All collection attributes of a
+full form object are stubs.</p>
+<p>A stub is a lightweight representation of a full-form model. A stub has
+references to complex attributes such as collections or other complex
+models. But those references have to be “traded in” for either stubs or
+full-form objects in order to walk through the data model. This approach
+is somewhat analogous to “lazy-loading”.</p>
+<p>In contrast, all of the models referenced by a full-form model are not
+just placeholders, but are true model instances themselves. This
+approach is more analogous to “eager-loading”.</p>
+<p>A stub can be converted into a full-form instance by calling <code class="docutils literal"><span class="pre">reify()</span></code>
+on the stub. See also <code class="docutils literal"><span class="pre">builder.json</span></code>.</p>
+</div>
+<div class="section" id="lifecycle-of-a-model">
+<h4>Lifecycle of a Model<a class="headerlink" href="#lifecycle-of-a-model" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>Primary Operations</li>
+<li>Saving</li>
+</ul>
+<p>Saving is either done as an update or create operation. See Updating and
+Creating below. * Updating</p>
+<p>Updating happens when an instance is known to exist on the server (the
+determinant is whether the id property is set on the instance) and
+<code class="docutils literal"><span class="pre">save()</span></code> is called on the instance. The update is executed with a PUT
+request to the object endpoint. * Creating</p>
+<p>Creating happens when an instance is known not to exist on the server
+(id property is not set) and <code class="docutils literal"><span class="pre">save()</span></code> is called on the instance. The
+create is executed with a POST request to the collection endpoint. *
+Deleting Deleting can only happen on an instance which is known to exist
+on the server (see Updating above), when <code class="docutils literal"><span class="pre">destroy()</span></code> is called on a
+model instance. The delete is executed with a DELETE request to the
+object endpoint. Deletion may execute immediately on the server, in
+which case the former data of the deleted object is returned, or
+deletion may be offloaded to a background task, in which case the
+returned content from the operation will reference the background_task
+object. On the client side, the deferred returned from <code class="docutils literal"><span class="pre">destroy()</span></code>
+will not resolve until the background task completes.</p>
+<ul class="simple">
+<li>Non-lifecycle Model Interactions</li>
+<li>_transient property</li>
+</ul>
+<p>This property is set on instances during modal operation. <em>transient is
+meant to hold data that is not sent to the server and does not need to
+be kept after the modal completes or is canceled. This is useful for
+intermediary values for validation, or calculated default values for a
+property. * _pending</em>joins() / &#8220;deferred bindings&#8221;</p>
+<p>Model instances can be joined to other objects as part of their regular
+update cycles. After an update completes successfully, any deferred
+binding operations contained in <code class="docutils literal"><span class="pre">&lt;instance&gt;._pending_joins</span></code> are
+resolved by adding or removing join objects. These deferred bindings are
+usually created by using <code class="docutils literal"><span class="pre">&lt;instance&gt;.mark_for_addition()</span></code> and
+<code class="docutils literal"><span class="pre">&lt;instance&gt;.mark_for_deletion()</span></code> * other modal-based ops</p>
+<p>The modal includes a connector widget that allows pending join object
+creation and destruction. Since the connector widget automates the
+deferred bindings for an instance in deferred mode, no action is taken
+until the modal is saved.</p>
+<p>Are they cached?</p>
+<ul class="simple">
+<li>Server-side:<ul>
+<li>Memcache<ul>
+<li>Added to memcache <em>only</em> on “collection GET” requests, and
+expired on any “object PUT” or “object DELETE” requests.</li>
+<li>[The current locking mechanism (to avoid un-ordered operations
+from simultaneous requests) is broken and subject to race
+conditions. In its place, a more standard form of distributed
+locking should be used, paying attention to the constraints and
+guarantees made by App Engine&#8217;s memcache service.]</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Client-side:<ul>
+<li>can.Model.Cacheable<ul>
+<li>Once a model is retrieved to the browser, it is stored in
+<code class="docutils literal"><span class="pre">CMS.Models.&lt;model_name&gt;.cache[&lt;id&gt;]</span></code>. &nbsp;Once present, it is
+only requested again via the <code class="docutils literal"><span class="pre">&lt;instance&gt;.refresh()</span></code> method.</li>
+<li>A model can be conditionally pulled from the server (if it only
+exists on the client in stub form) by enqueueing it into a
+RefreshQueue, and then subsequently triggering the
+RefreshQueue. If an enqueued model has already been synched
+(i.e. if the selfLink property exists on the instance), it will
+not be re-fetched by the RefreshQueue.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>How/when are they validated?</p>
+<ul class="simple">
+<li>Server-side:<ul>
+<li>In-database constraints</li>
+<li>SQLAlchemy validations (using <code class="docutils literal"><span class="pre">&#64;validates</span></code>)</li>
+</ul>
+</li>
+<li>Client-side:<ul>
+<li>Defined in class <code class="docutils literal"><span class="pre">init()</span></code> method on Model classes, and uses Can
+Validations (<a class="reference external" href="http://canjs.com/docs/can.Map.validations.html">http://canjs.com/docs/can.Map.validations.html</a>)</li>
+<li>Includes a custom <code class="docutils literal"><span class="pre">validateNonBlank()</span></code> validation function that
+trims strings before checking for empty strings.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="view">
+<h3>View<a class="headerlink" href="#view" title="Permalink to this headline">¶</a></h3>
+<p>View templates are implemented all in JavaScript with the help of
+Mustache.</p>
+<div class="section" id="standard-view-templates">
+<h4>Standard view templates<a class="headerlink" href="#standard-view-templates" title="Permalink to this headline">¶</a></h4>
+<p>Several standard view fragments are defined for each type of entity
+within GGRC. Additional fragments can be created and utilized as needed.
+But these templates are the main templates from which the majority of
+the UI is created.</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">tree.mustache</span></code> - Defines the content of the trees for specified
+object types. This template reflects Tier 1 and Tier 2 information
+(Tier 2 being a more detailed set of information relevant to an
+object). &nbsp;Specified as the <code class="docutils literal"><span class="pre">show_view</span></code> option in each TreeView.</li>
+<li><code class="docutils literal"><span class="pre">tree_footer.mustache</span></code> - If present, defines the content of the
+last row of a given tree. &nbsp;Usually contains a “Add Object” or “+
+Object” link which invokes a mapping or creation modal. &nbsp;Specified as
+the <code class="docutils literal"><span class="pre">footer_view</span></code> option in each TreeView.</li>
+<li><code class="docutils literal"><span class="pre">info.mustache</span></code> - Defines the “Info” widget on each object’s page.
+&nbsp;Defined per-widget in GGRC.Controllers.InfoWidget as the
+<code class="docutils literal"><span class="pre">widget_view</span></code> option, and specified using <code class="docutils literal"><span class="pre">GGRC.WidgetList</span></code>
+definitions.</li>
+<li><code class="docutils literal"><span class="pre">extended_info.mustache</span></code> - Defines the content of an object’s
+tooltip/popover in the LHN lists. &nbsp;Specified as the <code class="docutils literal"><span class="pre">tooltip_view</span></code>
+parameter when rendering
+<a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/mustache/dashboard/lhn.mustache">src/ggrc/assets/mustache/dashboard/lhn.mustache</a>.</li>
+<li><code class="docutils literal"><span class="pre">modal_content.mustache</span></code> - Defines the view for modal “create” or
+“edit” form functionality. &nbsp;For most objects, this path is
+automatically generated using the <code class="docutils literal"><span class="pre">data-template</span></code> or
+<code class="docutils literal"><span class="pre">data-object-plural</span></code> attributes of the invoking element (see
+<code class="docutils literal"><span class="pre">bootstrap/modal-ajax.js</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="where-to-find-view-templates">
+<h4>Where to find view templates<a class="headerlink" href="#where-to-find-view-templates" title="Permalink to this headline">¶</a></h4>
+<p>The view files are in the following folder within a module
+<code class="docutils literal"><span class="pre">src/&lt;module&gt;/assets/mustache/</span></code>.</p>
+<p>For example, the <code class="docutils literal"><span class="pre">ggrc_workflow</span></code> views are in the following folder
+<a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc_workflows/assets/mustache/">src/ggrc_workflows/assets/mustache/</a></p>
+</div>
+<div class="section" id="view-helpers">
+<h4>View Helpers<a class="headerlink" href="#view-helpers" title="Permalink to this headline">¶</a></h4>
+<p>View helpers are defined using the Mustache <a class="reference external" href="http://canjs.com/docs/can.mustache.Helpers.html">helper mechanism provided
+by CanJS</a>. &nbsp;Core
+helpers are specified in
+<a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/mustache_helpers.js">src/ggrc/assets/javascripts/mustache_helpers.js</a>,
+and extension helpers should be specified in a file named similar to
+<code class="docutils literal"><span class="pre">src/&lt;module_name&gt;/assets/javascripts/&lt;class_name&gt;_mustache_helpers.js</span></code>.</p>
+</div>
+</div>
+<div class="section" id="extensions">
+<h3>Extensions<a class="headerlink" href="#extensions" title="Permalink to this headline">¶</a></h3>
+<p>An extension is a bundle of code and assets packaged into a folder
+hierarchy similar to ggrc-core. Extensions have at minimum a startup
+script at &lt;extension-folder&gt;/__init__.py and a settings file in
+&lt;extension-folder&gt;/settings</p>
+<p>The extensions which are used in any GGRC instance are determined by the
+GGRC_SETTINGS_MODULE shell variable. To add an extension to a GGRC
+deployment, append a space separator and the Python path to the settings
+file (e.g. &#8221; ggrc_some_extension.settings.development&#8221;) to this shell
+variable, and restart or redeploy the GGRC server.</p>
+<p>The minimum that the extension settings file must contain is
+<code class="docutils literal"><span class="pre">EXTENSIONS</span> <span class="pre">=</span> <span class="pre">['&lt;name_of_extension&gt;']</span></code>. Additionally, global settings
+can be provided; any variable set at the top level in this file will be
+added to the <code class="docutils literal"><span class="pre">ggrc.settings</span></code> object and later accessible through
+<code class="docutils literal"><span class="pre">from</span> <span class="pre">ggrc</span> <span class="pre">import</span> <span class="pre">settings</span></code>. Setting <code class="docutils literal"><span class="pre">exports</span> <span class="pre">=</span></code> to an array of key
+names in the extension settings file will make those keys and their
+values available to the client side through the <code class="docutils literal"><span class="pre">GGRC.config</span></code> object.</p>
+<p>The minimum that __init__.py must contain is:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="k">import</span> <span class="n">Blueprint</span>
+
+<span class="n">blueprint</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span>
+    <span class="s1">&#39;&lt;name_of_extension&gt;&#39;</span><span class="p">,</span>
+    <span class="vm">__name__</span><span class="p">,</span>
+    <span class="n">template_folder</span><span class="o">=</span><span class="s1">&#39;templates&#39;</span><span class="p">,</span>
+    <span class="n">static_folder</span><span class="o">=</span><span class="s1">&#39;static&#39;</span><span class="p">,</span>
+    <span class="n">static_url_path</span><span class="o">=</span><span class="s1">&#39;/static/&lt;name_of_extension&gt;&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>This will set up an extension to be recognized by Flask.</p>
+<p>Asset hierarchies in extensions should follow the ggrc-core model:
+assets.yaml should define the bundles for dashboard-js,
+dashboard-templates, and dashboard-js-specs; The folder naming
+convention for these bundles (<code class="docutils literal"><span class="pre">assets/javascripts</span></code>,
+<code class="docutils literal"><span class="pre">assets/mustache</span></code>, and <code class="docutils literal"><span class="pre">assets/js_specs</span></code>, respectively) should be
+followed for each extension. An important caveat is that the assets
+bundler can only bundle one asset with a given path over all base
+folders, so you should avoid re-using paths known to exist in ggrc-core
+or other extensions (e.g. &#8220;mustache_helper.js&#8221; and &#8220;models/mixins.js&#8221;
+already exist in ggrc-core, so don&#8217;t name your files the same as these).</p>
+<p>DB migrations should be set up in <code class="docutils literal"><span class="pre">migrations/versions</span></code> as in
+ggrc-core. Once the extension is created and the settings path added to
+GGRC_SETTINGS_MODULE, db_migrate should pick up any migrations
+automatically. To completely undo the migrations from an extension (in
+order to remove it without possible database breakage), use the command
+<code class="docutils literal"><span class="pre">db_downgrade</span> <span class="pre">&lt;name_of_extension&gt;</span> <span class="pre">-1</span></code></p>
+<div class="section" id="extension-contributions">
+<h4>Extension contributions<a class="headerlink" href="#extension-contributions" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>Models</li>
+</ul>
+<p>Define models in your <code class="docutils literal"><span class="pre">&lt;extension_name&gt;/models/</span></code> folder, and use the
+same patterns for implementing them as ggrc-core does (derive from
+ggrc.db.Model, use provided mixins, make association proxy tables and
+models, etc.). Be sure to import all files from models as part of the
+extension&#8217;s __init__.py</p>
+<ul class="simple">
+<li>Services</li>
+</ul>
+<p>Services provide the CRUD object endpoints over REST to allow instances
+of your extension models. ggrc-core provides a contributions mechanism
+for defining more services from your extension at startup time. The
+services contribution is done as such:</p>
+<p>```python from . import models from ggrc.services.registry import
+service</p>
+<p>def contributed_services(): return [ service(m.<strong>table</strong>.name, m) for
+m in models.<strong>dict</strong>.values() if isinstance(m, type) and issubclass(m,
+db.Model) ] ```</p>
+<ul class="simple">
+<li>Views</li>
+<li>Any special templates should be placed under
+&lt;extension_module_name&gt;/templates/ and called as normal.</li>
+<li>To set up an object page for one of the contributed model classes,
+declare a function similar to this (this function will work as long
+as your module hierarchy is flat with all models at the first level
+and you want all of your objects to have pages):</li>
+</ul>
+<p>```python from ggrc.views.registry import object_view from . import
+models from ggrc import db</p>
+<p>def contributed_object_views(): return [ object_view(m) for m in
+models.<strong>dict</strong>.values() if isinstance(m, type) and issubclass(m,
+db.Model) ] ```</p>
+<ul class="simple">
+<li>Roles</li>
+<li>ROLE_CONTRIBUTIONS: at module level, subclass <code class="docutils literal"><span class="pre">RoleContributions</span></code>,
+overriding <code class="docutils literal"><span class="pre">contributions</span></code>, and set this property to an instance of
+the subclass.</li>
+<li>ROLE_DECLARATIONS: at module level, subclass <code class="docutils literal"><span class="pre">RoleDeclarations</span></code>,
+overriding <code class="docutils literal"><span class="pre">roles()</span></code>, and set this property to an instance of the
+subclass.</li>
+<li>ROLE_IMPLICATIONS: at module level, subclass
+<code class="docutils literal"><span class="pre">DeclarativeRoleImplications</span></code>, overriding <code class="docutils literal"><span class="pre">implications</span></code>, and set
+this property to an instance of the subclass.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="modals">
+<h3>Modals<a class="headerlink" href="#modals" title="Permalink to this headline">¶</a></h3>
+<p>The core logic and functionality related to modals is defined in the
+following files:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">ggrc/assets/javascripts/bootstrap/modal-ajax.js</span></code></li>
+<li><code class="docutils literal"><span class="pre">ggrc/assets/javascripts/bootstrap/modal-form.js</span></code></li>
+<li><code class="docutils literal"><span class="pre">ggrc/assets/javascripts/controllers/modals_controller.js</span></code></li>
+</ul>
+<p>The view for a modal is defined in
+<code class="docutils literal"><span class="pre">/src/&lt;module&gt;/assets/mustache/&lt;class_name&gt;/modal_content.mustache</span></code>.</p>
+<p>More about modals in <a class="reference external" href="modals.md">modals.md</a>.</p>
+</div>
+<div class="section" id="events">
+<h3>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h3>
+<p>Client-side event firing/handling is handled through CanJS, which is
+primarily based on jQuery event handling.</p>
+</div>
+<div class="section" id="program-flow">
+<h3>Program Flow<a class="headerlink" href="#program-flow" title="Permalink to this headline">¶</a></h3>
+<p>Most client-side logic is implemented in Controls. Much of this logic is
+implemented using asynchronous callbacks via
+<a class="reference external" href="http://canjs.com/docs/can.Deferred.html">can.Deferred</a>.</p>
+</div>
+<div class="section" id="error-handling">
+<h3>Error Handling<a class="headerlink" href="#error-handling" title="Permalink to this headline">¶</a></h3>
+<p>Most errors are reported to the system with a <code class="docutils literal"><span class="pre">window.onerror</span></code> handler
+that generates flash messages at the top of the page and reports the
+exception back to Tracker. For maximum coverage, the script that defines
+this handler is inlined into base.haml.</p>
+<p>AJAX failures that happen while a modal is active are reported back to a
+flash handler at the modal level (so that the flash messages are not
+covered by modals or overlays).</p>
+<p>Because the error handler at the window level handles most of our needs,
+try/catch blocks are rare in GGRC. However, it is worth noting that
+errors in Deferred callbacks may not fire the onerror handler, <em>and</em>
+&#8220;break the chain&#8221; inasmuch as the state of the deferred never changes
+from &#8220;pending&#8221; after that, and other deferreds waiting for the result of
+that deferred will never run. This is a failure of the jQuery Deferred
+object to sensibly handle uncaught errors (they should reject the
+deferred instead). In the case where it&#8217;s possible that a callback will
+throw an error, it is recommended to wrap the content of the callback in
+<code class="docutils literal"><span class="pre">try/catch</span></code> and return a rejected deferred when an error happens.</p>
+</div>
+<div class="section" id="mappings">
+<h3>Mappings<a class="headerlink" href="#mappings" title="Permalink to this headline">¶</a></h3>
+<p>Mappings are best thought of as <strong>links</strong>. (“Mapping”
+<a class="reference external" href="http://www.merriam-webster.com/dictionary/mapping">often means</a> a 1-to-1
+correspondence, and for historical reasons is the term adopted by GGRC
+users; but in actuality; we have links between objects - e.g. a
+Directive is <strong>linked</strong> to a Section, or a Programs <strong>references</strong> zero
+or more Controls.) “Mappings” are a way to relate any model instance to
+another model instance in a way that is flexible, and doesn&#8217;t require
+modifying the relational structure in the underlying data store used for
+persistence (database). They&#8217;re essentially just an abstraction over our
+database, so that you don&#8217;t have to care about which tables the
+relationships are stored in.</p>
+<p>Mappings essentially turn the entire system into a
+<a class="reference external" href="https://github.com/tinkerpop/gremlin/wiki/Defining-a-Property-Graph">property graph</a>.</p>
+<p>Mappings are defined in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappings-ggrc.js">src/ggrc/assets/javascripts/models/mappings-ggrc.js</a>.</p>
+<p>We don&#8217;t have a function that gets all the objects mapped to a given
+object. You can get the mappings of an instance by calling
+<code class="docutils literal"><span class="pre">instance.get_mappings('_mapping_')</span></code> if the mappings are already
+loaded, or by calling
+<code class="docutils literal"><span class="pre">instance.get_binding('_mapping_').refresh_list()</span></code> if they are not.</p>
+<div class="section" id="types-of-mappings">
+<h4>Types of Mappings<a class="headerlink" href="#types-of-mappings" title="Permalink to this headline">¶</a></h4>
+<p>There are 8 types of mappings. The types of mappings are defined with
+Mappers. Mappers are defined in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers.js">src/ggrc/assets/javascripts/models/mappers.js</a></p>
+<p>Each type of mapping is defined below:</p>
+<ul class="simple">
+<li><strong>Proxy</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/proxy-list-loader.js">src/ggrc/assets/javascripts/models/mappers/proxy-list-loader.js</a>:
+A proxy mapping is a relationship where one model
+references another through another “join” or “proxy” model. &nbsp;E.g.,
+Programs reference Controls via the ProgramControl join/proxy model.
+&nbsp;The Proxy mapping specifies the attributes and models involved in
+the relationship, e.g.:</li>
+<li><strong>Direct</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/direct-list-loader.js">src/ggrc/assets/javascripts/models/mappers/direct-list-loader.js</a>:
+A direct mapping is a relationship where one model
+directly references another model. &nbsp;E.g., Sections contain a
+<code class="docutils literal"><span class="pre">directive</span></code> attribute, so Section has a Direct mapping to
+Directive.</li>
+<li><strong>Indirect</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/indirect-list-loader.js">src/ggrc/assets/javascripts/models/mappers/indirect-list-loader.js</a>:
+An indirect mapping is the reverse of <code class="docutils literal"><span class="pre">Direct</span></code>, but
+the implementation is inconsistent with the rest of the mappers.</li>
+<li><strong>Search</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/search-list-loader.js">src/ggrc/assets/javascripts/models/mappers/search-list-loader.js</a>:
+A search mapping is a relationship where results are
+produced by a function returning a deferred. This mapping is f
+foremost used by the Advanced Search feature and for getting owned
+objects for a Person, but other uses are also possible. Note that the
+search function is run at attach time and also when a new object of
+any type is created, so it is recommended to use this mapper
+sparingly in the system if it makes a number of large AJAX calls.</li>
+<li><strong>Multi</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/multi-list-loader.js">src/ggrc/assets/javascripts/models/mappers/multi-list-loader.js</a>:
+Constructs a mapping which is the union of zero or more
+other mappings. &nbsp;Specifically, the set of <code class="docutils literal"><span class="pre">result.instance</span></code> values
+is the union of <code class="docutils literal"><span class="pre">result.instance</span></code> from the contributing mappings.</li>
+<li><strong>TypeFilter</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/type-filtered-list-loader.js">src/ggrc/assets/javascripts/models/mappers/type-filtered-list-loader.js</a>:
+A TypeFiltered mapping takes the result of another
+mapping and returns only the results which are instances of a
+specified type. This is useful for filtering polymorphic proxies.</li>
+<li><strong>CustomFilter</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/custom-filtered-list-loader.js">src/ggrc/assets/javascripts/models/mappers/custom-filtered-list-loader.js</a>:
+A custom filtered mapping runs a filter function on
+every result coming from a source mapping and returns all results
+where the function returns either a truthy value or a deferred that
+resolves to a truthy value. The filter function is re-run whenever an
+instance in the source mapping changes, and adds and removes a
+mapping to that instance accordingly.</li>
+<li><strong>Cross</strong> <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/assets/javascripts/models/mappers/cross-list-loader.js">src/ggrc/assets/javascripts/models/mappers/cross-list-loader.js</a>:
+Similar to Proxy mapping, but joins across other mappings.
+For example, the result of <code class="docutils literal"><span class="pre">m</span> <span class="pre">=</span> <span class="pre">Cross(&quot;a&quot;,</span> <span class="pre">&quot;b&quot;)</span></code> would be the
+union of the “b” mappings for every instance in the root object’s “a”
+result set.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Overview</a><ul>
+<li><a class="reference internal" href="#client-side">Client Side</a><ul>
+<li><a class="reference internal" href="#id1">Overview</a></li>
+<li><a class="reference internal" href="#client-side-file-manifests">Client-side File Manifests</a></li>
+<li><a class="reference internal" href="#page-structure">Page Structure</a><ul>
+<li><a class="reference internal" href="#view-logic">View Logic</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#widgets-tabs">Widgets (tabs)</a></li>
+<li><a class="reference internal" href="#quickformcontroller">QuickFormController</a></li>
+<li><a class="reference internal" href="#model">Model</a><ul>
+<li><a class="reference internal" href="#stubs-vs-full-form-models">Stubs vs. Full-form Models</a></li>
+<li><a class="reference internal" href="#lifecycle-of-a-model">Lifecycle of a Model</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#view">View</a><ul>
+<li><a class="reference internal" href="#standard-view-templates">Standard view templates</a></li>
+<li><a class="reference internal" href="#where-to-find-view-templates">Where to find view templates</a></li>
+<li><a class="reference internal" href="#view-helpers">View Helpers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#extensions">Extensions</a><ul>
+<li><a class="reference internal" href="#extension-contributions">Extension contributions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#modals">Modals</a></li>
+<li><a class="reference internal" href="#events">Events</a></li>
+<li><a class="reference internal" href="#program-flow">Program Flow</a></li>
+<li><a class="reference internal" href="#error-handling">Error Handling</a></li>
+<li><a class="reference internal" href="#mappings">Mappings</a><ul>
+<li><a class="reference internal" href="#types-of-mappings">Types of Mappings</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Frontend</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="modals.html"
+                        title="next chapter">Modals</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/frontend/overview.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modals.html" title="Modals"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Frontend"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (da448a6) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Frontend</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

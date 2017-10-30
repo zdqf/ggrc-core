@@ -378,8 +378,8 @@ Models
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
         	PRIMARY KEY (id), 
-        	CONSTRAINT uq_access_groups UNIQUE (slug), 
         	CONSTRAINT uq_t_access_groups UNIQUE (title), 
+        	CONSTRAINT uq_access_groups UNIQUE (slug), 
         	CHECK (send_by_default IN (0, 1)), 
         	FOREIGN KEY(context_id) REFERENCES contexts (id)
         )
@@ -451,6 +451,7 @@ Models
         	modified_by_id INTEGER, 
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
+        	label ENUM('Auditor pulls evidence','Followup','Needs Rework','Needs Discussion'), 
         	PRIMARY KEY (id), 
         	CONSTRAINT uq_assessments UNIQUE (slug), 
         	CHECK (send_by_default IN (0, 1)), 
@@ -494,6 +495,7 @@ Models
     *   :class:`ggrc.models.mixins.ChangeTracked`
     *   :class:`ggrc.models.mixins.ContextRBAC`
     *   :class:`ggrc.models.mixins.Identifiable`
+    *   :class:`ggrc.models.mixins.labeled.Labeled`
     *   :class:`ggrc.fulltext.mixin.Indexed`
 
 
@@ -829,8 +831,8 @@ Models
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
         	PRIMARY KEY (id), 
-        	CONSTRAINT uq_clauses UNIQUE (slug), 
         	CONSTRAINT uq_t_clauses UNIQUE (title), 
+        	CONSTRAINT uq_clauses UNIQUE (slug), 
         	CHECK (send_by_default IN (0, 1)), 
         	CHECK (na IN (0, 1)), 
         	FOREIGN KEY(parent_id) REFERENCES clauses (id), 
@@ -985,8 +987,8 @@ Models
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
         	PRIMARY KEY (id), 
-        	CONSTRAINT uq_controls UNIQUE (slug), 
         	CONSTRAINT uq_t_controls UNIQUE (title), 
+        	CONSTRAINT uq_controls UNIQUE (slug), 
         	CHECK (send_by_default IN (0, 1)), 
         	CHECK (company_control IN (0, 1)), 
         	FOREIGN KEY(directive_id) REFERENCES directives (id), 
@@ -1233,8 +1235,8 @@ Models
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
         	PRIMARY KEY (id), 
-        	CONSTRAINT uq_data_assets UNIQUE (slug), 
         	CONSTRAINT uq_t_data_assets UNIQUE (title), 
+        	CONSTRAINT uq_data_assets UNIQUE (slug), 
         	CHECK (send_by_default IN (0, 1)), 
         	FOREIGN KEY(context_id) REFERENCES contexts (id)
         )
@@ -1743,8 +1745,8 @@ Models
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
         	PRIMARY KEY (id), 
-        	CONSTRAINT uq_facilities UNIQUE (slug), 
         	CONSTRAINT uq_t_facilities UNIQUE (title), 
+        	CONSTRAINT uq_facilities UNIQUE (slug), 
         	CHECK (send_by_default IN (0, 1)), 
         	FOREIGN KEY(context_id) REFERENCES contexts (id)
         )
@@ -1845,8 +1847,8 @@ Models
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
         	PRIMARY KEY (id), 
-        	CONSTRAINT uq_issues UNIQUE (slug), 
         	CONSTRAINT uq_t_issues UNIQUE (title), 
+        	CONSTRAINT uq_issues UNIQUE (slug), 
         	CHECK (send_by_default IN (0, 1)), 
         	FOREIGN KEY(audit_id) REFERENCES audits (id), 
         	FOREIGN KEY(context_id) REFERENCES contexts (id)
@@ -1913,8 +1915,8 @@ Models
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
         	PRIMARY KEY (id), 
-        	CONSTRAINT uq_markets UNIQUE (slug), 
         	CONSTRAINT uq_t_markets UNIQUE (title), 
+        	CONSTRAINT uq_markets UNIQUE (slug), 
         	CHECK (send_by_default IN (0, 1)), 
         	FOREIGN KEY(context_id) REFERENCES contexts (id)
         )
@@ -2168,8 +2170,8 @@ Models
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
         	PRIMARY KEY (id), 
-        	CONSTRAINT uq_objectives UNIQUE (slug), 
         	CONSTRAINT uq_t_objectives UNIQUE (title), 
+        	CONSTRAINT uq_objectives UNIQUE (slug), 
         	CHECK (send_by_default IN (0, 1)), 
         	FOREIGN KEY(context_id) REFERENCES contexts (id)
         )
@@ -2271,8 +2273,8 @@ Models
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
         	PRIMARY KEY (id), 
-        	CONSTRAINT uq_org_groups UNIQUE (slug), 
         	CONSTRAINT uq_t_org_groups UNIQUE (title), 
+        	CONSTRAINT uq_org_groups UNIQUE (slug), 
         	CHECK (send_by_default IN (0, 1)), 
         	FOREIGN KEY(context_id) REFERENCES contexts (id)
         )
@@ -2377,8 +2379,8 @@ Models
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
         	PRIMARY KEY (id), 
-        	CONSTRAINT uq_products UNIQUE (slug), 
         	CONSTRAINT uq_t_products UNIQUE (title), 
+        	CONSTRAINT uq_products UNIQUE (slug), 
         	CHECK (send_by_default IN (0, 1)), 
         	FOREIGN KEY(context_id) REFERENCES contexts (id)
         )
@@ -2441,8 +2443,8 @@ Models
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
         	PRIMARY KEY (id), 
-        	CONSTRAINT uq_programs UNIQUE (slug), 
         	CONSTRAINT uq_t_programs UNIQUE (title), 
+        	CONSTRAINT uq_programs UNIQUE (slug), 
         	FOREIGN KEY(context_id) REFERENCES contexts (id)
         )
 
@@ -2507,8 +2509,8 @@ Models
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
         	PRIMARY KEY (id), 
-        	CONSTRAINT uq_projects UNIQUE (slug), 
         	CONSTRAINT uq_t_projects UNIQUE (title), 
+        	CONSTRAINT uq_projects UNIQUE (slug), 
         	CHECK (send_by_default IN (0, 1)), 
         	FOREIGN KEY(context_id) REFERENCES contexts (id)
         )
@@ -2679,8 +2681,8 @@ Models
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
         	PRIMARY KEY (id), 
-        	CONSTRAINT uq_sections UNIQUE (slug), 
         	CONSTRAINT uq_t_sections UNIQUE (title), 
+        	CONSTRAINT uq_sections UNIQUE (slug), 
         	CHECK (send_by_default IN (0, 1)), 
         	CHECK (na IN (0, 1)), 
         	FOREIGN KEY(parent_id) REFERENCES sections (id), 
@@ -2796,8 +2798,8 @@ Models
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
         	PRIMARY KEY (id), 
-        	CONSTRAINT uq_systems UNIQUE (slug), 
         	CONSTRAINT uq_t_systems UNIQUE (title), 
+        	CONSTRAINT uq_systems UNIQUE (slug), 
         	CHECK (send_by_default IN (0, 1)), 
         	CHECK (infrastructure IN (0, 1)), 
         	CHECK (is_biz_process IN (0, 1)), 
@@ -2869,8 +2871,8 @@ Models
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
         	PRIMARY KEY (id), 
-        	CONSTRAINT uq_systems UNIQUE (slug), 
         	CONSTRAINT uq_t_systems UNIQUE (title), 
+        	CONSTRAINT uq_systems UNIQUE (slug), 
         	CHECK (send_by_default IN (0, 1)), 
         	CHECK (infrastructure IN (0, 1)), 
         	CHECK (is_biz_process IN (0, 1)), 
@@ -2942,8 +2944,8 @@ Models
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
         	PRIMARY KEY (id), 
-        	CONSTRAINT uq_systems UNIQUE (slug), 
         	CONSTRAINT uq_t_systems UNIQUE (title), 
+        	CONSTRAINT uq_systems UNIQUE (slug), 
         	CHECK (send_by_default IN (0, 1)), 
         	CHECK (infrastructure IN (0, 1)), 
         	CHECK (is_biz_process IN (0, 1)), 
@@ -2999,8 +3001,8 @@ Models
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
         	PRIMARY KEY (id), 
-        	CONSTRAINT uq_vendors UNIQUE (slug), 
         	CONSTRAINT uq_t_vendors UNIQUE (title), 
+        	CONSTRAINT uq_vendors UNIQUE (slug), 
         	CHECK (send_by_default IN (0, 1)), 
         	FOREIGN KEY(context_id) REFERENCES contexts (id)
         )

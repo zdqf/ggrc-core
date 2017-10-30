@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Access Control &#8212; GGRC 0.10.35-Raspberry (da448a6) documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.35-Raspberry (da448a6)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.35-Raspberry (da448a6) documentation" href="../index.html" />
+    <link rel="up" title="Backend" href="index.html" />
+    <link rel="next" title="Adding a new Object" href="adding_new_object.html" />
+    <link rel="prev" title="Data Layer" href="data_layer.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="adding_new_object.html" title="Adding a new Object"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="data_layer.html" title="Data Layer"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (da448a6) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Backend</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="access-control">
+<h1>Access Control<a class="headerlink" href="#access-control" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="role-based-access-control-access-control-list">
+<h2>Role Based Access Control &amp; Access Control List<a class="headerlink" href="#role-based-access-control-access-control-list" title="Permalink to this headline">¶</a></h2>
+<p>⚠️ GGRC is currently in the process of refactoring the role based access control
+permission system (RBAC) to access control list (ACL).</p>
+<p>The progress is tracked in the <a class="reference external" href="https://docs.google.com/document/d/1i-iutQOHzfgAIizgRzTGGMUb7PyS7LfwUTAvcPiTFwg/edit#heading=h.xgjl2srtytjt">ACL technical design document</a>.</p>
+</div>
+<div class="section" id="roles">
+<h2>Roles<a class="headerlink" href="#roles" title="Permalink to this headline">¶</a></h2>
+<p>Below is a complete list of roles a user can have in GGRC</p>
+<ul class="simple">
+<li><strong>Global Roles</strong> No access, Creator, Reader, Editor, Administrator, Superuser</li>
+<li><strong>Program roles</strong> Program Manager, Program Editor, Program Reader</li>
+<li><strong>Workflows roles</strong> Workflow Manager, Workflow Member</li>
+<li><strong>Assessment Object roles</strong> Assignees (Creator, Assessor, Verifier)</li>
+<li><strong>Object Roles</strong> Object Admins, Primary contacts, Secondary contacts, Primary Assessors, Secondary Assessors</li>
+</ul>
+<div class="section" id="global-roles">
+<h3>Global Roles<a class="headerlink" href="#global-roles" title="Permalink to this headline">¶</a></h3>
+<p>GGRC has 6 global roles:</p>
+<ul class="simple">
+<li><strong>No Role</strong> - users with no access are not allowed to get passed the login page. They are marked as Inactive users inside the app.</li>
+<li><strong>Creator</strong> users are allowed to create any GGRC object, but they are only allowed to see their own objects or objects where they were explicitly given access to by another role (object owner, program manager, assignee, …).</li>
+<li><strong>Reader</strong> users have READ access to all the objects in GGRC. In addition to this, they also have the ability to CREATE any object much like users with the Creator role. Currently there is no way to give a user READ only access to the app. Every user (except for the ones with No access role) are allowed to create their own objects.</li>
+<li><strong>Editor</strong> users can READ &amp; EDIT all objects in GGRC and similar to Reader and Creator roles they can also CREATE their own objects.</li>
+<li><strong>Administrator</strong> users can do all of the above plus they are granted access to the admin dashboard where they can grant System wide roles to other users. They can also add global custom attributes to GGRC objects.</li>
+<li><strong>Superuser</strong> that is set in the app config (GGRC_BOOTSTRAP_ADMIN_USERS). It behaves completely the same as the Administrator role, but it can’t be unassigned through the application interface (a change in the config is required).</li>
+</ul>
+</div>
+<div class="section" id="program-and-workflow-roles">
+<h3>Program and Workflow roles<a class="headerlink" href="#program-and-workflow-roles" title="Permalink to this headline">¶</a></h3>
+<p>Program &amp; Workflow roles grant access only in the context of the Program/Workflow.</p>
+<ul class="simple">
+<li><strong>No access</strong> will not grant any permissions in the program/workflow context, however, if the user has access to the object (e.g. has system wide Editor role) this role WILL NOT prevent access to the object even though the name/description implies it.</li>
+<li><strong>Workflow Member</strong> have access to update/delete some workflow objects (cycle tasks, attachments, comments), but they only have READ access to objects on workflow setup tab (task groups, task group tasks) and the workflow object itself.</li>
+<li><strong>Workflow Manager</strong> have complete access to all objects in the workflow scope. They can also have permission to assign workflow/program level roles to users.</li>
+<li><strong>Program Reader</strong> have READ access to the program and all the objects related to the program. This includes all objects mapped to the program (e.g. Regulations, Controls, Sections, Systems, etc.) as well as Audits and all objects mapped to the audit (Assessments, Issues, Requests, …)</li>
+<li><strong>Program Editor</strong> have EDIT access to the program and all the objects related to the program.</li>
+<li><strong>Program Manager</strong> have EDIT access and can assign program roles to users.</li>
+<li><strong>Auditor</strong> is a special role on the audit object that grants the user READ access to the audit and program as well as read access to all the mapped objects</li>
+</ul>
+</div>
+</div>
+<div class="section" id="rbac-implementation">
+<h2>RBAC Implementation<a class="headerlink" href="#rbac-implementation" title="Permalink to this headline">¶</a></h2>
+<p>All the roles described above are scattered through multiple database tables.</p>
+<div class="section" id="database-tables">
+<h3>Database Tables<a class="headerlink" href="#database-tables" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><cite>roles</cite> table stores all the possible system wide and object level roles (e.g. Editor, WorkflowMember). The permissions that the roles grant are stored in the code, where each role in the database has a corresponding python file with a list of permissions that the role grants, e.g. workflow member.</li>
+<li><cite>user_roles</cite>  connects users in the system to a specific role</li>
+<li><cite>contexts</cite> Programs, Audits and Workflows have their own context. A ProgramEditor role gives the user edit access to all the objects with that specific context_id.</li>
+<li><cite>context_implications</cite> Because certain roles span over multiple contexts (ProgramEditor should have edit access on all audits attached to the parent program) we use the context_implications to propagate permissions from the program context to the audit context.</li>
+</ul>
+</div>
+<div class="section" id="performance-issues">
+<h3>Performance issues<a class="headerlink" href="#performance-issues" title="Permalink to this headline">¶</a></h3>
+<p>On every request to the server we have to calculate which objects the user has access to. This includes multiple queries to the database to fetch all the user roles, contexts, implications, owners etc and then combining the results with the roles defined in the python code.</p>
+<p>From a performance standpoint the roles that grant access to mapped objects are the worst as they require expensive joins to the relationship table to get a list of currently active mapped objects.</p>
+<p>Because the access data is scattered throughout multiple tables in the database and the python source code, creating efficient search queries has proven to be extremely difficult. Creating joins through that many tables is slow and error prone.</p>
+</div>
+<div class="section" id="usability-issues">
+<h3>Usability issues<a class="headerlink" href="#usability-issues" title="Permalink to this headline">¶</a></h3>
+<p>Because of the way we currently gather permissions, there is no easy way to figure out how or why the current user has access to a particular object and because our permissions rules are very complex, this has caused many false bug reports and confused multiple users trying to use the system.</p>
+</div>
+</div>
+<div class="section" id="acl-implementation">
+<h2>ACL Implementation<a class="headerlink" href="#acl-implementation" title="Permalink to this headline">¶</a></h2>
+<p>The idea behind the new ACL system is to greatly simplify the implementation by reducing the number of places where roles are defined and stored. Instead of querying multiple tables and computing a list of possible roles/contexts/implications all necessary state is going to be stored in a single table (<cite>access_control_list</cite>). The table is going to be optimized for READ access because it will be queried on almost every request.</p>
+<p>We will accomplish this by sacrificing some performance on object creation (e.g. creating a mapping will have to add one or multiple rows to the access_control_list table), but by so doing we will not have to compute those permissions on every GET request.</p>
+<p>Object level permissions will give the user access to one particular object. In the <cite>access_control_list</cite> table these permissions will have a valid object set in the resource_id and resource_type columns. The permissions granted will depend on the role specified e.g. object owner role will grant read/write/delete access on the object, while object contact role might only grant read access.</p>
+<div class="section" id="id1">
+<h3>Database Tables<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><cite>access_control_roles</cite> stores role definitions.</li>
+<li><cite>access_control_list</cite> stores user &lt;-&gt; role &lt;-&gt; object mappings.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Access Control</a><ul>
+<li><a class="reference internal" href="#role-based-access-control-access-control-list">Role Based Access Control &amp; Access Control List</a></li>
+<li><a class="reference internal" href="#roles">Roles</a><ul>
+<li><a class="reference internal" href="#global-roles">Global Roles</a></li>
+<li><a class="reference internal" href="#program-and-workflow-roles">Program and Workflow roles</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rbac-implementation">RBAC Implementation</a><ul>
+<li><a class="reference internal" href="#database-tables">Database Tables</a></li>
+<li><a class="reference internal" href="#performance-issues">Performance issues</a></li>
+<li><a class="reference internal" href="#usability-issues">Usability issues</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#acl-implementation">ACL Implementation</a><ul>
+<li><a class="reference internal" href="#id1">Database Tables</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="data_layer.html"
+                        title="previous chapter">Data Layer</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="adding_new_object.html"
+                        title="next chapter">Adding a new Object</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/backend/access_control.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="adding_new_object.html" title="Adding a new Object"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="data_layer.html" title="Data Layer"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (da448a6) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Backend</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

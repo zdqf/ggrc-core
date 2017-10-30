@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Data Layer &#8212; GGRC 0.10.35-Raspberry (da448a6) documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.35-Raspberry (da448a6)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.35-Raspberry (da448a6) documentation" href="../index.html" />
+    <link rel="up" title="Backend" href="index.html" />
+    <link rel="next" title="Access Control" href="access_control.html" />
+    <link rel="prev" title="Overview" href="overview.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="access_control.html" title="Access Control"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="Overview"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (da448a6) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Backend</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="data-layer">
+<h1>Data Layer<a class="headerlink" href="#data-layer" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="data-model">
+<h2>Data Model<a class="headerlink" href="#data-model" title="Permalink to this headline">¶</a></h2>
+<p>The backend data model (written in Python) lives in <code class="docutils literal"><span class="pre">src/&lt;module&gt;/models</span></code>.</p>
+<p>The data model classes and fields are mapped to database tables and
+columns using SQLAlchemy. These mappings are defined in the model
+classes themselves. Constraints used for validation and data integrity
+are described within the model classes as well.</p>
+</div>
+<div class="section" id="database-schema">
+<h2>Database Schema<a class="headerlink" href="#database-schema" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><div class="figure">
+<img alt="Database schema" src="../_images/schema.png" />
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="internal-vs-external-model">
+<h2>Internal vs. External Model<a class="headerlink" href="#internal-vs-external-model" title="Permalink to this headline">¶</a></h2>
+<p>An abstraction exists between the actual data model and the external
+representation of the data model rendered through the REST interface.
+This abstraction is necessary because it decouples the external
+structure of a model from the actual internal structure of the model.
+This decoupling allows changes to be made to the internal model without
+violating the contract provided by the REST API. Without this
+abstraction changes made to the internal model could cause consumers of
+the REST API to break, and that would be bad.</p>
+<p>The &#8220;decoupling&#8221; is two places:</p>
+<ol class="arabic simple">
+<li>First, the resource-representation is constructed using the Builder
+class (<code class="docutils literal"><span class="pre">ggrc.builder.json</span></code>), the behavior of which is currently
+defined from the model and the <code class="docutils literal"><span class="pre">_api_attrs</span></code> attributes.</li>
+<li>Second, the interaction of resources and the database is defined by
+the Resource class (<code class="docutils literal"><span class="pre">ggrc.services.common.Resource</span></code>). The
+<code class="docutils literal"><span class="pre">service(...)</span></code> mappings in <code class="docutils literal"><span class="pre">ggrc.services.__init__</span></code> are defining
+API endpoints and linking them to Builder classes (autogenerated from
+the supplied model).</li>
+</ol>
+<p>Attributes to be included in the external representation of the model
+are declared via the <code class="docutils literal"><span class="pre">_api_attrs</span></code> attribute of a Python model.
+Attributes not included in that list will not be included in external
+representations of the model.</p>
+</div>
+<div class="section" id="database-migrations">
+<h2>Database Migrations<a class="headerlink" href="#database-migrations" title="Permalink to this headline">¶</a></h2>
+<p>Migrations are implemented and executed via
+<a class="reference external" href="http://alembic.zzzcomputing.com/en/latest/">alembic</a>, augmented to
+support extension modules in ggrc.migrate. &nbsp;(The standard <code class="docutils literal"><span class="pre">alembic</span></code>
+command will <em>not</em> do the right thing.)</p>
+<p>Migration scripts are written in Python and live in
+<code class="docutils literal"><span class="pre">src/&lt;module&gt;/migrations/versions</span></code>.</p>
+<p>Migrations are executed by running <code class="docutils literal"><span class="pre">db_migrate</span></code> from the command line.
+&nbsp;This effectively runs</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;import ggrc.migrate; ggrc.migrate.upgradeall()&quot;</span>
+</pre></div>
+</div>
+<p>which iterates through existing modules and runs missing migrations for
+each.</p>
+<p>Migrations can be autogenerated from a fully-migrated environment by
+first making changes to in-Python model definitions, and then executing
+(e.g.)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">ggrc</span><span class="o">.</span><span class="n">migrate</span> <span class="n">ggrc_workflows</span> <span class="n">revision</span> <span class="o">--</span><span class="n">autogenerate</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;Add Cycle.is_current&quot;</span>
+</pre></div>
+</div>
+<p>This will create a new migration file with many unwanted changes
+(indexes, changes to nullability, etc) due to inconsistencies between
+database state and model definition. &nbsp;These should eventually be fixed.
+&nbsp;(Indexes should eventually be consistently named, etc.)</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Data Layer</a><ul>
+<li><a class="reference internal" href="#data-model">Data Model</a></li>
+<li><a class="reference internal" href="#database-schema">Database Schema</a></li>
+<li><a class="reference internal" href="#internal-vs-external-model">Internal vs. External Model</a></li>
+<li><a class="reference internal" href="#database-migrations">Database Migrations</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="overview.html"
+                        title="previous chapter">Overview</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="access_control.html"
+                        title="next chapter">Access Control</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/backend/data_layer.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="access_control.html" title="Access Control"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="Overview"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (da448a6) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Backend</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,999 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Advanced Query API &#8212; GGRC 0.10.35-Raspberry (da448a6) documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.35-Raspberry (da448a6)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.35-Raspberry (da448a6) documentation" href="../index.html" />
+    <link rel="up" title="Backend" href="index.html" />
+    <link rel="next" title="Object Manipulation" href="object_manipulation.html" />
+    <link rel="prev" title="Adding a new Object" href="adding_new_object.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="object_manipulation.html" title="Object Manipulation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="adding_new_object.html" title="Adding a new Object"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (da448a6) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Backend</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="advanced-query-api">
+<span id="id1"></span><h1>Advanced Query API<a class="headerlink" href="#advanced-query-api" title="Permalink to this headline">¶</a></h1>
+<p>Quick overview of the Query API behavior.</p>
+<p>API endpoint is <code class="docutils literal"><span class="pre">/query</span></code> and in the future it should replace the
+current <code class="docutils literal"><span class="pre">/search</span></code>. Due to expected bigger queries it listens for
+POST requests.</p>
+<p>Payload contains an array of queries:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span><span class="o">...</span><span class="p">},</span> <span class="c1"># query 1</span>
+  <span class="p">{</span><span class="o">...</span><span class="p">},</span> <span class="c1"># query 2</span>
+  <span class="p">{</span><span class="o">...</span><span class="p">},</span> <span class="c1"># query 3</span>
+  <span class="o">...</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Response is an array of objects containing results of the
+corresponding query:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span><span class="o">...</span><span class="p">},</span> <span class="c1"># response to query 1</span>
+  <span class="p">{</span><span class="o">...</span><span class="p">},</span> <span class="c1"># response to query 2</span>
+  <span class="p">{</span><span class="o">...</span><span class="p">},</span> <span class="c1"># response to query 3</span>
+  <span class="o">...</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<div class="section" id="query-structure">
+<h2>Query Structure<a class="headerlink" href="#query-structure" title="Permalink to this headline">¶</a></h2>
+<p>In this section we will assume that the request has the following
+structure with a single query and all results will be for it.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span> <span class="n">query</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>All queries have a query type which can be: values (default), count,
+ids.  If query type is not specified the values type is be used.</p>
+<ul class="simple">
+<li>values: Returns a list of serialized matched items.</li>
+<li>count: Returns only the number of matched items.</li>
+<li>ids: Returns only the ids of matched items.</li>
+</ul>
+</div>
+<div class="section" id="basic-query">
+<h2>Basic Query<a class="headerlink" href="#basic-query" title="Permalink to this headline">¶</a></h2>
+<p>To get any results from the query, we need to add a filter with an
+expression. An empty expression will match all objects of a certain
+type:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{}},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Result:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="p">[{</span>
+    <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">some</span> <span class="n">number</span><span class="o">&gt;</span><span class="p">,</span>
+        <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">equal</span> <span class="n">to</span> <span class="n">total</span><span class="o">&gt;</span><span class="p">,</span>
+        <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">&lt;</span><span class="nb">list</span> <span class="n">of</span> <span class="n">objects</span><span class="o">&gt;</span><span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">}]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="filtered-query">
+<h2>Filtered Query<a class="headerlink" href="#filtered-query" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="values">
+<h3>values<a class="headerlink" href="#values" title="Permalink to this headline">¶</a></h3>
+<p>The default query type is &#8220;values&#8221;, so</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{}},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>is same as</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{}},</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;values&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Result:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="p">[{</span>
+    <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">some</span> <span class="n">number</span><span class="o">&gt;</span><span class="p">,</span>
+        <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">equal</span> <span class="n">to</span> <span class="n">total</span><span class="o">&gt;</span><span class="p">,</span>
+        <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">&lt;</span><span class="nb">list</span> <span class="n">of</span> <span class="n">objects</span><span class="o">&gt;</span><span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">}]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ids">
+<h3>ids<a class="headerlink" href="#ids" title="Permalink to this headline">¶</a></h3>
+<p>For &#8220;ids&#8221; query type the result object will contain the ids instead of
+values:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{}},</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;ids&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>result:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="p">[{</span>
+    <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">some</span> <span class="n">number</span><span class="o">&gt;</span><span class="p">,</span>
+        <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">equal</span> <span class="n">to</span> <span class="n">total</span><span class="o">&gt;</span><span class="p">,</span>
+        <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">other</span> <span class="n">ids</span><span class="o">&gt;</span><span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">}]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="count">
+<h3>count<a class="headerlink" href="#count" title="Permalink to this headline">¶</a></h3>
+<p>For &#8220;count&#8221; query type the result object will not contain the values:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{}},</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>result:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="p">[{</span>
+    <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">some</span> <span class="n">number</span><span class="o">&gt;</span><span class="p">,</span>
+        <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">equal</span> <span class="n">to</span> <span class="n">total</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="paginated-query">
+<h2>Paginated Query<a class="headerlink" href="#paginated-query" title="Permalink to this headline">¶</a></h2>
+<p>To apply paging, &#8220;limit&#8221; argument should be provided:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{}},</span>
+    <span class="s2">&quot;limit&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Same as Python slices, left boundary is inclusive, right boundary is
+exclusive.</p>
+<p>Result:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="p">[{</span>
+    <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">total</span> <span class="n">count</span> <span class="n">of</span> <span class="n">matched</span> <span class="n">entries</span><span class="o">&gt;</span><span class="p">,</span>
+        <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">count</span> <span class="n">of</span> <span class="n">entries</span> <span class="n">returned</span><span class="o">&gt;</span><span class="p">,</span>
+        <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">objects</span> <span class="kn">from</span> <span class="mi">0</span> <span class="n">to</span> <span class="mi">10</span><span class="o">&gt;</span><span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">}]</span>
+</pre></div>
+</div>
+<p>Notes:</p>
+<ul class="simple">
+<li>if you request items from 50 to 100 and <code class="docutils literal"><span class="pre">total</span></code> is less than 100,
+the response will contain fewer than <code class="docutils literal"><span class="pre">100</span> <span class="pre">-</span> <span class="pre">50</span></code> items;</li>
+<li>if you provide negative indices or if the right boundary is less or
+equal to the left boundary, an error will be returned.</li>
+</ul>
+</div>
+<div class="section" id="ordered-queries">
+<h2>Ordered Queries<a class="headerlink" href="#ordered-queries" title="Permalink to this headline">¶</a></h2>
+<p>To apply ordering, &#8220;order_by&#8221; argument should be provided:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{}},</span>
+    <span class="s2">&quot;order_by&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;field name&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;desc&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="nb">bool</span><span class="p">,</span> <span class="n">optional</span><span class="o">&gt;</span><span class="p">}],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Result:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="p">[{</span>
+    <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">some</span> <span class="n">number</span><span class="o">&gt;</span><span class="p">,</span>
+        <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">equal</span> <span class="n">to</span> <span class="n">total</span><span class="o">&gt;</span><span class="p">,</span>
+        <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">ordered</span> <span class="n">objects</span><span class="o">&gt;</span><span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">}]</span>
+</pre></div>
+</div>
+<p>Notes:</p>
+<ul class="simple">
+<li>the value provided in &#8220;order_by&#8221; is transformed to SQL <code class="docutils literal"><span class="pre">ORDER</span> <span class="pre">BY</span></code>
+retaining SQL ordering semantics: <code class="docutils literal"><span class="pre">&quot;order_by&quot;:</span> <span class="pre">[{&quot;name&quot;:</span> <span class="pre">&quot;title&quot;},</span>
+<span class="pre">{&quot;name&quot;:</span> <span class="pre">&quot;id&quot;,</span> <span class="pre">&quot;desc&quot;:</span> <span class="pre">True}]</span></code> → <code class="docutils literal"><span class="pre">ORDER</span> <span class="pre">BY</span> <span class="pre">title</span> <span class="pre">ASC,</span> <span class="pre">id</span> <span class="pre">DESC</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="querying-multiple-types-with-a-single-query-object">
+<h2>Querying multiple types with a single query object<a class="headerlink" href="#querying-multiple-types-with-a-single-query-object" title="Permalink to this headline">¶</a></h2>
+<p><strong>Is not supported yet.</strong></p>
+</div>
+<div class="section" id="filter-expressions">
+<h2>Filter Expressions<a class="headerlink" href="#filter-expressions" title="Permalink to this headline">¶</a></h2>
+<p>The filter expression is a parsed AST with a user&#8217;s input for a search
+field. Each node must contain <code class="docutils literal"><span class="pre">&quot;op&quot;:</span> <span class="pre">{&quot;name&quot;:</span> <span class="pre">&quot;&lt;operator</span> <span class="pre">name&gt;&quot;}</span></code>,
+and the set of operands differ from one operator to another.</p>
+<p>The types of operators supported:</p>
+<ul class="simple">
+<li>field operators,</li>
+<li>logical operators,</li>
+<li>object operators.</li>
+</ul>
+<div class="section" id="field-operators">
+<h3>Field operators<a class="headerlink" href="#field-operators" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">=</span></code> equal,</li>
+<li><code class="docutils literal"><span class="pre">!=</span></code> not equal,</li>
+<li><code class="docutils literal"><span class="pre">~</span></code> contains,</li>
+<li><code class="docutils literal"><span class="pre">!~</span></code> does not contain,</li>
+<li><code class="docutils literal"><span class="pre">&lt;</span></code> is less than,</li>
+<li><code class="docutils literal"><span class="pre">&lt;=</span></code> is less than or equal to,</li>
+<li><code class="docutils literal"><span class="pre">&gt;</span></code> is greater than,</li>
+<li><code class="docutils literal"><span class="pre">&gt;=</span></code> is greater or equal to,</li>
+<li><code class="docutils literal"><span class="pre">is</span> <span class="pre">empty</span></code> is not defined or is filled with an empty value.</li>
+</ul>
+<p>Each of the operators accept the same operands: <code class="docutils literal"><span class="pre">&quot;left&quot;:</span> <span class="pre">&quot;&lt;field</span>
+<span class="pre">name&quot;</span></code> and <code class="docutils literal"><span class="pre">&quot;right&quot;:</span> <span class="pre">&quot;&lt;value&gt;&quot;</span></code>.</p>
+<p>The field name in <code class="docutils literal"><span class="pre">&quot;left&quot;</span></code> should preferably contain the
+user-visible field label, like &#8220;Code&#8221; instead of &#8220;slug&#8221; or &#8220;Effective
+Date&#8221; instead of &#8220;start_date&#8221;.</p>
+<p>Example request:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="s2">&quot;Last Assessment Date&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="s2">&quot;10/17/2017&quot;</span><span class="p">,</span>
+    <span class="p">}},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Notes:</p>
+<ul class="simple">
+<li>when searching for dates and timestamps, <code class="docutils literal"><span class="pre">~</span></code> and <code class="docutils literal"><span class="pre">!~</span></code> are
+synonymous to <code class="docutils literal"><span class="pre">=</span></code> and <code class="docutils literal"><span class="pre">!=</span></code> respectively;</li>
+<li>when searching for dates and timestamps, you can provide partial
+dates: <code class="docutils literal"><span class="pre">date</span> <span class="pre">=</span> <span class="pre">2017</span></code> is the same as <code class="docutils literal"><span class="pre">date</span> <span class="pre">&gt;=</span> <span class="pre">01/01/2017</span> <span class="pre">AND</span> <span class="pre">date</span>
+<span class="pre">&lt;=</span> <span class="pre">12/31/2017</span></code>, <code class="docutils literal"><span class="pre">date</span> <span class="pre">&lt;</span> <span class="pre">06/2017</span></code> is the same as <code class="docutils literal"><span class="pre">date</span> <span class="pre">&lt;</span>
+<span class="pre">01/06/2017</span></code>;</li>
+<li>when searching for dates and timestamps, you can provide dates
+either in <code class="docutils literal"><span class="pre">mm/dd/YYYY</span></code> and <code class="docutils literal"><span class="pre">YYYY-mm-dd</span></code> formats;</li>
+<li>when searching for non-date fields, <code class="docutils literal"><span class="pre">~</span></code> and <code class="docutils literal"><span class="pre">!~</span></code> accept
+wildcards: <code class="docutils literal"><span class="pre">_</span></code> matches any character, <code class="docutils literal"><span class="pre">%</span></code> matches any number of
+any characters;</li>
+<li><code class="docutils literal"><span class="pre">is</span> <span class="pre">empty</span></code> is technically a binary operator &#8220;is&#8221; that accepts only
+&#8220;empty&#8221; in its &#8220;right&#8221; operand: <code class="docutils literal"><span class="pre">{&quot;op&quot;:</span> <span class="pre">{&quot;name&quot;:</span> <span class="pre">&quot;is&quot;},</span> <span class="pre">&quot;left&quot;:</span>
+<span class="pre">&quot;&lt;field</span> <span class="pre">name&gt;&quot;,</span> <span class="pre">&quot;right&quot;:</span> <span class="pre">&quot;empty&quot;}</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="logical-operators">
+<h3>Logical operators<a class="headerlink" href="#logical-operators" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">OR</span></code> logical or,</li>
+<li><code class="docutils literal"><span class="pre">AND</span></code> logical and.</li>
+</ul>
+<p>You can group any filter expression with any other filter expression
+with <code class="docutils literal"><span class="pre">OR</span></code> or <code class="docutils literal"><span class="pre">AND</span></code> operators. They both accept the same operands:
+<code class="docutils literal"><span class="pre">&quot;left&quot;:</span> <span class="pre">{&lt;expression</span> <span class="pre">tree&gt;}</span></code> and <code class="docutils literal"><span class="pre">&quot;right&quot;:</span> <span class="pre">{&lt;expression</span> <span class="pre">tree&gt;}</span></code>.</p>
+<p>Example request:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;AND&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;~&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="s2">&quot;title&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="s2">&quot;ISO&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;OR&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="p">{</span>
+                 <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;is&quot;</span><span class="p">},</span>
+                 <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="s2">&quot;description&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="s2">&quot;empty&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="p">{</span>
+                 <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;~&quot;</span><span class="p">},</span>
+                 <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="s2">&quot;description&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="s2">&quot;TBD&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">},</span>
+    <span class="p">}},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="object-operators">
+<h3>Object operators<a class="headerlink" href="#object-operators" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">relevant</span></code> is mapped or logically related,</li>
+<li><code class="docutils literal"><span class="pre">similar</span></code> has common mapped objects,</li>
+<li><code class="docutils literal"><span class="pre">owned</span></code> has a certain person with any object-level role,</li>
+<li><code class="docutils literal"><span class="pre">related_people</span></code> special mapped people list,</li>
+<li><code class="docutils literal"><span class="pre">text_search</span></code> has some value in any indexed field,</li>
+<li><code class="docutils literal"><span class="pre">cascade_unmappable</span></code> specific to Issue-Assessment unmapping.</li>
+</ul>
+<p>These operators operate with objects as a whole (primarily based on
+mappings). Each has its own set of operands.</p>
+<div class="section" id="relevant">
+<h4><code class="docutils literal"><span class="pre">relevant</span></code><a class="headerlink" href="#relevant" title="Permalink to this headline">¶</a></h4>
+<p>There are two main cases of relevant expressions.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;relevant&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Program&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="p">}},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Filters objects that are mapped or related to <code class="docutils literal"><span class="pre">&quot;Program&quot;</span></code> with id 1
+or 2.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Control&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span><span class="o">...</span><span class="p">}},</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;relevant&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;__previous__&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>  <span class="c1"># index of a previous query starting with 0</span>
+        <span class="p">}},</span>
+    <span class="p">},</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Filters objects that are mapped or related any object from the result
+set of the first query object.</p>
+<p>Notes:</p>
+<ul class="simple">
+<li>the definition of &#8220;relevance&#8221; has no solid definition, objects can
+be relevant if they are directly mapped or mapped to a relevant
+program, and people can be relevant if they are stored in a custom
+attribute, have a role in the current object or the parent program;</li>
+<li><code class="docutils literal"><span class="pre">&quot;ids&quot;:</span> <span class="pre">[1]</span></code> can be passed as <code class="docutils literal"><span class="pre">&quot;ids:</span> <span class="pre">1</span></code> (value instead of a
+singleton list).</li>
+</ul>
+</div>
+<div class="section" id="similar">
+<h4><code class="docutils literal"><span class="pre">similar</span></code><a class="headerlink" href="#similar" title="Permalink to this headline">¶</a></h4>
+<p>Applicable only to query Assessments <code class="docutils literal"><span class="pre">similar</span></code> to Assessments,
+Assessments <code class="docutils literal"><span class="pre">similar</span></code> to Issues and vice versa.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Assessment&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;similar&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Assessment&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+    <span class="p">}},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Returns Assessment with the same <code class="docutils literal"><span class="pre">Assessment</span> <span class="pre">Type</span></code> that are mapped
+to any snapshots of the same snapshottable objects whose snapshots are
+mapped to <code class="docutils literal"><span class="pre">&quot;Assessment&quot;</span></code> with id 2.</p>
+</div>
+<div class="section" id="owned">
+<h4><code class="docutils literal"><span class="pre">owned</span></code><a class="headerlink" href="#owned" title="Permalink to this headline">¶</a></h4>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;owned&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="p">}},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Returns objects that are &#8220;owned&#8221; by either Person with id 1 or Person
+with id 2.</p>
+<p>Criteria for &#8220;owned&#8221;:</p>
+<ul class="simple">
+<li>the Person is directly mapped,</li>
+<li>the Person is stored in any custom attribute,</li>
+<li>the Person is Assessment Creator, Assignee or Verifier,</li>
+<li>the Person has a role on the object or, for Audit, a role in the
+parent Program,</li>
+<li>the Person has an object-level role.</li>
+</ul>
+</div>
+<div class="section" id="text-search">
+<h4><code class="docutils literal"><span class="pre">text_search</span></code><a class="headerlink" href="#text-search" title="Permalink to this headline">¶</a></h4>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;text_search&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;Some free text entered into a search field&quot;</span><span class="p">,</span>
+    <span class="p">}},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Returns objects that contain the provided <code class="docutils literal"><span class="pre">&quot;text&quot;</span></code> in any of the
+indexed fields (basically, in any field that can be shown on the info
+pane or in the tree view).</p>
+</div>
+<div class="section" id="related-people">
+<h4><code class="docutils literal"><span class="pre">related_people</span></code><a class="headerlink" href="#related-people" title="Permalink to this headline">¶</a></h4>
+<p>Special operator to return people for People tab. Can be used to get
+the list of objects where a person will be displayed in people tab.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;text_search&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="p">}},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Will return the list of people who should be displayed in People tab
+for <code class="docutils literal"><span class="pre">&quot;&lt;object</span> <span class="pre">name&gt;&quot;</span></code> with id 1.</p>
+<p>The people returned are either directly mapped, or:</p>
+<ul class="simple">
+<li>for Program: have a Program-level role,</li>
+<li>for Audit: have a Program-level role or an Audit-level
+role,</li>
+<li>for Workflow: have a Workflow-level role.</li>
+</ul>
+</div>
+<div class="section" id="cascade-unmappable">
+<h4><code class="docutils literal"><span class="pre">cascade_unmappable</span></code><a class="headerlink" href="#cascade-unmappable" title="Permalink to this headline">¶</a></h4>
+<p>Special operator to return a list of objects that will be unmapped is
+process of cascade unmapping of Assessment from Issue.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Audit&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;cascade_unmappable&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;issue&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+        <span class="s2">&quot;assessment&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
+    <span class="p">}},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The only allowed <code class="docutils literal"><span class="pre">&quot;object_name&quot;</span></code> values are &#8220;Snapshot&#8221; and &#8220;Audit&#8221;.</p>
+</div>
+</div>
+</div>
+<div class="section" id="full-example">
+<h2>Full example<a class="headerlink" href="#full-example" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="request">
+<h3>Request<a class="headerlink" href="#request" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Control&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;ids&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;~&quot;</span><span class="p">},</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="s2">&quot;admin&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="s2">&quot;Example User&quot;</span> <span class="p">}</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Program&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;ids&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;~&quot;</span><span class="p">},</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="s2">&quot;PCI&quot;</span> <span class="p">}</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;System&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;ids&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;AND&quot;</span><span class="p">},</span>
+                            <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;~&quot;</span><span class="p">},</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="s2">&quot;example.com&quot;</span> <span class="p">},</span>
+                            <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;relevant&quot;</span><span class="p">},</span> <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;__previous__&quot;</span><span class="p">,</span> <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span> <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Product&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;ids&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;AND&quot;</span><span class="p">},</span>
+                            <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;~&quot;</span><span class="p">},</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="s2">&quot;Mail&quot;</span> <span class="p">},</span>
+                            <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;relevant&quot;</span><span class="p">},</span> <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;__previous__&quot;</span><span class="p">,</span> <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">}</span> <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Regulation&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;values&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;limit&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>
+        <span class="s2">&quot;order_by&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Primary Contacts&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;desc&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}],</span>
+        <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;AND&quot;</span><span class="p">},</span>
+                            <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="p">{</span>
+                                <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;AND&quot;</span><span class="p">},</span>
+                                <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="p">{</span>
+                                    <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;OR&quot;</span><span class="p">},</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="p">{</span>
+                                        <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;=&quot;</span><span class="p">},</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="s2">&quot;state&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="s2">&quot;Draft&quot;</span>
+                                    <span class="p">},</span>
+                                    <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="p">{</span>
+                                        <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;=&quot;</span><span class="p">},</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="s2">&quot;state&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="s2">&quot;Effective&quot;</span>
+                                    <span class="p">}</span>
+                                <span class="p">},</span>
+                                <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="p">{</span>
+                                    <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;OR&quot;</span><span class="p">},</span>
+                                    <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;~&quot;</span><span class="p">},</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="s2">&quot;Access&quot;</span><span class="p">},</span>
+                                    <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;~&quot;</span><span class="p">},</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="s2">&quot;Permission&quot;</span><span class="p">}</span>
+                                <span class="p">}</span>
+                            <span class="p">},</span>
+                            <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="p">{</span>
+                                <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;OR&quot;</span><span class="p">},</span>
+                                <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;relevant&quot;</span><span class="p">},</span> <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;__previous__&quot;</span><span class="p">,</span> <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]},</span>
+                                <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;relevant&quot;</span><span class="p">},</span> <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;__previous__&quot;</span><span class="p">,</span> <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="p">}</span>
+                            <span class="p">}</span> <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="0">
+<li>We find every Control that has &#8220;Example User&#8221; as an Admin.</li>
+<li>We find every Program that contains &#8220;PCI&#8221; in the title.</li>
+<li>We find every System that features two parameters:<ul>
+<li>contains &#8220;example.com&#8221; in the title,</li>
+<li>is related to any of the Programs from block 1.</li>
+</ul>
+</li>
+<li>We find every Product that features two parameters:<ul>
+<li>contains &#8220;Mail&#8221; in the title</li>
+<li>is related to any of the Systems from block 2</li>
+</ul>
+</li>
+<li>We find, order by Primary Contacts list and title in descending
+order and return the full objects for objects starting with 1st and
+finishing with 20th Regulations that feature the following
+parameters:<ul>
+<li>is related to any of the Products from block 3 OR is related to any
+of the Controls from block 0,</li>
+<li>has state in &#8220;Draft&#8221; or &#8220;Effective&#8221;,</li>
+<li>contains &#8220;Access&#8221; or &#8220;Permission&#8221; in the title.</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="response">
+<h3>Response:<a class="headerlink" href="#response" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;Control&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+            <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="mi">20</span><span class="p">,</span>
+                <span class="mi">22</span><span class="p">,</span>
+                <span class="mi">23</span><span class="p">,</span>
+                <span class="mi">2053</span><span class="p">,</span>
+                <span class="mi">2567</span><span class="p">,</span>
+                <span class="mi">3597</span><span class="p">,</span>
+                <span class="mi">3598</span><span class="p">,</span>
+                <span class="mi">6511</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Control&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="mi">8</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;Program&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="mi">446</span><span class="p">,</span>
+                <span class="mi">452</span><span class="p">,</span>
+                <span class="mi">1711</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Program&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="mi">3</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;System&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="mi">324</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;System&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;Product&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="mi">111</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Product&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;Regulation&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;scope&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                    <span class="s2">&quot;audit_duration&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                    <span class="s2">&quot;os_state&quot;</span><span class="p">:</span> <span class="s2">&quot;Unreviewed&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;risks&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;object_people&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                    <span class="s2">&quot;audit_start_date&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">4530</span><span class="p">,</span>
+                    <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;Draft&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Regulation&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;viewLink&quot;</span><span class="p">:</span> <span class="s2">&quot;/regulations/4530&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;modified_by&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;context_id&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/150&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">150</span>
+                    <span class="p">},</span>
+                    <span class="s2">&quot;task_group_objects&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                    <span class="s2">&quot;related_sources&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                    <span class="s2">&quot;notes&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;task_groups&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                    <span class="s2">&quot;organization&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                    <span class="s2">&quot;custom_attribute_definitions&quot;</span><span class="p">:</span> <span class="p">[</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;definition_type&quot;</span><span class="p">:</span> <span class="s2">&quot;regulation&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;definition_id&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                            <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;A Dropdown CA&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;selfLink&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/custom_attribute_definitions/1421&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;helptext&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;attribute_type&quot;</span><span class="p">:</span> <span class="s2">&quot;Dropdown&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                            <span class="s2">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-09-20T13:46:54&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;CustomAttributeDefinition&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1421</span><span class="p">,</span>
+                            <span class="s2">&quot;modified_by&quot;</span><span class="p">:</span> <span class="p">{</span>
+                                <span class="s2">&quot;context_id&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/2&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">2</span>
+                            <span class="p">},</span>
+                            <span class="s2">&quot;placeholder&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;multi_choice_options&quot;</span><span class="p">:</span> <span class="s2">&quot;a,b,c,d,e&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;mandatory&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+                            <span class="s2">&quot;multi_choice_mandatory&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                            <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-09-20T13:46:54&quot;</span>
+                        <span class="p">},</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;definition_type&quot;</span><span class="p">:</span> <span class="s2">&quot;regulation&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;definition_id&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                            <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;myGCA&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;selfLink&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/custom_attribute_definitions/1432&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;helptext&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;attribute_type&quot;</span><span class="p">:</span> <span class="s2">&quot;Dropdown&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                            <span class="s2">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-09-21T14:59:23&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;CustomAttributeDefinition&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1432</span><span class="p">,</span>
+                            <span class="s2">&quot;modified_by&quot;</span><span class="p">:</span> <span class="p">{</span>
+                                <span class="s2">&quot;context_id&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/230&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">230</span>
+                            <span class="p">},</span>
+                            <span class="s2">&quot;placeholder&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;multi_choice_options&quot;</span><span class="p">:</span> <span class="s2">&quot;1st value,2nd value,3rd value&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;mandatory&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+                            <span class="s2">&quot;multi_choice_mandatory&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                            <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-09-21T14:59:23&quot;</span>
+                        <span class="p">}</span>
+                    <span class="p">],</span>
+                    <span class="s2">&quot;slug&quot;</span><span class="p">:</span> <span class="s2">&quot;REGULATION-4530&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;preconditions_failed&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+                    <span class="s2">&quot;controls&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                    <span class="s2">&quot;end_date&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                    <span class="s2">&quot;related_destinations&quot;</span><span class="p">:</span> <span class="p">[</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;context_id&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Relationship&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/relationships/314025&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">314025</span>
+                        <span class="p">}</span>
+                    <span class="p">],</span>
+                    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Expected Regulation 2 (has </span><span class="se">\&quot;</span><span class="s2">access</span><span class="se">\&quot;</span><span class="s2"> word in the title)&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;selfLink&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/regulations/4530&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                    <span class="s2">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2017-10-17T14:00:38&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;workflow_state&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                    <span class="s2">&quot;risk_objects&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                    <span class="s2">&quot;start_date&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                    <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;Regulation&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;people&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                    <span class="s2">&quot;custom_attribute_values&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                    <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                    <span class="s2">&quot;audit_frequency&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                    <span class="s2">&quot;access_control_list&quot;</span><span class="p">:</span> <span class="p">[</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2017-10-17T14:00:38&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;AccessControlList&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;modified_by&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                            <span class="s2">&quot;ac_role_id&quot;</span><span class="p">:</span> <span class="mi">102</span><span class="p">,</span>
+                            <span class="s2">&quot;person&quot;</span><span class="p">:</span> <span class="p">{</span>
+                                <span class="s2">&quot;context_id&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/150&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">150</span>
+                            <span class="p">},</span>
+                            <span class="s2">&quot;person_id&quot;</span><span class="p">:</span> <span class="mi">150</span><span class="p">,</span>
+                            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">31651</span><span class="p">,</span>
+                            <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                            <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2017-10-17T14:00:38&quot;</span>
+                        <span class="p">}</span>
+                    <span class="p">],</span>
+                    <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2017-10-17T14:00:38&quot;</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;scope&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                    <span class="s2">&quot;audit_duration&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                    <span class="s2">&quot;os_state&quot;</span><span class="p">:</span> <span class="s2">&quot;Unreviewed&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;risks&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;object_people&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                    <span class="s2">&quot;audit_start_date&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">4529</span><span class="p">,</span>
+                    <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;Draft&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Regulation&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;viewLink&quot;</span><span class="p">:</span> <span class="s2">&quot;/regulations/4529&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;modified_by&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;context_id&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/150&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">150</span>
+                    <span class="p">},</span>
+                    <span class="s2">&quot;task_group_objects&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                    <span class="s2">&quot;related_sources&quot;</span><span class="p">:</span> <span class="p">[</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;context_id&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Relationship&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/relationships/314024&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">314024</span>
+                        <span class="p">}</span>
+                    <span class="p">],</span>
+                    <span class="s2">&quot;notes&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;task_groups&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                    <span class="s2">&quot;organization&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                    <span class="s2">&quot;custom_attribute_definitions&quot;</span><span class="p">:</span> <span class="p">[</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;definition_type&quot;</span><span class="p">:</span> <span class="s2">&quot;regulation&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;definition_id&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                            <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;A Dropdown CA&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;selfLink&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/custom_attribute_definitions/1421&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;helptext&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;attribute_type&quot;</span><span class="p">:</span> <span class="s2">&quot;Dropdown&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                            <span class="s2">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-09-20T13:46:54&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;CustomAttributeDefinition&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1421</span><span class="p">,</span>
+                            <span class="s2">&quot;modified_by&quot;</span><span class="p">:</span> <span class="p">{</span>
+                                <span class="s2">&quot;context_id&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/2&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">2</span>
+                            <span class="p">},</span>
+                            <span class="s2">&quot;placeholder&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;multi_choice_options&quot;</span><span class="p">:</span> <span class="s2">&quot;a,b,c,d,e&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;mandatory&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+                            <span class="s2">&quot;multi_choice_mandatory&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                            <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-09-20T13:46:54&quot;</span>
+                        <span class="p">},</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;definition_type&quot;</span><span class="p">:</span> <span class="s2">&quot;regulation&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;definition_id&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                            <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;myGCA&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;selfLink&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/custom_attribute_definitions/1432&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;helptext&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;attribute_type&quot;</span><span class="p">:</span> <span class="s2">&quot;Dropdown&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                            <span class="s2">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-09-21T14:59:23&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;CustomAttributeDefinition&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1432</span><span class="p">,</span>
+                            <span class="s2">&quot;modified_by&quot;</span><span class="p">:</span> <span class="p">{</span>
+                                <span class="s2">&quot;context_id&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/230&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">230</span>
+                            <span class="p">},</span>
+                            <span class="s2">&quot;placeholder&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;multi_choice_options&quot;</span><span class="p">:</span> <span class="s2">&quot;1st value,2nd value,3rd value&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;mandatory&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+                            <span class="s2">&quot;multi_choice_mandatory&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                            <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2016-09-21T14:59:23&quot;</span>
+                        <span class="p">}</span>
+                    <span class="p">],</span>
+                    <span class="s2">&quot;slug&quot;</span><span class="p">:</span> <span class="s2">&quot;REGULATION-4529&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;preconditions_failed&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+                    <span class="s2">&quot;controls&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                    <span class="s2">&quot;end_date&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                    <span class="s2">&quot;related_destinations&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Expected Regulation 1 (</span><span class="se">\&quot;</span><span class="s2">permission in title</span><span class="se">\&quot;</span><span class="s2">)&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;selfLink&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/regulations/4529&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                    <span class="s2">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2017-10-17T14:12:03&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;workflow_state&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                    <span class="s2">&quot;risk_objects&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                    <span class="s2">&quot;start_date&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                    <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;Regulation&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;people&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                    <span class="s2">&quot;custom_attribute_values&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                    <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                    <span class="s2">&quot;audit_frequency&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                    <span class="s2">&quot;access_control_list&quot;</span><span class="p">:</span> <span class="p">[</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;updated_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2017-10-17T13:59:54&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;AccessControlList&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;modified_by&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                            <span class="s2">&quot;ac_role_id&quot;</span><span class="p">:</span> <span class="mi">102</span><span class="p">,</span>
+                            <span class="s2">&quot;person&quot;</span><span class="p">:</span> <span class="p">{</span>
+                                <span class="s2">&quot;context_id&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/people/150&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">150</span>
+                            <span class="p">},</span>
+                            <span class="s2">&quot;person_id&quot;</span><span class="p">:</span> <span class="mi">150</span><span class="p">,</span>
+                            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">31650</span><span class="p">,</span>
+                            <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                            <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2017-10-17T13:59:54&quot;</span>
+                        <span class="p">}</span>
+                    <span class="p">],</span>
+                    <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2017-10-17T13:59:54&quot;</span>
+                <span class="p">}</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Regulation&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="mi">2</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Notes:</p>
+<ul class="simple">
+<li>every block is evaluated one by one, so they should be transformed
+from the form bottom-first;</li>
+<li>you can&#8217;t reference the next blocks in the list;</li>
+<li>to make the queries reasonably fast, you should add <code class="docutils literal"><span class="pre">&quot;type&quot;:</span>
+<span class="pre">&quot;ids&quot;</span></code> explicitly when you just need a query for a following
+<code class="docutils literal"><span class="pre">__previous__</span></code> filter.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Advanced Query API</a><ul>
+<li><a class="reference internal" href="#query-structure">Query Structure</a></li>
+<li><a class="reference internal" href="#basic-query">Basic Query</a></li>
+<li><a class="reference internal" href="#filtered-query">Filtered Query</a><ul>
+<li><a class="reference internal" href="#values">values</a></li>
+<li><a class="reference internal" href="#ids">ids</a></li>
+<li><a class="reference internal" href="#count">count</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#paginated-query">Paginated Query</a></li>
+<li><a class="reference internal" href="#ordered-queries">Ordered Queries</a></li>
+<li><a class="reference internal" href="#querying-multiple-types-with-a-single-query-object">Querying multiple types with a single query object</a></li>
+<li><a class="reference internal" href="#filter-expressions">Filter Expressions</a><ul>
+<li><a class="reference internal" href="#field-operators">Field operators</a></li>
+<li><a class="reference internal" href="#logical-operators">Logical operators</a></li>
+<li><a class="reference internal" href="#object-operators">Object operators</a><ul>
+<li><a class="reference internal" href="#relevant"><code class="docutils literal"><span class="pre">relevant</span></code></a></li>
+<li><a class="reference internal" href="#similar"><code class="docutils literal"><span class="pre">similar</span></code></a></li>
+<li><a class="reference internal" href="#owned"><code class="docutils literal"><span class="pre">owned</span></code></a></li>
+<li><a class="reference internal" href="#text-search"><code class="docutils literal"><span class="pre">text_search</span></code></a></li>
+<li><a class="reference internal" href="#related-people"><code class="docutils literal"><span class="pre">related_people</span></code></a></li>
+<li><a class="reference internal" href="#cascade-unmappable"><code class="docutils literal"><span class="pre">cascade_unmappable</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#full-example">Full example</a><ul>
+<li><a class="reference internal" href="#request">Request</a></li>
+<li><a class="reference internal" href="#response">Response:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="adding_new_object.html"
+                        title="previous chapter">Adding a new Object</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="object_manipulation.html"
+                        title="next chapter">Object Manipulation</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/backend/advanced_query_api.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="object_manipulation.html" title="Object Manipulation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="adding_new_object.html" title="Adding a new Object"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (da448a6) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Backend</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Backend &#8212; GGRC 0.10.35-Raspberry (da448a6) documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.35-Raspberry (da448a6)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.35-Raspberry (da448a6) documentation" href="../index.html" />
+    <link rel="next" title="Overview" href="overview.html" />
+    <link rel="prev" title="Mixins" href="../api/ggrc_workflows/mixins.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="Overview"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../api/ggrc_workflows/mixins.html" title="Mixins"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (da448a6) documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="backend">
+<h1>Backend<a class="headerlink" href="#backend" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#server-side">Server Side</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#testing">Testing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="data_layer.html">Data Layer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="data_layer.html#data-model">Data Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_layer.html#database-schema">Database Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_layer.html#internal-vs-external-model">Internal vs. External Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_layer.html#database-migrations">Database Migrations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="access_control.html">Access Control</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="access_control.html#role-based-access-control-access-control-list">Role Based Access Control &amp; Access Control List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="access_control.html#roles">Roles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="access_control.html#rbac-implementation">RBAC Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="access_control.html#acl-implementation">ACL Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="adding_new_object.html">Adding a new Object</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="adding_new_object.html#backend">Backend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adding_new_object.html#frontend">Frontend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adding_new_object.html#create-mustache-files">Create mustache files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_query_api.html">Advanced Query API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="advanced_query_api.html#query-structure">Query Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_query_api.html#basic-query">Basic Query</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_query_api.html#filtered-query">Filtered Query</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_query_api.html#paginated-query">Paginated Query</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_query_api.html#ordered-queries">Ordered Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_query_api.html#querying-multiple-types-with-a-single-query-object">Querying multiple types with a single query object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_query_api.html#filter-expressions">Filter Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_query_api.html#full-example">Full example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="object_manipulation.html">Object Manipulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="object_manipulation.html#creating-objects">Creating objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="object_manipulation.html#creating-relationships-between-objects">Creating relationships between objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="object_manipulation.html#objects">Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="object_manipulation.html#types">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="automapping.html">Automapping</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="automapping.html#ggrc-automapper"><code class="docutils literal"><span class="pre">ggrc.automapper</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="automapping.html#ggrc-automapper-rules"><code class="docutils literal"><span class="pre">ggrc.automapper.rules</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="automapping.html#regular-rules">Regular rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="automapping.html#attribute-link-rules">Attribute-link rules</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../api/ggrc_workflows/mixins.html"
+                        title="previous chapter">Mixins</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="overview.html"
+                        title="next chapter">Overview</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/backend/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="Overview"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../api/ggrc_workflows/mixins.html" title="Mixins"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (da448a6) documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

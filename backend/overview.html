@@ -1,0 +1,441 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Overview &#8212; GGRC 0.10.35-Raspberry (da448a6) documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.35-Raspberry (da448a6)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="GGRC 0.10.35-Raspberry (da448a6) documentation" href="../index.html" />
+    <link rel="up" title="Backend" href="index.html" />
+    <link rel="next" title="Data Layer" href="data_layer.html" />
+    <link rel="prev" title="Backend" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="data_layer.html" title="Data Layer"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Backend"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (da448a6) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Backend</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>This document is a reference for anyone interested in understanding how
+GGRC is constructed. The goal for this document is to explain how
+everything works in moderate detail with references to source code which
+can be used to understand in exact detail how GGRC works.</p>
+<div class="section" id="server-side">
+<h2>Server Side<a class="headerlink" href="#server-side" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Overview<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>The interface to the back-end is a REST API. This API is also referred
+to as a “resource layer”.</p>
+<p>Requests come into the REST API. These requests pass through various
+filters which handle basic concerns such as
+authentication/authorization/session management (ggrc.login, RBAC),
+parsing request and formatting responses and others (e.g. query
+generation).</p>
+<p>Besides saving/creating/deleting/updating models the server-side REST API
+also includes business logic and validation. The server-side is
+stateless. Complex business logic is also duplicated within the client-side
+portions of the application to make operations like validating inputs more
+responsive.</p>
+</div>
+<div class="section" id="composing-the-server-side">
+<h3>Composing the server-side<a class="headerlink" href="#composing-the-server-side" title="Permalink to this headline">¶</a></h3>
+<p>All of the server-side functionality and behaviors are pulled together
+in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/app.py">src/ggrc/app.py</a>. This is where all
+infrastructure is initialized and loaded.</p>
+</div>
+<div class="section" id="resource-layer">
+<h3>Resource Layer<a class="headerlink" href="#resource-layer" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id2">
+<h4>Overview<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p>The resource layer provides a uniform, external interface to the data
+model. There isn’t much more to it than that.</p>
+<p>The code that builds out the API (what endpoints exist and what HTTP
+verbs are allowed on each) is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/services">src/ggrc/services</a>.</p>
+<p>See <a class="reference internal" href="../api/index.html#api-docs"><span class="std std-ref">API</span></a> for more details.</p>
+</div>
+<div class="section" id="general-rest-parameters">
+<h4>General REST parameters<a class="headerlink" href="#general-rest-parameters" title="Permalink to this headline">¶</a></h4>
+<p>Every REST API request can take the following parameters:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">__stubs_only</span></code> - return only the <code class="docutils literal"><span class="pre">id</span></code>, <code class="docutils literal"><span class="pre">type</span></code>, <code class="docutils literal"><span class="pre">href</span></code> and
+<code class="docutils literal"><span class="pre">context_id</span></code> (A context is a Role-Based Access Control context;
+every program, audit or workflow has one) fields for each matched
+object</li>
+<li><code class="docutils literal"><span class="pre">__fields</span></code> - specify field names to return</li>
+</ul>
+<p>Every REST request (except for search) must pass an
+<code class="docutils literal"><span class="pre">'Accept':'application/json'</span></code> header (in order to prevent XSS
+attacks), or a 406 error will be returned.</p>
+<p><strong>Example</strong> - return the fields <code class="docutils literal"><span class="pre">id</span></code>, <code class="docutils literal"><span class="pre">title</span></code> and <code class="docutils literal"><span class="pre">description</span></code>
+for two programs:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>GET /api/programs?id__in=2935,2806&amp;__fields=id,title,description
+</pre></div>
+</div>
+</div>
+<div class="section" id="rest-response-result-paging">
+<h4>REST Response Result Paging<a class="headerlink" href="#rest-response-result-paging" title="Permalink to this headline">¶</a></h4>
+<p>20 records per request are returned by default. This is configurable up
+to a max of 100 results per page. &nbsp;See <code class="docutils literal"><span class="pre">apply_paging</span></code> in
+<a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/services/common.py">src/ggrc/services/common.py</a>. Request
+parameters:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">__page_only</span></code> - only returns paging information, but not resource
+information</li>
+<li>page - defaults to 0 if <code class="docutils literal"><span class="pre">__page_only</span></code> was specified, and 1
+otherwise TBD</li>
+</ul>
+<p><strong>Example</strong> - return the first 20 programs:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>GET /api/programs?id__in=1,2,...&amp;__page=1
+</pre></div>
+</div>
+</div>
+<div class="section" id="search">
+<h4>Search<a class="headerlink" href="#search" title="Permalink to this headline">¶</a></h4>
+<p>⚠️ The /search API is being deprecated in favor of <a class="reference internal" href="advanced_query_api.html#advanced-query-api"><span class="std std-ref">Advanced Query API</span></a></p>
+<p>The server-side logic that handles search is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/services/search.py">src/ggrc/services/search.py</a>.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">q</span></code> - the query; mandatory, but can be the empty string</li>
+<li><code class="docutils literal"><span class="pre">contact_id</span></code> - assume that id as the initiating user. Not a great
+name for it &#8211; it&#8217;s the user to whom items should be related. For
+MyWork, this will be the current user, but on another user X&#8217;s
+profile page, it&#8217;s user X.</li>
+<li><code class="docutils literal"><span class="pre">__permission_type</span></code> - default &#8220;read&#8221; TBD</li>
+<li><code class="docutils literal"><span class="pre">__permission_model</span></code> - ? TBD</li>
+<li><code class="docutils literal"><span class="pre">group_by_type</span></code> - ? TBD</li>
+<li><code class="docutils literal"><span class="pre">counts_only</span></code> - return only the counts of the items found. Used to
+show the counts in the LHN tree.</li>
+<li><code class="docutils literal"><span class="pre">types</span></code> - restrict search to the specified types, e.g.
+types=Program,Audit</li>
+<li><code class="docutils literal"><span class="pre">extra_params</span></code> - unsure. When retrieving counts for workflow states
+(active, inactive, draft), this parameter is
+&#8220;Workflow_All=Workflow,Workflow_Active=Workflow,Workflow_Draft=Workflow,Workflow_Inactive=Workflow&#8221;.
+This may be a special case to handle the extra counts in the LHN
+Workflows section. TBD.</li>
+<li><code class="docutils literal"><span class="pre">extra_columns</span></code> - same as above, this parameter is:
+&#8220;Workflow:status=Active;Workflow_Active:status=Active;Workflow_Inactive:status=Inactive;Workflow_Draft:status=Draft&#8221;
+TBD</li>
+</ul>
+</div>
+<div class="section" id="routing">
+<h4>Routing<a class="headerlink" href="#routing" title="Permalink to this headline">¶</a></h4>
+<p>Routes to types of resources (audits, programs, etc.), as well as the
+base routes for the REST API (<code class="docutils literal"><span class="pre">/api/</span></code> and <code class="docutils literal"><span class="pre">/search/</span></code>) are determined
+with the help of a small amount of metadata specified in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/services/__init__.py">src/ggrc/services/__init__.py</a>.</p>
+<p>Routes are specified in other places within the Python code via the
+&#64;app.route annotation.</p>
+</div>
+</div>
+<div class="section" id="presentation-layer">
+<h3>Presentation Layer<a class="headerlink" href="#presentation-layer" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="templates">
+<h4>Templates<a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h4>
+<p>Templates are HAML files which define the structural HTML which is
+basically the scaffolding around which the functionality and features of
+GGRC are built. Templates don’t define JavaScript logic, client-side
+models, or “how to render an Audit”. Those types of view logic are
+defined in <code class="docutils literal"><span class="pre">.js</span></code> and <code class="docutils literal"><span class="pre">.mustache</span></code> files.</p>
+</div>
+<div class="section" id="views">
+<h4>Views<a class="headerlink" href="#views" title="Permalink to this headline">¶</a></h4>
+<p>Enough HTML to bootstrap JavaScript. Views are defined in
+<code class="docutils literal"><span class="pre">src/&lt;module&gt;/views</span></code>. They are Python methods
+which are mapped to routes (relative URLs).</p>
+<p>These views serve two functions:</p>
+<ol class="arabic simple">
+<li>They provide a way to augment the underlying resource paradigm with
+addition of non-RESTful application logic (Ex. <code class="docutils literal"><span class="pre">/admin/reindex</span></code>).</li>
+<li>They provide entry points into the application from which templates
+can be rendered, which bootstraps the JavaScript which constructs the
+majority of the actual UI.</li>
+</ol>
+</div>
+<div class="section" id="encoding-and-formatting">
+<h4>Encoding and Formatting<a class="headerlink" href="#encoding-and-formatting" title="Permalink to this headline">¶</a></h4>
+<p>Responses returned from the server-side are generated by rendering
+Python objects into an encoding and format that is understood by the
+client-side. The standard format is JSON.</p>
+<p>The Python code that marshals/unmarshals models to/from JSON is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/builder">src/ggrc/builder</a>.</p>
+</div>
+<div class="section" id="import">
+<h4>Import<a class="headerlink" href="#import" title="Permalink to this headline">¶</a></h4>
+<p>Data Import is a special case in which requests (as opposed to
+responses) have to be parsed in order to build models which can then be
+saved to the underlying database. This is basically just the exact
+reverse of formatting python objects as JSON, with the caveat that the
+import format is CSV instead of JSON.</p>
+</div>
+<div class="section" id="export">
+<h4>Export<a class="headerlink" href="#export" title="Permalink to this headline">¶</a></h4>
+<p>Export is similar to default response formatting in the sense that
+Python models are rendered in a standard format (usually JSON). But in
+the case of export, the format is CSV.</p>
+</div>
+<div class="section" id="request-interpretation-and-response-construction">
+<h4>Request Interpretation and Response Construction<a class="headerlink" href="#request-interpretation-and-response-construction" title="Permalink to this headline">¶</a></h4>
+<p>The code that interprets requests (to figure out what action to take on
+the server-side) and constructs responses (applying rendering logic to
+models) lives in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/services">src/ggrc/services</a>. <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/services/common.py">src/ggrc/services/common.py</a>
+is particularly important. It implements ModelView &amp; Resource (which extends ModelView).</p>
+</div>
+</div>
+<div class="section" id="infrastructure-and-utilities">
+<h3>Infrastructure and Utilities<a class="headerlink" href="#infrastructure-and-utilities" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="persistence">
+<h4>Persistence<a class="headerlink" href="#persistence" title="Permalink to this headline">¶</a></h4>
+<p>CloudSQL MySQL 2nd Gen 5.6 is the underlying database used when running on App Engine.</p>
+<p>MySQL 5.6 is used when running locally (for development).</p>
+</div>
+<div class="section" id="caching">
+<h4>Caching<a class="headerlink" href="#caching" title="Permalink to this headline">¶</a></h4>
+<p>Memcache is used.</p>
+<p>A manifest of the types of objects that should be cached exists in
+<a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/cache/cache.py">src/ggrc/cache/cache.py</a>. Types not listed in this file will not be cached
+by Memcache.</p>
+<p>All of the logic related to cache management is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/cache">src/ggrc/cache</a>.</p>
+</div>
+<div class="section" id="authentication">
+<h4>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h4>
+<p>The Python code that handles authentication is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/login">src/ggrc/login</a>.
+There are currently two handlers, one to enable integration with
+Google Accounts and another to enable a developer to log in as a specific
+user by modifying a config file or request header.</p>
+</div>
+<div class="section" id="data-import">
+<h4>Data Import<a class="headerlink" href="#data-import" title="Permalink to this headline">¶</a></h4>
+<p>Several types of data can be imported into GGRC by uploading CSV files.
+The data in those files needs to be converted into python models and
+validated before being persisted. The code that handles all of this is
+in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/converters">src/ggrc/converters</a>. All of the base
+classes which define common handling logic, as well as code specific to
+one or more types of model is in that folder.</p>
+</div>
+<div class="section" id="extensions">
+<h4>Extensions<a class="headerlink" href="#extensions" title="Permalink to this headline">¶</a></h4>
+<p>Core code which enables the extension mechanism is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/extensions.py">src/ggrc/extensions.py</a>.</p>
+<p>Core code which bootstraps the core GGRC extensions (such as Workflow
+and GDrive integration) is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/ext/__init__.py">src/ggrc/ext/__init__.py</a>.</p>
+</div>
+<div class="section" id="notifications">
+<h4>Notifications<a class="headerlink" href="#notifications" title="Permalink to this headline">¶</a></h4>
+<p>Code relevant to sending notifications (e.g. email) is in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/notifications">src/ggrc/notifications</a>.</p>
+</div>
+<div class="section" id="cron">
+<h4>Cron<a class="headerlink" href="#cron" title="Permalink to this headline">¶</a></h4>
+<p>Cron jobs are available through App Engine&#8217;s scheduled tasks mechanism.
+This facility is configured via <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/cron.yaml">src/cron.yaml</a>.</p>
+</div>
+<div class="section" id="ad-hoc-scheduled-tasks-in-task-queue">
+<h4>Ad-Hoc Scheduled Tasks in Task Queue<a class="headerlink" href="#ad-hoc-scheduled-tasks-in-task-queue" title="Permalink to this headline">¶</a></h4>
+<p>Generating assessments, Rebuilding full-text index, updating revisions</p>
+</div>
+</div>
+<div class="section" id="runtime-configurations">
+<h3>Runtime Configurations<a class="headerlink" href="#runtime-configurations" title="Permalink to this headline">¶</a></h3>
+<p>GGRC runs in different environments in two dimensions. The first
+dimension is App Engine vs. local. The second dimension is
+development/testing/production.</p>
+<p>Which settings are loaded is determined by the environment variable
+<code class="docutils literal"><span class="pre">GGRC_SETTINGS_MODULE</span></code>. This variable is expected to contain a set of
+strings separated by spaces. It should be pretty clear as to how these
+strings correlate to Python files/modules after looking at the value of
+that variable.</p>
+<div class="section" id="appengine-runtime-vs-local-runtime">
+<h4>Appengine Runtime vs. Local Runtime<a class="headerlink" href="#appengine-runtime-vs-local-runtime" title="Permalink to this headline">¶</a></h4>
+<p>GGRC uses MySQL when running locally. There are other configurations
+like logging level and authorization which can be configured.</p>
+<p>GGRC always uses Google Accounts for authentication when running in App
+Engine. This is handled by <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/login/appengine.py">src/ggrc/login/appengine.py</a>. When
+running locally, however, different authentication logic is substituted
+via <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/login/noop.py">src/ggrc/login/noop.py</a>. Within
+this file a developer can hard-code authentication email address and
+name. There is also logic to allow a developer to pass their email
+address (allowing them to log in as a specific user) in through a
+request header (<code class="docutils literal"><span class="pre">X-ggrc-user</span></code>) which can be manipulated with one of a
+few Chrome browser plugins. This makes it efficient for a developer to
+switch among user accounts to test functionality.</p>
+<p>Please take a minute to look at <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/settings/app_engine.py">src/ggrc/settings/app_engine.py</a> and
+<a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/settings/default.py">src/ggrc/settings/default.py</a> for more information on settings that
+can be configured for running in either App Engine or local environments.</p>
+</div>
+<div class="section" id="development-testing-production-runtime">
+<h4>Development/Testing/Production Runtime<a class="headerlink" href="#development-testing-production-runtime" title="Permalink to this headline">¶</a></h4>
+<p>This dimension of runtime configuration allows setting of database
+credentials, query and application logging and other configurations.</p>
+<p>Settings typical for a development environment are in
+<a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/settings/development.py">src/ggrc/settings/development.py</a>.</p>
+<p>Settings typical for a testing environment are in
+<a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/settings/testing.py">src/ggrc/settings/testing.py</a>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<p>GGRC testing consists of 4 components:</p>
+<div class="section" id="manual-tests">
+<h3>Manual tests<a class="headerlink" href="#manual-tests" title="Permalink to this headline">¶</a></h3>
+<p>Several day&#8217;s worth of tests defined in spreadsheets and executed by the
+QA team. &nbsp;These are the primary source of regression stories
+and bug-finding.</p>
+</div>
+<div class="section" id="automated-browser-tests">
+<h3>Automated Browser Tests<a class="headerlink" href="#automated-browser-tests" title="Permalink to this headline">¶</a></h3>
+<p>Implemented using WebDriver for Python and executed either locally or on
+the CI server.</p>
+</div>
+<div class="section" id="python-unit-integration-tests">
+<h3>Python Unit/Integration Tests<a class="headerlink" href="#python-unit-integration-tests" title="Permalink to this headline">¶</a></h3>
+<p>These are currently defined in <a class="reference external" href="https://github.com/google/ggrc-core/tree/dev/src/ggrc/tests">src/ggrc/tests</a>.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Overview</a><ul>
+<li><a class="reference internal" href="#server-side">Server Side</a><ul>
+<li><a class="reference internal" href="#id1">Overview</a></li>
+<li><a class="reference internal" href="#composing-the-server-side">Composing the server-side</a></li>
+<li><a class="reference internal" href="#resource-layer">Resource Layer</a><ul>
+<li><a class="reference internal" href="#id2">Overview</a></li>
+<li><a class="reference internal" href="#general-rest-parameters">General REST parameters</a></li>
+<li><a class="reference internal" href="#rest-response-result-paging">REST Response Result Paging</a></li>
+<li><a class="reference internal" href="#search">Search</a></li>
+<li><a class="reference internal" href="#routing">Routing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#presentation-layer">Presentation Layer</a><ul>
+<li><a class="reference internal" href="#templates">Templates</a></li>
+<li><a class="reference internal" href="#views">Views</a></li>
+<li><a class="reference internal" href="#encoding-and-formatting">Encoding and Formatting</a></li>
+<li><a class="reference internal" href="#import">Import</a></li>
+<li><a class="reference internal" href="#export">Export</a></li>
+<li><a class="reference internal" href="#request-interpretation-and-response-construction">Request Interpretation and Response Construction</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#infrastructure-and-utilities">Infrastructure and Utilities</a><ul>
+<li><a class="reference internal" href="#persistence">Persistence</a></li>
+<li><a class="reference internal" href="#caching">Caching</a></li>
+<li><a class="reference internal" href="#authentication">Authentication</a></li>
+<li><a class="reference internal" href="#data-import">Data Import</a></li>
+<li><a class="reference internal" href="#extensions">Extensions</a></li>
+<li><a class="reference internal" href="#notifications">Notifications</a></li>
+<li><a class="reference internal" href="#cron">Cron</a></li>
+<li><a class="reference internal" href="#ad-hoc-scheduled-tasks-in-task-queue">Ad-Hoc Scheduled Tasks in Task Queue</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#runtime-configurations">Runtime Configurations</a><ul>
+<li><a class="reference internal" href="#appengine-runtime-vs-local-runtime">Appengine Runtime vs. Local Runtime</a></li>
+<li><a class="reference internal" href="#development-testing-production-runtime">Development/Testing/Production Runtime</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#testing">Testing</a><ul>
+<li><a class="reference internal" href="#manual-tests">Manual tests</a></li>
+<li><a class="reference internal" href="#automated-browser-tests">Automated Browser Tests</a></li>
+<li><a class="reference internal" href="#python-unit-integration-tests">Python Unit/Integration Tests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Backend</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="data_layer.html"
+                        title="next chapter">Data Layer</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/backend/overview.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="data_layer.html" title="Data Layer"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Backend"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (da448a6) documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Backend</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Google Inc..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

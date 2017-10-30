@@ -319,6 +319,14 @@ Mixins
     Custom Attributable mixin.
 
 
+``Labeled``
+-----------
+
+..  class:: ggrc.models.mixins.labeled.Labeled
+
+    Mixin to add label in required model.
+
+
 ``Notifiable``
 --------------
 
