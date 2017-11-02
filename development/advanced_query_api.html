@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Advanced Query API &#8212; GGRC 0.10.35-Raspberry (beb3baa) documentation</title>
+    <title>Advanced Query API &#8212; GGRC 0.10.33-Raspberry (80af817) documentation</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.10.35-Raspberry (beb3baa)',
+        VERSION:     '0.10.33-Raspberry (80af817)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="GGRC 0.10.35-Raspberry (beb3baa) documentation" href="../index.html" />
+    <link rel="top" title="GGRC 0.10.33-Raspberry (80af817) documentation" href="../index.html" />
     <link rel="up" title="Development" href="index.html" />
     <link rel="next" title="Object Manipulation" href="object_manipulation.html" />
     <link rel="prev" title="Adding a new Object" href="adding_new_object.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="adding_new_object.html" title="Adding a new Object"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (beb3baa) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Development</a> &#187;</li> 
       </ul>
     </div>  
@@ -55,7 +55,7 @@
           <div class="body" role="main">
             
   <div class="section" id="advanced-query-api">
-<span id="id1"></span><h1>Advanced Query API<a class="headerlink" href="#advanced-query-api" title="Permalink to this headline">¶</a></h1>
+<h1>Advanced Query API<a class="headerlink" href="#advanced-query-api" title="Permalink to this headline">¶</a></h1>
 <p>Quick overview of the Query API behavior.</p>
 <p>API endpoint is <code class="docutils literal"><span class="pre">/query</span></code> and in the future it should replace the
 current <code class="docutils literal"><span class="pre">/search</span></code>. Due to expected bigger queries it listens for
@@ -100,15 +100,14 @@ ids.  If query type is not specified the values type is be used.</p>
 expression. An empty expression will match all objects of a certain
 type:</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;object_type&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object type&gt;&quot;</span><span class="p">,</span>
     <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{}},</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>Result:</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="p">[{</span>
-    <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;&lt;object type&gt;&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">some</span> <span class="n">number</span><span class="o">&gt;</span><span class="p">,</span>
         <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">equal</span> <span class="n">to</span> <span class="n">total</span><span class="o">&gt;</span><span class="p">,</span>
         <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">&lt;</span><span class="nb">list</span> <span class="n">of</span> <span class="n">objects</span><span class="o">&gt;</span><span class="p">],</span>
@@ -123,14 +122,14 @@ type:</p>
 <h3>values<a class="headerlink" href="#values" title="Permalink to this headline">¶</a></h3>
 <p>The default query type is &#8220;values&#8221;, so</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;object_type&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object type&gt;&quot;</span><span class="p">,</span>
     <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{}},</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>is same as</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;object_type&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object type&gt;&quot;</span><span class="p">,</span>
     <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{}},</span>
     <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;values&quot;</span><span class="p">,</span>
 <span class="p">}</span>
@@ -138,8 +137,7 @@ type:</p>
 </div>
 <p>Result:</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="p">[{</span>
-    <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;&lt;object type&gt;&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">some</span> <span class="n">number</span><span class="o">&gt;</span><span class="p">,</span>
         <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">equal</span> <span class="n">to</span> <span class="n">total</span><span class="o">&gt;</span><span class="p">,</span>
         <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">&lt;</span><span class="nb">list</span> <span class="n">of</span> <span class="n">objects</span><span class="o">&gt;</span><span class="p">],</span>
@@ -153,7 +151,7 @@ type:</p>
 <p>For &#8220;ids&#8221; query type the result object will contain the ids instead of
 values:</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;object_type&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object type&gt;&quot;</span><span class="p">,</span>
     <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{}},</span>
     <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;ids&quot;</span><span class="p">,</span>
 <span class="p">}</span>
@@ -161,8 +159,7 @@ values:</p>
 </div>
 <p>result:</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="p">[{</span>
-    <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;&lt;object type&gt;&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">some</span> <span class="n">number</span><span class="o">&gt;</span><span class="p">,</span>
         <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">equal</span> <span class="n">to</span> <span class="n">total</span><span class="o">&gt;</span><span class="p">,</span>
         <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">other</span> <span class="n">ids</span><span class="o">&gt;</span><span class="p">],</span>
@@ -175,7 +172,7 @@ values:</p>
 <h3>count<a class="headerlink" href="#count" title="Permalink to this headline">¶</a></h3>
 <p>For &#8220;count&#8221; query type the result object will not contain the values:</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;object_type&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object type&gt;&quot;</span><span class="p">,</span>
     <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{}},</span>
     <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
 <span class="p">}</span>
@@ -183,8 +180,7 @@ values:</p>
 </div>
 <p>result:</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="p">[{</span>
-    <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;&lt;object type&gt;&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">some</span> <span class="n">number</span><span class="o">&gt;</span><span class="p">,</span>
         <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">equal</span> <span class="n">to</span> <span class="n">total</span><span class="o">&gt;</span><span class="p">,</span>
     <span class="p">}</span>
@@ -197,7 +193,7 @@ values:</p>
 <h2>Paginated Query<a class="headerlink" href="#paginated-query" title="Permalink to this headline">¶</a></h2>
 <p>To apply paging, &#8220;limit&#8221; argument should be provided:</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;object_type&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object type&gt;&quot;</span><span class="p">,</span>
     <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{}},</span>
     <span class="s2">&quot;limit&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
 <span class="p">}</span>
@@ -207,8 +203,7 @@ values:</p>
 exclusive.</p>
 <p>Result:</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="p">[{</span>
-    <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;&lt;object type&gt;&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">total</span> <span class="n">count</span> <span class="n">of</span> <span class="n">matched</span> <span class="n">entries</span><span class="o">&gt;</span><span class="p">,</span>
         <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">count</span> <span class="n">of</span> <span class="n">entries</span> <span class="n">returned</span><span class="o">&gt;</span><span class="p">,</span>
         <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">objects</span> <span class="kn">from</span> <span class="mi">0</span> <span class="n">to</span> <span class="mi">10</span><span class="o">&gt;</span><span class="p">],</span>
@@ -228,7 +223,7 @@ equal to the left boundary, an error will be returned.</li>
 <h2>Ordered Queries<a class="headerlink" href="#ordered-queries" title="Permalink to this headline">¶</a></h2>
 <p>To apply ordering, &#8220;order_by&#8221; argument should be provided:</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;object_type&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object type&gt;&quot;</span><span class="p">,</span>
     <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{}},</span>
     <span class="s2">&quot;order_by&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;field name&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;desc&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="nb">bool</span><span class="p">,</span> <span class="n">optional</span><span class="o">&gt;</span><span class="p">}],</span>
 <span class="p">}</span>
@@ -236,8 +231,7 @@ equal to the left boundary, an error will be returned.</li>
 </div>
 <p>Result:</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="p">[{</span>
-    <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;&lt;object type&gt;&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">some</span> <span class="n">number</span><span class="o">&gt;</span><span class="p">,</span>
         <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">equal</span> <span class="n">to</span> <span class="n">total</span><span class="o">&gt;</span><span class="p">,</span>
         <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">ordered</span> <span class="n">objects</span><span class="o">&gt;</span><span class="p">],</span>
@@ -282,12 +276,12 @@ and the set of operands differ from one operator to another.</p>
 </ul>
 <p>Each of the operators accept the same operands: <code class="docutils literal"><span class="pre">&quot;left&quot;:</span> <span class="pre">&quot;&lt;field</span>
 <span class="pre">name&quot;</span></code> and <code class="docutils literal"><span class="pre">&quot;right&quot;:</span> <span class="pre">&quot;&lt;value&gt;&quot;</span></code>.</p>
-<p>The field name in <code class="docutils literal"><span class="pre">&quot;left&quot;</span></code> should preferably contain the
+<p>The field name in <code class="docutils literal"><span class="pre">&quot;left&quot;</span></code> should preferrably contain the
 user-visible field label, like &#8220;Code&#8221; instead of &#8220;slug&#8221; or &#8220;Effective
 Date&#8221; instead of &#8220;start_date&#8221;.</p>
 <p>Example request:</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;object_type&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object type&gt;&quot;</span><span class="p">,</span>
     <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;&quot;</span><span class="p">},</span>
         <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="s2">&quot;Last Assessment Date&quot;</span><span class="p">,</span>
@@ -325,7 +319,7 @@ with <code class="docutils literal"><span class="pre">OR</span></code> or <code 
 <code class="docutils literal"><span class="pre">&quot;left&quot;:</span> <span class="pre">{&lt;expression</span> <span class="pre">tree&gt;}</span></code> and <code class="docutils literal"><span class="pre">&quot;right&quot;:</span> <span class="pre">{&lt;expression</span> <span class="pre">tree&gt;}</span></code>.</p>
 <p>Example request:</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;object_type&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object type&gt;&quot;</span><span class="p">,</span>
     <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;AND&quot;</span><span class="p">},</span>
         <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -367,7 +361,7 @@ mappings). Each has its own set of operands.</p>
 <h4><code class="docutils literal"><span class="pre">relevant</span></code><a class="headerlink" href="#relevant" title="Permalink to this headline">¶</a></h4>
 <p>There are two main cases of relevant expressions.</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;object_type&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object type&gt;&quot;</span><span class="p">,</span>
     <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;relevant&quot;</span><span class="p">},</span>
         <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Program&quot;</span><span class="p">,</span>
@@ -380,11 +374,11 @@ mappings). Each has its own set of operands.</p>
 or 2.</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">{</span>
-        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Control&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;object_type&quot;</span><span class="p">:</span> <span class="s2">&quot;Control&quot;</span><span class="p">,</span>
         <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span><span class="o">...</span><span class="p">}},</span>
     <span class="p">},</span>
     <span class="p">{</span>
-        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;object_type&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object type&gt;&quot;</span><span class="p">,</span>
         <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span>
             <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;relevant&quot;</span><span class="p">},</span>
             <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;__previous__&quot;</span><span class="p">,</span>
@@ -411,7 +405,7 @@ singleton list).</li>
 <p>Applicable only to query Assessments <code class="docutils literal"><span class="pre">similar</span></code> to Assessments,
 Assessments <code class="docutils literal"><span class="pre">similar</span></code> to Issues and vice versa.</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Assessment&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;object_type&quot;</span><span class="p">:</span> <span class="s2">&quot;Assessment&quot;</span><span class="p">,</span>
     <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;similar&quot;</span><span class="p">},</span>
         <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Assessment&quot;</span><span class="p">,</span>
@@ -427,7 +421,7 @@ mapped to <code class="docutils literal"><span class="pre">&quot;Assessment&quot
 <div class="section" id="owned">
 <h4><code class="docutils literal"><span class="pre">owned</span></code><a class="headerlink" href="#owned" title="Permalink to this headline">¶</a></h4>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;object_type&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object type&gt;&quot;</span><span class="p">,</span>
     <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;owned&quot;</span><span class="p">},</span>
         <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
@@ -450,7 +444,7 @@ parent Program,</li>
 <div class="section" id="text-search">
 <h4><code class="docutils literal"><span class="pre">text_search</span></code><a class="headerlink" href="#text-search" title="Permalink to this headline">¶</a></h4>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;object_type&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object type&gt;&quot;</span><span class="p">,</span>
     <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;text_search&quot;</span><span class="p">},</span>
         <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;Some free text entered into a search field&quot;</span><span class="p">,</span>
@@ -467,17 +461,17 @@ pane or in the tree view).</p>
 <p>Special operator to return people for People tab. Can be used to get
 the list of objects where a person will be displayed in people tab.</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;object_type&quot;</span><span class="p">:</span> <span class="s2">&quot;Person&quot;</span><span class="p">,</span>
     <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;text_search&quot;</span><span class="p">},</span>
-        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object name&gt;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;object type&gt;&quot;</span><span class="p">,</span>
         <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="p">}},</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>Will return the list of people who should be displayed in People tab
-for <code class="docutils literal"><span class="pre">&quot;&lt;object</span> <span class="pre">name&gt;&quot;</span></code> with id 1.</p>
+for <code class="docutils literal"><span class="pre">&quot;&lt;object</span> <span class="pre">type&gt;&quot;</span></code> with id 1.</p>
 <p>The people returned are either directly mapped, or:</p>
 <ul class="simple">
 <li>for Program: have a Program-level role,</li>
@@ -491,7 +485,7 @@ role,</li>
 <p>Special operator to return a list of objects that will be unmapped is
 process of cascade unmapping of Assessment from Issue.</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Audit&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;object_type&quot;</span><span class="p">:</span> <span class="s2">&quot;Audit&quot;</span><span class="p">,</span>
     <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expression&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;cascade_unmappable&quot;</span><span class="p">},</span>
         <span class="s2">&quot;issue&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
@@ -500,7 +494,7 @@ process of cascade unmapping of Assessment from Issue.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>The only allowed <code class="docutils literal"><span class="pre">&quot;object_name&quot;</span></code> values are &#8220;Snapshot&#8221; and &#8220;Audit&#8221;.</p>
+<p>The only allowed <code class="docutils literal"><span class="pre">&quot;object_type&quot;</span></code> values are &#8220;Snapshot&#8221; and &#8220;Audit&#8221;.</p>
 </div>
 </div>
 </div>
@@ -987,7 +981,7 @@ from the form bottom-first;</li>
         <li class="right" >
           <a href="adding_new_object.html" title="Adding a new Object"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (beb3baa) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.33-Raspberry (80af817) documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Development</a> &#187;</li> 
       </ul>
     </div>

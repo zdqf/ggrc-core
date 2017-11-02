@@ -1,5 +1,3 @@
-.. _advanced-query-api:
-
 Advanced Query API
 ==================
 
@@ -59,7 +57,7 @@ type:
 ..  code:: python
 
     query = {
-        "object_name": "<object name>",
+        "object_type": "<object type>",
         "filters": {"expression": {}},
     }
 
@@ -68,8 +66,7 @@ Result:
 ..  code:: python
 
     result = [{
-        "<object name>": {
-	    "object_name": "<object name>",
+        "<object type>": {
             "total": <some number>,
             "count": <equal to total>,
             "values": [<list of objects>],
@@ -87,7 +84,7 @@ The default query type is "values", so
 ..  code:: python
 
     query = {
-        "object_name": "<object name>",
+        "object_type": "<object type>",
         "filters": {"expression": {}},
     }
 
@@ -96,7 +93,7 @@ is same as
 ..  code:: python
 
     query = {
-        "object_name": "<object name>",
+        "object_type": "<object type>",
         "filters": {"expression": {}},
         "type": "values",
     }
@@ -106,8 +103,7 @@ Result:
 ..  code:: python
 
     result = [{
-        "<object name>": {
-	    "object_name": "<object name>",
+        "<object type>": {
             "total": <some number>,
             "count": <equal to total>,
             "values": [<list of objects>],
@@ -123,7 +119,7 @@ values:
 .. code:: python
 
     query = {
-        "object_name": "<object name>",
+        "object_type": "<object type>",
         "filters": {"expression": {}},
         "type": "ids",
     }
@@ -133,8 +129,7 @@ result:
 .. code:: python
 
     result = [{
-        "<object name>": {
-	    "object_name": "<object name>",
+        "<object type>": {
             "total": <some number>,
             "count": <equal to total>,
             "ids": [1, 4, <other ids>],
@@ -150,7 +145,7 @@ For "count" query type the result object will not contain the values:
 .. code:: python
 
     query = {
-        "object_name": "<object name>",
+        "object_type": "<object type>",
         "filters": {"expression": {}},
         "type": "count",
     }
@@ -160,8 +155,7 @@ result:
 .. code:: python
 
     result = [{
-        "<object name>": {
-	    "object_name": "<object name>",
+        "<object type>": {
             "total": <some number>,
             "count": <equal to total>,
         }
@@ -175,7 +169,7 @@ To apply paging, "limit" argument should be provided:
 ..  code:: python
 
     query = {
-        "object_name": "<object name>",
+        "object_type": "<object type>",
         "filters": {"expression": {}},
         "limit": [0, 10],
     }
@@ -188,8 +182,7 @@ Result:
 ..  code:: python
 
     result = [{
-        "<object name>": {
-	    "object_name": "<object name>",
+        "<object type>": {
             "total": <total count of matched entries>,
             "count": <count of entries returned>,
             "values": [<objects from 0 to 10>],
@@ -211,7 +204,7 @@ To apply ordering, "order_by" argument should be provided:
 ..  code:: python
 
     query = {
-        "object_name": "<object name>",
+        "object_type": "<object type>",
         "filters": {"expression": {}},
         "order_by": [{"name": "<field name>", "desc": <bool, optional>}],
     }
@@ -221,8 +214,7 @@ Result:
 ..  code:: python
 
     result = [{
-        "<object name>": {
-	    "object_name": "<object name>",
+        "<object type>": {
             "total": <some number>,
             "count": <equal to total>,
             "values": [<ordered objects>],
@@ -269,7 +261,7 @@ Field operators
 Each of the operators accept the same operands: ``"left": "<field
 name"`` and ``"right": "<value>"``.
 
-The field name in ``"left"`` should preferably contain the
+The field name in ``"left"`` should preferrably contain the
 user-visible field label, like "Code" instead of "slug" or "Effective
 Date" instead of "start_date".
 
@@ -278,7 +270,7 @@ Example request:
 ..  code:: python
 
     query = {
-        "object_name": "<object name>",
+        "object_type": "<object type>",
         "filters": {"expression": {
             "op": {"name": "<"},
             "left": "Last Assessment Date",
@@ -318,7 +310,7 @@ Example request:
 ..  code:: python
 
     query = {
-        "object_name": "<object name>",
+        "object_type": "<object type>",
         "filters": {"expression": {
             "op": {"name": "AND"},
             "left": {
@@ -364,7 +356,7 @@ There are two main cases of relevant expressions.
 ..  code:: python
 
     query = {
-        "object_name": "<object name>",
+        "object_type": "<object type>",
         "filters": {"expression": {
             "op": {"name": "relevant"},
             "object_name": "Program",
@@ -379,11 +371,11 @@ or 2.
 
     query = [
         {
-            "object_name": "Control",
+            "object_type": "Control",
             "filters": {"expression": {...}},
         },
         {
-            "object_name": "<object name>",
+            "object_type": "<object type>",
             "filters": {"expression": {
                 "op": {"name": "relevant"},
                 "object_name": "__previous__",
@@ -413,7 +405,7 @@ Assessments ``similar`` to Issues and vice versa.
 ..  code:: python
 
     query = {
-        "object_name": "Assessment",
+        "object_type": "Assessment",
         "filters": {"expression": {
             "op": {"name": "similar"},
             "object_name": "Assessment",
@@ -432,7 +424,7 @@ mapped to ``"Assessment"`` with id 2.
 ..  code:: python
 
     query = {
-        "object_name": "<object name>",
+        "object_type": "<object type>",
         "filters": {"expression": {
             "op": {"name": "owned"},
             "ids": [1, 2],
@@ -458,7 +450,7 @@ Criteria for "owned":
 ..  code:: python
 
     query = {
-        "object_name": "<object name>",
+        "object_type": "<object type>",
         "filters": {"expression": {
             "op": {"name": "text_search"},
             "text": "Some free text entered into a search field",
@@ -479,16 +471,16 @@ the list of objects where a person will be displayed in people tab.
 ..  code:: python
 
     query = {
-        "object_name": "Person",
+        "object_type": "Person",
         "filters": {"expression": {
             "op": {"name": "text_search"},
-	    "object_name": "<object name>",
+	    "object_name": "<object type>",
             "ids": [1]
         }},
     }
 
 Will return the list of people who should be displayed in People tab
-for ``"<object name>"`` with id 1.
+for ``"<object type>"`` with id 1.
 
 The people returned are either directly mapped, or:
 
@@ -507,7 +499,7 @@ process of cascade unmapping of Assessment from Issue.
 ..  code:: python
 
     query = {
-        "object_name": "Audit",
+        "object_type": "Audit",
         "filters": {"expression": {
             "op": {"name": "cascade_unmappable"},
 	    "issue": {"id": 1},
@@ -515,7 +507,7 @@ process of cascade unmapping of Assessment from Issue.
         }},
     }
 
-The only allowed ``"object_name"`` values are "Snapshot" and "Audit".
+The only allowed ``"object_type"`` values are "Snapshot" and "Audit".
 
 Full example
 ------------
@@ -905,9 +897,9 @@ Response:
             }
         }
     ]
-
+        
 Notes:
-
+    
 - every block is evaluated one by one, so they should be transformed
   from the form bottom-first;
 - you can't reference the next blocks in the list;

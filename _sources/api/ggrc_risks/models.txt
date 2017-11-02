@@ -33,8 +33,8 @@ Models
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
         	PRIMARY KEY (id), 
-        	CONSTRAINT uq_t_risks UNIQUE (title), 
         	CONSTRAINT uq_risks UNIQUE (slug), 
+        	CONSTRAINT uq_t_risks UNIQUE (title), 
         	CHECK (send_by_default IN (0, 1)), 
         	FOREIGN KEY(context_id) REFERENCES contexts (id)
         )
@@ -130,8 +130,8 @@ Models
         	created_at DATETIME NOT NULL, 
         	context_id INTEGER, 
         	PRIMARY KEY (id), 
-        	CONSTRAINT uq_t_threats UNIQUE (title), 
         	CONSTRAINT uq_threats UNIQUE (slug), 
+        	CONSTRAINT uq_t_threats UNIQUE (title), 
         	CHECK (send_by_default IN (0, 1)), 
         	FOREIGN KEY(context_id) REFERENCES contexts (id)
         )

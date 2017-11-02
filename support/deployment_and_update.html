@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Deployment and Update &#8212; GGRC 0.10.35-Raspberry (5972f93) documentation</title>
+    <title>Deployment and Update &#8212; GGRC 0.10.35-Raspberry (f8c1d69) documentation</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.10.35-Raspberry (5972f93)',
+        VERSION:     '0.10.35-Raspberry (f8c1d69)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="GGRC 0.10.35-Raspberry (5972f93) documentation" href="../index.html" />
+    <link rel="top" title="GGRC 0.10.35-Raspberry (f8c1d69) documentation" href="../index.html" />
     <link rel="up" title="Support" href="index.html" />
     <link rel="next" title="Contribution Guidelines" href="../contributing/index.html" />
     <link rel="prev" title="Support" href="index.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="index.html" title="Support"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (5972f93) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (f8c1d69) documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Support</a> &#187;</li> 
       </ul>
     </div>  
@@ -102,8 +102,8 @@ cp <span class="s2">&quot;./extras/deploy/settings-template.sh&quot;</span> <spa
 <h3>Settings from <code class="docutils literal"><span class="pre">settings.sh</span></code><a class="headerlink" href="#settings-from-settings-sh" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="docutils">
 <colgroup>
-<col width="28%" />
-<col width="72%" />
+<col width="32%" />
+<col width="68%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Setting</th>
@@ -206,6 +206,24 @@ instance&#8217;s APIs</td>
 <tr class="row-even"><td>STATIC_SERVING</td>
 <td>Section of <code class="docutils literal"><span class="pre">app.yaml:handlers</span></code> to serve static files as static (doesn&#8217;t
 work properly on some instances and not enabled by default)</td>
+</tr>
+<tr class="row-odd"><td>INTEGRATION_SERVICE_URL</td>
+<td>Link to an external service providing Person info</td>
+</tr>
+<tr class="row-even"><td>URLFETCH_SERVICE_ID</td>
+<td>Value for <code class="docutils literal"><span class="pre">X-URLFetch-Service-Id</span></code> header for requests to Person service</td>
+</tr>
+<tr class="row-odd"><td>ISSUE_TRACKER_BUG_URL_TMPL</td>
+<td>Template for a link to a bug in an external bug tracker</td>
+</tr>
+<tr class="row-even"><td>ISSUE_TRACKER_DEFAULT_COMPONENT_ID</td>
+<td>Default component id of a new bug in an external bug tracker</td>
+</tr>
+<tr class="row-odd"><td>ISSUE_TRACKER_DEFAULT_HOTLIST_ID</td>
+<td>Default hotlist id of a new bug in an external bug tracker</td>
+</tr>
+<tr class="row-even"><td>ACCESS_TOKEN</td>
+<td>Token that is used to check authenticity of a request to run migrations</td>
 </tr>
 </tbody>
 </table>
@@ -425,7 +443,7 @@ runs the migrations and deploys the application.</p>
         <li class="right" >
           <a href="index.html" title="Support"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (5972f93) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (f8c1d69) documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Support</a> &#187;</li> 
       </ul>
     </div>

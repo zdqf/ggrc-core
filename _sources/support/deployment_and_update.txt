@@ -58,76 +58,88 @@ you are in the project root directory):
 Settings from ``settings.sh``
 -----------------------------
 
-+-----------------------------+---------------------------------------------------------------------------+
-| Setting                     | Description                                                               |
-+=============================+===========================================================================+
-| APPENGINE_INSTANCE          | The “Application Identifier” you see at `Cloud console`_                  |
-+-----------------------------+---------------------------------------------------------------------------+
-| SETTINGS_MODULE             | List of Python modules importable from ``src`` or ``src/ggrc/settings``   |
-|                             | that provide different parameters for the app                             |
-+-----------------------------+---------------------------------------------------------------------------+
-| DATABASE_URI                | The connection string for the database. Should be constructed using       |
-|                             | DB_NAME, DB_INSTANCE_CONNECTION_NAME.                                     |
-+-----------------------------+---------------------------------------------------------------------------+
-| DB_NAME                     | The name of the application's database                                    |
-+-----------------------------+---------------------------------------------------------------------------+
-| DB_INSTANCE_CONNECTION_NAME | Connection string for your database instance                              |
-+-----------------------------+---------------------------------------------------------------------------+
-| GAPI_KEY                    | The “Browser Key” from Step 2                                             |
-+-----------------------------+---------------------------------------------------------------------------+
-| GAPI_CLIENT_ID              | The “OAuth Client ID” from Step 2                                         |
-+-----------------------------+---------------------------------------------------------------------------+
-| GAPI_CLIENT_SECRET          | The “OAuth Client Secret” from Step 2                                     |
-+-----------------------------+---------------------------------------------------------------------------+
-| GAPI_ADMIN_GROUP            | The group which is used in messages like "Contact your admin at           |
-|                             | ``<group_email>``"                                                        |
-+-----------------------------+---------------------------------------------------------------------------+
-| APPENGINE_EMAIL             | The email address to use as the “From” address in outgoing email          |
-|                             | notifications                                                             |
-+-----------------------------+---------------------------------------------------------------------------+
-| INSTANCE_CLASS              | The instance class that should be used on appengine                       |
-+-----------------------------+---------------------------------------------------------------------------+
-| MAX_INSTANCES               | The maximum number of instances to be used on appengine                   |
-+-----------------------------+---------------------------------------------------------------------------+
-| SECRET_KEY                  | Random string that is used as a seed for Flask session ids                |
-+-----------------------------+---------------------------------------------------------------------------+
-| GOOGLE_ANALYTICS_ID         | Project ID for Google Analytics                                           |
-+-----------------------------+---------------------------------------------------------------------------+
-| GOOGLE_ANALYTICS_DOMAIN     | Project domain for Google Analytics                                       |
-+-----------------------------+---------------------------------------------------------------------------+
-| BOOTSTRAP_ADMIN_USERS       | Space-separated emails of users granted superuser access (usually the     |
-|                             | people who deploy and manage the project)                                 |
-+-----------------------------+---------------------------------------------------------------------------+
-| MIGRATOR                    | **UNUSED** Name and email of the user that is used as current user during |
-|                             | migrations                                                                |
-+-----------------------------+---------------------------------------------------------------------------+
-| RISK_ASSESSMENT_URL         | Link to Risk Assessment application                                       |
-+-----------------------------+---------------------------------------------------------------------------+
-| CUSTOM_URL_ROOT             | Equal to the URL where the app is supposed to be deployed too; used to    |
-|                             | generate links to internal objects in email notifications                 |
-+-----------------------------+---------------------------------------------------------------------------+
-| ABOUT_URL                   | Link to the About document                                                |
-+-----------------------------+---------------------------------------------------------------------------+
-| ABOUT_TEXT                  | Text that is shown on the login page                                      |
-+-----------------------------+---------------------------------------------------------------------------+
-| EXTERNAL_HELP_URL           | Link to user documentation on an external service                         |
-+-----------------------------+---------------------------------------------------------------------------+
-| EXTERNAL_IMPORT_HELP_URL    | Link to import-specific user documentation on an external service         |
-+-----------------------------+---------------------------------------------------------------------------+
-| GGRC_Q_INTEGRATION_URL      | Link to GGRCQ instance synced with this instance                          |
-+-----------------------------+---------------------------------------------------------------------------+
-| DASHBOARD_INTEGRATION       | Link to Dashboards that use data from this instance                       |
-+-----------------------------+---------------------------------------------------------------------------+
-| ALLOWED_QUERYAPI_APP_IDS    | List of Appengine application ids that are allowed to access this         |
-|                             | instance's APIs                                                           |
-+-----------------------------+---------------------------------------------------------------------------+
-| AUTHORIZED_DOMAIN           | Users from this domain automatically get Creator role                     |
-+-----------------------------+---------------------------------------------------------------------------+
-| SCALING                     | ``app.yaml:*scaling`` section                                             |
-+-----------------------------+---------------------------------------------------------------------------+
-| STATIC_SERVING              | Section of ``app.yaml:handlers`` to serve static files as static (doesn't |
-|                             | work properly on some instances and not enabled by default)               |
-+-----------------------------+---------------------------------------------------------------------------+
++------------------------------------+---------------------------------------------------------------------------+
+| Setting                            | Description                                                               |
++====================================+===========================================================================+
+| APPENGINE_INSTANCE                 | The “Application Identifier” you see at `Cloud console`_                  |
++------------------------------------+---------------------------------------------------------------------------+
+| SETTINGS_MODULE                    | List of Python modules importable from ``src`` or ``src/ggrc/settings``   |
+|                                    | that provide different parameters for the app                             |
++------------------------------------+---------------------------------------------------------------------------+
+| DATABASE_URI                       | The connection string for the database. Should be constructed using       |
+|                                    | DB_NAME, DB_INSTANCE_CONNECTION_NAME.                                     |
++------------------------------------+---------------------------------------------------------------------------+
+| DB_NAME                            | The name of the application's database                                    |
++------------------------------------+---------------------------------------------------------------------------+
+| DB_INSTANCE_CONNECTION_NAME        | Connection string for your database instance                              |
++------------------------------------+---------------------------------------------------------------------------+
+| GAPI_KEY                           | The “Browser Key” from Step 2                                             |
++------------------------------------+---------------------------------------------------------------------------+
+| GAPI_CLIENT_ID                     | The “OAuth Client ID” from Step 2                                         |
++------------------------------------+---------------------------------------------------------------------------+
+| GAPI_CLIENT_SECRET                 | The “OAuth Client Secret” from Step 2                                     |
++------------------------------------+---------------------------------------------------------------------------+
+| GAPI_ADMIN_GROUP                   | The group which is used in messages like "Contact your admin at           |
+|                                    | ``<group_email>``"                                                        |
++------------------------------------+---------------------------------------------------------------------------+
+| APPENGINE_EMAIL                    | The email address to use as the “From” address in outgoing email          |
+|                                    | notifications                                                             |
++------------------------------------+---------------------------------------------------------------------------+
+| INSTANCE_CLASS                     | The instance class that should be used on appengine                       |
++------------------------------------+---------------------------------------------------------------------------+
+| MAX_INSTANCES                      | The maximum number of instances to be used on appengine                   |
++------------------------------------+---------------------------------------------------------------------------+
+| SECRET_KEY                         | Random string that is used as a seed for Flask session ids                |
++------------------------------------+---------------------------------------------------------------------------+
+| GOOGLE_ANALYTICS_ID                | Project ID for Google Analytics                                           |
++------------------------------------+---------------------------------------------------------------------------+
+| GOOGLE_ANALYTICS_DOMAIN            | Project domain for Google Analytics                                       |
++------------------------------------+---------------------------------------------------------------------------+
+| BOOTSTRAP_ADMIN_USERS              | Space-separated emails of users granted superuser access (usually the     |
+|                                    | people who deploy and manage the project)                                 |
++------------------------------------+---------------------------------------------------------------------------+
+| MIGRATOR                           | **UNUSED** Name and email of the user that is used as current user during |
+|                                    | migrations                                                                |
++------------------------------------+---------------------------------------------------------------------------+
+| RISK_ASSESSMENT_URL                | Link to Risk Assessment application                                       |
++------------------------------------+---------------------------------------------------------------------------+
+| CUSTOM_URL_ROOT                    | Equal to the URL where the app is supposed to be deployed too; used to    |
+|                                    | generate links to internal objects in email notifications                 |
++------------------------------------+---------------------------------------------------------------------------+
+| ABOUT_URL                          | Link to the About document                                                |
++------------------------------------+---------------------------------------------------------------------------+
+| ABOUT_TEXT                         | Text that is shown on the login page                                      |
++------------------------------------+---------------------------------------------------------------------------+
+| EXTERNAL_HELP_URL                  | Link to user documentation on an external service                         |
++------------------------------------+---------------------------------------------------------------------------+
+| EXTERNAL_IMPORT_HELP_URL           | Link to import-specific user documentation on an external service         |
++------------------------------------+---------------------------------------------------------------------------+
+| GGRC_Q_INTEGRATION_URL             | Link to GGRCQ instance synced with this instance                          |
++------------------------------------+---------------------------------------------------------------------------+
+| DASHBOARD_INTEGRATION              | Link to Dashboards that use data from this instance                       |
++------------------------------------+---------------------------------------------------------------------------+
+| ALLOWED_QUERYAPI_APP_IDS           | List of Appengine application ids that are allowed to access this         |
+|                                    | instance's APIs                                                           |
++------------------------------------+---------------------------------------------------------------------------+
+| AUTHORIZED_DOMAIN                  | Users from this domain automatically get Creator role                     |
++------------------------------------+---------------------------------------------------------------------------+
+| SCALING                            | ``app.yaml:*scaling`` section                                             |
++------------------------------------+---------------------------------------------------------------------------+
+| STATIC_SERVING                     | Section of ``app.yaml:handlers`` to serve static files as static (doesn't |
+|                                    | work properly on some instances and not enabled by default)               |
++------------------------------------+---------------------------------------------------------------------------+
+| INTEGRATION_SERVICE_URL            | Link to an external service providing Person info                         |
++------------------------------------+---------------------------------------------------------------------------+
+| URLFETCH_SERVICE_ID                | Value for ``X-URLFetch-Service-Id`` header for requests to Person service |
++------------------------------------+---------------------------------------------------------------------------+
+| ISSUE_TRACKER_BUG_URL_TMPL         | Template for a link to a bug in an external bug tracker                   |
++------------------------------------+---------------------------------------------------------------------------+
+| ISSUE_TRACKER_DEFAULT_COMPONENT_ID | Default component id of a new bug in an external bug tracker              |
++------------------------------------+---------------------------------------------------------------------------+
+| ISSUE_TRACKER_DEFAULT_HOTLIST_ID   | Default hotlist id of a new bug in an external bug tracker                |
++------------------------------------+---------------------------------------------------------------------------+
+| ACCESS_TOKEN                       | Token that is used to check authenticity of a request to run migrations   |
++------------------------------------+---------------------------------------------------------------------------+
 
 
 Settings from ``override.sh``

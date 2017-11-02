@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Automapping &#8212; GGRC 0.10.35-Raspberry (5972f93) documentation</title>
+    <title>Automapping &#8212; GGRC 0.10.35-Raspberry (f8c1d69) documentation</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.10.35-Raspberry (5972f93)',
+        VERSION:     '0.10.35-Raspberry (f8c1d69)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="GGRC 0.10.35-Raspberry (5972f93) documentation" href="../index.html" />
+    <link rel="top" title="GGRC 0.10.35-Raspberry (f8c1d69) documentation" href="../index.html" />
     <link rel="up" title="Backend" href="index.html" />
     <link rel="next" title="Extensions" href="extensions.html" />
     <link rel="prev" title="Object Manipulation" href="object_manipulation.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="object_manipulation.html" title="Object Manipulation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (5972f93) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (f8c1d69) documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Backend</a> &#187;</li> 
       </ul>
     </div>  
@@ -57,7 +57,8 @@
   <div class="section" id="automapping">
 <h1>Automapping<a class="headerlink" href="#automapping" title="Permalink to this headline">¶</a></h1>
 <p>This is a process that automatically creates mappings based on user
-created mappings.</p>
+created mappings (basically, automappings can be seen as transitivity
+rules for mappings).</p>
 <div class="section" id="ggrc-automapper">
 <h2><code class="docutils literal"><span class="pre">ggrc.automapper</span></code><a class="headerlink" href="#ggrc-automapper" title="Permalink to this headline">¶</a></h2>
 <p>This defines the entry point <code class="docutils literal"><span class="pre">register_automapping_listeners</span></code> that
@@ -76,37 +77,159 @@ mappings under control we impose a tree structure on the mappings graph
 as defined by <code class="docutils literal"><span class="pre">type_ordering</span></code>. Then we only allow auto-mappings
 between <code class="docutils literal"><span class="pre">A</span></code> and <code class="docutils literal"><span class="pre">C</span></code> if the <code class="docutils literal"><span class="pre">ABC</span></code> path is a minor of the mappings
 tree.</p>
-<p>The rules themselves come in two varieties: regular and attribute-link.</p>
 </div>
-<div class="section" id="regular-rules">
-<h2>Regular rules<a class="headerlink" href="#regular-rules" title="Permalink to this headline">¶</a></h2>
-<p>Regular rules are defined by <code class="docutils literal"><span class="pre">Rule(name,</span> <span class="pre">top,</span> <span class="pre">mid,</span> <span class="pre">bottom)</span></code> where name
-is the for-humans name of the rule and top/mid/bottom are types or sets
-of types. Their names correspond to the positioning in the mapping tree.</p>
-<p>Example:</p>
-<p><code class="docutils literal"><span class="pre">Rule(&quot;example</span> <span class="pre">rule&quot;,</span> <span class="pre">&quot;Program&quot;,</span> <span class="pre">&quot;Regulation&quot;,</span> <span class="pre">&quot;Objective&quot;)</span></code></p>
-<p>The above rule will fire in two cases:</p>
-<ul class="simple">
-<li>a program <code class="docutils literal"><span class="pre">p</span></code> is mapped to a regulation <code class="docutils literal"><span class="pre">r</span></code> and the user adds a
-mapping between <code class="docutils literal"><span class="pre">r</span></code> and an objective <code class="docutils literal"><span class="pre">o</span></code>. In this case the rule
-implies mapping <code class="docutils literal"><span class="pre">p</span></code> to <code class="docutils literal"><span class="pre">o</span></code>.</li>
-<li>a regulation <code class="docutils literal"><span class="pre">r</span></code> is mapped to an objective <code class="docutils literal"><span class="pre">o</span></code> and the user adds
-a mapping between <code class="docutils literal"><span class="pre">r</span></code> and a program <code class="docutils literal"><span class="pre">p</span></code>. In this case the rule
-implies mapping <code class="docutils literal"><span class="pre">p</span></code> to <code class="docutils literal"><span class="pre">o</span></code>.</li>
+<div class="section" id="automapping-example">
+<h2>Automapping example<a class="headerlink" href="#automapping-example" title="Permalink to this headline">¶</a></h2>
+<p>Automapping rules are defined by a namedtuple <code class="docutils literal"><span class="pre">Rule(top,</span> <span class="pre">mid,</span>
+<span class="pre">bottom)</span></code> where top, mid, bottom are sets of types.</p>
+<p>For example, we have the following two rules set:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">Rule</span><span class="p">({</span><span class="s2">&quot;Program&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;Regulation&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;Section&quot;</span><span class="p">,</span> <span class="s2">&quot;Objective&quot;</span><span class="p">})</span>
+<span class="n">Rule</span><span class="p">({</span><span class="s2">&quot;Regulation&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;Section&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;Objective&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>These rules are &#8220;exploded&#8221; and transformed into the following tuples
+(concatenated cross products of sets in each rule):</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="s2">&quot;Program&quot;</span><span class="p">,</span> <span class="s2">&quot;Regulation&quot;</span><span class="p">,</span> <span class="s2">&quot;Objective&quot;</span><span class="p">),</span>
+<span class="p">(</span><span class="s2">&quot;Program&quot;</span><span class="p">,</span> <span class="s2">&quot;Regulation&quot;</span><span class="p">,</span> <span class="s2">&quot;Section&quot;</span><span class="p">),</span>
+<span class="p">(</span><span class="s2">&quot;Regulation&quot;</span><span class="p">,</span> <span class="s2">&quot;Section&quot;</span><span class="p">,</span> <span class="s2">&quot;Objective&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Since mappings are non-directional, each tuple is reversed and added
+to the list:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="s2">&quot;Program&quot;</span><span class="p">,</span> <span class="s2">&quot;Regulation&quot;</span><span class="p">,</span> <span class="s2">&quot;Section&quot;</span><span class="p">),</span>
+<span class="p">(</span><span class="s2">&quot;Program&quot;</span><span class="p">,</span> <span class="s2">&quot;Regulation&quot;</span><span class="p">,</span> <span class="s2">&quot;Objective&quot;</span><span class="p">),</span>
+<span class="p">(</span><span class="s2">&quot;Regulation&quot;</span><span class="p">,</span> <span class="s2">&quot;Section&quot;</span><span class="p">,</span> <span class="s2">&quot;Objective&quot;</span><span class="p">),</span>
+<span class="p">(</span><span class="s2">&quot;Section&quot;</span><span class="p">,</span> <span class="s2">&quot;Regulation&quot;</span><span class="p">,</span> <span class="s2">&quot;Program&quot;</span><span class="p">),</span>
+<span class="p">(</span><span class="s2">&quot;Objective&quot;</span><span class="p">,</span> <span class="s2">&quot;Regulation&quot;</span><span class="p">,</span> <span class="s2">&quot;Program&quot;</span><span class="p">),</span>
+<span class="p">(</span><span class="s2">&quot;Objective&quot;</span><span class="p">,</span> <span class="s2">&quot;Section&quot;</span><span class="p">,</span> <span class="s2">&quot;Regulation&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Each time a mapping between O1 and O2 of types T1 and T2 is created,
+the app performs the following:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Find each rule where (T1, T2) is the first two items of the rule;
+suppose T3 is the third item of the rule.</li>
+<li>For each object of type T3 that is mapped to O2, create a mapping
+between that object and O1.</li>
+<li>Do the same two steps in the opposite direction (O2, O1).</li>
 </ul>
-<p>Any or all types can be replaced by sets of type. This generates rules
-for the cross product of sets.</p>
+</div></blockquote>
+<p>Each mapping created during this procedure triggers automappings too.</p>
+<p>Let&#8217;s check a more concrete example.</p>
+<p>There is a Regulation mapped to a Section:</p>
+<img src="../_images/graphviz-bafbcf7417ac3ff8bc2927c3ad12d34f44308466.png" alt="Regulation mapped to Section" />
+<p>The user creates Objective A and maps it to Section A.</p>
+<ol class="arabic simple">
+<li>The app searches rules by (&#8220;Section&#8221;, &#8220;Objective&#8221;) key and finds
+none.</li>
+<li>The app searches rules by (&#8220;Objective&#8221;, &#8220;Section&#8221;) key and finds
+(&#8220;Objective&#8221;, &#8220;Section&#8221;, &#8220;Regulation&#8221;) rule.<ol class="arabic">
+<li>The app finds Regulation A mapped to Section A and maps it to
+Objective A.<ol class="arabic">
+<li>The app searches rules by (&#8220;Regulation&#8221;, &#8220;Objective&#8221;) key and finds
+none.</li>
+<li>The app searches rules by (&#8220;Objective&#8221;, &#8220;Regulation&#8221;) key and finds
+(&#8220;Objective&#8221;, &#8220;Regulation&#8221;, &#8220;Program&#8221;).<ol class="arabic">
+<li>The app finds no Programs mapped to Regulation A.</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<img src="../_images/graphviz-9b07e43cefb340017e963b7ec97f30a44184fd7a.png" alt="New Objective mapped to Section and automapped to Regulation" />
+<p>Then the user creates Program A and maps it to Regulation A.</p>
+<ol class="arabic simple">
+<li>The app searches rules by (&#8220;Program&#8221;, &#8220;Regulation&#8221;) key and finds
+(&#8220;Program&#8221;, &#8220;Regulation&#8221;, Section&#8221;) and (&#8220;Program&#8221;, &#8220;Regulation&#8221;,
+&#8220;Objective&#8221;).<ol class="arabic">
+<li>The app finds Section A mapped to Regulation A and maps it to
+Program A.<ol class="arabic">
+<li>The app searches rules by (&#8220;Section&#8221;, &#8220;Program&#8221;) key and
+finds none.</li>
+<li>The app searches rules by (&#8220;Program&#8221;, &#8220;Section&#8221;) key and
+finds none.</li>
+</ol>
+</li>
+<li>The app finds Objective A mapped to Regulation A and maps it to
+Program A.<ol class="arabic">
+<li>The app searches rules by (&#8220;Objective&#8221;, &#8220;Program&#8221;) key and
+finds none.</li>
+<li>The app searches rules by (&#8220;Program&#8221;, &#8220;Objective&#8221;) key and
+finds none.</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>The app searches rules by (&#8220;Regulation&#8221;, &#8220;Program&#8221;) key and finds
+none.</li>
+</ol>
+<img src="../_images/graphviz-bbfb84fda48cedb26359fbe7d7b7c1a4e923b5b4.png" alt="New Program mapped to Regulation and automapped to Objective" />
+<p>Now the user creates Objective B and maps it to Section A.</p>
+<ol class="arabic simple">
+<li>The app searches rules by (&#8220;Objective&#8221;, &#8220;Section&#8221;) key and finds
+(&#8220;Objective&#8221;, &#8220;Section&#8221;, &#8220;Regulation&#8221;).<ol class="arabic">
+<li>The app finds Regulation A mapped to Section A and maps it to
+Objective B.<ol class="arabic">
+<li>The app searches rules by (&#8220;Regulation&#8221;, &#8220;Objective&#8221;) key and
+finds none.</li>
+<li>The app searches rules by (&#8220;Objective&#8221;, &#8220;Regulation&#8221;) key and
+finds (&#8220;Objective&#8221;, &#8220;Regulation&#8221;, &#8220;Program&#8221;).<ol class="arabic">
+<li>The app finds Program A mapped to Regulation A and maps it
+to Objective B.<ol class="arabic">
+<li>The app searches rules by (&#8220;Program&#8221;, &#8220;Objective&#8221;) key
+and finds none.</li>
+<li>The app searches rules by (&#8220;Objective&#8221;, &#8220;Program&#8221;) key
+and finds none.</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>The app searches rules by (&#8220;Section&#8221;, &#8220;Objective&#8221;) key and finds
+none.</li>
+</ol>
+<img src="../_images/graphviz-d2cb52bc24f281fa2adceb37f65e09cf3f0b9e17.png" alt="New Objective mapped to Section and automapped to Regulation
+and Program" />
+<p>The process is iterative, and the set of rules can be much more complex.</p>
 </div>
-<div class="section" id="attribute-link-rules">
-<h2>Attribute-link rules<a class="headerlink" href="#attribute-link-rules" title="Permalink to this headline">¶</a></h2>
-<p>Attribute-link rules regard special mappings that are not a part of the
-<code class="docutils literal"><span class="pre">relationships</span></code> table. They are defined by specifying the attribute
-that links to the relevant object in an <code class="docutils literal"><span class="pre">Attr</span></code> instance.</p>
-<p>Example:</p>
-<p><code class="docutils literal"><span class="pre">Rule(&quot;example</span> <span class="pre">rule&quot;,</span> <span class="pre">Attr(&quot;directive&quot;),</span> <span class="pre">&quot;Section&quot;,</span> <span class="pre">&quot;Objective&quot;)</span></code></p>
-<p>The above rule will only fire in on case. When an objective <code class="docutils literal"><span class="pre">o</span></code> is
-mapped to a section <code class="docutils literal"><span class="pre">s</span></code> it will map <code class="docutils literal"><span class="pre">o</span></code> to directive <code class="docutils literal"><span class="pre">d</span></code>
-accessible through <code class="docutils literal"><span class="pre">s</span></code>&#8216;s <code class="docutils literal"><span class="pre">directive</span></code> attribute.</p>
+<div class="section" id="implementation-details">
+<h2>Implementation details<a class="headerlink" href="#implementation-details" title="Permalink to this headline">¶</a></h2>
+<p>The list of rules is transformed into a dict of rules by code like:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">rules</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">from</span><span class="p">,</span> <span class="n">to_</span><span class="p">,</span> <span class="n">mapping</span> <span class="ow">in</span> <span class="n">rules</span><span class="p">:</span>
+    <span class="n">rules</span><span class="p">[(</span><span class="n">from</span><span class="p">,</span> <span class="n">to_</span><span class="p">)]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mapping</span><span class="p">)</span>
+
+<span class="c1"># {(&quot;Program&quot;, &quot;Regulation&quot;): [&quot;Section&quot;, &quot;Objective&quot;],</span>
+<span class="c1">#  (&quot;Regulation&quot;, &quot;Section&quot;): [&quot;Objective&quot;],</span>
+<span class="c1">#  (&quot;Section&quot;, &quot;Regulation&quot;): [&quot;Program&quot;],</span>
+<span class="c1">#  (&quot;Objective&quot;, &quot;Regulation&quot;): [&quot;Program&quot;],</span>
+<span class="c1">#  (&quot;Objective&quot;, &quot;Section&quot;): [&quot;Regulation&quot;]}</span>
+</pre></div>
+</div>
+<p>The dict makes each check for automapping rules <code class="docutils literal"><span class="pre">O(1)</span></code>.</p>
+<p>To lower the memory footprint, each object is represented with a
+minimal <code class="docutils literal"><span class="pre">namedtuple(&quot;Stub&quot;,</span> <span class="pre">[&quot;type&quot;,</span> <span class="pre">&quot;id&quot;])</span></code>, which is hashable and
+sortable (can be stored in sets, can be reliable ordered together with
+another stub). Each mapping is represented with a tuple
+<code class="docutils literal"><span class="pre">tuple(sorted([src_stub,</span> <span class="pre">dst_stub]))</span></code> internally, which is hashable
+as well.</p>
+<p>To minimize the number of DB queries, we support a local cache that
+stores what objects are mapped to an instance: <code class="docutils literal"><span class="pre">{src_stub:</span>
+<span class="pre">{dst_stubs}}</span></code>. The cache is populated with all objects for which we
+search mapped objects, and it is updated each time we perform an
+automapping.</p>
+<p>To linearize the automappings generation and keep the call stack
+shallow, instead of recursive calls to automapping calculation
+function we store each new mapping that should be processed to a set
+<code class="docutils literal"><span class="pre">self.queue</span></code>, and <code class="docutils literal"><span class="pre">pop</span></code> this set in a loop. To avoid duplicate
+processing for each mapping, we store a set of processed mappings in a
+set <code class="docutils literal"><span class="pre">self.processed</span></code>.</p>
 </div>
 </div>
 
@@ -121,8 +244,8 @@ accessible through <code class="docutils literal"><span class="pre">s</span></co
 <li><a class="reference internal" href="#">Automapping</a><ul>
 <li><a class="reference internal" href="#ggrc-automapper"><code class="docutils literal"><span class="pre">ggrc.automapper</span></code></a></li>
 <li><a class="reference internal" href="#ggrc-automapper-rules"><code class="docutils literal"><span class="pre">ggrc.automapper.rules</span></code></a></li>
-<li><a class="reference internal" href="#regular-rules">Regular rules</a></li>
-<li><a class="reference internal" href="#attribute-link-rules">Attribute-link rules</a></li>
+<li><a class="reference internal" href="#automapping-example">Automapping example</a></li>
+<li><a class="reference internal" href="#implementation-details">Implementation details</a></li>
 </ul>
 </li>
 </ul>
@@ -169,7 +292,7 @@ accessible through <code class="docutils literal"><span class="pre">s</span></co
         <li class="right" >
           <a href="object_manipulation.html" title="Object Manipulation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (5972f93) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (f8c1d69) documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Backend</a> &#187;</li> 
       </ul>
     </div>

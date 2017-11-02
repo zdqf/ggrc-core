@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Models &#8212; GGRC 0.10.35-Raspberry (5972f93) documentation</title>
+    <title>Models &#8212; GGRC 0.10.35-Raspberry (f8c1d69) documentation</title>
     
     <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.10.35-Raspberry (5972f93)',
+        VERSION:     '0.10.35-Raspberry (f8c1d69)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="GGRC 0.10.35-Raspberry (5972f93) documentation" href="../../index.html" />
+    <link rel="top" title="GGRC 0.10.35-Raspberry (f8c1d69) documentation" href="../../index.html" />
     <link rel="up" title="ggrc" href="index.html" />
     <link rel="next" title="Mixins" href="mixins.html" />
     <link rel="prev" title="Services" href="services.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="services.html" title="Services"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.35-Raspberry (5972f93) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.35-Raspberry (f8c1d69) documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">ggrc</a> &#187;</li> 
       </ul>
@@ -418,8 +418,8 @@ by the users.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_access_groups</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_access_groups</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_access_groups</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
@@ -865,8 +865,8 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_clauses</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_clauses</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_clauses</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">na</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">parent_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">clauses</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
@@ -1022,8 +1022,8 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_controls</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_controls</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_controls</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">company_control</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">directive_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">directives</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
@@ -1271,8 +1271,8 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_data_assets</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_data_assets</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_data_assets</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
@@ -1787,8 +1787,8 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_facilities</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_facilities</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_facilities</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
@@ -1889,8 +1889,8 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_issues</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_issues</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_issues</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">audit_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">audits</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
@@ -1958,8 +1958,8 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_markets</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_markets</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_markets</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
@@ -2219,8 +2219,8 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_objectives</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_objectives</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_objectives</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
@@ -2324,8 +2324,8 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_org_groups</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_org_groups</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_org_groups</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
@@ -2432,8 +2432,8 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_products</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_products</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_products</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
@@ -2497,8 +2497,8 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_programs</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_programs</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_programs</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -2564,8 +2564,8 @@ automapping even if the base relationship was deleted.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_projects</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_projects</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_projects</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
@@ -2736,8 +2736,8 @@ extra information</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_sections</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_sections</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_sections</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">na</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">parent_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">sections</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
@@ -2852,8 +2852,8 @@ Objects that were supposed to be mapped are called child objects.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_systems</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_systems</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_systems</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">infrastructure</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">is_biz_process</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
@@ -2926,8 +2926,8 @@ Objects that were supposed to be mapped are called child objects.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_systems</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_systems</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_systems</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">infrastructure</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">is_biz_process</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
@@ -3000,8 +3000,8 @@ Objects that were supposed to be mapped are called child objects.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_systems</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_systems</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_systems</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">infrastructure</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">is_biz_process</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
@@ -3058,8 +3058,8 @@ Objects that were supposed to be mapped are called child objects.</p>
         <span class="n">created_at</span> <span class="n">DATETIME</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
         <span class="n">context_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
         <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
-        <span class="k">CONSTRAINT</span> <span class="n">uq_t_vendors</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CONSTRAINT</span> <span class="n">uq_vendors</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">slug</span><span class="p">),</span>
+        <span class="k">CONSTRAINT</span> <span class="n">uq_t_vendors</span> <span class="k">UNIQUE</span> <span class="p">(</span><span class="n">title</span><span class="p">),</span>
         <span class="k">CHECK</span> <span class="p">(</span><span class="n">send_by_default</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">context_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">contexts</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span>
@@ -3212,7 +3212,7 @@ Objects that were supposed to be mapped are called child objects.</p>
         <li class="right" >
           <a href="services.html" title="Services"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.35-Raspberry (5972f93) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">GGRC 0.10.35-Raspberry (f8c1d69) documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index.html" >ggrc</a> &#187;</li> 
       </ul>

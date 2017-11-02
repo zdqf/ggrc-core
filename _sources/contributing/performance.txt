@@ -28,3 +28,10 @@ For the backend part:
 
 - Aim to have only constant number of sql queries for every request.
 - Check for proper use of eager query and index query.
+- Avoid fetching any data from database if ORM has already eagerly loaded it.
+- Avoid fetching too much data from database if it is not needed. That means to
+  manually write a query with deferred options and joined loads when possible.
+- Always take an entire request cycle into consideration. Optimizing one
+  smaller function at the expense of other functions needed to do the same work
+  but possibly multiple times may not be good. Any optimizations done must
+  affect the entire app performance in a positive way overall.

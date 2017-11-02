@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Performance &#8212; GGRC 0.10.35-Raspberry (5972f93) documentation</title>
+    <title>Performance &#8212; GGRC 0.10.35-Raspberry (f8c1d69) documentation</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.10.35-Raspberry (5972f93)',
+        VERSION:     '0.10.35-Raspberry (f8c1d69)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="GGRC 0.10.35-Raspberry (5972f93) documentation" href="../index.html" />
+    <link rel="top" title="GGRC 0.10.35-Raspberry (f8c1d69) documentation" href="../index.html" />
     <link rel="up" title="Contribution Guidelines" href="index.html" />
     <link rel="next" title="CSS and HTML" href="css_and_html.html" />
     <link rel="prev" title="Reviewing pull requests" href="git/reviewing_pull_requests.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="git/reviewing_pull_requests.html" title="Reviewing pull requests"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (5972f93) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (f8c1d69) documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Contribution Guidelines</a> &#187;</li> 
       </ul>
     </div>  
@@ -80,6 +80,13 @@
 <ul class="simple">
 <li>Aim to have only constant number of sql queries for every request.</li>
 <li>Check for proper use of eager query and index query.</li>
+<li>Avoid fetching any data from database if ORM has already eagerly loaded it.</li>
+<li>Avoid fetching too much data from database if it is not needed. That means to
+manually write a query with deferred options and joined loads when possible.</li>
+<li>Always take an entire request cycle into consideration. Optimizing one
+smaller function at the expense of other functions needed to do the same work
+but possibly multiple times may not be good. Any optimizations done must
+affect the entire app performance in a positive way overall.</li>
 </ul>
 </div>
 
@@ -131,7 +138,7 @@
         <li class="right" >
           <a href="git/reviewing_pull_requests.html" title="Reviewing pull requests"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (5972f93) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">GGRC 0.10.35-Raspberry (f8c1d69) documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Contribution Guidelines</a> &#187;</li> 
       </ul>
     </div>
