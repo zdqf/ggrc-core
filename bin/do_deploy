@@ -48,7 +48,12 @@ gcloud auth activate-service-account "$ACCOUNT" --key-file="$KEY_FILE"
 
 version_script () {
   declare -r SETTINGS_FILE="src/ggrc/settings/default.py"
-  declare -r TARGET_REF="FETCH_HEAD"
+  if [ -z ${KOKORO+x} ]
+  then
+    declare -r TARGET_REF="FETCH_HEAD"
+  else
+    declare -r TARGET_REF="HEAD"
+  fi
 
   cat <<EOF
 BUILD_NUMBER = ""
@@ -60,7 +65,12 @@ EOF
 if [[ "$VERSION" == "AUTO" ]]
 then
   GGRC_VERSION=$(version_script | python -)
-  GGRC_HASH="$(git rev-parse FETCH_HEAD)"
+  if [ -z ${KOKORO+x} ]
+  then
+    GGRC_HASH="$(git rev-parse FETCH_HEAD)"
+  else
+    GGRC_HASH="$(git rev-parse HEAD)"
+  fi
   VERSION="$GGRC_VERSION-$GGRC_HASH"
   # The following expression extracts a valid version name.
   # According to gcloud:
