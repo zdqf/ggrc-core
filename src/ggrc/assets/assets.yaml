@@ -226,8 +226,6 @@ dashboard-js-template-files:
   - base_objects/repeat-on-options.mustache
   - base_objects/repeat-on-summary.mustache
   - cycles/info.mustache
-  - cycle_task_entries/tree.mustache
-  - cycle_task_entries/tree_add_item.mustache
   - cycle_task_entries/modal_content.mustache
   - cycle_task_groups/info.mustache
   - cycle_task_groups/autocomplete_result.mustache
