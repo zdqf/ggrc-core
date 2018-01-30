@@ -6,11 +6,12 @@
 {{#if comments.length}}
   <h6>Task comments ({{comments.length}})</h6>
   <div
-    class="tree-structure new-tree mapped-objects-tree entry-list"
+    class="entry-list"
     role="list">
   {{#each comments}}
     <cycle-task-comments-item
       {parent-instance}="instance"
+      {(removed)}=""
       {instance}=".">
     </cycle-task-comments-item>
   {{/each}}

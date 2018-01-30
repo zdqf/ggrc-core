@@ -449,10 +449,6 @@ ul.new-tree {
     margin-bottom: 0;
     max-height: 240px;
     overflow-y: auto;
-    .task-comments & {
-      max-height: none;
-      overflow-y: visible;
-    }
     & .tier-2-info {
       padding: 14px 10px 0 10px;
       .tier-2-info-content {

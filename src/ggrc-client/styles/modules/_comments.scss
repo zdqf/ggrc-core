@@ -57,7 +57,8 @@
 .entry-list {
   @extend %reset-list;
   margin-top: 4px;
-  li {
+  li,
+  [role=listitem] {
     @extend %clearfix;
     margin-bottom: 14px;
     .entry-author {

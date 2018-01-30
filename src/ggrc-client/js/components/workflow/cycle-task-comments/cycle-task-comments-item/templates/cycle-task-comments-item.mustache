@@ -51,9 +51,12 @@
       <li>
         {{^if_equals parentInstance.status 'Verified'}}
             {{#is_allowed 'delete' instance}}
-            <a data-toggle="modal-ajax-deleteform" data-object-plural="{{instance.class.table_plural}}" data-object-singular="CycleTaskEntry" data-modal-reset="reset" data-modal-class="modal" data-object-id="{{instance.id}}" href="javascript://">
-              <i class="fa fa-trash"></i>
-              Delete Comment
+            <a
+              ($click)="removeComment()"
+              href="javascript://"
+              role="button">
+                <i class="fa fa-trash"></i>
+                Delete Comment
             </a>
           {{/is_allowed_all}}
         {{/if_equals}}
