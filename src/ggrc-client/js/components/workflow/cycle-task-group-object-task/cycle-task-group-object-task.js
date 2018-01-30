@@ -6,6 +6,7 @@
 import template from './templates/cycle-task-group-object-task.mustache';
 import '../../object-change-state/object-change-state';
 import '../../dropdown/dropdown';
+import '../cycle-task-comments/cycle-task-comments';
 import RefreshQueue from '../../../models/refresh_queue';
 
 let viewModel = can.Map.extend({
@@ -15,12 +16,20 @@ let viewModel = can.Map.extend({
     return pageInstance.type !== 'Workflow';
   },
   instance: {},
+  cycleTaskEntries: [],
   initialState: 'Assigned',
   cycle: {},
   workflow: {},
-  init: function () {
-    this.loadCycle()
-      .then(this.loadWorkflow.bind(this));
+  async init() {
+    const cycle = await this.loadCycle();
+    await this.loadWorkflow(cycle);
+    await this.loadCycleTaskEntries();
+  },
+  async loadCycleTaskEntries() {
+    const instance = this.attr('instance');
+    const ctEntries = instance.attr('cycle_task_entries');
+    await instance.refresh_all('cycle_task_entries');
+    this.attr('cycleTaskEntries', ctEntries.reify());
   },
   loadCycle: function () {
     let stubCycle = this.attr('instance.cycle').reify();
