@@ -194,23 +194,10 @@
 
           <div class="row-fluid wrap-row">
             <div class="span12">
-              {{#with_mapping_count instance 'cycle_task_entries'}}
-                {{#count}}
-                  <h6>Task comments ({{count}})</h6>
-                  <mapping-tree-view
-                    parent-instance="instance"
-                    mapping="instance.class.info_pane_options.comments.mapping"
-                    item-template="instance.class.info_pane_options.comments.show_view"
-                    tree-view-class="tree-structure new-tree mapped-objects-tree entry-list"
-                    class="task-comments">
-                  </mapping-tree-view>
-                {{/count}}
-                {{^count}}
-                  <h6>Task comments</h6>
-                  No comments.
-                {{/count}}
-              {{/with_mapping_count}}
-
+              <cycle-task-comments
+                {instance}="instance"
+                {comments}="cycleTaskEntries">
+              </cycle-task-comments>
               <ul class="add-task-comment">
                 {{^if_equals instance.status 'Verified'}}
                   {{#if cycle}}

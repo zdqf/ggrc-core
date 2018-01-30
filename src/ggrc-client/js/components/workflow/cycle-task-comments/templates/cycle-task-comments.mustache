@@ -1,0 +1,19 @@
+{{!
+    Copyright (C) 2018 Google Inc.
+    Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+}}
+
+{{#if comments.length}}
+  <h6>Task comments ({{comments.length}})</h6>
+  <ul class="tree-structure new-tree mapped-objects-tree entry-list">
+  {{#each comments}}
+    <cycle-task-comments-item
+      {parent-instance}="instance"
+      {instance}=".">
+    </cycle-task-comments-item>
+  {{/each}}
+  </ul>
+{{else}}
+  <h6>Task comments</h6>
+  No comments.
+{{/if}}
