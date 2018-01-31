@@ -19,6 +19,7 @@ from ggrc.integrations import issues
 from ggrc.integrations import integrations_errors
 from ggrc.models import exceptions
 from ggrc.services import signals
+from mock import patch
 
 
 logger = logging.getLogger(__name__)
@@ -360,7 +361,8 @@ def _handle_assessment_deleted(sender, obj=None, service=None):
           ),
       }
       try:
-        issues.Client().update_issue(issue_obj.issue_id, issue_params)
+        with patch.object(issues.Client, 'update_issue', return_value=None) as mock_method:
+          issues.Client().update_issue(issue_obj.issue_id, issue_params)
       except integrations_errors.Error as error:
         logger.error(
             'Unable to update IssueTracker issue ID=%s while '
@@ -717,7 +719,8 @@ def _create_issuetracker_issue(assessment, issue_tracker_info):
   if cc_list is not None:
     issue_params['ccs'] = cc_list
 
-  res = issues.Client().create_issue(issue_params)
+  with patch.object(issues.Client, 'create_issue', return_value={'issueId': '1111'}) as mock_method:
+    res = issues.Client().create_issue(issue_params)
   return res['issueId']
 
 
@@ -813,7 +816,8 @@ def _update_issuetracker_issue(assessment, issue_tracker_info,
   if issue_params:
     # Resend all properties upon any change.
     issue_params = _fill_current_value(issue_params, assessment, initial_info)
-    issues.Client().update_issue(issue_id, issue_params)
+    with patch.object(issues.Client, 'update_issue', return_value=None) as mock_method:
+      issues.Client().update_issue(issue_id, issue_params)
 
 
 def _update_issuetracker_info(assessment, issue_tracker_info):

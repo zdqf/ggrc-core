@@ -150,7 +150,7 @@ INTEGRATION_SERVICE_URL = os.environ.get('INTEGRATION_SERVICE_URL')
 URLFETCH_SERVICE_ID = os.environ.get('URLFETCH_SERVICE_ID')
 
 # Flag defining whether integration with issue tracker is enabled or not.
-ISSUE_TRACKER_ENABLED = bool(os.environ.get('ISSUE_TRACKER_ENABLED'))
+ISSUE_TRACKER_ENABLED = True
 
 # URL template for composing Issue Tracker ticker URL.
 ISSUE_TRACKER_BUG_URL_TMPL = os.environ.get('ISSUE_TRACKER_BUG_URL_TMPL')
