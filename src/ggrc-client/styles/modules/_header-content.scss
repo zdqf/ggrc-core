@@ -24,7 +24,21 @@
   background: $white;
   z-index: zIndex(header-content);
   padding-left: 30px;
-
+  h1 {
+    span.status {
+      font-size: 13px;
+      color: $gray;
+      font-style: italic;
+      display: inline-block;
+      line-height: 36px;
+      vertical-align: middle;
+    }
+    i {
+      margin-top: 10px;
+      margin-right: 8px;
+      font-size: 24px;
+    }
+  }
   @media (max-width: 1200px) {
     .menu {
       li {

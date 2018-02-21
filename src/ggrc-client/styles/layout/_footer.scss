@@ -9,6 +9,9 @@
   background: #eee;
   height: 39px;
   z-index: zIndex(footer);
+  position: fixed;
+  right: 0;
+  bottom: 0;
   width: 100%;
   line-height: 39px;
   color:$headerTitle;

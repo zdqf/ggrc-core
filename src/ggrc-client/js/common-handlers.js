@@ -305,16 +305,72 @@ jQuery(function ($) {
 function resize_areas(event, target_info_pin_height) {
   var $window = $(window);
   var $bar = $('.bar-v');
+  var $footer = $('.footer');
+  var $header = $('.header-content');
+  var $innerNav = $('.inner-nav');
   var $lhnType = $('.lhn-type');
   var $lhsHolder = $('.lhs-holder');
+  var $objectArea = $('.object-area');
+  var $pin = $('.pin-content');
+  var $topNav = $('.top-inner-nav');
 
   var winHeight = $window.height();
+  var winWidth = $window.width();
   var lhsHeight = winHeight - 180; // new ui
+  var footerMargin = lhsHeight + 130; // new UI
+  var internavHeight = object_area_height();
+  var internavWidth = $innerNav.width() || 0; // || 0 for pages without inner-nav
   var lhsWidth = $lhsHolder.width();
+  var objectWidth = winWidth;
 
   $lhnType.css('width', lhsWidth);
   $lhsHolder.css('height', lhsHeight);
   $bar.css('height', lhsHeight);
+  $footer.css('margin-top', footerMargin);
+  $innerNav.css('height', internavHeight);
+  $objectArea
+    .css('margin-left', internavWidth)
+    .css('height', internavHeight)
+    .css('width', objectWidth);
+
+  $objectArea.trigger('change');
+
+  function object_area_height() {
+    var height = winHeight - not_main_elements_height();
+    var nav_pos = $topNav.css('top') ?
+                Number($topNav.css('top').replace('px', '')) :
+                0;
+
+    if (nav_pos < $header.height()) {
+      height -= $topNav.height();
+    }
+
+    return height;
+  }
+
+  function not_main_elements_height() {
+    var margins = [$objectArea.css('margin-top'), $objectArea.css('margin-bottom'),
+                     $objectArea.css('padding-top'), $objectArea.css('padding-bottom')]
+              .map(function (margin) {
+                if (!margin) {
+                  margin = '0';
+                }
+                return Number(margin.replace('px', ''));
+              })
+              .reduce(function (m, h) {
+                return m + h;
+              }, 0);
+
+    // the 5 gives user peace of mind they've reached bottom
+    var UIHeight = [$topNav.height(), $header.height(),
+                      $footer.height(),
+                      margins, 5]
+              .reduce(function (m, h) {
+                return m + h;
+              }, 0);
+
+    return UIHeight;
+  }
 }
 
 jQuery(function ($) {

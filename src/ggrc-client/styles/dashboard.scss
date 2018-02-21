@@ -35,14 +35,3 @@ $roboto-font-path: "~roboto-fontface/fonts";
 
 @import "responsive";
 @import "components";
-
-
-html {
-    height: 100%;
-}
-
-body {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}

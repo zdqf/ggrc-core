@@ -3,24 +3,9 @@
  * Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
  */
 
-.area {
-  flex: 1;
-  padding-top: 47px;
-
-  .top-inner-nav {
-    margin-bottom: $baseLineHeight;
-    .nav {
-      margin-bottom: 0;
-    }
-  }
-
-  > section.content {
+.object-area {
   overflow-y: auto;
   overflow-x: hidden;
-  }
-}
-
-.object-area {
   padding-top: 20px;
   background: $contentBgnd;
   &.import-area {

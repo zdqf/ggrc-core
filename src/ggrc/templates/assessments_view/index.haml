@@ -23,7 +23,7 @@
   dashboard
 
 -block body
-  .area.flex-box.flex-col.area--distraction-free{ 'class': '={ model_display_class }' }
+  .area.area--distraction-free{ 'class': '={ model_display_class }' }
     .header-content
       %h2.logo-wrap{ 'class': '={ logo_wrap_class }' }
         %a{ 'class': 'to-my-work', 'href': '/dashboard' }
@@ -39,7 +39,7 @@
         .object-nav
           %ul.nav{ 'class': "internav" }
 
-    %section.content.flex-size-1
+    %section.content
       .flash
         -with messages = get_flashed_messages(with_categories=True)
           -if messages
