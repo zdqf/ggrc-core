@@ -70,6 +70,12 @@ def create_gdrive_file(csv_string, filename):
 
 def get_gdrive_file(file_data):
   """Get text/csv data from gdrive file"""
+  csv_data, _, _ = get_gdrive_file_data(file_data)
+  return csv_data
+
+
+def get_gdrive_file_data(file_data):
+  """Get text/csv data from gdrive file"""
   http_auth = get_http_auth()
   try:
     drive_service = discovery.build(API_SERVICE_NAME, API_VERSION,
@@ -93,7 +99,7 @@ def get_gdrive_file(file_data):
   except Exception as ex:
     logger.error(ex.message)
     raise InternalServerError('Import failed due to internal server error.')
-  return csv_data
+  return csv_data, file_data, file_meta.get('name')
 
 
 def copy_file_request(drive_service, file_id, body):

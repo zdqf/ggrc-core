@@ -2,9 +2,11 @@
 # Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 
 import csv
-import chardet
 from StringIO import StringIO
+import chardet
+
 from ggrc.models.reflection import AttributeInfo
+from ggrc.converters import get_exportables
 from ggrc.converters.column_handlers import model_column_handlers
 from ggrc.converters.handlers import handlers
 
@@ -145,3 +147,25 @@ def utf_8_encoder(csv_data):
     except UnicodeDecodeError:
       encoding_guess = chardet.detect(line)['encoding']
       yield line.decode(encoding_guess).encode('utf-8')
+    except UnicodeEncodeError:
+      yield line.encode('utf-8')
+
+
+def count_objects(csv_data):
+  """Count objects in csv data"""
+  exportables = get_exportables()
+  offsets, data_blocks = split_array(csv_data)
+  counts = {}
+  for _, data in zip(offsets, data_blocks):
+    if len(data) < 2:
+      continue  # empty block
+    class_name = data[1][0].strip().lower()
+    object_class = exportables.get(class_name)
+    counts[object_class.__name__] = len(data) - 2
+  return counts
+
+
+def get_export_filename(objects, current_time):
+  """Generate export file name"""
+  object_names = "_".join([obj['object_name'] for obj in objects])
+  return "{}_{}.csv".format(object_names, current_time)
