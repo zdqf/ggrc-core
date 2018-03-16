@@ -505,6 +505,10 @@ class ImportExportFactory(ModelFactory):
   class Meta:
     model = all_models.ImportExport
 
+  @classmethod
+  def _log_event(cls, instance, action="POST"):
+    """Stub to disable parent method"""
+
 
 def get_model_factory(model_name):
   """Get object factory for provided model name"""

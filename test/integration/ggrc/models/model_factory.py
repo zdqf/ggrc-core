@@ -36,8 +36,6 @@ class ModelFactory(factory.Factory, object):
 
   @classmethod
   def _log_event(cls, instance, action="POST"):
-    if not hasattr(instance, 'context'):
-      return
     indexer = get_indexer()
     db.session.flush()
     user = cls._get_user()
