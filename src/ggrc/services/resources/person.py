@@ -13,6 +13,7 @@ from ggrc import login
 from ggrc import models
 from ggrc.utils import benchmark
 from ggrc.services import common
+from ggrc.views import converters
 from ggrc.query import my_objects
 from ggrc.query import builder
 
@@ -80,27 +81,94 @@ class PersonResource(common.ExtendedResource):
       "Workflow": 0,
   }
 
-  def get(self, *args, **kwargs):
+  @classmethod
+  def add_to(cls, app, url, model_class=None, decorators=()):
+    """Register view methods."""
+    super(PersonResource, cls).add_to(app, url, model_class, decorators)
+    view_func = cls.as_view(cls.endpoint_name())
+    app.add_url_rule(
+        '{url}/<{type}:{pk}>/<command>'.format(url=url,
+                                               type=cls.pk_type,
+                                               pk=cls.pk),
+        view_func=view_func,
+        methods=['GET', 'PUT', 'POST', 'DELETE'])
+    app.add_url_rule(
+        '{url}/<{type}:{pk}>/<command>/<{type}:{pk2}>'.format(
+            url=url,
+            type=cls.pk_type,
+            pk=cls.pk,
+            pk2='id2'
+        ),
+        view_func=view_func,
+        methods=['GET', 'DELETE'])
+    app.add_url_rule(
+        '{url}/<{type}:{pk}>/<command>/<{type}:{pk2}>/<command2>'.format(
+            url=url,
+            type=cls.pk_type,
+            pk=cls.pk,
+            pk2='id2'
+        ),
+        view_func=view_func,
+        methods=['PUT', 'GET'])
+
+  def get(self, *args, **kwargs):  # pylint: disable=arguments-differ
     # This is to extend the get request for additional data.
-    # pylint: disable=arguments-differ
     command_map = {
         None: super(PersonResource, self).get,
         "task_count": self._task_count,
         "my_work_count": self._my_work_count,
         "all_objects_count": self._all_objects_count,
+        "imports": converters.handle_import_get,
+        "exports": converters.handle_export_get,
     }
+    return self._process_request(command_map, *args, **kwargs)
+
+  def post(self, *args, **kwargs):
+    """This is to extend the post request for additional data."""
+    command_map = {
+        # create import entry
+        "imports": converters.handle_import_post,
+        # create export entry and start export background task
+        "exports": converters.handle_export_post,
+    }
+    return self._process_request(command_map, *args, **kwargs)
+
+  def put(self, *args, **kwargs):  # pylint: disable=arguments-differ
+    """This is to extend the put request for additional data."""
+    command_map = {
+        "imports": converters.handle_import_put,
+        "exports": converters.handle_export_put,
+    }
+    return self._process_request(command_map, *args, **kwargs)
+
+  def delete(self, *args, **kwargs):  # pylint: disable=arguments-differ
+    """This is to extend the delete request for additional data."""
+    command_map = {
+        "imports": converters.handle_import_delete,
+        "exports": converters.handle_export_delete,
+    }
+    return self._process_request(command_map, *args, **kwargs)
+
+  def _process_request(self, command_map, *args, **kwargs):
+    """Process request"""
+    self._verify_current_user(**kwargs)
     command = kwargs.pop("command", None)
     if command not in command_map:
       self.not_found_response()
     return command_map[command](*args, **kwargs)
 
+  @staticmethod
+  def _verify_current_user(**kwargs):
+    """Verify user"""
+    id_ = kwargs.get("id")
+    user = login.get_current_user()
+    if id_ != user.id:
+      raise Forbidden()
+
   def _task_count(self, id):
     """Return open task count and overdue flag for a given user."""
     # id name is used as a kw argument and can't be changed here
     # pylint: disable=invalid-name,redefined-builtin
-
-    if id != login.get_current_user_id():
-      raise Forbidden()
     with benchmark("Make response"):
       # query below ignores acr.read flag because this is done on a
       # non_editable role that has read rights:
@@ -166,12 +234,8 @@ class PersonResource(common.ExtendedResource):
       }
       return self.json_success_response(response_object, )
 
-  def _my_work_count(self, **kwargs):
+  def _my_work_count(self, **kwargs):  # pylint: disable=unused-argument
     """Get object counts for my work page."""
-    id_ = kwargs.get("id")
-    if id_ != login.get_current_user_id():
-      raise Forbidden()
-
     with benchmark("Make response"):
       aliased = my_objects.get_myobjects_query(
           types=self.MY_WORK_OBJECTS.keys(),
@@ -204,13 +268,8 @@ class PersonResource(common.ExtendedResource):
 
       return self.json_success_response(response_object, )
 
-  def _all_objects_count(self, **kwargs):
+  def _all_objects_count(self, **kwargs):  # pylint: disable=unused-argument
     """Get object counts for all objects page."""
-    id_ = kwargs.get("id")
-    user = login.get_current_user()
-    if id_ != user.id:
-      raise Forbidden()
-
     with benchmark("Make response"):
 
       response_object = self.ALL_OBJECTS.copy()
