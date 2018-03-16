@@ -42,6 +42,7 @@ from ggrc.models.document import Document
 from ggrc.models.event import Event
 from ggrc.models.facility import Facility
 from ggrc.models.help import Help
+from ggrc.models.import_export import ImportExport
 from ggrc.models.issue import Issue
 from ggrc.models.issuetracker_issue import IssuetrackerIssue
 from ggrc.models.market import Market
@@ -135,6 +136,7 @@ all_models = [  # pylint: disable=invalid-name
     IssuetrackerIssue,
     Snapshot,
     Maintenance,
+    ImportExport,
 ]
 
 __all__ = [m.__name__ for m in all_models]

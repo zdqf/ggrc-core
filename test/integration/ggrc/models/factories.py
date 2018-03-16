@@ -500,6 +500,12 @@ class ProjectFactory(TitledFactory):
     model = all_models.Project
 
 
+class ImportExportFactory(ModelFactory):
+
+  class Meta:
+    model = all_models.ImportExport
+
+
 def get_model_factory(model_name):
   """Get object factory for provided model name"""
   from integration.ggrc_workflows.models import factories as wf_factories
@@ -545,5 +551,6 @@ def get_model_factory(model_name):
       "Threat": ThreatFactory,
       "Workflow": wf_factories.WorkflowFactory,
       "Proposal": ProposalFactory,
+      "ImportExport": ImportExportFactory,
   }
   return model_factories[model_name]
