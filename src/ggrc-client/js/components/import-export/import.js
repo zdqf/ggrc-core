@@ -10,6 +10,7 @@ import {importRequest} from './import-export-utils';
 import '../show-more/show-more';
 import '../import-export/download-template/download-template';
 import '../collapsible-panel/collapsible-panel';
+import '../confirm-action/confirm-action';
 import quickTips from './templates/quick-tips.mustache';
 import template from './templates/csv-import.mustache';
 import {

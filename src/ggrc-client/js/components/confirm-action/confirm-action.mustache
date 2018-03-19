@@ -1,0 +1,11 @@
+{{!
+  Copyright (C) 2018 Google Inc.
+  Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+}}
+
+<input type="text" {($value)}="value" placeholder="Type {{confirmPhrase}}">
+<button class="btn btn-small btn-green"
+        ($click)="submit()"
+        {{^if isValid}}disabled{{/if}}>
+  {{buttonTitle}}
+</button>
