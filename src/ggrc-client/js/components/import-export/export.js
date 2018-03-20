@@ -15,11 +15,8 @@ import {
 import {backendGdriveClient} from '../../plugins/ggrc-gapi-client';
 
 let url = can.route.deparam(window.location.search.substr(1));
-let panelsModel = can.Map({
-  items: new can.List(),
-});
+
 let exportModel = can.Map({
-  panels: new panelsModel(),
   loading: false,
   url: '/_service/export_csv',
   type: url.model_type || 'Program',
@@ -32,11 +29,10 @@ can.Component.extend({
   tag: 'csv-export',
   template: csvExportTemplate,
   viewModel: {
+    chosenFormat: 'gdrive',
+    panels: [],
     isFilterActive: false,
     'export': new exportModel(),
-    addObjectType() {
-      this.attr('export').dispatch('addPanel');
-    },
   },
   events: {
     toggleIndicator: function (currentFilter) {
@@ -54,7 +50,7 @@ can.Component.extend({
       this.viewModel.attr('isFilterActive', false);
     },
     getObjectsForExport: function () {
-      let panels = this.viewModel.attr('export.panels.items');
+      let panels = this.viewModel.attr('panels');
 
       return _.map(panels, function (panel, index) {
         let relevantFilter;
@@ -92,7 +88,7 @@ can.Component.extend({
       this.viewModel.attr('export.loading', true);
       let data = {
         objects: this.getObjectsForExport(),
-        export_to: this.viewModel.attr('export.chosenFormat'),
+        export_to: this.viewModel.attr('chosenFormat'),
         current_time: fileSafeCurrentDate(),
       };
 
@@ -101,7 +97,7 @@ can.Component.extend({
       }).then((data, status, jqXHR)=> {
         let link;
 
-        if (this.viewModel.attr('export.chosenFormat') === 'gdrive') {
+        if (this.viewModel.attr('chosenFormat') === 'gdrive') {
           link = 'https://docs.google.com/spreadsheets/d/' + data.id;
 
           confirm({

@@ -26,12 +26,12 @@ export default can.Component.extend('exportGroup', {
     define: {
       isRemovable: {
         get() {
-          return this.attr('panels.items.length') > 1;
+          return this.attr('panels.length') > 1;
         },
       },
     },
+    panels: [],
     index: 0,
-    'export': '@',
     getIndex: function (el) {
       return Number($(el.closest('export-panel'))
         .viewModel().attr('panel_index'));
@@ -39,18 +39,10 @@ export default can.Component.extend('exportGroup', {
     removeFilterGroup(el) {
       let index = this.getIndex(el);
 
-      this.attr('panels.items').splice(index, 1);
+      this.attr('panels').splice(index, 1);
     },
-  },
-  events: {
-    inserted: function () {
-      this.addPanel({
-        type: url.model_type || 'Program',
-        isSnapshots: url.isSnapshots,
-      });
-    },
-    addPanel: function (data) {
-      let index = this.viewModel.attr('index') + 1;
+    addObjectType(data = {}) {
+      let index = this.attr('index') + 1;
 
       data = data || {};
       if (!data.type) {
@@ -60,12 +52,16 @@ export default can.Component.extend('exportGroup', {
         data.type = 'Snapshot';
       }
 
-      this.viewModel.attr('index', index);
-      return this.viewModel.attr('panels.items')
-        .push(new panelModel(data));
+      this.attr('index', index);
+      return this.attr('panels').push(new panelModel(data));
     },
-    '{viewModel.export} addPanel': function () {
-      this.addPanel();
+  },
+  events: {
+    inserted: function () {
+      this.viewModel.addObjectType({
+        type: url.model_type || 'Program',
+        isSnapshots: url.isSnapshots,
+      });
     },
   },
 });

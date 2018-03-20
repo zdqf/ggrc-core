@@ -3,14 +3,21 @@
   Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-<div class="relevant-filter-group">
-  {{#each panels.items}}
-    <div class="new-relevant-block">
-      <export-panel {type}="type"
-                    {item}="."
-                    {panel_index}="@index"
-                    {removable}="isRemovable">
-      </export-panel>
-    </div>
-  {{/each}}
+<div class="export-groups">
+
+  <div class="relevant-filter-group">
+    {{#each panels}}
+      <div class="new-relevant-block">
+        <export-panel {type}="type"
+                      {item}="."
+                      {panel_index}="@index"
+                      {removable}="isRemovable">
+       </export-panel>
+     </div>
+    {{/each}}
+  </div>
+
+  <button class="btn btn-small btn-white" ($click)="addObjectType()">
+    Add Object Type
+  </button>
 </div>
