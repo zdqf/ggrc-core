@@ -8,7 +8,6 @@ import template from './templates/export-group.mustache';
 
 let url = can.route.deparam(window.location.search.substr(1));
 let panelModel = can.Map({
-  models: null,
   type: 'Program',
   filter: '',
   relevant: can.compute(function () {

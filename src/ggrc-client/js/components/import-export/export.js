@@ -14,25 +14,15 @@ import {
 } from './import-export-utils';
 import {backendGdriveClient} from '../../plugins/ggrc-gapi-client';
 
-let url = can.route.deparam(window.location.search.substr(1));
-
-let exportModel = can.Map({
-  loading: false,
-  url: '/_service/export_csv',
-  type: url.model_type || 'Program',
-  only_relevant: false,
-  filename: 'export_objects.csv',
-  format: 'gdrive',
-});
-
 can.Component.extend({
   tag: 'csv-export',
   template: csvExportTemplate,
   viewModel: {
+    loading: false,
+    fileName: 'export_objects.csv',
     chosenFormat: 'gdrive',
     panels: [],
     isFilterActive: false,
-    'export': new exportModel(),
   },
   events: {
     toggleIndicator: function (currentFilter) {
@@ -85,7 +75,7 @@ can.Component.extend({
       });
     },
     '#export-csv-button click': function (el, ev) {
-      this.viewModel.attr('export.loading', true);
+      this.viewModel.attr('loading', true);
       let data = {
         objects: this.getObjectsForExport(),
         export_to: this.viewModel.attr('chosenFormat'),
@@ -111,7 +101,7 @@ can.Component.extend({
           const contentDisposition =
             jqXHR.getResponseHeader('Content-Disposition');
           const match = contentDisposition.match(/filename\=(['"]*)(.*)\1/);
-          const filename = match && match[2] || this.viewModel.attr('export.filename');
+          const filename = match && match[2] || this.viewModel.attr('fileName');
 
           download(filename, data);
         }
