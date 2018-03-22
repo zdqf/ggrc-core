@@ -7,7 +7,6 @@ const currentUserId = GGRC.current_user.id;
 
 export const jobStatuses = {
   SELECT: 'Select',
-  CONFIRM: 'Confirm',
   NOT_STARTED: 'Not Started',
   ANALYSIS: 'Analysis',
   IN_PROGRESS: 'In Progress',

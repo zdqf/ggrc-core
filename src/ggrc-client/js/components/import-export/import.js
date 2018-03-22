@@ -4,9 +4,17 @@
 */
 
 import '../../plugins/utils/controllers';
-import {warning} from '../../plugins/utils/modals';
-import {hasWarningType} from '../../plugins/utils/controllers';
-import {importRequest} from './import-export-utils';
+import {
+  jobStatuses,
+  isStoppedJob,
+  isInProgressJob,
+  analyseBeforeImport,
+  startImport,
+  getImportJobInfo,
+  getImportHistory,
+  downloadContent,
+  download,
+} from './import-export-utils';
 import '../show-more/show-more';
 import '../import-export/download-template/download-template';
 import '../collapsible-panel/collapsible-panel';
@@ -20,12 +28,26 @@ import {
 import errorTemplate from './templates/import-error.mustache';
 
 const messages = {
-  VALIDATION_ERROR: `Your file could not be imported due to
-  the following errors that were found.`,
-  IMPORT_IN_PROGRESS: `Your import request has been submitted. You may close 
-  this page or continue your work. We will send you an email notification when 
-  it completes or if there are errors or warnings.`,
+  INCORRECT_FORMAT: `The file is not in a recognized format. 
+  Please import a Google sheet or a file in .csv format.`,
   EMPTY_FILE: 'You are going to import: <span class="gray">0 rows</span>',
+  PLEASE_CONFIRM: `Please type "I confirm" below to confirm that 
+  data being imported is complete and accurate. Please note importing 
+  incomplete or accurate data can result in data corruption.`,
+  IN_PROGRESS: `Your import request has been submitted. 
+  You may close this page or continue your work. We will send you an email 
+  notification when it completes or if there are errors or warnings.`,
+  ANALYSIS_FAILED: `Your file could not be imported due to the following errors 
+  that were found. You can download your file, fix the errors 
+  and try importing again.`,
+  FAILED: 'Import failed due to server error',
+  FILE_STATS: (objects) => {
+    const stats = Object.keys(objects).map((model) => {
+      return `${objects[model]} ${model}`;
+    }).join(', ');
+    return `You are going to import: <span class="gray">${stats}</span>
+      <div class="margin-top-20">${messages.PLEASE_CONFIRM}</div>`;
+  },
 };
 
 export default can.Component.extend({
@@ -33,100 +55,31 @@ export default can.Component.extend({
   template: template,
   requestData: null,
   viewModel: {
-    importUrl: '/_service/import_csv',
+    define: {
+      isImportStopped: {
+        get() {
+          return isStoppedJob(this.attr('state'));
+        },
+      },
+      isDownloadTemplateAvailable: {
+        get() {
+          return ![
+            jobStatuses.ANALYSIS,
+            jobStatuses.IN_PROGRESS,
+          ].includes(this.attr('state'));
+        },
+      },
+    },
     quickTips,
     importDetails: null,
     fileId: '',
     fileName: '',
     isLoading: false,
-    state: 'select',
+    state: jobStatuses.SELECT,
+    jobId: null,
+    history: [],
     importStatus: '',
     message: '',
-    helpUrl: GGRC.config.external_import_help_url,
-    states: function () {
-      let state = this.attr('state') || 'select';
-      let states = {
-        select: {
-          'class': 'btn-green',
-          text: 'Choose file to import',
-        },
-        analyzing: {
-          'class': 'btn-white',
-          showSpinner: true,
-          isDisabled: true,
-          text: 'Analyzing',
-        },
-        'import': {
-          'class': 'btn-green',
-          text: 'Import',
-          isDisabled: function () {
-            // info on blocks to import
-            let toImport = this.attr('importDetails');
-            let nonEmptyBlockExists;
-            let hasErrors;
-
-            if (!toImport || toImport.length < 1) {
-              return true;
-            }
-
-            // A non-empty block is a block containing at least one
-            // line that is not ignored (due to errors, etc.).
-            nonEmptyBlockExists = _.any(toImport, function (block) {
-              return block.rows > block.ignored;
-            });
-
-            hasErrors = _.any(toImport, function (block) {
-              return block.block_errors.length;
-            });
-
-            return hasErrors || !nonEmptyBlockExists;
-          }.bind(this),
-        },
-        importing: {
-          'class': 'btn-white',
-          showSpinner: true,
-          isDisabled: true,
-          text: 'Importing',
-        },
-        success: {
-          'class': 'btn-green',
-          isDisabled: true,
-          text: '<i class="fa fa-check-square-o white">'+
-            '</i> Import successful',
-        },
-      };
-
-      return _.extend(states[state], {state: state});
-    },
-    prepareDataForCheck: function (requestData) {
-      let checkResult = {
-        hasDeprecations: false,
-        hasDeletions: false,
-      };
-
-      // check if imported data has deprecated or deleted objects
-      _.each(requestData, function (element) {
-        if (
-          checkResult.hasDeprecations &&
-          checkResult.hasDeletions
-        ) {
-          return false;
-        }
-
-        if (!checkResult.hasDeletions) {
-          checkResult.hasDeletions = (element.deleted > 0);
-        }
-
-        if (!checkResult.hasDeprecations) {
-          checkResult.hasDeprecations = (element.deprecated > 0);
-        }
-      });
-
-      return {
-        data: requestData,
-        check: checkResult,
-      };
-    },
     processLoadedInfo: function (data) {
       let rows = 0;
       let errorLevel = '';
@@ -135,27 +88,27 @@ export default can.Component.extend({
 
         rows += element.rows;
         if (element.block_warnings.length + element.row_warnings.length) {
-          let messages = [...element.block_warnings, ...element.row_warnings];
+          let warnings = [...element.block_warnings, ...element.row_warnings];
 
           if (!errorLevel) {
             errorLevel = 'warning';
           }
 
           element.data.push({
-            title: `WARNINGS (${messages.length})`,
-            messages,
+            title: `WARNINGS (${warnings.length})`,
+            messages: warnings,
           });
         }
         if (element.block_errors.length + element.row_errors.length) {
-          let messages = [...element.block_errors, ...element.row_errors];
+          let errors = [...element.block_errors, ...element.row_errors];
 
           errorLevel = 'error';
 
-          this.attr('message', messages.VALIDATION_ERROR);
+          this.attr('message', messages.ANALYSIS_FAILED);
 
           element.data.push({
-            title: `ERRORS (${messages.length})`,
-            messages,
+            title: `ERRORS (${errors.length})`,
+            messages: errors,
           });
         }
         return element;
@@ -167,102 +120,131 @@ export default can.Component.extend({
       } else {
         this.attr('importStatus', errorLevel);
       }
-
-      this.attr('state', 'import');
-    },
-    needWarning: function (checkObj, data) {
-      let hasWarningTypes = _.every(data, function (item) {
-        return hasWarningType({type: item.name});
-      });
-      return hasWarningTypes &&
-        (
-          checkObj.hasDeletions ||
-          checkObj.hasDeprecations
-        );
-    },
-    beforeProcess: function (check, data) {
-      let operation;
-      let needWarning = this.needWarning(check, data);
-
-      if (needWarning) {
-        operation = this.getOperationNameFromCheckObj(check);
-
-        warning(
-          {
-            objectShortInfo: 'imported object(s)',
-            modal_description:
-              'In the result of import some Products, Systems or ' +
-              'Processes will be ' + operation.past + '.',
-            operation: operation.action,
-          },
-          function () {
-            this.processLoadedInfo(data);
-          }.bind(this),
-          function () {
-            this.attr('state', 'import');
-            this.resetFile();
-          }.bind(this)
-        );
-        return;
-      }
-
-      this.processLoadedInfo(data);
-    },
-    getOperationNameFromCheckObj: function (checkObj) {
-      let action = _.compact([
-        checkObj.hasDeletions ? 'deletion' : '',
-        checkObj.hasDeprecations ? 'deprecation' : '',
-      ]).join(' and ');
-      let pastForm = _.compact([
-        checkObj.hasDeletions ? 'deleted' : '',
-        checkObj.hasDeprecations ? 'deprecated' : '',
-      ]).join(' and ');
-
-      return {
-        action: action,
-        past: pastForm,
-      };
     },
     resetFile: function () {
       this.attr({
-        state: 'select',
+        state: jobStatuses.SELECT,
         fileId: '',
         fileName: '',
         importStatus: '',
         message: '',
-        'import': null,
       });
     },
-    requestImport: function (file) {
-      this.attr('state', 'analyzing');
+    statusStrategies: {
+      [jobStatuses.SELECT]() {},
+      [jobStatuses.STOPPED]() {},
+      [jobStatuses.NOT_STARTED]() {
+        this.attr('message', messages.PLEASE_CONFIRM);
+      },
+      [jobStatuses.ANALYSIS](jobInfo, timeout) {
+        this.attr('message', messages.IN_PROGRESS);
+        this.trackStatusOfImport(jobInfo.id, timeout);
+      },
+      [jobStatuses.IN_PROGRESS](jobInfo, timeout) {
+        this.attr('message', messages.IN_PROGRESS);
+        this.trackStatusOfImport(jobInfo.id, timeout);
+      },
+      [jobStatuses.BLOCKED](jobInfo) {
+        this.attr('message', '');
+        this.processLoadedInfo(jobInfo.results);
+      },
+      [jobStatuses.ANALYSIS_FAILED](jobInfo) {
+        this.attr('message', messages.ANALYSIS_FAILED);
+        this.processLoadedInfo(jobInfo.results);
+      },
+      [jobStatuses.FAILED]() {
+        this.attr('importStatus', 'error');
+        this.attr('message', messages.FAILED);
+      },
+      [jobStatuses.FINISHED]() {
+        this.resetFile();
+        this.getImportHistory();
+      },
+    },
+    analyseSelectedFile(file) {
       this.attr('isLoading', true);
       this.attr('fileId', file.id);
       this.attr('fileName', file.name);
 
-      backendGdriveClient.withAuth(()=> {
-        return importRequest({data: {id: file.id}}, true);
+      return backendGdriveClient.withAuth(()=> {
+        return analyseBeforeImport(file.id);
       }, {responseJSON: {message: 'Unable to Authorize'}})
-        .then(this.prepareDataForCheck.bind(this))
-        .then(function (checkObject) {
-          this.beforeProcess(
-            checkObject.check,
-            checkObject.data,
-            this.element
-          );
-        }.bind(this))
-        .fail(function (data) {
-          this.attr('state', 'select');
+        .then((response) => {
+          const counts = Object.values(response.objects);
+
+          if (counts.some((number) => number > 0)) {
+            this.attr('state', response.import_export.status);
+            this.attr('message', messages.FILE_STATS(response.objects));
+            this.attr('jobId', response.import_export.id);
+          } else {
+            this.attr('state', jobStatuses.SELECT);
+            this.attr('importStatus', 'error');
+            this.attr('message', messages.EMPTY_FILE);
+          }
+        }, (error) => {
+          this.attr('state', jobStatuses.SELECT);
           this.attr('importStatus', 'error');
 
-          if (data && data.responseJSON && data.responseJSON.message) {
-            GGRC.Errors.notifier('error', data.responseJSON.message);
+          if (error && error.responseJSON && error.responseJSON.message) {
+            GGRC.Errors.notifier('error', error.responseJSON.message);
           } else {
             GGRC.Errors.notifier('error', errorTemplate, true);
           }
-        }.bind(this))
-        .always(function () {
-          this.attr('isLoading', false);
-        }.bind(this));
+        });
+    },
+    onImportSubmit() {
+      this.startImport(jobStatuses.ANALYSIS);
+    },
+    startImport(state) {
+      this.attr('state', state);
+      this.attr('message', messages.IN_PROGRESS);
+
+      return startImport(this.attr('jobId'))
+        .then((info) => {
+          this.trackStatusOfImport(info.id);
+        });
+    },
+    trackStatusOfImport(jobId, timeout = 2000) {
+      setTimeout(() => {
+        getImportJobInfo(jobId)
+          .then((info) => {
+            const strategy = this.attr('statusStrategies')[info.status]
+              .bind(this);
+
+            this.attr('state', info.status);
+
+            strategy(info, timeout * 2);
+          });
+      }, timeout);
+    },
+    getImportHistory() {
+      return getImportHistory()
+        .then((imports) => {
+          const lastJob = imports.length ? imports[imports.length - 1] : null;
+          let completed = imports.filter((jobInfo) => {
+            return jobInfo.status === jobStatuses.FINISHED;
+          }).sort((a, b) => a.id < b.id ? 1 : -1);
+
+          if (lastJob && isInProgressJob(lastJob.status)) {
+            this.attr('fileName', lastJob.title || 'import_file.csv');
+            this.attr('state', lastJob.status);
+            this.attr('jobId', lastJob.id);
+            this.trackStatusOfImport(lastJob.id);
+          }
+
+          this.attr('history').replace(completed);
+        });
+    },
+    downloadImportContent() {
+      downloadContent(this.attr('jobId'))
+        .then((data) => {
+          download(this.attr('fileName'), data);
+        });
+    },
+    proceedWithWarnings() {
+      if (this.attr('state') === jobStatuses.BLOCKED) {
+        this.startImport(jobStatuses.IN_PROGRESS);
+      }
     },
     selectFile() {
       let that = this;
@@ -315,52 +297,19 @@ export default can.Component.extend({
           if (file && _.any(allowedTypes, function (type) {
             return type === file.mimeType;
           })) {
-            that.requestImport(file);
+            that.analyseSelectedFile(file);
           } else {
             that.attr('fileName', file.name);
             that.attr('importStatus', 'error');
-            GGRC.Errors.notifier('error',
-              'The file is not in a recognized format. ' +
-              'Please import a Google sheet or a file in .csv format.');
+            GGRC.Errors.notifier('error', messages.INCORRECT_FORMAT);
           }
         }
       }
     },
   },
   events: {
-    '.state-reset click': function (el, ev) {
-      ev.preventDefault();
-      this.viewModel.selectFile(this.element);
-    },
-    '.state-import click': function (el, ev) {
-      ev.preventDefault();
-      this.viewModel.attr('state', 'importing');
-
-      importRequest({
-        data: {id: this.viewModel.attr('fileId')},
-      }, false)
-        .done(function (data) {
-          let result_count = data.reduce(function (prev, curr) {
-            _.each(Object.keys(prev), function (key) {
-              prev[key] += curr[key] || 0;
-            });
-            return prev;
-          }, {created: 0, updated: 0, deleted: 0, ignored: 0});
-
-          this.viewModel.attr('state', 'success');
-          this.viewModel.attr('data', [result_count]);
-        }.bind(this))
-        .fail(function (data) {
-          this.viewModel.attr('state', 'select');
-          GGRC.Errors.notifier('error', data.responseJSON.message);
-        }.bind(this))
-        .always(function () {
-          this.viewModel.attr('isLoading', false);
-        }.bind(this));
-    },
-    '#import_btn.state-select click': function (el, ev) {
-      ev.preventDefault();
-      this.viewModel.selectFile(this.element);
+    inserted() {
+      this.viewModel.getImportHistory();
     },
   },
 });
