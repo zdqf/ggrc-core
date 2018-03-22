@@ -61,7 +61,7 @@
             break;
           case 'POST':
             for (let d in data) {
-              if (data.hasOwnProperty(d) && data[d].selfLink) {
+              if (data.hasOwnProperty(d) && data[d] && data[d].selfLink) {
                 etags[data[d].selfLink] = [xhr.getResponseHeader('ETag'), xhr.getResponseHeader('Last-Modified')];
               }
             }
