@@ -203,6 +203,9 @@ def run_import_phases(ie_id, user_id):  # noqa: ignore=C901
 
       if ie_job.status == "Analysis":
         info = make_import(csv_data, True)
+        db.session.refresh(ie_job)
+        if ie_job.status == "Stopped":
+          return
         ie_job.results = json.dumps(info)
         for block_info in info:
           if block_info["block_errors"] or block_info["row_errors"]:
@@ -321,6 +324,8 @@ def handle_import_put(**kwargs):
     raise BadRequest("Import failed due incorrect request data")
   if command == 'start':
     return handle_start(ie_job, user.id)
+  elif command == "stop":
+    return handle_import_stop(**kwargs)
   raise BadRequest("Bad params")
 
 
@@ -393,6 +398,7 @@ def handle_export_put(**kwargs):
   ie_id = kwargs.get("id2")
   if not ie_id or not command or command != "stop":
     raise BadRequest("Export failed due incorrect request data")
+  return handle_export_stop(**kwargs)
 
 
 def handle_export_get(**kwargs):
@@ -448,3 +454,37 @@ def handle_delete(id2, job_type):
     logger.exception("%s failed due incorrect request data: %s",
                      job_type, e.message)
     raise BadRequest("%s failed due incorrect request data" % job_type)
+
+
+def handle_import_stop(**kwargs):
+  """Handle import stop"""
+  try:
+    ie_job = import_export.get(kwargs.get("id2"), "Import")
+    if ie_job.status in ("Analysis", "Blocked"):
+      ie_job.status = "Stopped"
+      db.session.commit()
+      return make_import_export_response(ie_job.log_json())
+  except Forbidden:
+    raise
+  except Exception as e:
+    logger.exception("Import stop failed due incorrect request data: %s",
+                     e.message)
+    raise BadRequest("Import stop failed due incorrect request data")
+  raise BadRequest("Wrong status")
+
+
+def handle_export_stop(**kwargs):
+  """Handle export stop"""
+  try:
+    ie_job = import_export.get(kwargs.get("id2"), "Export")
+    if ie_job.status == "In Progress":
+      ie_job.status = "Stopped"
+      db.session.commit()
+      return make_import_export_response(ie_job.log_json())
+  except Forbidden:
+    raise
+  except Exception as e:
+    logger.exception("Export stop failed due incorrect request data: %s",
+                     e.message)
+    raise BadRequest("Export stop failed due incorrect request data")
+  raise BadRequest("Wrong status")

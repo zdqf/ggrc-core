@@ -161,3 +161,24 @@ class TestImportExports(TestCase):
         headers=self.headers)
     self.assert200(response)
     self.assertEqual(response.data, "test content")
+
+  @ddt.data(("Import", "Analysis"),
+            ("Export", "In Progress"))
+  @ddt.unpack
+  def test_import_stop(self, job_type, status):
+    """Test import/export stop"""
+    user = all_models.Person.query.first()
+    ie1 = factories.ImportExportFactory(
+        job_type=job_type,
+        status=status,
+        created_at=datetime.now(),
+        created_by=user,
+        title="test.csv",
+        content="test content")
+    response = self.client.put(
+        "/api/people/{}/{}s/{}/stop".format(user.id,
+                                            job_type.lower(),
+                                            ie1.id),
+        headers=self.headers)
+    self.assert200(response)
+    self.assertEqual(json.loads(response.data)["status"], "Stopped")
