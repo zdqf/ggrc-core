@@ -14,9 +14,11 @@ import {
   getImportHistory,
   downloadContent,
   download,
+  deleteImportJob,
 } from './import-export-utils';
 import '../show-more/show-more';
-import '../import-export/download-template/download-template';
+import './download-template/download-template';
+import './import-history/import-history';
 import '../collapsible-panel/collapsible-panel';
 import '../confirm-action/confirm-action';
 import quickTips from './templates/quick-tips.mustache';
@@ -235,10 +237,10 @@ export default can.Component.extend({
           this.attr('history').replace(completed);
         });
     },
-    downloadImportContent() {
-      downloadContent(this.attr('jobId'))
+    downloadImportContent(jobId, fileName) {
+      downloadContent(jobId)
         .then((data) => {
-          download(this.attr('fileName'), data);
+          download(fileName, data);
         });
     },
     proceedWithWarnings() {
@@ -305,6 +307,13 @@ export default can.Component.extend({
           }
         }
       }
+    },
+    onDownload({id, title}) {
+      this.downloadImportContent(id, title);
+    },
+    onRemove({id}) {
+      deleteImportJob(id)
+        .then(() => this.getImportHistory());
     },
   },
   events: {

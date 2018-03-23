@@ -1,0 +1,31 @@
+/*
+ * Copyright (C) 2018 Google Inc.
+ * Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+ */
+
+import-history {
+  h4 {
+    margin-bottom: 20px;
+    margin-left: 5px;
+  }
+  .import-history {
+    &__item {
+      margin-bottom: 25px;
+
+      i {
+        color: $grayLight;
+        font-size: 20px;
+        margin-left: 10px;
+        cursor: pointer;
+      }
+    }
+    &__date {
+      margin-bottom: 5px;
+      color: $grayLight;
+      font-size: 12px;
+    }
+    &__title {
+      align-items: center;
+    }
+  }
+}

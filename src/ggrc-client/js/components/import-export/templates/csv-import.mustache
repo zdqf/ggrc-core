@@ -4,129 +4,140 @@
 }}
 
 <div class="csv-import">
-  <div class="import-section import-notifications">
-    {{#if fileName}}
-      <div class="file-name {{importStatus}}">{{fileName}}</div>
-      <label>{{{message}}}</label>
-    {{else}}
-      <p>
-        Here you are able to import data in bulk into GGRC.
-        Import files must use defined templates.
-        If you don't have one, click button below to download a template.
-      </p>
-    {{/if}}
-  </div>
+  <div class="csv-import__main">
+    <div class="import-section import-notifications">
+      {{#if fileName}}
+        <div class="file-name {{importStatus}}">{{fileName}}</div>
+        <label>{{{message}}}</label>
+      {{else}}
+        <p>
+          Here you are able to import data in bulk into GGRC.
+          Import files must use defined templates.
+          If you don't have one, click button below to download a template.
+        </p>
+      {{/if}}
+    </div>
 
-  <div class="import-section import-buttons">
-    {{^if_equals state "Select"}}
-      <spinner {toggle}="showSpinner"></spinner>
-    {{/if_equals}}
+    <div class="import-section import-buttons">
+      {{^if_equals state "Select"}}
+        <spinner {toggle}="showSpinner"></spinner>
+      {{/if_equals}}
 
-    {{#switch state}}
-      {{#case 'Select'}}
-        <button ($click)="selectFile()"
-                class="btn btn-small btn-green">
-          {{#if importStatus}}
-            Choose new file to import
-          {{else}}
-            Choose file to import
-          {{/if}}
-        </button>
-      {{/case}}
-
-      {{#case 'Not Started'}}
-        <confirm-action {button-title}="'Proceed'"
-                        (on-confirm)="onImportSubmit()"
-        ></confirm-action>
-        <button ($click)="selectFile()"
-                class="btn btn-small btn-white">
-          Choose new file to import
-        </button>
-      {{/case}}
-
-      {{#case 'Analysis'}}
-        <div class="">Analysing file in Progress: <spinner {toggle}="true"></spinner></div>
-        <button class="btn btn-small btn-white margin-top-20">
-          Cancel
-        </button>
-      {{/case}}
-
-      {{#case 'Blocked'}}
-        <button ($click)="proceedWithWarnings()"
-                class="btn btn-small btn-green">
-            Proceed in spite of warnings
-        </button>
-        <button ($click)="downloadImportContent()"
-                class="btn btn-small btn-white">
-          Download import file for edit
-        </button>
-        <button ($click)="selectFile()"
-                class="btn btn-small btn-white">
-          Choose new file to import
-        </button>
-      {{/case}}
-
-      {{#case 'Analysis Failed'}}
-        <button ($click)="downloadImportContent()"
-                class="btn btn-small btn-green">
-          Download import file for edit
-        </button>
-        <button ($click)="selectFile()"
-                class="btn btn-small btn-white">
-          Choose new file to import
-        </button>
-      {{/case}}
-
-      {{#case 'In Progress'}}
-        <div class="">Import in Progress: <spinner {toggle}="true"></spinner></div>
-      {{/case}}
-    {{/switch}}
-    {{#isDownloadTemplateAvailable}}
-        <download-template></download-template>
-    {{/isDownloadTemplateAvailable}}
-  </div>
-
-  {{#isImportStopped}}
-    <show-more {items}="importDetails" limit="1">
-      <div class="import-section border-top">
-
-        <section class="import-details__stats">
-          <div class="import-details__caption">Object type:</div>
-          <div class="import-details__value">{{name}}</div>
-          <div class="import-details__caption">Number of rows:</div>
-          <div class="import-details__value">{{rows}}</div>
-          {{#if created}}
-            <div class="import-details__caption">To be created:</div>
-            <div class="import-details__value">{{created}}</div>
-          {{/if}}
-          {{#if updated}}
-            <div class="import-details__caption">To be updated:</div>
-            <div class="import-details__value">{{updated}}</div>
-          {{/if}}
-          {{#if deleted}}
-            <div class="import-details__caption">To be deleted:</div>
-            <div class="import-details__value">{{deleted}}</div>
-          {{/if}}
-          {{#if ignored}}
-            <div class="import-details__caption">Ignored:</div>
-            <div class="import-details__value">{{ignored}}</div>
-          {{/if}}
-        </section>
-
-        {{#data}}
-          <collapsible-panel {title-text}="title">
-            {{#if messages.length}}
-              <ul>
-                {{#messages}}
-                  <li>{{.}}</li>
-                {{/messages}}
-              </ul>
+      {{#switch state}}
+        {{#case 'Select'}}
+          <button ($click)="selectFile()"
+                  class="btn btn-small btn-green">
+            {{#if importStatus}}
+              Choose new file to import
+            {{else}}
+              Choose file to import
             {{/if}}
-          </collapsible-panel>
-        {{/data}}
-      </div>
-    </show-more>
-  {{/isImportStopped}}
+          </button>
+        {{/case}}
 
-  {{{quickTips}}}
+        {{#case 'Not Started'}}
+          <confirm-action {button-title}="'Proceed'"
+                          (on-confirm)="onImportSubmit()"
+          ></confirm-action>
+          <button ($click)="selectFile()"
+                  class="btn btn-small btn-white">
+            Choose new file to import
+          </button>
+        {{/case}}
+
+        {{#case 'Analysis'}}
+          <div class="">Analyzing file in Progress: <spinner {toggle}="true"></spinner></div>
+          <button class="btn btn-small btn-white margin-top-20">
+            Cancel
+          </button>
+        {{/case}}
+
+        {{#case 'Blocked'}}
+          <button ($click)="proceedWithWarnings()"
+                  class="btn btn-small btn-green">
+              Proceed in spite of warnings
+          </button>
+          <button ($click)="downloadImportContent(jobId, fileName)"
+                  class="btn btn-small btn-white">
+            Download import file for edit
+          </button>
+          <button ($click)="selectFile()"
+                  class="btn btn-small btn-white">
+            Choose new file to import
+          </button>
+        {{/case}}
+
+        {{#case 'Analysis Failed'}}
+          <button ($click)="downloadImportContent(jobId, fileName)"
+                  class="btn btn-small btn-green">
+            Download import file for edit
+          </button>
+          <button ($click)="selectFile()"
+                  class="btn btn-small btn-white">
+            Choose new file to import
+          </button>
+        {{/case}}
+
+        {{#case 'In Progress'}}
+          <div class="">Import in Progress: <spinner {toggle}="true"></spinner></div>
+        {{/case}}
+      {{/switch}}
+      {{#isDownloadTemplateAvailable}}
+          <download-template></download-template>
+      {{/isDownloadTemplateAvailable}}
+    </div>
+
+    {{#isImportStopped}}
+      <show-more {items}="importDetails" limit="1">
+        <div class="import-section border-top">
+
+          <section class="import-details__stats">
+            <div class="import-details__caption">Object type:</div>
+            <div class="import-details__value">{{name}}</div>
+            <div class="import-details__caption">Number of rows:</div>
+            <div class="import-details__value">{{rows}}</div>
+            {{#if created}}
+              <div class="import-details__caption">To be created:</div>
+              <div class="import-details__value">{{created}}</div>
+            {{/if}}
+            {{#if updated}}
+              <div class="import-details__caption">To be updated:</div>
+              <div class="import-details__value">{{updated}}</div>
+            {{/if}}
+            {{#if deleted}}
+              <div class="import-details__caption">To be deleted:</div>
+              <div class="import-details__value">{{deleted}}</div>
+            {{/if}}
+            {{#if ignored}}
+              <div class="import-details__caption">Ignored:</div>
+              <div class="import-details__value">{{ignored}}</div>
+            {{/if}}
+          </section>
+
+          {{#data}}
+            <collapsible-panel {title-text}="title">
+              {{#if messages.length}}
+                <ul>
+                  {{#messages}}
+                    <li>{{.}}</li>
+                  {{/messages}}
+                </ul>
+              {{/if}}
+            </collapsible-panel>
+          {{/data}}
+        </div>
+      </show-more>
+    {{/isImportStopped}}
+
+    {{{quickTips}}}
+  </div>
+
+  {{#history.length}}
+  <div class="csv-import__import-history">
+    <import-history {history}="history"
+                    (remove-item)="onRemove(%event)"
+                    (download-csv)="onDownload(%event)"
+    ></import-history>
+  </div>
+  {{/history.length}}
 </div>

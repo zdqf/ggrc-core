@@ -100,6 +100,10 @@ export const getImportHistory = () => {
   return request(`/api/people/${currentUserId}/imports`, 'GET');
 };
 
+export const deleteImportJob = (jobId) => {
+  return request(`/api/people/${currentUserId}/imports/${jobId}`, 'DELETE');
+};
+
 export const downloadContent = (jobId, format = 'csv') => {
   return request(`/api/people/${currentUserId}/imports/${jobId}/download`,
     'GET', {

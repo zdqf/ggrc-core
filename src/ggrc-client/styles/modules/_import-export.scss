@@ -5,6 +5,11 @@
 
 $controlsWidth: 400px;
 
+@mixin outside-margin() {
+  padding-top: 25px;
+  padding-bottom: 40px;
+}
+
 #import_view > header {
   margin: 0 40px;
 }
@@ -15,10 +20,22 @@ $controlsWidth: 400px;
 }
 
 .csv-import {
-  padding-top: 25px;
-  padding-bottom: 40px;
   @include box-shadow(0 3px 3px -3px rgba(0,0,0, 0.3));
   font-size: 13px;
+  display: flex;
+
+  &__main {
+    @include outside-margin();
+    width: 100%;
+  }
+
+  &__import-history {
+    @include outside-margin();
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 450px;
+    border-left: 1px solid $itemBorder;
+  }
 
   .import-notifications label {
     margin-bottom: 15px;
