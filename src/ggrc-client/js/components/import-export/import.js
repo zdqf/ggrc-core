@@ -253,8 +253,6 @@ export default can.Component.extend({
       let allowedTypes = ['text/csv', 'application/vnd.google-apps.document',
         'application/vnd.google-apps.spreadsheet'];
 
-      this.resetFile();
-
       return gapiClient.authorizeGapi(['https://www.googleapis.com/auth/drive'])
         .then(() => {
           gapi.load('picker', {callback: createPicker});
@@ -299,6 +297,12 @@ export default can.Component.extend({
           if (file && _.any(allowedTypes, function (type) {
             return type === file.mimeType;
           })) {
+            if (that.attr('state') !== jobStatuses.SELECT &&
+              that.attr('jobId')) {
+              deleteImportJob(that.attr('jobId'));
+            }
+            that.resetFile();
+
             that.analyseSelectedFile(file);
           } else {
             that.attr('fileName', file.name);
