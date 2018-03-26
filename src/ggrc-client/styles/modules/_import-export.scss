@@ -264,6 +264,52 @@ $controlsWidth: 400px;
     @include box-shadow(0 3px 3px -3px rgba(0,0,0, 0.3));
   }
 
+  .current-exports {
+    background: $white;
+    margin-bottom: 20px;
+
+    &__item {
+      padding: 20px 30px;
+      border-bottom: 1px solid $itemBorder;
+
+      &.disabled {
+        @include opacity(0.5);
+      }
+
+      .status-failed {
+        display: flex;
+        margin-bottom: 10px;
+        &:before {
+          @include icon(red);
+        }
+      }
+    }
+
+    &__in-progress {
+      padding: 20px 30px 10px;
+    }
+
+    &__actions {
+      align-items: center;
+
+      spinner {
+        margin-left: 10px;
+      }
+    }
+
+    button {
+      margin-right: 10px;
+    }
+  }
+
+  h2 {
+    font-size: 18px;
+    line-height: 27px;
+    color: $black;
+    margin-bottom: 15px;
+    font-weight: normal;
+  }
+
   h4 {
     font-size: 16px;
     margin-bottom: 20px;

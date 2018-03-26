@@ -1,0 +1,52 @@
+{{!
+  Copyright (C) 2018 Google Inc.
+  Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+}}
+
+<h2>Exporting</h2>
+
+<div class="current-exports">
+  {{#inProgress}}
+    <div class="current-exports__in-progress">
+      You export request has been submitted. You may close this page or continue
+      your work. We will send you an email notification when it completes.
+    </div>
+  {{/inProgress}}
+  {{#exports}}
+    <div class="flex-box flex-col current-exports__item {{#isDisabled id}}disabled{{/isDisabled}}">
+      {{#if_equals status 'Failed'}}
+        <span class="status-failed">
+          <i class="fa fa-"></i>
+          Export failed due to server error. Please try again or contact our support team.
+        </span>
+      {{/if_equals}}
+      <h4>
+        {{firstnonempty title 'export_objects.csv'}}
+        {{#canRemove status}}
+          <i class="fa fa-trash-o" ($click)="remove(id)"></i>
+        {{/canRemove}}
+      </h4>
+      <div class="flex-box current-exports__actions">
+        {{#switch status}}
+          {{#case 'In Progress'}}
+            Export in Progress:
+            <spinner {toggle}="true"></spinner>
+          {{/case}}
+          {{#case 'Failed'}}
+          {{/case}}
+          {{#case 'Finished'}}
+            <button class="btn btn-small btn-white" ($click)="downloadCSV(id, title)">
+              Download CSV
+            </button>
+            <button class="btn btn-small btn-white" ($click)="openSheet(id)">
+              Write to Sheet
+            </button>
+            {{#isDisabled id}}
+              <spinner {toggle}="true"></spinner>
+            {{/isDisabled}}
+          {{/case}}
+        {{/switch}}
+      </div>
+    </div>
+  {{/exports}}
+</div>
