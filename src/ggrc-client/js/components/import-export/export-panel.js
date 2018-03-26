@@ -52,6 +52,7 @@ export default can.Component.extend({
     panel_index: '@',
     has_parent: false,
     removable: false,
+    item: null,
     fetch_relevant_data: function (id, type) {
       let dfd = CMS.Models[type].findOne({id: id});
       dfd.then(function (result) {

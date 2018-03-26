@@ -39,8 +39,15 @@ export const getExportJob = (jobId) => {
   return request(`/api/people/${currentUserId}/exports/${jobId}`, 'GET');
 };
 
-export const getExportsHistory = () => {
-  return request(`/api/people/${currentUserId}/exports`, 'GET');
+export const getExportsHistory = (ids) => {
+  let data;
+
+  if (ids) {
+    data = {
+      id__in: ids.join(', '),
+    };
+  }
+  return request(`/api/people/${currentUserId}/exports`, 'GET', data);
 };
 
 export const stopExportJob = (jobId) => {

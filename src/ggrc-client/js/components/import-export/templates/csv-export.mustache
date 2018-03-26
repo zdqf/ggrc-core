@@ -2,24 +2,25 @@
   Copyright (C) 2018 Google Inc.
   Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
+{{#currentExports.length}}
+  <current-exports {exports}="currentExports"
+                   {in-progress}="isInProgress"
+                   (remove-item)="onRemove(%event)"
+                   (view-content)="onViewContent(%event)"
+  ></current-exports>
+{{/currentExports.length}}
+
+<h2>Export Objects</h2>
 
 <export-group ({panels})="panels"></export-group>
 
 <div class="export-group__actions-wrap">
-  <div class="export-format-wrap">
-    <h6>Export format</h6>
-    <select class="export-format" can-value="chosenFormat">
-      <option value="gdrive" label="Google Sheet"></option>
-      <option value="csv" label="CSV File"></option>
-    </select>
-  </div>
   <div class="export-buttons-wrap">
-    {{#unless loading}}
-      <button type="submit" id="export-csv-button" class="btn btn-green btn-small">
+      <button id="export-csv-button"
+              class="btn btn-green btn-small"
+              ($click)="exportObjects()"
+      >
         Export Objects
       </button>
-    {{else}}
-      <span {{attach_spinner '{ "radius": 4, "length": 4, "width": 2 }' 'display:inline-block; top: -3px; left: 30px;' }}></span>
-    {{/unless}}
   </div>
 </div>
