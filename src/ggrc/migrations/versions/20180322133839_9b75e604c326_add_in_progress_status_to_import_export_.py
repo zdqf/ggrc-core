@@ -16,7 +16,7 @@ from alembic import op
 
 # revision identifiers, used by Alembic.
 revision = '9b75e604c326'
-down_revision = 'd1671a8dac7'
+down_revision = '9e44253512f2'
 
 
 IMPORT_EXPORT_STATUSES_OLD = ['Not Started', 'Analysis', 'Blocked',
