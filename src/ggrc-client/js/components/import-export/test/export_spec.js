@@ -5,6 +5,7 @@
 
 import exportPanel from '../export-panel';
 import Component from '../export-group';
+import {getComponentVM} from '../../../../js_specs/spec_helpers';
 
 describe('export-group', function () {
   'use strict';
@@ -16,45 +17,39 @@ describe('export-group', function () {
 
       beforeEach(function () {
         that = {
-          addPanel: jasmine.createSpy(),
+          viewModel: {
+            addObjectType: jasmine.createSpy(),
+          },
         };
         method = Component.prototype.events.inserted.bind(that);
       });
       it('calls addPanel with proper arguments', function () {
         method();
-        expect(that.addPanel).toHaveBeenCalledWith(jasmine.objectContaining({
-          type: 'Program',
-          isSnapshots: undefined,
-        }));
+        expect(that.viewModel.addObjectType)
+          .toHaveBeenCalledWith(jasmine.objectContaining({
+            type: 'Program',
+            isSnapshots: undefined,
+          }));
       });
     });
-    describe('addPanel() method', function () {
-      let method; // the method under test
+    describe('addObjectType() method', function () {
       let data;
       let viewModel;
 
       beforeEach(function () {
-        viewModel = new can.Map({
-          _index: 0,
-          panels: {
-            items: [],
-          },
-        });
-        method = Component.prototype.events.addPanel.bind({
-          viewModel: viewModel,
-        });
+        viewModel = getComponentVM(Component);
       });
       it('adds panel with "Program" type if data.type is undefined',
         function () {
           data = {};
-          method(data);
-          expect(viewModel.attr('panels.items')[0].type).toEqual('Program');
+          viewModel.addObjectType(data);
+          expect(viewModel.attr('panels')[0].type).toEqual('Program');
         });
       it('adds panel with type from data if it is defined',
         function () {
           data = {type: 'Audit'};
-          method(data);
-          expect(viewModel.attr('panels.items')[0].type).toEqual('Audit');
+          viewModel.addObjectType(data);
+          expect(viewModel.attr('panels')[0].type).toEqual('Audit');
         });
       it('adds panel with snapshot_type equal to data.type and' +
       ' type equal to "Snapshot" if it is snapshot', function () {
@@ -62,9 +57,9 @@ describe('export-group', function () {
           type: 'Control',
           isSnapshots: 'true',
         };
-        method(data);
-        expect(viewModel.attr('panels.items')[0].type).toEqual('Snapshot');
-        expect(viewModel.attr('panels.items')[0].snapshot_type)
+        viewModel.addObjectType(data);
+        expect(viewModel.attr('panels')[0].type).toEqual('Snapshot');
+        expect(viewModel.attr('panels')[0].snapshot_type)
           .toEqual('Control');
       });
     });
