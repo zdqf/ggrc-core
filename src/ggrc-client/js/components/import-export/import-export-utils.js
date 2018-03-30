@@ -64,22 +64,6 @@ export const exportRequest = (request) => {
   });
 };
 
-export const importRequest = (request, isTest) => {
-  return $.ajax({
-    type: 'POST',
-    cache: false,
-    contentType: false,
-    processData: false,
-    headers: $.extend({
-      'Content-Type': 'application/json',
-      'X-test-only': `${isTest}`,
-      'X-requested-by': 'GGRC',
-    }, request.headers || {}),
-    url: '/_service/import_csv',
-    data: JSON.stringify(request.data),
-  });
-};
-
 export const analyseBeforeImport = (fileId) => {
   return request(`/api/people/${currentUserId}/imports`, 'POST', {id: fileId});
 };
