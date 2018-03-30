@@ -82,6 +82,7 @@ export default can.Component.extend({
     jobId: null,
     trackId: null,
     history: [],
+    removeInProgressItems: {},
     importStatus: '',
     message: '',
     processLoadedInfo: function (data) {
@@ -330,8 +331,14 @@ export default can.Component.extend({
       this.downloadImportContent(id, title);
     },
     onRemove({id}) {
-      deleteImportJob(id)
-        .then(() => this.getImportHistory());
+      if (!this.attr(`removeInProgressItems.${id}`)) {
+        this.attr(`removeInProgressItems.${id}`, true);
+
+        deleteImportJob(id)
+          .then(() => this.getImportHistory(), () => {
+            this.attr(`removeInProgressItems.${id}`, false);
+          });
+      }
     },
   },
   events: {
