@@ -15,6 +15,7 @@ import {
   downloadContent,
   download,
   deleteImportJob,
+  stopImportJob,
 } from './import-export-utils';
 import '../show-more/show-more';
 import './download-template/download-template';
@@ -79,6 +80,7 @@ export default can.Component.extend({
     isLoading: false,
     state: jobStatuses.SELECT,
     jobId: null,
+    trackId: null,
     history: [],
     importStatus: '',
     message: '',
@@ -192,6 +194,8 @@ export default can.Component.extend({
           } else {
             GGRC.Errors.notifier('error', errorTemplate, true);
           }
+        }).always(() => {
+          this.attr('isLoading', false);
         });
     },
     onImportSubmit() {
@@ -206,8 +210,16 @@ export default can.Component.extend({
           this.trackStatusOfImport(info.id);
         });
     },
+    stopImport(jobId) {
+      clearTimeout(this.attr('trackId'));
+      stopImportJob(jobId)
+        .then(() => {
+          this.resetFile();
+          deleteImportJob(jobId);
+        });
+    },
     trackStatusOfImport(jobId, timeout = 2000) {
-      setTimeout(() => {
+      let timioutId = setTimeout(() => {
         getImportJobInfo(jobId)
           .then((info) => {
             const strategy = this.attr('statusStrategies')[info.status]
@@ -218,6 +230,8 @@ export default can.Component.extend({
             strategy(info, timeout * 2);
           });
       }, timeout);
+
+      this.attr('trackId', timioutId);
     },
     getImportHistory() {
       return getImportHistory()

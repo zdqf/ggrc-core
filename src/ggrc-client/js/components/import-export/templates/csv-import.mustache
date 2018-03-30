@@ -19,12 +19,10 @@
     </div>
 
     <div class="import-section import-buttons">
-      {{^if_equals state "Select"}}
-        <spinner {toggle}="showSpinner"></spinner>
-      {{/if_equals}}
-
       {{#switch state}}
         {{#case 'Select'}}
+          <spinner {toggle}="isLoading"></spinner>
+
           <button ($click)="selectFile()"
                   class="btn btn-small btn-green">
             {{#if importStatus}}
@@ -47,7 +45,8 @@
 
         {{#case 'Analysis'}}
           <div class="">Analyzing file in Progress: <spinner {toggle}="true"></spinner></div>
-          <button class="btn btn-small btn-white margin-top-20">
+          <button class="btn btn-small btn-white margin-top-20"
+                  ($click)="stopImport(jobId)">
             Cancel
           </button>
         {{/case}}
