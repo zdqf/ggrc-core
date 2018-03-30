@@ -26,6 +26,13 @@ import-history {
     }
     &__title {
       align-items: center;
+
+      span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 250px;
+      }
     }
   }
 }

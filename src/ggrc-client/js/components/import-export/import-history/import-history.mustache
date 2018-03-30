@@ -9,7 +9,7 @@
   <div class="flex-box flex-col import-history__item">
     <span class="import-history__date">{{localize_datetime created_at}}</span>
     <div class="flex-box import-history__title">
-      {{title}}
+      <span>{{title}}</span>
 
       <i class="fa fa-download" ($click)="download(id, title)"></i>
       <i class="fa fa-trash-o" ($click)="remove(id)"></i>

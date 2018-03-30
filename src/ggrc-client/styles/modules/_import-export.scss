@@ -26,14 +26,14 @@ $controlsWidth: 400px;
 
   &__main {
     @include outside-margin();
-    width: 100%;
+    max-width: calc(100% - 350px);
   }
 
   &__import-history {
     @include outside-margin();
     padding-left: 20px;
     padding-right: 20px;
-    width: 450px;
+    width: 350px;
     border-left: 1px solid $itemBorder;
   }
 
@@ -47,6 +47,12 @@ $controlsWidth: 400px;
     font-weight: normal;
     color: $subTitle;
     margin-bottom: 20px;
+
+    span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
     &.error {
       &:before {

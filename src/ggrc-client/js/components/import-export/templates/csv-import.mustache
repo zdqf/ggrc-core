@@ -7,7 +7,9 @@
   <div class="csv-import__main">
     <div class="import-section import-notifications">
       {{#if fileName}}
-        <div class="file-name {{importStatus}}">{{fileName}}</div>
+        <div class="file-name {{importStatus}}">
+          <span>{{fileName}}</span>
+        </div>
         <label>{{{message}}}</label>
       {{else}}
         <p>
