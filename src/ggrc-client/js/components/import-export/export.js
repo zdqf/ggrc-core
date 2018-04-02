@@ -102,6 +102,8 @@ can.Component.extend({
         current_time: fileSafeCurrentDate(),
       };
 
+      $('.area > section.content').animate({scrollTop: 0}, 'slow');
+
       runExport(data)
         .then((jobInfo) => {
           const isInProgress = this.getInProgressJobs().length;
