@@ -49,49 +49,63 @@ class TestAssessmentImport(TestCase):
     self.assertIn("abc", values)
     self.assertIn("2015-07-15", values)
 
-  def test_import_assessment_with_evidence_proper_url1(self):
-    """Test import evidence with proper gdrive url pattern '/d/'"""
-    self.import_file("assessment_with_evidence_proper_url_pattern1.csv")
+  def test_import_assessment_with_evidence_file(self):
+    """Test import evidence file should add warning"""
+    response = self.import_file("assessment_with_evidence_file.csv")
     evidences = all_models.Evidence.query.filter(
         all_models.Evidence.kind == all_models.Evidence.FILE).all()
-    self.assertEquals(len(evidences), 1)
-    self.assertEquals(evidences[0].gdrive_id,
-                      "1_J2anxP8_SLMFf1SXyVNriVh25MVgH_LfhFN1wdP1d8")
-
-  def test_add_admin_to_evidence(self):
-    """Test evidence should have current user as admin"""
-    self.import_file("assessment_with_evidence_url.csv")
-    evidences = all_models.Evidence.query.filter(
-        all_models.Evidence.kind == all_models.Evidence.URL).all()
-    self.assertEquals(len(evidences), 1)
-    admin_role = db.session.query(all_models.AccessControlRole).filter_by(
-        name="Admin", object_type="Evidence").one()
-    current_user = db.session.query(all_models.Person).filter_by(
-        email="user@example.com").one()
-    acr = evidences[0].access_control_list[0]
-    self.assertEquals(acr.ac_role_id, admin_role.id)
-    self.assertEquals(acr.person_id, current_user.id)
-
-  def test_import_assessment_with_evidence_proper_url2(self):
-    """Test import evidence with proper gdrive url pattern '?id='"""
-    self.import_file("assessment_with_evidence_proper_url_pattern2.csv")
-    evidences = all_models.Evidence.query.filter(
-        all_models.Evidence.kind == all_models.Evidence.FILE).all()
-    self.assertEquals(len(evidences), 1)
-    self.assertEquals(evidences[0].gdrive_id,
-                      "0B_oNZ3Jm01MJLWVsVWZJWm")
-
-  def test_import_assessment_with_evidence_invalid_url(self):
-    """Test import evidence with invalid gdrive url"""
-    response = self.import_file("assessment_with_evidence_invalid_url.csv")
-    evidences = all_models.Evidence.query.filter(
-        all_models.Evidence.kind == all_models.Evidence.FILE).all()
-    expected_warning = u"Line 3: Unable to extract gdrive_id from" \
-                       u" https://xxx.com/img1.jpg. This evidence can't" \
-                       u" be reused after import"
-
-    self.assertEquals(len(evidences), 1)
+    self.assertEquals(len(evidences), 0)
+    expected_warning = (u"Line 3: 'Evidence File' can't be changed via import."
+                        u" Please go on Assessment page and make changes"
+                        u" manually. The column will be skipped")
     self.assertEquals([expected_warning], response[2]['row_warnings'])
+
+  def test_import_assessment_with_evidence_file_existing(self):
+    """If file already mapped to evidence not show warning to user"""
+    evidence_url = "test_gdrive_url"
+
+    with factories.single_commit():
+      audit = factories.AuditFactory()
+      assessment = factories.AssessmentFactory()
+      assessment_slug = assessment.slug
+      factories.RelationshipFactory(source=audit,
+                                    destination=assessment)
+      evidence = factories.EvidenceFileFactory(link=evidence_url)
+      factories.RelationshipFactory(source=assessment,
+                                    destination=evidence)
+    response = self.import_data(OrderedDict([
+        ("object_type", "Assessment"),
+        ("Code*", assessment_slug),
+        ("Evidence File", evidence_url),
+    ]))
+    self.assertEquals([], response[0]['row_warnings'])
+
+  def test_import_assessment_with_evidence_file_multiple(self):
+    """Show warning if at least one of Evidence Files not mapped"""
+    evidence_url = "test_gdrive_url"
+
+    with factories.single_commit():
+      audit = factories.AuditFactory()
+      assessment = factories.AssessmentFactory()
+      assessment_slug = assessment.slug
+      factories.RelationshipFactory(source=audit,
+                                    destination=assessment)
+      evidence1 = factories.EvidenceFileFactory(link=evidence_url)
+      factories.RelationshipFactory(source=assessment,
+                                    destination=evidence1)
+      evidence2 = factories.EvidenceFileFactory(link="test_gdrive_url_2")
+      factories.RelationshipFactory(source=assessment,
+                                    destination=evidence2)
+
+    response = self.import_data(OrderedDict([
+        ("object_type", "Assessment"),
+        ("Code*", assessment_slug),
+        ("Evidence File", evidence_url + "\n another_gdrive_url"),
+    ]))
+    expected_warning = (u"Line 3: 'Evidence File' can't be changed via import."
+                        u" Please go on Assessment page and make changes"
+                        u" manually. The column will be skipped")
+    self.assertEquals([expected_warning], response[0]['row_warnings'])
 
   def _test_assessment_users(self, asmt, users):
     """ Test that all users have correct roles on specified Assessment"""
@@ -166,7 +180,7 @@ class TestAssessmentImport(TestCase):
     self.assertEqual(audit.context, asmt_1.context)
 
     evidence = all_models.Evidence.query.filter_by(
-        title="some title 2").first()
+        link="http://i.imgur.com/Lppr447.jpg").first()
     self.assertEqual(audit.context, evidence.context)
 
   def test_assessment_import_states(self):
@@ -210,8 +224,6 @@ class TestAssessmentImport(TestCase):
     asmt1 = assessments["Assessment 1"]
     self.assertEqual({"a.b.com", "c d com"},
                      {i.title for i in asmt1.evidences_url})
-    self.assertEqual({u'evidence title 1'},
-                     {i.title for i in asmt1.evidences_file})
 
   def test_error_ca_import_states(self):
     """Test changing state of Assessment with unfilled mandatory CA"""
@@ -708,12 +720,7 @@ class TestAssessmentExport(TestCase):
     self.headers = ObjectGenerator.get_header()
 
   def test_simple_export(self):
-    """ Test full assessment export with no warnings
-
-    CSV sheet:
-      https://docs.google.com/spreadsheets/d/1Jg8jum2eQfvR3kZNVYbVKizWIGZXvfqv3yQpo2rIiD8/edit#gid=704933240&vpid=A7
-    """
-
+    """ Test full assessment export with no warnings"""
     self.import_file("assessment_full_no_warnings.csv")
     data = [{
         "object_name": "Assessment",
@@ -723,10 +730,11 @@ class TestAssessmentExport(TestCase):
         "fields": "all",
     }]
     response = self.export_csv(data)
+    # check that Assessment 1 -> description utf8 exported properly
     self.assertIn(u"\u5555", response.data.decode("utf8"))
 
   def assertColumnExportedValue(self, value, instance, column):
-    "Assertion checks is value equal to exported instance column value."
+    """ Assertion checks is value equal to exported instance column value."""
     data = [{
         "object_name": instance.__class__.__name__,
         "fields": "all",

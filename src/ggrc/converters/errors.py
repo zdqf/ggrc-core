@@ -154,3 +154,7 @@ UNABLE_TO_EXTRACT_GDRIVE_ID = (u"Line {line}: Unable to extract gdrive_id "
 INVALID_TASKGROUP_MAPPING_WARNING = (u"Line {line}: You can not map "
                                      u"{object_class} to TaskGroup. The value "
                                      u"will be ignored.")
+
+DISALLOW_EVIDENCE_FILE = (u"Line {line}: 'Evidence File' can't be changed "
+                          u"via import. Please go on Assessment page and "
+                          u"make changes manually. The column will be skipped")
