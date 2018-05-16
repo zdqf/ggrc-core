@@ -1,15 +1,15 @@
-Object type,,,,,,,,,,,,
-Assessment,Code*,Audit*,Title*,Description,Notes,State*,Assignees*,Creators*,,map: Market versions,evidence url,evidence file
+Object type,,,,,,,,,,,
+Assessment,Code*,Audit*,Title*,Description,Notes,State*,Assignees*,Creators*,,map: Market versions,evidence url
 ,Assessment 1,Audit,Assessment title 1,Some desc 1,Edited notes,NOT STARTED,"user1@a.com
 user2@a.com","user2@a.com
 user3@a.com",,,"a.b.com
-c d com",https://docs.google.com/drawings/d/1_J2anxP8_SLMFf1SXyVNriVh25MVgH_LfhFN1wdP1d8/edit evidence title 1
-,Assessment 2,Audit,Assessment title 2,Some desc 2,notes 2,In Review,user1@a.com,user2@a.com,,,,
-,Assessment 3,Audit,Assessment title 3,Some desc 3,notes 3,Completed,user1@a.com,user2@a.com,,,,
-,Assessment 4,Audit,Assessment title 4,Some desc 4,notes 4,Verified,user1@a.com,user2@a.com,,,,
-,Assessment 5,Audit,Assessment title 1,,Edited notes,In Review,user1@a.com,user2@a.com,,,,
-,Assessment 60,Audit,Assessment title 2,,,Not Started,user1@a.com,user2@a.com,,,,
-,Assessment 61,Audit,Assessment title 3,,,In Progress,user1@a.com,user2@a.com,,,,
-,Assessment 62,Audit,Assessment title 4,,,IN REVIEW,user1@a.com,user2@a.com,,,,
-,Assessment 63,Audit,Assessment title 5,,,Verified,user1@a.com,user2@a.com,,,,
-,Assessment 64,Audit,Assessment title 6,,,COMPLETED,user1@a.com,user2@a.com,,,,
+c d com"
+,Assessment 2,Audit,Assessment title 2,Some desc 2,notes 2,In Review,user1@a.com,user2@a.com,,,
+,Assessment 3,Audit,Assessment title 3,Some desc 3,notes 3,Completed,user1@a.com,user2@a.com,,,
+,Assessment 4,Audit,Assessment title 4,Some desc 4,notes 4,Verified,user1@a.com,user2@a.com,,,
+,Assessment 5,Audit,Assessment title 1,,Edited notes,In Review,user1@a.com,user2@a.com,,,
+,Assessment 60,Audit,Assessment title 2,,,Not Started,user1@a.com,user2@a.com,,,
+,Assessment 61,Audit,Assessment title 3,,,In Progress,user1@a.com,user2@a.com,,,
+,Assessment 62,Audit,Assessment title 4,,,IN REVIEW,user1@a.com,user2@a.com,,,
+,Assessment 63,Audit,Assessment title 5,,,Verified,user1@a.com,user2@a.com,,,
+,Assessment 64,Audit,Assessment title 6,,,COMPLETED,user1@a.com,user2@a.com,,,

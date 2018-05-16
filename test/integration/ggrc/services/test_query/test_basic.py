@@ -1143,7 +1143,7 @@ class TestQueryAssessmentByEvidenceURL(TestCase, WithQueryApi):
     assessments_by_evidence = self._get_first_result_set(
         self._make_query_dict(
             "Assessment",
-            expression=["Evidence File", "~", "docs.google.com"],
+            expression=["Evidence Url", "~", "Lppr347.jpg"],
         ),
         "Assessment", "values",
     )

@@ -30,10 +30,10 @@ class TestAuditActions(TestCase, WithQueryApi):
 
   def test_filter_by_evidence_url(self):
     """Filter by = operator."""
-    evidence = "Some title 3"
+    evidence_url = "http://i.imgur.com/Lppr247.jpg"
     audits = self._get_first_result_set(
         self._make_query_dict("Audit",
-                              expression=["evidence file", "=", evidence]),
+                              expression=["evidence url", "=", evidence_url]),
         "Audit",
     )
     self.assertEqual(audits["count"], 1)

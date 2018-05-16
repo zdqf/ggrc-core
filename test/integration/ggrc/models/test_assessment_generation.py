@@ -471,27 +471,22 @@ class TestAssessmentGeneration(TestAssessmentBase):
   def test_remap_doc_from_assessment(self, test_asmt_num):
     """Test mappings saving for assessment"""
     urls = ["url1", "url2"]
-    evidences = ["https://d.google.com/drawings/d/666/edit",
-                 "https://d.google.com/drawings/d/555/edit"]
 
     with factories.single_commit():
       asmts = {i: factories.AssessmentFactory() for i in range(1, 4)}
 
     url_str = "\n".join(urls)
-    evidences_str = "\n".join(evidences)
     import_data, update_data = [], []
     for num, asmt in asmts.items():
       import_data.append(collections.OrderedDict([
           ("object_type", "Assessment"),
           ("Code", asmt.slug),
           ("Evidence Url", url_str),
-          ("Evidence File", evidences_str),
       ]))
       update_data.append(collections.OrderedDict([
           ("object_type", "Assessment"),
           ("Code", asmt.slug),
           ("Evidence Url", "" if num == test_asmt_num else url_str),
-          ("Evidence File", "" if num == test_asmt_num else evidences_str),
       ]))
 
     res = self.import_data(*import_data)
@@ -503,10 +498,8 @@ class TestAssessmentGeneration(TestAssessmentBase):
       asmt = all_models.Assessment.query.get(asmt.id)
       if num == test_asmt_num:
         self.assertFalse(asmt.evidences_url)
-        self.assertFalse(asmt.evidences_file)
       else:
         self.assertEqual([url.link for url in asmt.evidences_url], urls)
-        self.assertEqual([ev.link for ev in asmt.evidences_file], evidences)
 
   @ddt.data(
       (None, "Control", "Control"),

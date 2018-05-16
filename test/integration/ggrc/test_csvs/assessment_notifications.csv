@@ -1,22 +1,22 @@
-Object type,,,,,,,,,,,,,,,,,
-Assessment,Code*,Audit*,Title*,Evidence URL,Evidence File,Assessment Procedure,Assignees*,Creators*,Verifiers,Recipients,Send by default,Due Date,Finished Date,Verified Date,State*,Conclusion: Design,Conclusion: Operation
-,A 1,Audit,No template Assessment 1,https://i.imgur.com/17h9PH3.gif,https://docs.google.com/drawings/d/1_J2anxP8_SLMFf1SXyVNriVh25MVgH_LfhFN1wdP1d8/edit with a title,,user1@example.com,user2@example.com,user3@example.com,,no,,,,in progress,Effective,Effective
-,A 2,Audit,No template Assessment 2,,https://docs.google.com/drawings/d/1_J2anxP8_SLMFf1SXyVNriVh25MVgH_LfhFN1wdP1d9/edit,,user1@example.com,user2@example.com,user3@example.com,"Assignees, Creators, Verifiers",,,,,in progress,Ineffective,Needs improvement
-,A 3,Audit,No template Assessment 3,,,,user1@example.com,user2@example.com,,"Creators
+Object type,,,,,,,,,,,,,,,,
+Assessment,Code*,Audit*,Title*,Evidence URL,Assessment Procedure,Assignees*,Creators*,Verifiers,Recipients,Send by default,Due Date,Finished Date,Verified Date,State*,Conclusion: Design,Conclusion: Operation
+,A 1,Audit,No template Assessment 1,https://i.imgur.com/17h9PH3.gif,,user1@example.com,user2@example.com,user3@example.com,,no,,,,in progress,Effective,Effective
+,A 2,Audit,No template Assessment 2,,,user1@example.com,user2@example.com,user3@example.com,"Assignees, Creators, Verifiers",,,,,in progress,Ineffective,Needs improvement
+,A 3,Audit,No template Assessment 3,,,user1@example.com,user2@example.com,,"Creators
 Verifiers",Yes,,,,in progress,needs improvement,Not Applicable
-,,,,,,,,,,,,,,,,,
-Object type,,,,,,,,,,,,,,,,,
-Person,name,email,company,role,,,,,,,,,,,,,
-,user 1,user1@example.com,google,Administrator,,,,,,,,,,,,,
-,user 2,user2@example.com,google,Administrator,,,,,,,,,,,,,
-,user 3,user3@example.com,google,creator,,,,,,,,,,,,,
-,user 4,user4@example.com,google,reader,,,,,,,,,,,,,
-,user 5,user5@example.com,amazon,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,
-Object type,,,,,,,,,,,,,,,,,
-Audit,Code*,Program*,Title*,Audit Captains*,State,,,,,,,,,,,,
-,Audit,Program,Audit,user@example.com,Planned,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,
-Object type,,,,,,,,,,,,,,,,,
-Program,Code*,Title*,Program Managers,,,,,,,,,,,,,,
-,Program,Program,user@example.com,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+Object type,,,,,,,,,,,,,,,,
+Person,name,email,company,role,,,,,,,,,,,,
+,user 1,user1@example.com,google,Administrator,,,,,,,,,,,,
+,user 2,user2@example.com,google,Administrator,,,,,,,,,,,,
+,user 3,user3@example.com,google,creator,,,,,,,,,,,,
+,user 4,user4@example.com,google,reader,,,,,,,,,,,,
+,user 5,user5@example.com,amazon,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+Object type,,,,,,,,,,,,,,,,
+Audit,Code*,Program*,Title*,Audit Captains*,State,,,,,,,,,,,
+,Audit,Program,Audit,user@example.com,Planned,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+Object type,,,,,,,,,,,,,,,,
+Program,Code*,Title*,Program Managers,,,,,,,,,,,,,
+,Program,Program,user@example.com,,,,,,,,,,,,,
