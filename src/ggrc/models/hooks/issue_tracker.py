@@ -315,7 +315,7 @@ def _handle_issuetracker(sender, obj=None, src=None, **kwargs):
   initial_assessment = kwargs.pop('initial_state', None)
   try:
     _update_issuetracker_issue(
-        obj, issue_tracker_info, initial_assessment, initial_info)
+        obj, issue_tracker_info, initial_assessment, initial_info, src)
   except integrations_errors.Error as error:
     if error.status == 429:
       logger.error(
@@ -582,31 +582,44 @@ def _fill_current_value(issue_params, assessment, initial_info):
   return issue_params
 
 
-def _get_added_comment_text(asmt_id):
-  """Returns comment text from given request."""
-  comment_row = db.session.query(
-      all_models.Comment.description,
-      all_models.Person.email,
-      all_models.Person.name
-  ).join(
-      all_models.Relationship,
-      all_models.Comment.id == all_models.Relationship.destination_id
-  ).outerjoin(
-      all_models.Person,
-      all_models.Person.id == all_models.Comment.modified_by_id,
-  ).filter(
-      all_models.Relationship.source_type == 'Assessment',
-      all_models.Relationship.destination_type == 'Comment',
-      all_models.Relationship.source_id == asmt_id,
-  ).order_by(
-      all_models.Comment.id.desc()
-  ).first()
+def _get_added_comment_id(src):
+  """Returns comment ID from given request."""
+  if not src:
+    return None
 
-  if comment_row is not None:
-    desc, creator_email, creator_name = comment_row
-    if not creator_name:
-      creator_name = creator_email
-    return html2text.HTML2Text().handle(desc).strip('\n'), creator_name
+  actions = src.get('actions') or {}
+  related = actions.get('add_related') or []
+
+  if not related:
+    return None
+
+  related_obj = related[0]
+
+  if related_obj.get('type') != 'Comment':
+    return None
+
+  return related_obj.get('id')
+
+
+def _get_added_comment_text(src):
+  """Returns comment text from given request."""
+  comment_id = _get_added_comment_id(src)
+  if comment_id is not None:
+    comment_row = db.session.query(
+        all_models.Comment.description,
+        all_models.Person.email,
+        all_models.Person.name
+    ).outerjoin(
+        all_models.Person,
+        all_models.Person.id == all_models.Comment.modified_by_id,
+    ).filter(
+        all_models.Comment.id == comment_id
+    ).first()
+    if comment_row is not None:
+      desc, creator_email, creator_name = comment_row
+      if not creator_name:
+        creator_name = creator_email
+      return html2text.HTML2Text().handle(desc).strip('\n'), creator_name
   return None, None
 
 
@@ -734,7 +747,7 @@ def _create_issuetracker_info(assessment, issue_tracker_info):
 
 
 def _update_issuetracker_issue(assessment, issue_tracker_info,
-                               initial_assessment, initial_info):
+                               initial_assessment, initial_info, request):
   """Collects information and sends a request to update external issue."""
   # pylint: disable=too-many-locals
   issue_id = issue_tracker_info.get('issue_id')
@@ -764,7 +777,7 @@ def _update_issuetracker_issue(assessment, issue_tracker_info,
     comments.append(status_comment)
 
   # Attach user comments if any.
-  comment_text, comment_author = _get_added_comment_text(assessment.id)
+  comment_text, comment_author = _get_added_comment_text(request)
   if comment_text is not None:
     comments.append(
         _COMMENT_TMPL % (
