@@ -128,8 +128,10 @@ class AttributeInfo(object):
       "operationally",
       "secondary_contact",
       "assessment_type",
+      "evidences_url",
+      "evidences_file",
       "documents_reference_url",
-      "reference_url",
+      "documents_file"
       "verify_frequency",
       "name",
       "email",
