@@ -55,6 +55,9 @@ class Evidence(Roleable, Relatable, mixins.Titled,
   description = deferred(db.Column(db.Text, nullable=False, default=u""),
                          "Evidence")
 
+  # Override from Commentable mixin (can be removed after GGRC-5192)
+  send_by_default = db.Column(db.Boolean, nullable=False, default=True)
+
   _api_attrs = reflection.ApiAttributes(
       "title",
       reflection.Attribute("link", update=False),
