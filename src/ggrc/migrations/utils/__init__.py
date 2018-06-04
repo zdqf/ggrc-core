@@ -204,3 +204,62 @@ def add_to_objects_without_revisions_bulk(connection, obj_ids,
 def clean_new_revisions(connection):
   """Clean objects_without_revisions table"""
   connection.execute(text("truncate objects_without_revisions"))
+
+
+def add_to_missing_revisions(connection, table_with_id,
+                             object_type, action="modified"):
+  """Add modified object to objects_without_revisions to create revisions"""
+  sql = """
+      INSERT INTO objects_without_revisions (
+        obj_id,
+        obj_type,
+        action
+      )
+      SELECT twi.id, :object_type, :action FROM :table_with_id twi
+  """
+  connection.execute(text(sql),
+                     table_with_id=table_with_id,
+                     object_type=object_type,
+                     action=action,
+                     )
+
+
+# pylint: disable=too-many-arguments
+def create_missing_admins(connection, migration_user_id, admin_role_id,
+                          table_mame, object_type, revision_action):
+  """Insert into access_control_list admin role
+
+  If we have 'create' revision -> take modified_by_id as Admin
+  else set current migration user as Admin
+  """
+  sql = """
+      INSERT INTO access_control_list (
+        person_id,
+        ac_role_id,
+        object_id,
+        object_type,
+        created_at,
+        modified_by_id,
+        updated_at)
+      SELECT
+        IF(r.modified_by_id is NOT NULL, r.modified_by_id, :migration_user_id),
+        :admin_role_id,
+        twoa.id,
+        :object_type,
+        NOW(),
+        :migration_user_id,
+        NOW()
+      FROM :table_mame twoa
+        LEFT OUTER JOIN revisions r ON
+          r.resource_id=twoa.id
+          AND r.resource_type=:object_type
+          AND r.action=:revision_action
+  """
+  connection.execute(
+      text(sql),
+      migration_user_id=migration_user_id,
+      admin_role_id=admin_role_id,
+      object_type=object_type,
+      revision_action=revision_action,
+      table_mame=table_mame
+  )
