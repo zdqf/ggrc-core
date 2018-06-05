@@ -210,15 +210,14 @@ def add_to_missing_revisions(connection, table_with_id,
                              object_type, action="modified"):
   """Add modified object to objects_without_revisions to create revisions"""
   sql = """
-      INSERT INTO objects_without_revisions (
+      INSERT IGNORE INTO objects_without_revisions (
         obj_id,
         obj_type,
         action
       )
-      SELECT twi.id, :object_type, :action FROM :table_with_id twi
-  """
+      SELECT twi.id, :object_type, :action FROM {} twi
+  """.format(table_with_id)
   connection.execute(text(sql),
-                     table_with_id=table_with_id,
                      object_type=object_type,
                      action=action,
                      )
@@ -242,24 +241,24 @@ def create_missing_admins(connection, migration_user_id, admin_role_id,
         modified_by_id,
         updated_at)
       SELECT
-        IF(r.modified_by_id is NOT NULL, r.modified_by_id, :migration_user_id),
+        IF(r.modified_by_id is NOT NULL, r.modified_by_id, {migration_user_id}),
         :admin_role_id,
         twoa.id,
         :object_type,
         NOW(),
         :migration_user_id,
         NOW()
-      FROM :table_mame twoa
+      FROM {table_mame} twoa
         LEFT OUTER JOIN revisions r ON
           r.resource_id=twoa.id
           AND r.resource_type=:object_type
           AND r.action=:revision_action
-  """
+  """.format(migration_user_id=migration_user_id,
+             table_mame=table_mame)
   connection.execute(
       text(sql),
       migration_user_id=migration_user_id,
       admin_role_id=admin_role_id,
       object_type=object_type,
       revision_action=revision_action,
-      table_mame=table_mame
   )
