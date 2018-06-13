@@ -18,7 +18,7 @@ from ggrc import access_control
 from ggrc.login import get_current_user_id
 from ggrc.models import all_models
 from ggrc.models.hooks import common
-from ggrc.models.hooks import issue_tracker
+from ggrc.models.hooks.issue_tracker import assessment_integration
 from ggrc.models.exceptions import StatusValidationError
 from ggrc.services import signals
 from ggrc.utils import referenced_objects
@@ -106,7 +106,7 @@ def init_hook():
       # Handling IssueTracker info here rather than in hooks/issue_tracker
       # would avoid querying same data (such as snapshots, audits and
       # templates) twice.
-      issue_tracker.handle_assessment_create(assessment, src)
+      assessment_integration.handle_assessment_create(assessment, src)
 
   # pylint: disable=unused-variable
   @signals.Restful.model_put.connect_via(all_models.Assessment)
