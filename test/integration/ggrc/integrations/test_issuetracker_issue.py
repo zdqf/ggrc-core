@@ -1,16 +1,17 @@
 # Copyright (C) 2018 Google Inc.
 # Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 
-"""Integration test for Clonable mixin"""
-from collections import OrderedDict
+"""Integration tests for assessments with IssueTracker integration."""
 
 import ddt
 import mock
 
+from collections import OrderedDict
+
 from ggrc import db
 from ggrc import models
 from ggrc.models import all_models
-from ggrc.models.hooks import issue_tracker
+from ggrc.models.hooks.issue_tracker import assessment_integration
 from ggrc.integrations import utils
 from ggrc.access_control.role import AccessControlRole
 
@@ -71,7 +72,8 @@ class TestIssueTrackerIntegration(SnapshotterBaseTestCase):
   def test_update_issuetracker_info(self):
     """Test that Issue Tracker issues are updated by the utility."""
     cli_patch = mock.patch.object(utils.issues, 'Client')
-    hook_patch = mock.patch.object(issue_tracker, '_is_issue_tracker_enabled',
+    hook_patch = mock.patch.object(assessment_integration,
+                                   '_is_issue_tracker_enabled',
                                    return_value=True)
     with cli_patch, hook_patch:
       iti_issue_id = []
@@ -150,7 +152,7 @@ class TestIssueTrackerIntegration(SnapshotterBaseTestCase):
     iti_issue_id.append(iti.issue_id)
     asmt = iti.issue_tracked_obj
     asmt_title = asmt.title
-    with mock.patch.object(issue_tracker, '_is_issue_tracker_enabled',
+    with mock.patch.object(assessment_integration, '_is_issue_tracker_enabled',
                            return_value=True):
       acl = [acl_helper.get_acl_json(assignee_role_id, assignee.id)
              for assignee in assignees]
@@ -171,7 +173,7 @@ class TestIssueTrackerIntegration(SnapshotterBaseTestCase):
   @mock.patch('ggrc.integrations.issues.Client.update_issue')
   def test_update_issuetracker_title(self, mocked_update_issue):
     """Test title sync in case it has been updated."""
-    with mock.patch.object(issue_tracker, '_is_issue_tracker_enabled',
+    with mock.patch.object(assessment_integration, '_is_issue_tracker_enabled',
                            return_value=True):
       iti_issue_id = []
       iti = factories.IssueTrackerIssueFactory(enabled=True)
@@ -197,10 +199,14 @@ class TestIssueTrackerIntegration(SnapshotterBaseTestCase):
       ('In Progress', {'status': 'ASSIGNED'}),
       ('In Review', {'status': 'FIXED'}),
       ('Rework Needed', {'status': 'ASSIGNED'}),
-      ('Completed', {'status': 'VERIFIED',
-                     'comment': issue_tracker._STATUS_CHANGE_COMMENT_TMPL}),
-      ('Deprecated', {'status': 'OBSOLETE',
-                      'comment': issue_tracker._STATUS_CHANGE_COMMENT_TMPL}),
+      ('Completed', {
+          'status': 'VERIFIED',
+          'comment': assessment_integration._STATUS_CHANGE_COMMENT_TMPL
+      }),
+      ('Deprecated', {
+          'status': 'OBSOLETE',
+          'comment': assessment_integration._STATUS_CHANGE_COMMENT_TMPL
+      }),
   )
   @ddt.unpack
   @mock.patch('ggrc.integrations.issues.Client.update_issue')
@@ -220,7 +226,7 @@ class TestIssueTrackerIntegration(SnapshotterBaseTestCase):
     iti_issue_id.append(iti.issue_id)
     asmt = iti.issue_tracked_obj
     asmt_title = asmt.title
-    with mock.patch.object(issue_tracker, '_is_issue_tracker_enabled',
+    with mock.patch.object(assessment_integration, '_is_issue_tracker_enabled',
                            return_value=True):
       acl = [acl_helper.get_acl_json(assignee_role_id, assignee.id)
              for assignee in assignees]
@@ -236,7 +242,7 @@ class TestIssueTrackerIntegration(SnapshotterBaseTestCase):
                 'assignee': email1,
                 'verifier': email1,
                 'ccs': []}
-      asmt_link = issue_tracker._get_assessment_url(asmt)
+      asmt_link = assessment_integration._get_assessment_url(asmt)
       if 'comment' in additional_kwargs:
         additional_kwargs['comment'] = \
             additional_kwargs['comment'] % (status, asmt_link)
@@ -251,7 +257,7 @@ class TestIssueTrackerIntegration(SnapshotterBaseTestCase):
   @mock.patch('ggrc.integrations.issues.Client.update_issue')
   def test_basic_import(self, mock_create_issue, mock_update_issue):
     """Test basic import functionality."""
-    with mock.patch.object(issue_tracker, '_is_issue_tracker_enabled',
+    with mock.patch.object(assessment_integration, '_is_issue_tracker_enabled',
                            return_value=True):
       # update existing object
       iti = factories.IssueTrackerIssueFactory(enabled=True)
@@ -276,7 +282,8 @@ class TestIssueTrackerIntegration(SnapshotterBaseTestCase):
       self._check_csv_response(response, {})
 
 
-@mock.patch('ggrc.models.hooks.issue_tracker._is_issue_tracker_enabled',
+@mock.patch('ggrc.models.hooks.issue_tracker.'
+            'assessment_integration._is_issue_tracker_enabled',
             return_value=True)
 @mock.patch('ggrc.integrations.issues.Client')
 class TestIssueTrackerIntegrationPeople(SnapshotterBaseTestCase):
@@ -410,8 +417,8 @@ class TestIssueTrackerIntegrationPeople(SnapshotterBaseTestCase):
     # pylint: disable=protected-access; we assert by non-exported constants
     client_instance.create_issue.assert_called_once_with({
         # common fields
-        'comment': (issue_tracker._INITIAL_COMMENT_TMPL %
-                    issue_tracker._get_assessment_url(asmt)),
+        'comment': (assessment_integration._INITIAL_COMMENT_TMPL %
+                    assessment_integration._get_assessment_url(asmt)),
         'component_id': component_id,
         'hotlist_ids': [hotlist_id],
         'priority': issue_priority,

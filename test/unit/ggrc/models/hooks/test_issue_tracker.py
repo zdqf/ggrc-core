@@ -8,7 +8,7 @@ import unittest
 import ddt
 import mock
 
-from ggrc.models.hooks import issue_tracker
+from ggrc.models.hooks.issue_tracker import assessment_integration
 
 
 @ddt.ddt
@@ -27,9 +27,9 @@ class TestUtilityFunctions(unittest.TestCase):
       ({'hotlist_id': '2222'},
        None,),
       ({'component_id': 'zzz'},
-       issue_tracker.exceptions.ValidationError,),
+       assessment_integration.exceptions.ValidationError,),
       ({'hotlist_id': 'zzz'},
-       issue_tracker.exceptions.ValidationError,),
+       assessment_integration.exceptions.ValidationError,),
   )
   @ddt.unpack
   def test_validate_info(self, info, expected_error):
@@ -38,9 +38,9 @@ class TestUtilityFunctions(unittest.TestCase):
     # pylint: disable=protected-access
     if expected_error:
       with self.assertRaises(expected_error):
-        issue_tracker._validate_issue_tracker_info(info)
+        assessment_integration._validate_issue_tracker_info(info)
     else:
-      issue_tracker._validate_issue_tracker_info(info)
+      assessment_integration._validate_issue_tracker_info(info)
 
     self.assertEqual(info, initial_info)
 
@@ -56,10 +56,10 @@ class TestUtilityFunctions(unittest.TestCase):
        None,),
       ({'component_id': 'zzz'},
        None,
-       issue_tracker.exceptions.ValidationError,),
+       assessment_integration.exceptions.ValidationError,),
       ({'hotlist_id': 'zzz'},
        None,
-       issue_tracker.exceptions.ValidationError,),
+       assessment_integration.exceptions.ValidationError,),
   )
   @ddt.unpack
   def test_normalize_info(self, info, expected, expected_error):
@@ -67,7 +67,7 @@ class TestUtilityFunctions(unittest.TestCase):
     # pylint: disable=protected-access
     if expected_error:
       with self.assertRaises(expected_error):
-        issue_tracker._normalize_issue_tracker_info(info)
+        assessment_integration._normalize_issue_tracker_info(info)
     else:
-      issue_tracker._normalize_issue_tracker_info(info)
+      assessment_integration._normalize_issue_tracker_info(info)
       self.assertEqual(info, expected)
