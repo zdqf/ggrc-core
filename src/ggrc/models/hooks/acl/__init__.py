@@ -16,7 +16,6 @@ from sqlalchemy.orm.session import Session
 from ggrc.models import all_models
 from ggrc.models.hooks.acl import propagation
 from ggrc.utils import benchmark
-from ggrc_workflows.models.hooks import workflow
 
 
 def _add_or_update(name, value):
@@ -82,23 +81,11 @@ def after_flush(session, _):
     _add_or_update("new_relationship_ids", relationship_ids)
     _add_or_update("deleted_objects", deleted)
 
-    # Legacy propagation for workflows that will have to be refactored to use
-    # relationships and the code above
-    wf_acls, wf_comments = workflow.get_new_wf_acls(session)
-    _add_or_update("new_wf_acls", wf_acls)
-    _add_or_update("new_wf_comment_ct_ids", wf_comments)
-    _add_or_update(
-        "deleted_wf_objects",
-        workflow.get_deleted_wf_objects(session)
-    )
-
 
 def after_commit():
   """ACL propagation after commit action."""
   with benchmark("General acl propagation"):
     propagation.propagate()
-  with benchmark("Workflow acl propagation"):
-    workflow.handle_acl_changes()
 
 
 def init_hook():
