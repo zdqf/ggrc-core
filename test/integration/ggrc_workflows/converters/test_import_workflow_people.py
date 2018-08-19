@@ -117,12 +117,12 @@ class TestWorkflowPeopleImport(TestCase):
         AccessControlList.object_id == task_group.id
     ).all()
     actual_admins = [a.person.email for a in acl
-                     if a.ac_role.name == "Admin Mapped"]
+                     if a.ac_role.name.startswith("Admin*")]
     expected_admins = [self.user_emails[i] for i in exp_admin_ids]
     self.assertItemsEqual(actual_admins, expected_admins)
 
     actual_members = [a.person.email for a in acl
-                      if a.ac_role.name == "Workflow Member Mapped"]
+                      if a.ac_role.name.startswith("Workflow Member*")]
     expected_members = [self.user_emails[i] for i in exp_member_ids]
     self.assertItemsEqual(actual_members, expected_members)
 

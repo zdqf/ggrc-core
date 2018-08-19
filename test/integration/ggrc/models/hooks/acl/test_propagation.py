@@ -351,16 +351,10 @@ class TestPropagation(BaseTestPropagation):
           person=person,
       )
 
-    # propagate all non WF entries
     propagation._propagate(acl_ids)
     self.assertEqual(all_models.AccessControlList.query.count(), 4)
-    all_models.AccessControlList.query.filter(
-        all_models.AccessControlList.parent_id.isnot(None)
-    ).delete()
-    self.assertEqual(all_models.AccessControlList.query.count(), 2)
-    # propagate all including WF entries
     propagation.propagate_all()
-    self.assertEqual(all_models.AccessControlList.query.count(), 6)
+    self.assertEqual(all_models.AccessControlList.query.count(), 8)
 
   def test_complex_propagation_count(self):
     """Test multiple object ACL propagation.

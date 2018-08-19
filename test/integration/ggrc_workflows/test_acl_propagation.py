@@ -130,7 +130,8 @@ class TestWorkflowAclPropagation(TestCase):
       # 3 cycle tasks
       # 1 task group
       # 3 tasks
-      number_of_wf_objects = 1 + 1 + 3 + 1 + 3
+      # *2 is for all relationships that are created
+      number_of_wf_objects = (1 + 1 + 3 + 1 + 3) * 2
 
       self.assertEqual(
           workflow_role_count * number_of_wf_objects,

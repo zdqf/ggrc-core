@@ -5,7 +5,6 @@
 
 import datetime
 import unittest
-from collections import defaultdict
 
 import ddt
 import freezegun
@@ -81,9 +80,9 @@ class TestWorkflowsApiPost(TestCase):
     self.api.set_user(admin)
 
     related_models = (
-        (all_models.CycleTaskEntry, 18, False),
-        (all_models.TaskGroup, 12, False),
-        (all_models.TaskGroupTask, 12, True),
+        (all_models.CycleTaskEntry, 33, False),
+        (all_models.TaskGroup, 21, False),
+        (all_models.TaskGroupTask, 21, True),
         (all_models.Cycle, 3, False),
         (all_models.CycleTaskGroup, 3, True),
         (all_models.CycleTaskGroupObjectTask, 3, True),
@@ -173,17 +172,14 @@ class TestWorkflowsApiPost(TestCase):
     actual_acl = all_models.AccessControlList.eager_query().filter(
         all_models.AccessControlList.person_id == task_group.contact_id,
     ).all()
-    self.assertEqual(len(actual_acl), 2)
+    self.assertEqual(len(actual_acl), 3)
 
-    expected = {
-        role_name: (workflow.type, workflow.id),
-        "{} Mapped".format(role_name): (task_group.type, task_group.id)
-    }
     actual = {
-        acl.ac_role.name: (acl.object_type, acl.object_id)
+        (acl.object_type, acl.object_id)
         for acl in actual_acl
     }
-    self.assertDictEqual(expected, actual)
+    self.assertIn((workflow.type, workflow.id), actual)
+    self.assertIn((task_group.type, task_group.id), actual)
 
   def test_task_group_assignee_gets_workflow_member(self):  # noqa pylint: disable=invalid-name
     """Test TaskGroup assignee gets WorkflowMember role."""
@@ -217,8 +213,10 @@ class TestWorkflowsApiPost(TestCase):
         all_models.AccessControlList.object_id == task_group.id
     ).one()
     self.assertEqual(parent_acl.ac_role.name, "Workflow Member")
-    self.assertEqual(tg_acl.parent_id, parent_acl.id)
-    self.assertEqual(tg_acl.ac_role.name, "Workflow Member Mapped")
+    # Below we are using parent.parent to jump over the intermediary
+    # relationship.
+    self.assertEqual(tg_acl.parent.parent.id, parent_acl.id)
+    self.assertIn("Workflow Member", tg_acl.ac_role.name)
 
   def _create_propagation_acl_test_data(self):  # noqa pylint: disable=invalid-name
     """Create objects for Workflow ACL propagation test."""
@@ -276,7 +274,7 @@ class TestWorkflowsApiPost(TestCase):
         (all_models.CycleTaskEntry.query.one().id,
          all_models.CycleTaskEntry.__name__)
     )
-    related_count = len(related_objects)
+    related_count = len(related_objects) * 2  # *2 is for relationships
     bd_tasks_count = all_models.BackgroundTask.query.count()
 
     all_acl = [acl for acl in all_models.AccessControlList.eager_query().all()]
@@ -284,24 +282,6 @@ class TestWorkflowsApiPost(TestCase):
         len(all_acl),
         bd_tasks_count + roles_count + roles_count * related_count
     )
-
-    workflow = all_models.Workflow.query.one()
-    parent_acl, related_acl = [], []
-    for acl in all_acl:
-      if (not acl.parent_id and acl.object_id == workflow.id and
-              acl.object_type == workflow.type):
-        parent_acl.append(acl)
-      else:
-        related_acl.append(acl)
-
-    result = defaultdict(set)
-    for p_acl in parent_acl:
-      for r_acl in related_acl:
-        if (r_acl.ac_role.name == '{} Mapped'.format(p_acl.ac_role.name) and
-                r_acl.parent_id == p_acl.id and
-                r_acl.person_id == p_acl.person_id):
-          result[p_acl.id].add((r_acl.object_id, r_acl.object_type))
-    self.assertEqual(roles_count, len(result))
 
   def test_assign_workflow_acl(self):
     """Test propagation Workflow ACL roles on Workflow's update ACL records."""
